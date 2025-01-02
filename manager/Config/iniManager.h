@@ -15,6 +15,17 @@
 #include <QDir>
 #include <QSettings>
 
+enum SysIni {
+  Version,
+  Author,
+  Description,
+  License,
+  Git,
+  ReleaseDate,
+  Dependencies,
+  Contact
+};
+
 class iniManager final {
 public:
   iniManager()
@@ -24,7 +35,43 @@ public:
     initIniConfig();
   }
 
-  // getter还没写
+  [[nodiscard]] QString getSysInfo(const SysIni sysIni) const
+  {
+    switch (sysIni) {
+    case 0: return doGetSysInfo("version");
+    case 1: return doGetSysInfo("author");
+    case 2: return doGetSysInfo("description");
+    case 3: return doGetSysInfo("license");
+    case 4: return doGetSysInfo("git");
+    case 5: return doGetSysInfo("releaseDate");
+    case 6: return doGetSysInfo("dependencies");
+    case 7: return doGetSysInfo("contact");
+    default: return "";
+    }
+  }
+
+  void setSysInfo(const SysIni sysIni, const QVariant& value) const
+  {
+    switch (sysIni) {
+    case 0: SetVersion(value);
+      break;
+    case 1: SetAuthor(value);
+      break;
+    case 2: SetDescription(value);
+      break;
+    case 3: SetLicense(value);
+      break;
+    case 4: SetGit(value);
+      break;
+    case 5: SetReleaseDate(value);
+      break;
+    case 6: SetDependencies(value);
+      break;
+    case 7: SetContact(value);
+      break;
+    default: break;
+    }
+  }
 
   void SetVersion(const QVariant& version) const
   {
@@ -75,7 +122,7 @@ private:
     settings.setValue("author", "uxinghai");
     settings.setValue("description", "");
     settings.setValue("license", "LGPL");
-    settings.setValue("git", "https://github.com/uxinghai/ICMA");
+    settings.setValue("git", "https://github.com/uxinghai/ICMA-Qt");
     settings.setValue("releaseDate", "");
     settings.setValue("dependencies", "[Qt 6.0,CMake 3.16]");
     settings.setValue("contact", "uxinghaiwyi@163.com");
@@ -86,6 +133,12 @@ private:
   {
     QSettings settings(iniFilePath, QSettings::IniFormat);
     settings.setValue(key, value);
+  }
+
+  [[nodiscard]] QString doGetSysInfo(const QString& key) const
+  {
+    const QSettings settings(iniFilePath, QSettings::IniFormat);
+    return settings.value(key).toString();
   }
 
   QString iniFilePath;

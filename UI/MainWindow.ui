@@ -19,7 +19,7 @@
    <string extracomment="0.0.1">ICMA——智能内容管理助手</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="Resouce.qrc">
+   <iconset resource="../Resource.qrc">
     <normaloff>:/icons/res/icons/logo/logo1024.ico</normaloff>:/icons/res/icons/logo/logo1024.ico</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -30,7 +30,7 @@
     <item row="0" column="0">
      <widget class="QSplitter" name="splitter_2">
       <property name="orientation">
-       <enum>Qt::Orientation::Horizontal</enum>
+       <enum>Qt::Horizontal</enum>
       </property>
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
@@ -150,7 +150,7 @@
         <item>
          <widget class="QSplitter" name="splitter">
           <property name="orientation">
-           <enum>Qt::Orientation::Horizontal</enum>
+           <enum>Qt::Horizontal</enum>
           </property>
           <widget class="QStackedWidget" name="stackedWidgetView">
            <property name="currentIndex">
@@ -232,7 +232,7 @@
              <item row="0" column="0">
               <widget class="QListView" name="IconView">
                <property name="viewMode">
-                <enum>QListView::ViewMode::IconMode</enum>
+                <enum>QListView::IconMode</enum>
                </property>
               </widget>
              </item>
@@ -249,7 +249,7 @@
             <string>预览图</string>
            </property>
            <property name="alignment">
-            <set>Qt::AlignmentFlag::AlignCenter</set>
+            <set>Qt::AlignCenter</set>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -261,7 +261,7 @@
       </widget>
       <widget class="QWidget" name="widget" native="true">
        <property name="contextMenuPolicy">
-        <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+        <enum>Qt::NoContextMenu</enum>
        </property>
        <property name="autoFillBackground">
         <bool>false</bool>
@@ -291,7 +291,7 @@
            <string>推荐</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -301,7 +301,7 @@
            <string>统计分析</string>
           </property>
           <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
+           <set>Qt::AlignCenter</set>
           </property>
          </widget>
         </item>
@@ -327,7 +327,7 @@
      <x>0</x>
      <y>0</y>
      <width>852</width>
-     <height>26</height>
+     <height>23</height>
     </rect>
    </property>
    <property name="cursor">
@@ -348,17 +348,17 @@
     <property name="title">
      <string>文件(&amp;F)</string>
     </property>
-    <addaction name="actionnewWindow"/>
+    <addaction name="actionNewWindow"/>
     <addaction name="separator"/>
-    <addaction name="actiondaori"/>
-    <addaction name="actiondaochu1"/>
+    <addaction name="actionDaori"/>
+    <addaction name="actionDaochu1"/>
     <addaction name="separator"/>
-    <addaction name="actionjiami"/>
-    <addaction name="actionjiemi"/>
+    <addaction name="actionJiaMi"/>
+    <addaction name="actionJieMi"/>
     <addaction name="separator"/>
-    <addaction name="actionshengchengwenjianbaogao"/>
+    <addaction name="actionWenJianBaoGao"/>
     <addaction name="separator"/>
-    <addaction name="actiontuichu"/>
+    <addaction name="actionExit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="font">
@@ -386,22 +386,22 @@
      <property name="title">
       <string>主题</string>
      </property>
-     <addaction name="actionlight"/>
-     <addaction name="actiondark"/>
+     <addaction name="actionLightTheme"/>
+     <addaction name="actionDarkTheme"/>
      <addaction name="separator"/>
-     <addaction name="actionauto"/>
+     <addaction name="actionAutoTheme"/>
     </widget>
-    <addaction name="actioncopy"/>
-    <addaction name="actioncut"/>
-    <addaction name="actionpast"/>
-    <addaction name="actionreName"/>
-    <addaction name="actiondelete"/>
+    <addaction name="actionCopy"/>
+    <addaction name="actionCut"/>
+    <addaction name="actionPast"/>
+    <addaction name="actionReName"/>
+    <addaction name="actionDelete"/>
     <addaction name="separator"/>
-    <addaction name="actionselect_all"/>
-    <addaction name="actiondeselect"/>
+    <addaction name="actionSelectAll"/>
+    <addaction name="actionDeselect"/>
     <addaction name="separator"/>
-    <addaction name="actionadd_tag"/>
-    <addaction name="actionremove_tag"/>
+    <addaction name="actionAddTag"/>
+    <addaction name="actionRemoveTag"/>
     <addaction name="separator"/>
     <addaction name="menu_8"/>
     <addaction name="menu_6"/>
@@ -424,10 +424,10 @@
      <property name="title">
       <string>字号(&amp;T)</string>
      </property>
-     <addaction name="actionbig"/>
-     <addaction name="actionsmall"/>
+     <addaction name="actionBigFont"/>
+     <addaction name="actionSmallFont"/>
      <addaction name="separator"/>
-     <addaction name="actiongeneral"/>
+     <addaction name="actionGeneralFont"/>
     </widget>
     <widget class="QMenu" name="menu_S">
      <property name="font">
@@ -438,31 +438,31 @@
      <property name="title">
       <string>排序(&amp;S)</string>
      </property>
-     <addaction name="actionname"/>
-     <addaction name="actiondate"/>
-     <addaction name="actionsize"/>
-     <addaction name="actionpath"/>
-     <addaction name="actionsufix"/>
-     <addaction name="actiontype"/>
-     <addaction name="actioncreatDate"/>
-     <addaction name="actionmodifyDate"/>
+     <addaction name="actionName"/>
+     <addaction name="actionDate"/>
+     <addaction name="actionSize"/>
+     <addaction name="actionPath"/>
+     <addaction name="actionSufix"/>
+     <addaction name="actionType"/>
+     <addaction name="actionCeatDate"/>
+     <addaction name="actionModifyDate"/>
      <addaction name="separator"/>
-     <addaction name="actionasc"/>
-     <addaction name="actiondesc"/>
+     <addaction name="actionAsc"/>
+     <addaction name="actionDesc"/>
     </widget>
-    <addaction name="actionfilter"/>
-    <addaction name="actionpreview"/>
-    <addaction name="actionstatusbar"/>
+    <addaction name="actionFilter"/>
+    <addaction name="actionPreview"/>
+    <addaction name="actionStatusBar"/>
     <addaction name="separator"/>
-    <addaction name="actionlistView"/>
-    <addaction name="actioniconView"/>
-    <addaction name="actiondetaileview"/>
+    <addaction name="actionListView"/>
+    <addaction name="actionCconView"/>
+    <addaction name="actionDetaileview"/>
     <addaction name="separator"/>
     <addaction name="menu_7"/>
     <addaction name="separator"/>
     <addaction name="menu_S"/>
-    <addaction name="actionshowOrhide"/>
-    <addaction name="actionrefreash"/>
+    <addaction name="actionShowOrHide"/>
+    <addaction name="actionRefreash"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="font">
@@ -475,14 +475,14 @@
     </property>
     <addaction name="actionAdvancedSearch"/>
     <addaction name="separator"/>
-    <addaction name="actionfilesynchronization"/>
+    <addaction name="actionFileSynchronization"/>
     <addaction name="actionBatchRename"/>
-    <addaction name="actionFile_de_duplication"/>
+    <addaction name="actionFileDuplication"/>
     <addaction name="separator"/>
     <addaction name="actionDiskspaceAnalysis"/>
     <addaction name="actionDocumentComparison"/>
     <addaction name="separator"/>
-    <addaction name="actiontransmission"/>
+    <addaction name="actionTransmission"/>
     <addaction name="actionPS"/>
    </widget>
    <widget class="QMenu" name="menu_5">
@@ -494,14 +494,14 @@
     <property name="title">
      <string>帮助(&amp;H)</string>
     </property>
-    <addaction name="actionuser_manual"/>
+    <addaction name="actionUserManual"/>
     <addaction name="actionQuickStartGuide"/>
     <addaction name="separator"/>
-    <addaction name="actionautoRun"/>
-    <addaction name="actionenableFileLog"/>
-    <addaction name="action_update"/>
+    <addaction name="actionAutoRun"/>
+    <addaction name="actionEnableFileLog"/>
+    <addaction name="actionUpdateSys"/>
     <addaction name="separator"/>
-    <addaction name="actionabout"/>
+    <addaction name="actionAabout"/>
     <addaction name="actionFeedback"/>
     <addaction name="separator"/>
    </widget>
@@ -509,12 +509,12 @@
     <property name="title">
      <string>智能功能(&amp;A)</string>
     </property>
-    <addaction name="actioncategorization"/>
-    <addaction name="actiontestimonial"/>
+    <addaction name="actionCategorization"/>
+    <addaction name="actionteStimonial"/>
     <addaction name="separator"/>
-    <addaction name="actionstatisticalAnalysis"/>
+    <addaction name="actionStatisticalAnalysis"/>
     <addaction name="separator"/>
-    <addaction name="actionrelationships"/>
+    <addaction name="actionRelationships"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -533,11 +533,11 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actiondaori"/>
-   <addaction name="actiontransmission"/>
+   <addaction name="actionDaori"/>
+   <addaction name="actionTransmission"/>
    <addaction name="actionPS"/>
   </widget>
-  <action name="actionabout">
+  <action name="actionAabout">
    <property name="text">
     <string>关于ICMA</string>
    </property>
@@ -550,7 +550,7 @@
     </font>
    </property>
   </action>
-  <action name="actiondaori">
+  <action name="actionDaori">
    <property name="text">
     <string>导入文件</string>
    </property>
@@ -566,7 +566,7 @@
     <string>Ctrl+O</string>
    </property>
   </action>
-  <action name="actiondaochu1">
+  <action name="actionDaochu1">
    <property name="text">
     <string>导出选中文件</string>
    </property>
@@ -582,7 +582,7 @@
     </font>
    </property>
   </action>
-  <action name="actionjiami">
+  <action name="actionJiaMi">
    <property name="text">
     <string>加密选中文件</string>
    </property>
@@ -595,7 +595,7 @@
     </font>
    </property>
   </action>
-  <action name="actionjiemi">
+  <action name="actionJieMi">
    <property name="text">
     <string>解密文件</string>
    </property>
@@ -608,7 +608,7 @@
     </font>
    </property>
   </action>
-  <action name="actionshengchengwenjianbaogao">
+  <action name="actionWenJianBaoGao">
    <property name="text">
     <string>生成文件报告</string>
    </property>
@@ -621,7 +621,7 @@
     </font>
    </property>
   </action>
-  <action name="actiontuichu">
+  <action name="actionExit">
    <property name="text">
     <string>退出(&amp;X)</string>
    </property>
@@ -640,7 +640,7 @@
     <string>Ctrl+Q</string>
    </property>
   </action>
-  <action name="actioncopy">
+  <action name="actionCopy">
    <property name="text">
     <string>复制(&amp;C)</string>
    </property>
@@ -659,7 +659,7 @@
     <string>Ctrl+C</string>
    </property>
   </action>
-  <action name="actioncut">
+  <action name="actionCut">
    <property name="text">
     <string>剪切(&amp;T)</string>
    </property>
@@ -675,7 +675,7 @@
     <string>Ctrl+X</string>
    </property>
   </action>
-  <action name="actionpast">
+  <action name="actionPast">
    <property name="text">
     <string>粘贴(&amp;P)</string>
    </property>
@@ -694,7 +694,7 @@
     <string>Ctrl+V</string>
    </property>
   </action>
-  <action name="actionreName">
+  <action name="actionReName">
    <property name="text">
     <string>重命名(&amp;M)</string>
    </property>
@@ -710,7 +710,7 @@
     </font>
    </property>
   </action>
-  <action name="actiondelete">
+  <action name="actionDelete">
    <property name="text">
     <string>删除(&amp;D)</string>
    </property>
@@ -726,7 +726,7 @@
     </font>
    </property>
   </action>
-  <action name="actionselect_all">
+  <action name="actionSelectAll">
    <property name="text">
     <string>全选(&amp;A)</string>
    </property>
@@ -745,7 +745,7 @@
     <string>Ctrl+A</string>
    </property>
   </action>
-  <action name="actiondeselect">
+  <action name="actionDeselect">
    <property name="text">
     <string>反选(&amp;I)</string>
    </property>
@@ -761,7 +761,7 @@
     </font>
    </property>
   </action>
-  <action name="actionadd_tag">
+  <action name="actionAddTag">
    <property name="text">
     <string>添加标签</string>
    </property>
@@ -774,7 +774,7 @@
     </font>
    </property>
   </action>
-  <action name="actionremove_tag">
+  <action name="actionRemoveTag">
    <property name="text">
     <string>移除标签</string>
    </property>
@@ -828,7 +828,7 @@
     </font>
    </property>
   </action>
-  <action name="actionpreview">
+  <action name="actionPreview">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -850,7 +850,7 @@
     <string>Alt+P</string>
    </property>
   </action>
-  <action name="actionstatusbar">
+  <action name="actionStatusBar">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -872,7 +872,7 @@
     </font>
    </property>
   </action>
-  <action name="actionlistView">
+  <action name="actionListView">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -891,7 +891,7 @@
     </font>
    </property>
   </action>
-  <action name="actioniconView">
+  <action name="actionCconView">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -910,7 +910,7 @@
     </font>
    </property>
   </action>
-  <action name="actiondetaileview">
+  <action name="actionDetaileview">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -932,7 +932,7 @@
     </font>
    </property>
   </action>
-  <action name="actionbig">
+  <action name="actionBigFont">
    <property name="text">
     <string>增大(&amp;I)</string>
    </property>
@@ -948,7 +948,7 @@
     <string>Ctrl+=</string>
    </property>
   </action>
-  <action name="actionsmall">
+  <action name="actionSmallFont">
    <property name="text">
     <string>减小(&amp;D)</string>
    </property>
@@ -967,7 +967,7 @@
     <string>Ctrl+-</string>
    </property>
   </action>
-  <action name="actiongeneral">
+  <action name="actionGeneralFont">
    <property name="text">
     <string>正常(&amp;N)</string>
    </property>
@@ -986,7 +986,7 @@
     <string>Ctrl+0</string>
    </property>
   </action>
-  <action name="actionname">
+  <action name="actionName">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1005,7 +1005,7 @@
     <string>Ctrl+1</string>
    </property>
   </action>
-  <action name="actiondate">
+  <action name="actionDate">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1024,7 +1024,7 @@
     <string>Ctrl+2</string>
    </property>
   </action>
-  <action name="actionsize">
+  <action name="actionSize">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1043,7 +1043,7 @@
     <string>Ctrl+3</string>
    </property>
   </action>
-  <action name="actionpath">
+  <action name="actionPath">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1065,7 +1065,7 @@
     <string>Ctrl+4</string>
    </property>
   </action>
-  <action name="actionsufix">
+  <action name="actionSufix">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1087,7 +1087,7 @@
     <string>Ctrl+5</string>
    </property>
   </action>
-  <action name="actiontype">
+  <action name="actionType">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1106,7 +1106,7 @@
     <string>Ctrl+6</string>
    </property>
   </action>
-  <action name="actioncreatDate">
+  <action name="actionCeatDate">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1125,7 +1125,7 @@
     <string>Ctrl+7</string>
    </property>
   </action>
-  <action name="actionmodifyDate">
+  <action name="actionModifyDate">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1144,7 +1144,7 @@
     <string>Ctrl+8</string>
    </property>
   </action>
-  <action name="actionasc">
+  <action name="actionAsc">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1163,7 +1163,7 @@
     </font>
    </property>
   </action>
-  <action name="actiondesc">
+  <action name="actionDesc">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1179,7 +1179,7 @@
     </font>
    </property>
   </action>
-  <action name="actionfilter">
+  <action name="actionFilter">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1196,7 +1196,7 @@
     <string>显示或隐藏过滤栏.</string>
    </property>
   </action>
-  <action name="actionshowOrhide">
+  <action name="actionShowOrHide">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1207,7 +1207,7 @@
     <string>显示或隐藏隐藏文件.</string>
    </property>
   </action>
-  <action name="actionrefreash">
+  <action name="actionRefreash">
    <property name="text">
     <string>刷新(&amp;R)</string>
    </property>
@@ -1223,7 +1223,7 @@
     <string>高级搜索</string>
    </property>
   </action>
-  <action name="actionfilesynchronization">
+  <action name="actionFileSynchronization">
    <property name="text">
     <string>文件同步</string>
    </property>
@@ -1239,7 +1239,7 @@
     <string>批量重命名</string>
    </property>
   </action>
-  <action name="actionFile_de_duplication">
+  <action name="actionFileDuplication">
    <property name="text">
     <string>文件去重</string>
    </property>
@@ -1263,7 +1263,7 @@
     <string>文件比较</string>
    </property>
   </action>
-  <action name="actionuser_manual">
+  <action name="actionUserManual">
    <property name="text">
     <string>用户手册</string>
    </property>
@@ -1276,7 +1276,7 @@
     <string>快速入门</string>
    </property>
   </action>
-  <action name="action_update">
+  <action name="actionUpdateSys">
    <property name="text">
     <string>检查更新</string>
    </property>
@@ -1292,7 +1292,7 @@
     <string>反馈或报告问题</string>
    </property>
   </action>
-  <action name="actioncategorization">
+  <action name="actionCategorization">
    <property name="text">
     <string>智能分类</string>
    </property>
@@ -1300,7 +1300,7 @@
     <string>智能分类</string>
    </property>
   </action>
-  <action name="actiontestimonial">
+  <action name="actionteStimonial">
    <property name="text">
     <string>智能推荐</string>
    </property>
@@ -1308,12 +1308,12 @@
     <string>推荐内容</string>
    </property>
   </action>
-  <action name="actionstatisticalAnalysis">
+  <action name="actionStatisticalAnalysis">
    <property name="text">
     <string>使用统计分析</string>
    </property>
   </action>
-  <action name="actionrelationships">
+  <action name="actionRelationships">
    <property name="text">
     <string>文件关系图谱</string>
    </property>
@@ -1321,7 +1321,7 @@
     <string>文件关系图谱</string>
    </property>
   </action>
-  <action name="actionlight">
+  <action name="actionLightTheme">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1335,7 +1335,7 @@
     <string>使用浅色主题.</string>
    </property>
   </action>
-  <action name="actiondark">
+  <action name="actionDarkTheme">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1346,7 +1346,7 @@
     <string>使用深色主题.</string>
    </property>
   </action>
-  <action name="actionauto">
+  <action name="actionAutoTheme">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1360,7 +1360,7 @@
     <string>跟随您的系统自动切换主题.</string>
    </property>
   </action>
-  <action name="actionnewWindow">
+  <action name="actionNewWindow">
    <property name="text">
     <string>新建一个窗口(&amp;N)</string>
    </property>
@@ -1374,7 +1374,7 @@
     <string>Ctrl+N</string>
    </property>
   </action>
-  <action name="actiontransmission">
+  <action name="actionTransmission">
    <property name="text">
     <string>文件传输工具</string>
    </property>
@@ -1393,7 +1393,7 @@
     <string>使用日文界面.</string>
    </property>
   </action>
-  <action name="actionautoRun">
+  <action name="actionAutoRun">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1415,7 +1415,7 @@
     <string>对图像作处理</string>
    </property>
   </action>
-  <action name="actionenableFileLog">
+  <action name="actionEnableFileLog">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1434,7 +1434,7 @@
   </action>
  </widget>
  <resources>
-  <include location="Resouce.qrc"/>
+  <include location="../Resource.qrc"/>
  </resources>
  <connections/>
 </ui>

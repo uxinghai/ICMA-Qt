@@ -79,6 +79,7 @@ set(PROJECT_SOURCES
         controls/graphics/MyGraphicsItem.h
         controls/messagebox/MyMesgBox.h
         manager/Config/iniManager.h
+        initial/sysConfig/SysConfig.h
 )
 
 #                                            *********
