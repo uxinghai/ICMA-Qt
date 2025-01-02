@@ -1,0 +1,1440 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>852</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string extracomment="0.0.1">ICMA——智能内容管理助手</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="Resouce.qrc">
+    <normaloff>:/icons/res/icons/logo/logo1024.ico</normaloff>:/icons/res/icons/logo/logo1024.ico</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter_2">
+      <property name="orientation">
+       <enum>Qt::Orientation::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout">
+          <property name="spacing">
+           <number>3</number>
+          </property>
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>3</number>
+          </property>
+          <item>
+           <widget class="QLineEdit" name="lineEdit">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>26</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <property name="placeholderText">
+             <string>搜点什么...</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comBoxFilter">
+            <property name="enabled">
+             <bool>true</bool>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>26</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>26</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>9</pointsize>
+             </font>
+            </property>
+            <property name="frame">
+             <bool>true</bool>
+            </property>
+            <item>
+             <property name="text">
+              <string>所有</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>音频</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>压缩文件</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>文档</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>可执行文件</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>文件夹</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>图片</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>视频</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QSplitter" name="splitter">
+          <property name="orientation">
+           <enum>Qt::Orientation::Horizontal</enum>
+          </property>
+          <widget class="QStackedWidget" name="stackedWidgetView">
+           <property name="currentIndex">
+            <number>1</number>
+           </property>
+           <widget class="QWidget" name="TableViewPage">
+            <layout class="QGridLayout" name="gridLayout_2">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QTableView" name="tableView">
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="ListViewPage">
+            <layout class="QGridLayout" name="gridLayout_3">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QListView" name="listView">
+               <property name="font">
+                <font>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="IconViewPage">
+            <layout class="QGridLayout" name="gridLayout_4">
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <widget class="QListView" name="IconView">
+               <property name="viewMode">
+                <enum>QListView::ViewMode::IconMode</enum>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QLabel" name="lbPreview">
+           <property name="font">
+            <font>
+             <pointsize>9</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>预览图</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="widget" native="true">
+       <property name="contextMenuPolicy">
+        <enum>Qt::ContextMenuPolicy::NoContextMenu</enum>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="horizontalSpacing">
+         <number>0</number>
+        </property>
+        <property name="verticalSpacing">
+         <number>3</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QGroupBox" name="GroupRecommand">
+          <property name="title">
+           <string>推荐</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QGroupBox" name="GroupStatistical">
+          <property name="title">
+           <string>统计分析</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignmentFlag::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>852</width>
+     <height>26</height>
+    </rect>
+   </property>
+   <property name="cursor">
+    <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="defaultUp">
+    <bool>false</bool>
+   </property>
+   <property name="nativeMenuBar">
+    <bool>true</bool>
+   </property>
+   <widget class="QMenu" name="menu">
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>文件(&amp;F)</string>
+    </property>
+    <addaction name="actionnewWindow"/>
+    <addaction name="separator"/>
+    <addaction name="actiondaori"/>
+    <addaction name="actiondaochu1"/>
+    <addaction name="separator"/>
+    <addaction name="actionjiami"/>
+    <addaction name="actionjiemi"/>
+    <addaction name="separator"/>
+    <addaction name="actionshengchengwenjianbaogao"/>
+    <addaction name="separator"/>
+    <addaction name="actiontuichu"/>
+   </widget>
+   <widget class="QMenu" name="menu_2">
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>编辑(&amp;E)</string>
+    </property>
+    <widget class="QMenu" name="menu_6">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>语言</string>
+     </property>
+     <addaction name="actionCN"/>
+     <addaction name="actionEN"/>
+     <addaction name="actionJP"/>
+    </widget>
+    <widget class="QMenu" name="menu_8">
+     <property name="title">
+      <string>主题</string>
+     </property>
+     <addaction name="actionlight"/>
+     <addaction name="actiondark"/>
+     <addaction name="separator"/>
+     <addaction name="actionauto"/>
+    </widget>
+    <addaction name="actioncopy"/>
+    <addaction name="actioncut"/>
+    <addaction name="actionpast"/>
+    <addaction name="actionreName"/>
+    <addaction name="actiondelete"/>
+    <addaction name="separator"/>
+    <addaction name="actionselect_all"/>
+    <addaction name="actiondeselect"/>
+    <addaction name="separator"/>
+    <addaction name="actionadd_tag"/>
+    <addaction name="actionremove_tag"/>
+    <addaction name="separator"/>
+    <addaction name="menu_8"/>
+    <addaction name="menu_6"/>
+   </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>视图(&amp;V)</string>
+    </property>
+    <widget class="QMenu" name="menu_7">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>字号(&amp;T)</string>
+     </property>
+     <addaction name="actionbig"/>
+     <addaction name="actionsmall"/>
+     <addaction name="separator"/>
+     <addaction name="actiongeneral"/>
+    </widget>
+    <widget class="QMenu" name="menu_S">
+     <property name="font">
+      <font>
+       <pointsize>9</pointsize>
+      </font>
+     </property>
+     <property name="title">
+      <string>排序(&amp;S)</string>
+     </property>
+     <addaction name="actionname"/>
+     <addaction name="actiondate"/>
+     <addaction name="actionsize"/>
+     <addaction name="actionpath"/>
+     <addaction name="actionsufix"/>
+     <addaction name="actiontype"/>
+     <addaction name="actioncreatDate"/>
+     <addaction name="actionmodifyDate"/>
+     <addaction name="separator"/>
+     <addaction name="actionasc"/>
+     <addaction name="actiondesc"/>
+    </widget>
+    <addaction name="actionfilter"/>
+    <addaction name="actionpreview"/>
+    <addaction name="actionstatusbar"/>
+    <addaction name="separator"/>
+    <addaction name="actionlistView"/>
+    <addaction name="actioniconView"/>
+    <addaction name="actiondetaileview"/>
+    <addaction name="separator"/>
+    <addaction name="menu_7"/>
+    <addaction name="separator"/>
+    <addaction name="menu_S"/>
+    <addaction name="actionshowOrhide"/>
+    <addaction name="actionrefreash"/>
+   </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>工具(&amp;T)</string>
+    </property>
+    <addaction name="actionAdvancedSearch"/>
+    <addaction name="separator"/>
+    <addaction name="actionfilesynchronization"/>
+    <addaction name="actionBatchRename"/>
+    <addaction name="actionFile_de_duplication"/>
+    <addaction name="separator"/>
+    <addaction name="actionDiskspaceAnalysis"/>
+    <addaction name="actionDocumentComparison"/>
+    <addaction name="separator"/>
+    <addaction name="actiontransmission"/>
+    <addaction name="actionPS"/>
+   </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="font">
+     <font>
+      <pointsize>9</pointsize>
+     </font>
+    </property>
+    <property name="title">
+     <string>帮助(&amp;H)</string>
+    </property>
+    <addaction name="actionuser_manual"/>
+    <addaction name="actionQuickStartGuide"/>
+    <addaction name="separator"/>
+    <addaction name="actionautoRun"/>
+    <addaction name="actionenableFileLog"/>
+    <addaction name="action_update"/>
+    <addaction name="separator"/>
+    <addaction name="actionabout"/>
+    <addaction name="actionFeedback"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menu_A">
+    <property name="title">
+     <string>智能功能(&amp;A)</string>
+    </property>
+    <addaction name="actioncategorization"/>
+    <addaction name="actiontestimonial"/>
+    <addaction name="separator"/>
+    <addaction name="actionstatisticalAnalysis"/>
+    <addaction name="separator"/>
+    <addaction name="actionrelationships"/>
+   </widget>
+   <addaction name="menu"/>
+   <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
+   <addaction name="menu_5"/>
+   <addaction name="menu_A"/>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actiondaori"/>
+   <addaction name="actiontransmission"/>
+   <addaction name="actionPS"/>
+  </widget>
+  <action name="actionabout">
+   <property name="text">
+    <string>关于ICMA</string>
+   </property>
+   <property name="toolTip">
+    <string>查看软件介绍信息</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actiondaori">
+   <property name="text">
+    <string>导入文件</string>
+   </property>
+   <property name="statusTip">
+    <string>导入文件或文件夹.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actiondaochu1">
+   <property name="text">
+    <string>导出选中文件</string>
+   </property>
+   <property name="toolTip">
+    <string>导出所选择的所有文件</string>
+   </property>
+   <property name="statusTip">
+    <string>导出所选文件.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionjiami">
+   <property name="text">
+    <string>加密选中文件</string>
+   </property>
+   <property name="toolTip">
+    <string>加密所选中的所有文件</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionjiemi">
+   <property name="text">
+    <string>解密文件</string>
+   </property>
+   <property name="toolTip">
+    <string>解密文件</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionshengchengwenjianbaogao">
+   <property name="text">
+    <string>生成文件报告</string>
+   </property>
+   <property name="toolTip">
+    <string>生成文件报告</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actiontuichu">
+   <property name="text">
+    <string>退出(&amp;X)</string>
+   </property>
+   <property name="toolTip">
+    <string>退出系统</string>
+   </property>
+   <property name="statusTip">
+    <string>退出ICMA.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actioncopy">
+   <property name="text">
+    <string>复制(&amp;C)</string>
+   </property>
+   <property name="toolTip">
+    <string>复制</string>
+   </property>
+   <property name="statusTip">
+    <string>将选中内容复制到剪贴板.要把它复制到其他地方,请使用粘贴功能.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actioncut">
+   <property name="text">
+    <string>剪切(&amp;T)</string>
+   </property>
+   <property name="statusTip">
+    <string>移除选中内容,并复制到剪贴板.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionpast">
+   <property name="text">
+    <string>粘贴(&amp;P)</string>
+   </property>
+   <property name="toolTip">
+    <string>粘贴</string>
+   </property>
+   <property name="statusTip">
+    <string>将复制或剪切的内容插入此处.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionreName">
+   <property name="text">
+    <string>重命名(&amp;M)</string>
+   </property>
+   <property name="toolTip">
+    <string>重命名文件</string>
+   </property>
+   <property name="statusTip">
+    <string>重命名选中的项目.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actiondelete">
+   <property name="text">
+    <string>删除(&amp;D)</string>
+   </property>
+   <property name="toolTip">
+    <string>删除</string>
+   </property>
+   <property name="statusTip">
+    <string>删除所选项目.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionselect_all">
+   <property name="text">
+    <string>全选(&amp;A)</string>
+   </property>
+   <property name="toolTip">
+    <string>选择全部</string>
+   </property>
+   <property name="statusTip">
+    <string>选中全部内容.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actiondeselect">
+   <property name="text">
+    <string>反选(&amp;I)</string>
+   </property>
+   <property name="toolTip">
+    <string>反选</string>
+   </property>
+   <property name="statusTip">
+    <string>将目前选中项取消,改选其余内容.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionadd_tag">
+   <property name="text">
+    <string>添加标签</string>
+   </property>
+   <property name="toolTip">
+    <string>添加标签</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionremove_tag">
+   <property name="text">
+    <string>移除标签</string>
+   </property>
+   <property name="toolTip">
+    <string>移除标签</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionCN">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>中文</string>
+   </property>
+   <property name="toolTip">
+    <string>修改为中文界面</string>
+   </property>
+   <property name="statusTip">
+    <string>使用中文界面.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionEN">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>英文</string>
+   </property>
+   <property name="toolTip">
+    <string>修改为英文界面</string>
+   </property>
+   <property name="statusTip">
+    <string>使用英文界面.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionpreview">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>预览(&amp;P)</string>
+   </property>
+   <property name="toolTip">
+    <string>预览</string>
+   </property>
+   <property name="statusTip">
+    <string>显示或隐藏预览窗口.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Alt+P</string>
+   </property>
+  </action>
+  <action name="actionstatusbar">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>状态栏(&amp;B)</string>
+   </property>
+   <property name="toolTip">
+    <string>状态栏</string>
+   </property>
+   <property name="statusTip">
+    <string>显示或隐藏状态栏.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionlistView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>列表视图</string>
+   </property>
+   <property name="toolTip">
+    <string>列表视图</string>
+   </property>
+   <property name="statusTip">
+    <string>以列表形式显示.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actioniconView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>图标视图</string>
+   </property>
+   <property name="toolTip">
+    <string>图标视图</string>
+   </property>
+   <property name="statusTip">
+    <string>以图标形式显示</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actiondetaileview">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>详细信息视图</string>
+   </property>
+   <property name="toolTip">
+    <string>详细信息视图</string>
+   </property>
+   <property name="statusTip">
+    <string>显示更详细的信息.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionbig">
+   <property name="text">
+    <string>增大(&amp;I)</string>
+   </property>
+   <property name="statusTip">
+    <string>增大系统字体显示.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+=</string>
+   </property>
+  </action>
+  <action name="actionsmall">
+   <property name="text">
+    <string>减小(&amp;D)</string>
+   </property>
+   <property name="toolTip">
+    <string>减小字号</string>
+   </property>
+   <property name="statusTip">
+    <string>缩小系统字体显示.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actiongeneral">
+   <property name="text">
+    <string>正常(&amp;N)</string>
+   </property>
+   <property name="toolTip">
+    <string>正常字号</string>
+   </property>
+   <property name="statusTip">
+    <string>重置回默认系统显示（10号）.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+0</string>
+   </property>
+  </action>
+  <action name="actionname">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>名称</string>
+   </property>
+   <property name="statusTip">
+    <string>以名称为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+1</string>
+   </property>
+  </action>
+  <action name="actiondate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>日期</string>
+   </property>
+   <property name="statusTip">
+    <string>以日期为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+2</string>
+   </property>
+  </action>
+  <action name="actionsize">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>大小</string>
+   </property>
+   <property name="statusTip">
+    <string>以大小为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+3</string>
+   </property>
+  </action>
+  <action name="actionpath">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>路径</string>
+   </property>
+   <property name="statusTip">
+    <string>以路径为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+4</string>
+   </property>
+  </action>
+  <action name="actionsufix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>扩展名</string>
+   </property>
+   <property name="toolTip">
+    <string>扩展名</string>
+   </property>
+   <property name="statusTip">
+    <string>以扩展名为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+5</string>
+   </property>
+  </action>
+  <action name="actiontype">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>类型</string>
+   </property>
+   <property name="statusTip">
+    <string>以类型为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+6</string>
+   </property>
+  </action>
+  <action name="actioncreatDate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>创建日期</string>
+   </property>
+   <property name="statusTip">
+    <string>以创建日期为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+7</string>
+   </property>
+  </action>
+  <action name="actionmodifyDate">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>修改日期</string>
+   </property>
+   <property name="statusTip">
+    <string>以修改日期为字段排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+8</string>
+   </property>
+  </action>
+  <action name="actionasc">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>升序(&amp;A)</string>
+   </property>
+   <property name="statusTip">
+    <string>以升序方式排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actiondesc">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>降序(&amp;D)</string>
+   </property>
+   <property name="statusTip">
+    <string>以降序方式排序.</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionfilter">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>过滤器(&amp;F)</string>
+   </property>
+   <property name="toolTip">
+    <string>过滤器</string>
+   </property>
+   <property name="statusTip">
+    <string>显示或隐藏过滤栏.</string>
+   </property>
+  </action>
+  <action name="actionshowOrhide">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>显示/隐藏隐藏文件</string>
+   </property>
+   <property name="statusTip">
+    <string>显示或隐藏隐藏文件.</string>
+   </property>
+  </action>
+  <action name="actionrefreash">
+   <property name="text">
+    <string>刷新(&amp;R)</string>
+   </property>
+   <property name="toolTip">
+    <string>刷新</string>
+   </property>
+  </action>
+  <action name="actionAdvancedSearch">
+   <property name="text">
+    <string>高级搜索</string>
+   </property>
+   <property name="toolTip">
+    <string>高级搜索</string>
+   </property>
+  </action>
+  <action name="actionfilesynchronization">
+   <property name="text">
+    <string>文件同步</string>
+   </property>
+   <property name="toolTip">
+    <string>文件同步</string>
+   </property>
+  </action>
+  <action name="actionBatchRename">
+   <property name="text">
+    <string>批量重命名</string>
+   </property>
+   <property name="toolTip">
+    <string>批量重命名</string>
+   </property>
+  </action>
+  <action name="actionFile_de_duplication">
+   <property name="text">
+    <string>文件去重</string>
+   </property>
+   <property name="toolTip">
+    <string>文件去重</string>
+   </property>
+  </action>
+  <action name="actionDiskspaceAnalysis">
+   <property name="text">
+    <string>磁盘空间分析</string>
+   </property>
+   <property name="toolTip">
+    <string>磁盘空间分析</string>
+   </property>
+  </action>
+  <action name="actionDocumentComparison">
+   <property name="text">
+    <string>文件比较</string>
+   </property>
+   <property name="toolTip">
+    <string>文件比较</string>
+   </property>
+  </action>
+  <action name="actionuser_manual">
+   <property name="text">
+    <string>用户手册</string>
+   </property>
+  </action>
+  <action name="actionQuickStartGuide">
+   <property name="text">
+    <string>快速入门指导</string>
+   </property>
+   <property name="toolTip">
+    <string>快速入门</string>
+   </property>
+  </action>
+  <action name="action_update">
+   <property name="text">
+    <string>检查更新</string>
+   </property>
+   <property name="toolTip">
+    <string>检查更新</string>
+   </property>
+  </action>
+  <action name="actionFeedback">
+   <property name="text">
+    <string>反馈/报告问题</string>
+   </property>
+   <property name="toolTip">
+    <string>反馈或报告问题</string>
+   </property>
+  </action>
+  <action name="actioncategorization">
+   <property name="text">
+    <string>智能分类</string>
+   </property>
+   <property name="toolTip">
+    <string>智能分类</string>
+   </property>
+  </action>
+  <action name="actiontestimonial">
+   <property name="text">
+    <string>智能推荐</string>
+   </property>
+   <property name="toolTip">
+    <string>推荐内容</string>
+   </property>
+  </action>
+  <action name="actionstatisticalAnalysis">
+   <property name="text">
+    <string>使用统计分析</string>
+   </property>
+  </action>
+  <action name="actionrelationships">
+   <property name="text">
+    <string>文件关系图谱</string>
+   </property>
+   <property name="toolTip">
+    <string>文件关系图谱</string>
+   </property>
+  </action>
+  <action name="actionlight">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>浅色主题(&amp;L)</string>
+   </property>
+   <property name="statusTip">
+    <string>使用浅色主题.</string>
+   </property>
+  </action>
+  <action name="actiondark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>深色主题(&amp;D)</string>
+   </property>
+   <property name="statusTip">
+    <string>使用深色主题.</string>
+   </property>
+  </action>
+  <action name="actionauto">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>跟随系统</string>
+   </property>
+   <property name="toolTip">
+    <string>跟随系统</string>
+   </property>
+   <property name="statusTip">
+    <string>跟随您的系统自动切换主题.</string>
+   </property>
+  </action>
+  <action name="actionnewWindow">
+   <property name="text">
+    <string>新建一个窗口(&amp;N)</string>
+   </property>
+   <property name="toolTip">
+    <string>新建一个窗口</string>
+   </property>
+   <property name="statusTip">
+    <string>打开一个新的窗口.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actiontransmission">
+   <property name="text">
+    <string>文件传输工具</string>
+   </property>
+   <property name="statusTip">
+    <string>打开文件传输工具.</string>
+   </property>
+  </action>
+  <action name="actionJP">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>日文</string>
+   </property>
+   <property name="statusTip">
+    <string>使用日文界面.</string>
+   </property>
+  </action>
+  <action name="actionautoRun">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>开机自启动</string>
+   </property>
+   <property name="toolTip">
+    <string>启用或者禁用开机自启动.</string>
+   </property>
+   <property name="statusTip">
+    <string>是否允许ICMA在您的计算机开机后自启动.</string>
+   </property>
+  </action>
+  <action name="actionPS">
+   <property name="text">
+    <string>图像处理</string>
+   </property>
+   <property name="toolTip">
+    <string>对图像作处理</string>
+   </property>
+  </action>
+  <action name="actionenableFileLog">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>启用日志文件</string>
+   </property>
+   <property name="toolTip">
+    <string>启用日志文件</string>
+   </property>
+   <property name="statusTip">
+    <string>启用或禁止日志文件生成（建议您启用）.</string>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="Resouce.qrc"/>
+ </resources>
+ <connections/>
+</ui>

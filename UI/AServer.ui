@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>AServer</class>
+ <widget class="QMainWindow" name="AServer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>640</width>
+    <height>450</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>640</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>640</width>
+    <height>450</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>接收方</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>:/transfer/res/transfer/fileTrans.png</normaloff>:/transfer/res/transfer/fileTrans.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>文件列表</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QListWidget" name="FileListView">
+          <property name="contextMenuPolicy">
+           <enum>Qt::CustomContextMenu</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>24</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>11</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>传输详情</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QWidget" name="TransDetail_2" native="true">
+          <property name="minimumSize">
+           <size>
+            <width>250</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">QWidget {
+                        border: 1px solid;
+                        }
+
+                        QLabel {
+                        border: none;  /* 确保 QLabel 的边框不被修改 */
+                        }
+                      </string>
+          </property>
+          <layout class="QFormLayout" name="formLayout">
+           <item row="0" column="0">
+            <widget class="QLabel" name="lb1">
+             <property name="text">
+              <string>状态：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="lbStatus">
+             <property name="text">
+              <string>unknow</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="lb2">
+             <property name="text">
+              <string>当前文件：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLabel" name="lbCurFile">
+             <property name="text">
+              <string>unknow</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="lb3">
+             <property name="text">
+              <string>大小：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="lbSize">
+             <property name="text">
+              <string>unknow</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="lb4">
+             <property name="text">
+              <string>速度：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="lbSpeed">
+             <property name="text">
+              <string>unknow</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="lb5">
+             <property name="text">
+              <string>预计剩余时间：</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QLabel" name="lbRemaingTime">
+             <property name="text">
+              <string>unknow</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <property name="allowedAreas">
+    <set>Qt::TopToolBarArea</set>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextBesideIcon</enum>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionListen"/>
+   <addaction name="actionDisConnect"/>
+   <addaction name="actionSetSavePath"/>
+   <addaction name="actionHelp"/>
+  </widget>
+  <action name="actionListen">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/transfer/res/transfer/tranStart.png</normaloff>:/transfer/res/transfer/tranStart.png</iconset>
+   </property>
+   <property name="text">
+    <string>监听</string>
+   </property>
+   <property name="toolTip">
+    <string>等待方送方传输.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionDisConnect">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset>
+     <normaloff>:/transfer/res/transfer/disConnect.png</normaloff>:/transfer/res/transfer/disConnect.png</iconset>
+   </property>
+   <property name="text">
+    <string>断开</string>
+   </property>
+   <property name="toolTip">
+    <string>断开与发送方的连接.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionHelp">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/transfer/res/transfer/help.png</normaloff>:/transfer/res/transfer/help.png</iconset>
+   </property>
+   <property name="text">
+    <string>帮助</string>
+   </property>
+   <property name="toolTip">
+    <string>查看使用说明.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionSetSavePath">
+   <property name="icon">
+    <iconset>
+     <normaloff>:/transfer/res/transfer/save.png</normaloff>:/transfer/res/transfer/save.png</iconset>
+   </property>
+   <property name="text">
+    <string>设置接收路径</string>
+   </property>
+   <property name="toolTip">
+    <string>发送方发送来的文件存在此路径下.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionOpenFile">
+   <property name="text">
+    <string>打开(&amp;o)</string>
+   </property>
+   <property name="toolTip">
+    <string>打开文件</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionOpenPath">
+   <property name="text">
+    <string>打开路径</string>
+   </property>
+   <property name="toolTip">
+    <string>打开文件路径</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionCopyAbsoultPath">
+   <property name="text">
+    <string>复制完整路径和文件名</string>
+   </property>
+   <property name="toolTip">
+    <string>复制AboslutePath</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>
