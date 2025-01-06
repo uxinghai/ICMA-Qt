@@ -5,9 +5,9 @@
 #include <QTimer>
 #include <QTranslator>
 
+#include "../../../UI/ui_MainWindow.h"
 #include "../../controls/messagebox/MyMesgBox.h"
 #include "../../dataBase/worker/FilesDBWorker.h"
-#include "../../UI/ui_MainWindow.h"
 #include "../fileTransfer/FileTransfer.h"
 #include "../photoShop/PS.h"
 

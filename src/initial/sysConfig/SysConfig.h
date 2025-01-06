@@ -12,7 +12,7 @@
 
 #pragma once
 
-#include "../manager/Config/JsonManager.h"
+#include "../../manager/Config/JsonManager.h"
 
 static auto* jsonManager = new JsonManager();
 

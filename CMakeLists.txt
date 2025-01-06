@@ -16,12 +16,12 @@ if (WIN32)
 endif ()
 
 # 尝试查找 Qt6 或 Qt5
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui
              Multimedia MultimediaWidgets Sql Concurrent Network)
 # 提取实际找到的 Qt 版本
 set(QT_VERSION_MAJOR ${QT_VERSION_MAJOR})
 # 根据找到的 Qt 版本配置组件
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui
              Multimedia MultimediaWidgets Sql Concurrent Network)
 
 
@@ -38,48 +38,48 @@ find_package(OpenCV REQUIRED)
 set(PROJECT_SOURCES
     main.cpp
     # widgets下所有文件
-        Widgets/mainWindow/MainWindow.cpp
-        Widgets/mainWindow/MainWindow.h
+        src/Widgets/mainWindow/MainWindow.cpp
+        src/Widgets/mainWindow/MainWindow.h
     UI/MainWindow.ui
-        Widgets/photoShop/PS.cpp
-        Widgets/photoShop/PS.h
+        src/Widgets/photoShop/PS.cpp
+        src/Widgets/photoShop/PS.h
     UI/PS.ui
-        Widgets/faceTest/FaceTest.cpp
-        Widgets/faceTest/FaceTest.h
+        src/Widgets/faceTest/FaceTest.cpp
+        src/Widgets/faceTest/FaceTest.h
     UI/FaceTest.ui
-        Widgets/fileTransfer/FileTransfer.cpp
-        Widgets/fileTransfer/FileTransfer.h
-        Widgets/fileTransfer/FileTransTool.h
+        src/Widgets/fileTransfer/FileTransfer.cpp
+        src/Widgets/fileTransfer/FileTransfer.h
+        src/Widgets/fileTransfer/FileTransTool.h
     UI/FileTransfer.ui
     # utils下所有文件
-        manager/Config/JsonManager.h
-        utils/log/LogOut.h
-        utils/threadWorkers/GetTokenWorker.h
-        utils/threadWorkers/GetTokenWorker.cpp
-        utils/threadWorkers/ToBase64Worker.h
-        utils/threadWorkers/ToBase64Worker.cpp
+        src/manager/Config/JsonManager.h
+        src/utils/log/LogOut.h
+        src/utils/threadWorkers/GetTokenWorker.h
+        src/utils/threadWorkers/GetTokenWorker.cpp
+        src/utils/threadWorkers/ToBase64Worker.h
+        src/utils/threadWorkers/ToBase64Worker.cpp
     # network下所有文件
-        Widgets/fileTransfer/client/AClient.h
-        Widgets/fileTransfer/client/AClient.cpp
+        src/Widgets/fileTransfer/client/AClient.h
+        src/Widgets/fileTransfer/client/AClient.cpp
     UI/AClient.ui
-        Widgets/fileTransfer/server/AServer.h
-        Widgets/fileTransfer/server/AServer.cpp
+        src/Widgets/fileTransfer/server/AServer.h
+        src/Widgets/fileTransfer/server/AServer.cpp
     UI/AServer.ui
-        manager/NetworkManager.h
-        manager/NetworkManager.cpp
+        src/manager/NetworkManager.h
+        src/manager/NetworkManager.cpp
     # initial下所有文件
-        initial/AppInit.h
-        initial/AppInit.cpp
-        initial/SplashScreen.h
+        src/initial/AppInit.h
+        src/initial/AppInit.cpp
+        src/initial/SplashScreen.h
     # dataBase下所有文件
-        manager/SqlManager.h
-        dataBase/worker/FilesDBWorker.h
+        src/manager/SqlManager.h
+        src/dataBase/worker/FilesDBWorker.h
     # controls
-        controls/graphics/MyGraphicsView.h
-        controls/graphics/MyGraphicsItem.h
-        controls/messagebox/MyMesgBox.h
-        manager/Config/iniManager.h
-        initial/sysConfig/SysConfig.h
+        src/controls/graphics/MyGraphicsView.h
+        src/controls/graphics/MyGraphicsItem.h
+        src/controls/messagebox/MyMesgBox.h
+        src/manager/Config/iniManager.h
+        src/initial/sysConfig/SysConfig.h
 )
 
 #                                            *********

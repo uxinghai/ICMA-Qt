@@ -2,9 +2,9 @@
 #include <QMessageBox>
 #include <QTranslator>
 
-#include "initial/AppInit.h"
-#include "initial/sysConfig/SysConfig.h"
-#include "Widgets/mainWindow/MainWindow.h"
+#include "../src/initial/AppInit.h"
+#include "../src/initial/sysConfig/SysConfig.h"
+#include "../src/Widgets/mainWindow/MainWindow.h"
 
 QTranslator tran; ///< 全局翻译器
 int main(int argc, char* argv[])
