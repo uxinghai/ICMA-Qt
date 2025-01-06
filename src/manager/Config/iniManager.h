@@ -26,26 +26,28 @@ enum SysIni {
   Contact
 };
 
-class iniManager final {
+class iniManager final : public QObject{
 public:
-  iniManager()
+  explicit iniManager(QObject* parent = nullptr) : QObject(parent)
   {
     iniFilePath = icmaRootDirPath + "/appInfo.ini";
     if (QFile::exists(iniFilePath)) { return; }
     initIniConfig();
   }
 
+  ~iniManager() override = default;
+
   [[nodiscard]] QString getSysInfo(const SysIni sysIni) const
   {
     switch (sysIni) {
-    case 0: return doGetSysInfo("version");
-    case 1: return doGetSysInfo("author");
-    case 2: return doGetSysInfo("description");
-    case 3: return doGetSysInfo("license");
-    case 4: return doGetSysInfo("git");
-    case 5: return doGetSysInfo("releaseDate");
-    case 6: return doGetSysInfo("dependencies");
-    case 7: return doGetSysInfo("contact");
+    case 0: return doGetSysInfo("ICMA/version");
+    case 1: return doGetSysInfo("ICMA/author");
+    case 2: return doGetSysInfo("ICMA/description");
+    case 3: return doGetSysInfo("ICMA/license");
+    case 4: return doGetSysInfo("ICMA/git");
+    case 5: return doGetSysInfo("ICMA/releaseDate");
+    case 6: return doGetSysInfo("ICMA/dependencies");
+    case 7: return doGetSysInfo("ICMA/contact");
     default: return "";
     }
   }
@@ -75,39 +77,39 @@ public:
 
   void SetVersion(const QVariant& version) const
   {
-    upDateIniConfig("version", version);
+    upDateIniConfig("ICMA/version", version);
   }
 
   void SetAuthor(const QVariant& author) const
   {
-    upDateIniConfig("author", author);
+    upDateIniConfig("ICMA/author", author);
   }
 
   void SetDescription(const QVariant& description) const
   {
-    upDateIniConfig("description", description);
+    upDateIniConfig("ICMA/description", description);
   }
 
   void SetLicense(const QVariant& license) const
   {
-    upDateIniConfig("license", license);
+    upDateIniConfig("ICMA/license", license);
   }
 
-  void SetGit(const QVariant& git) const { upDateIniConfig("git", git); }
+  void SetGit(const QVariant& git) const { upDateIniConfig("ICMA/git", git); }
 
   void SetReleaseDate(const QVariant& releaseDate) const
   {
-    upDateIniConfig("releaseDate", releaseDate);
+    upDateIniConfig("ICMA/releaseDate", releaseDate);
   }
 
   void SetDependencies(const QVariant& dependencies) const
   {
-    upDateIniConfig("dependencies", dependencies);
+    upDateIniConfig("ICMA/dependencies", dependencies);
   }
 
   void SetContact(const QVariant& contact) const
   {
-    upDateIniConfig("contact", contact);
+    upDateIniConfig("ICMA/contact", contact);
   }
 
   [[nodiscard]] QString IniFilePath() { return iniFilePath; }
@@ -118,14 +120,14 @@ private:
   {
     if (QFile::exists(iniFilePath)) { return; }
     QSettings settings(iniFilePath, QSettings::IniFormat); ///< 如果路径下没有文件会自动生成
-    settings.setValue("version", "1.0.0");
-    settings.setValue("author", "uxinghai");
-    settings.setValue("description", "");
-    settings.setValue("license", "LGPL");
-    settings.setValue("git", "https://github.com/uxinghai/ICMA-Qt");
-    settings.setValue("releaseDate", "");
-    settings.setValue("dependencies", "[Qt 6.0,CMake 3.16]");
-    settings.setValue("contact", "uxinghaiwyi@163.com");
+    settings.setValue("ICMA/version", "1.0.0");
+    settings.setValue("ICMA/author", "uxinghai");
+    settings.setValue("ICMA/description", "");
+    settings.setValue("ICMA/license", "LGPL");
+    settings.setValue("ICMA/git", "https://github.com/uxinghai/ICMA-Qt");
+    settings.setValue("ICMA/releaseDate", "");
+    settings.setValue("ICMA/dependencies", "[Qt 6.0,CMake 3.16]");
+    settings.setValue("ICMA/contact", "uxinghaiwyi@163.com");
   }
 
   // 值更新时更新到文件

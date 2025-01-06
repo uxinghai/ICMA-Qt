@@ -24,6 +24,7 @@
 #include <QSettings>
 #include <QTableView>
 
+//class AppInit;
 QT_BEGIN_NAMESPACE
 
 namespace Ui
@@ -39,6 +40,12 @@ class MainWindow final : public QMainWindow {
 public:
   explicit MainWindow(QWidget* parent = nullptr);
   ~MainWindow() override;
+
+public slots:
+  /**
+   * @brief 初始化主窗口
+  */
+  void doInit();
 
 protected:
   /**
@@ -60,11 +67,6 @@ private slots:
   void doStatusBarVisible(const bool& checked) const;
 
 private:
-  /**
-   * @brief 初始化主窗口
-   */
-  void init();
-
   void setupConnections();
 
   /**
@@ -92,6 +94,8 @@ private:
   Ui::MainWindow* ui;
   QLabel* lbStatus; ///< 状态栏显示的标签
   QString filePath; ///< 保存文件路径，用于 Windows 右键菜单操作时动态更新
+
+  //std::unique_ptr<AppInit> appInit;
 };
 
 #endif // MAINWINDOW_H

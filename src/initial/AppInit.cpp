@@ -48,19 +48,23 @@ bool AppInit::init()
     return false;
   }
   // 初始化配置文件，让其自动创建文件
-  ini = std::make_unique<iniManager>();
-  json = std::make_unique<JsonManager>();
+  ini = new iniManager(this);
+  json = new JsonManager(this);
   splash->setProgress(40);
   SqlManager::instance().initSqlConfig();
   splash->setProgress(80);
-  // emit initMainWindowUI();
-  splash->setProgress(100);
-  splash.reset(); ///< 释放
 
   QApplication::processEvents(QEventLoop::AllEvents); ///< 不阻塞UI线程
   printSysInfo();
 
   return true;
+}
+
+void AppInit::initMainwindow()
+{
+  emit initMainWindowUI();
+  splash->setProgress(100);
+  splash.reset(); ///< 释放
 }
 
 void AppInit::printSysInfo()

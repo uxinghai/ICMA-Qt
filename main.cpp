@@ -11,7 +11,8 @@ int main(int argc, char* argv[])
 {
   QApplication app(argc, argv);
 
-  if (const auto appInit = new AppInit(); !appInit->init()) {
+  const auto appInit = new AppInit();
+  if (!appInit->init()) {
     QMessageBox::critical(nullptr, QObject::tr("Error"),
                           QObject::tr("Failed to initialize the application."
                             " The application will now exit."));
@@ -23,6 +24,9 @@ int main(int argc, char* argv[])
   }
 
   MainWindow w;
+  QObject::connect(appInit, &AppInit::initMainWindowUI,
+                   &w, &MainWindow::doInit);
+  appInit->initMainwindow();
   w.show();
 
   return QApplication::exec();

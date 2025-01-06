@@ -27,12 +27,17 @@ class MainWindow;
 
 static QString icmaRootDirPath; ///< icma根路径
 
-class AppInit final {
+class AppInit final : public QObject {
+  Q_OBJECT
+
 public:
   AppInit();
+  ~AppInit() override = default;
 
   // 初始化应用程序(程序启动时)
   bool init();
+
+  void initMainwindow();
 
 signals:
   void initMainWindowUI(); ///< 让Mainwindow初始化
@@ -40,6 +45,6 @@ signals:
 private:
   static void printSysInfo();
   QSharedPointer<SplashScreen> splash;
-  std::unique_ptr<iniManager> ini;
-  std::unique_ptr<JsonManager> json;
+  iniManager* ini;
+  JsonManager* json;
 };

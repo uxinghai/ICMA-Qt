@@ -14,7 +14,7 @@
 
 #include "../../manager/Config/JsonManager.h"
 
-static auto* jsonManager = new JsonManager();
+static auto* jsonManager = new JsonManager(nullptr);
 
 class SysConfig final {
 public:

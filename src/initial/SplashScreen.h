@@ -9,9 +9,7 @@
  * @author uxinghai
  * @date 2024.8.2
  */
-
-#ifndef SPLASHSCREEN_H
-#define SPLASHSCREEN_H
+#pragma once
 
 #include <QProgressBar>
 #include <QSplashScreen>
@@ -36,10 +34,10 @@ public:
     this->setLayout(layout);
   }
 
+  ~SplashScreen() override = default;
+
   void setProgress(const int value) const { progressBar->setValue(value); }
 
 private:
   QProgressBar* progressBar;
 };
-
-#endif // SPLASHSCREEN_H

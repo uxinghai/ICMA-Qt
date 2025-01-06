@@ -10,20 +10,26 @@
 #include "../../dataBase/worker/FilesDBWorker.h"
 #include "../fileTransfer/FileTransfer.h"
 #include "../photoShop/PS.h"
+//#include "../../initial/AppInit.h"
 
 extern QTranslator tran;
 
 MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent), ui(new Ui::MainWindow),
     lbStatus(new QLabel(this))
+   // appInit(std::make_unique<AppInit>())
 {
   ui->setupUi(this);
-  init();
+
   setupConnections();
 }
 
 // 初始化界面
-void MainWindow::init() {}
+void MainWindow::doInit()
+{
+
+  qDebug() << "收到信号，准备初始化界面";
+}
 
 void MainWindow::setupConnections()
 {
@@ -35,6 +41,9 @@ void MainWindow::setupConnections()
           this, &MainWindow::doPreviewVisible);
   connect(ui->actionStatusBar, &QAction::triggered,
           this, &MainWindow::doStatusBarVisible);
+
+  // connect(appInit.get(), &AppInit::initMainWindowUI,
+  //         this, &MainWindow::doInit);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

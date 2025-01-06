@@ -17,13 +17,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
-class JsonManager final {
+class JsonManager final : public QObject {
 public:
-  JsonManager()
+  explicit JsonManager(QObject* parent = nullptr) : QObject(parent)
   {
     jsonFilePath = icmaRootDirPath + "/appConfig.json";
     if (!QFile::exists(jsonFilePath)) { initJsonConfig(); }
   }
+
+  ~JsonManager() override = default;
 
   [[nodiscard]] QString JsonFilePath() { return jsonFilePath; }
 
