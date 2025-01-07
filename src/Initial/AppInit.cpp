@@ -3,14 +3,15 @@
 #include <QApplication>
 #include <QStandardPaths>
 
-#include "../manager/Config/iniManager.h"
-#include "../manager/Config/JsonManager.h"
-#include "../manager/SqlManager.h"
+#include "../Manager/Config/iniManager.h"
+#include "../Manager/Config/JsonManager.h"
+#include "../Manager/SqlManager.h"
 #include "../Widgets/mainWindow/MainWindow.h"
 #include "SplashScreen.h"
 
 AppInit::AppInit()
-  : splash(QSharedPointer<SplashScreen>::create())
+  : splash(QSharedPointer<SplashScreen>::create()),
+    ini(nullptr), json(nullptr)
 {
   qDebug() << R"(
 ////////////////////////////////////////////////////////////////////
@@ -47,7 +48,7 @@ bool AppInit::init()
     qDebug() << "Failed to create file ob: " << icmaRootDirPath;
     return false;
   }
-  // 初始化配置文件，让其自动创建文件
+  // 初始化配置文件，让其自动创建文件(内部会判断是否需要初始化)
   ini = new iniManager(this);
   json = new JsonManager(this);
   splash->setProgress(40);
@@ -70,20 +71,23 @@ void AppInit::initMainwindow()
 void AppInit::printSysInfo()
 {
   qDebug() <<
-    R"((♥◠‿◠)ﾉﾞ  ICMA启动成功   ლ(´ڡ`ლ)ﾞ
-  ___ ____ __  __    _      ____  _             _
- |_ _/ ___|  \/  |  / \    / ___|| |_ __ _ _ __| |_
-  | | |   | |\/| | / _ \   \___ \| __/ _` | '__| __|
-  | | |___| |  | |/ ___ \   ___) | || (_| | |  | |_
- |___\____|_|  |_/_/   \_\ |____/ \__\__,_|_|   \__|
-                                                    )";
-  const auto ini = std::make_unique<iniManager>();
-  qDebug() << "version" << ini->getSysInfo(Version);
-  qDebug() << "author" << ini->getSysInfo(Author);
-  qDebug() << "contact" << ini->getSysInfo(Contact);
-  qDebug() << "git" << ini->getSysInfo(Git);
-  qDebug() << "license" << ini->getSysInfo(License);
-  qDebug() << "description" << ini->getSysInfo(Description);
-  qDebug() << "dependencies" << ini->getSysInfo(Dependencies);
-  qDebug() << "releaseDate" << ini->getSysInfo(ReleaseDate);
+    "(♥◠‿◠)ﾉﾞ  ICMA启动成功   ლ(´ڡ`ლ)ﾞ\n"
+    "  ___ ____ __  __    _      ____  _             _\n"
+    " |_ _/ ___|  \\/  |  / \\    / ___|| |_ __ _ _ __| |_\n"
+    "  | | |   | |\\/| | / _ \\   \\___ \\| __/ _` | '__| __|\n"
+    "  | | |___| |  | |/ ___ \\   ___) | || (_| | |  | |_\n |___\\____|_|  |_/_/   "
+    "\\_\\ |____/ \\__\\__,_|_|   \\__|\n                                                    ";
+
+  const auto iniSetting = iniManager::getIniSetting(); ///< 用来控制（读写）它
+  qDebug() << tr("版本：") << iniSetting.value("ICMA/version").toString();
+  qDebug() << tr("作者：") << iniSetting.value("ICMA/author").toString();
+  qDebug() << tr("联系方式：") << iniSetting.value("ICMA/contact").toString();
+  qDebug() << tr("开源地址：") << iniSetting.value("ICMA/git").toString();
+  qDebug() << tr("协议：") << iniSetting.value("ICMA/license").toString();
+  qDebug() << tr("描述：") << iniSetting.value("ICMA/description")
+                                     .toString();
+  qDebug() << tr("依赖：") << iniSetting.value("ICMA/dependencies")
+                                     .toStringList().join(",");
+  qDebug() << tr("发布日期：") << iniSetting.value("ICMA/releaseDate")
+                                       .toString();
 }

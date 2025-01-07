@@ -6,18 +6,19 @@
 #include <QTranslator>
 
 #include "../../../UI/ui_MainWindow.h"
-#include "../../controls/messagebox/MyMesgBox.h"
-#include "../../dataBase/worker/FilesDBWorker.h"
+#include "../../DataBase/worker/FilesDBWorker.h"
+#include "../../Manager/Config/iniManager.h"
+#include "../../Manager/Config/JsonManager.h"
+#include "../../Utils/Tools/CloseWindowMsgBox.h"
 #include "../fileTransfer/FileTransfer.h"
 #include "../photoShop/PS.h"
-//#include "../../initial/AppInit.h"
 
 extern QTranslator tran;
 
 MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent), ui(new Ui::MainWindow),
     lbStatus(new QLabel(this))
-   // appInit(std::make_unique<AppInit>())
+// appInit(std::make_unique<AppInit>())
 {
   ui->setupUi(this);
 
@@ -27,14 +28,21 @@ MainWindow::MainWindow(QWidget* parent)
 // 初始化界面
 void MainWindow::doInit()
 {
-
-  qDebug() << "收到信号，准备初始化界面";
+  // 创建互斥组
+  auto* group = new QActionGroup(this);
+  group->addAction(ui->actionAMOLED);
+  group->addAction(ui->actionAqua);
+  group->addAction(ui->actionConsoleStyle);
+  group->addAction(ui->actionMacOS);
+  group->addAction(ui->actionManjaroMix);
+  group->addAction(ui->actionMaterialDark);
+  group->addAction(ui->actionNeonButtons);
+  group->addAction(ui->actionUbuntu);
+  group->setExclusive(true);
 }
 
 void MainWindow::setupConnections()
 {
-  connect(ui->actionNewWindow, &QAction::triggered,
-          this, &MainWindow::doCreateANewWindow);
   connect(ui->actionFilter, &QAction::triggered,
           this, &MainWindow::doComBoxVisible);
   connect(ui->actionPreview, &QAction::triggered,
@@ -42,26 +50,43 @@ void MainWindow::setupConnections()
   connect(ui->actionStatusBar, &QAction::triggered,
           this, &MainWindow::doStatusBarVisible);
 
-  // connect(appInit.get(), &AppInit::initMainWindowUI,
-  //         this, &MainWindow::doInit);
+  connect(ui->actionExit, &QAction::triggered,
+          this, &MainWindow::close);
+
+  // 为主题切换创建一个统一的槽函数处理
+  auto creatLangConnection = [this](const QAction* action) {
+    connect(action, &QAction::triggered,
+            this, &MainWindow::doChangeTheme);
+  };
+  creatLangConnection(ui->actionAMOLED);
+  creatLangConnection(ui->actionAqua);
+  creatLangConnection(ui->actionConsoleStyle);
+  creatLangConnection(ui->actionMacOS);
+  creatLangConnection(ui->actionManjaroMix);
+  creatLangConnection(ui->actionMaterialDark);
+  creatLangConnection(ui->actionNeonButtons);
+  creatLangConnection(ui->actionUbuntu);
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-  // // 如果不再询问为True 直接关闭并退出
-  // QJsonObject obj = JsonManager::loadConfig()["settings"].toObject();
-  // if (obj["general"].toObject()["closeNoRequire"].toBool()) {
-  //   event->accept();
-  //   return;
-  // }
-  //
-  // auto* mesgBox = new MyMesgBox(this);
-  // if (mesgBox->exec() == QDialog::Accepted) {
+  // 如果不再询问为True 直接关闭并退出
+  auto config = JsonManager::getJsonObject();
+  if (config["general"].toObject()["closeNoRequire"].toBool()) {
+    event->accept();
+    return;
+  }
+
+  auto* closeMsgBox = new CloseWindowMsgBox(this);
+  if (closeMsgBox->exec() == QDialog::Accepted) {
+    // 如果勾选了不再询问，修改json
+    if (closeMsgBox->isCloseNoRequireChecked) {}
+  }
   //   AppInit::writeInJsonConfig(*this); // 接受引用所以指针
   //   // 如果勾选了不再询问 则写入Json
   //   if (mesgBox->isCloseNoRequirChecked()) {
   //     // 找到修改的根
-  //     QJsonObject root = JsonManager::loadConfig();
+  //     auto root = JsonManager::getJsonObject();
   //     auto settingsObj = root["settings"].toObject();
   //     auto generalObj = settingsObj["general"].toObject();
   //
@@ -77,14 +102,6 @@ void MainWindow::closeEvent(QCloseEvent* event)
   //   event->accept();
   // }
   // else { event->ignore(); }
-}
-
-// 打开一个新的窗口
-void MainWindow::doCreateANewWindow() const
-{
-  const auto w = new MainWindow();                 ///< 创建一个自身对象
-  w->move(QPoint(this->x() + 15, this->y() + 20)); ///< 突出新增
-  w->show();
 }
 
 // 过滤器 Combox 显示/隐藏
@@ -103,6 +120,22 @@ void MainWindow::doPreviewVisible(const bool& checked) const
 void MainWindow::doStatusBarVisible(const bool& checked) const
 {
   ui->statusbar->setVisible(checked);
+}
+
+void MainWindow::doChangeTheme() const
+{
+  const QString objectName = sender()->objectName();
+  QString qssPath;
+  if (themeMap.contains(objectName)) { qssPath = themeMap.value(objectName); }
+  else { qCritical("Error in doChangeTheme function!"); }
+
+  auto setting = iniManager::getIniSetting();
+  if (QFile qss(qssPath);
+    qss.open(QIODeviceBase::ReadOnly)) {
+    qApp->setStyleSheet(qss.readAll());
+    qss.close();
+  }
+  setting.setValue("Settings/theme-style", qssPath);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)

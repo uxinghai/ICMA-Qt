@@ -348,8 +348,6 @@
     <property name="title">
      <string>文件(&amp;F)</string>
     </property>
-    <addaction name="actionNewWindow"/>
-    <addaction name="separator"/>
     <addaction name="actionDaori"/>
     <addaction name="actionDaochu1"/>
     <addaction name="separator"/>
@@ -386,10 +384,14 @@
      <property name="title">
       <string>主题</string>
      </property>
-     <addaction name="actionLightTheme"/>
-     <addaction name="actionDarkTheme"/>
-     <addaction name="separator"/>
-     <addaction name="actionAutoTheme"/>
+     <addaction name="actionAMOLED"/>
+     <addaction name="actionAqua"/>
+     <addaction name="actionConsoleStyle"/>
+     <addaction name="actionMacOS"/>
+     <addaction name="actionManjaroMix"/>
+     <addaction name="actionMaterialDark"/>
+     <addaction name="actionNeonButtons"/>
+     <addaction name="actionUbuntu"/>
     </widget>
     <addaction name="actionCopy"/>
     <addaction name="actionCut"/>
@@ -1321,7 +1323,7 @@
     <string>文件关系图谱</string>
    </property>
   </action>
-  <action name="actionLightTheme">
+  <action name="actionAMOLED">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1329,49 +1331,41 @@
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>浅色主题(&amp;L)</string>
+    <string>AMOLED</string>
+   </property>
+   <property name="toolTip">
+    <string>使用AMOLED主题.</string>
    </property>
    <property name="statusTip">
-    <string>使用浅色主题.</string>
+    <string>使用AMOLED主题.</string>
    </property>
   </action>
-  <action name="actionDarkTheme">
+  <action name="actionAqua">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>深色主题(&amp;D)</string>
+    <string>Aqua</string>
+   </property>
+   <property name="toolTip">
+    <string>使用Aqua主题.</string>
    </property>
    <property name="statusTip">
-    <string>使用深色主题.</string>
+    <string>使用Aqua主题.</string>
    </property>
   </action>
-  <action name="actionAutoTheme">
+  <action name="actionConsoleStyle">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>跟随系统</string>
+    <string>ConsoleStyle</string>
    </property>
    <property name="toolTip">
-    <string>跟随系统</string>
+    <string>使用ConsoleStyle主题.</string>
    </property>
    <property name="statusTip">
-    <string>跟随您的系统自动切换主题.</string>
-   </property>
-  </action>
-  <action name="actionNewWindow">
-   <property name="text">
-    <string>新建一个窗口(&amp;N)</string>
-   </property>
-   <property name="toolTip">
-    <string>新建一个窗口</string>
-   </property>
-   <property name="statusTip">
-    <string>打开一个新的窗口.</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+N</string>
+    <string>使用ConsoleStyle主题.</string>
    </property>
   </action>
   <action name="actionTransmission">
@@ -1430,6 +1424,76 @@
    </property>
    <property name="statusTip">
     <string>启用或禁止日志文件生成（建议您启用）.</string>
+   </property>
+  </action>
+  <action name="actionMacOS">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>MacOS</string>
+   </property>
+   <property name="toolTip">
+    <string>使用MacOS主题.</string>
+   </property>
+   <property name="statusTip">
+    <string>使用MacOS主题.</string>
+   </property>
+  </action>
+  <action name="actionManjaroMix">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>ManjaroMix</string>
+   </property>
+   <property name="toolTip">
+    <string>使用ManjaroMix主题.</string>
+   </property>
+   <property name="statusTip">
+    <string>使用ManjaroMix主题.</string>
+   </property>
+  </action>
+  <action name="actionMaterialDark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>MaterialDark</string>
+   </property>
+   <property name="toolTip">
+    <string>使用MaterialDark主题.</string>
+   </property>
+   <property name="statusTip">
+    <string>使用MaterialDark主题.</string>
+   </property>
+  </action>
+  <action name="actionNeonButtons">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>NeonButtons</string>
+   </property>
+   <property name="toolTip">
+    <string>使用NeonButtons主题.</string>
+   </property>
+   <property name="statusTip">
+    <string>使用NeonButtons主题.</string>
+   </property>
+  </action>
+  <action name="actionUbuntu">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Ubuntu</string>
+   </property>
+   <property name="toolTip">
+    <string>使用Ubuntu主题.</string>
+   </property>
+   <property name="statusTip">
+    <string>使用Ubuntu主题.</string>
    </property>
   </action>
  </widget>

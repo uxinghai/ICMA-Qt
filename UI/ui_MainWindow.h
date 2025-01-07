@@ -90,15 +90,19 @@ public:
     QAction *actionteStimonial;
     QAction *actionStatisticalAnalysis;
     QAction *actionRelationships;
-    QAction *actionLightTheme;
-    QAction *actionDarkTheme;
-    QAction *actionAutoTheme;
-    QAction *actionNewWindow;
+    QAction *actionAMOLED;
+    QAction *actionAqua;
+    QAction *actionConsoleStyle;
     QAction *actionTransmission;
     QAction *actionJP;
     QAction *actionAutoRun;
     QAction *actionPS;
     QAction *actionEnableFileLog;
+    QAction *actionMacOS;
+    QAction *actionManjaroMix;
+    QAction *actionMaterialDark;
+    QAction *actionNeonButtons;
+    QAction *actionUbuntu;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QSplitter *splitter_2;
@@ -317,18 +321,16 @@ public:
         actionStatisticalAnalysis->setObjectName("actionStatisticalAnalysis");
         actionRelationships = new QAction(MainWindow);
         actionRelationships->setObjectName("actionRelationships");
-        actionLightTheme = new QAction(MainWindow);
-        actionLightTheme->setObjectName("actionLightTheme");
-        actionLightTheme->setCheckable(true);
-        actionLightTheme->setChecked(true);
-        actionDarkTheme = new QAction(MainWindow);
-        actionDarkTheme->setObjectName("actionDarkTheme");
-        actionDarkTheme->setCheckable(true);
-        actionAutoTheme = new QAction(MainWindow);
-        actionAutoTheme->setObjectName("actionAutoTheme");
-        actionAutoTheme->setCheckable(true);
-        actionNewWindow = new QAction(MainWindow);
-        actionNewWindow->setObjectName("actionNewWindow");
+        actionAMOLED = new QAction(MainWindow);
+        actionAMOLED->setObjectName("actionAMOLED");
+        actionAMOLED->setCheckable(true);
+        actionAMOLED->setChecked(true);
+        actionAqua = new QAction(MainWindow);
+        actionAqua->setObjectName("actionAqua");
+        actionAqua->setCheckable(true);
+        actionConsoleStyle = new QAction(MainWindow);
+        actionConsoleStyle->setObjectName("actionConsoleStyle");
+        actionConsoleStyle->setCheckable(true);
         actionTransmission = new QAction(MainWindow);
         actionTransmission->setObjectName("actionTransmission");
         actionJP = new QAction(MainWindow);
@@ -343,6 +345,21 @@ public:
         actionEnableFileLog->setObjectName("actionEnableFileLog");
         actionEnableFileLog->setCheckable(true);
         actionEnableFileLog->setChecked(true);
+        actionMacOS = new QAction(MainWindow);
+        actionMacOS->setObjectName("actionMacOS");
+        actionMacOS->setCheckable(true);
+        actionManjaroMix = new QAction(MainWindow);
+        actionManjaroMix->setObjectName("actionManjaroMix");
+        actionManjaroMix->setCheckable(true);
+        actionMaterialDark = new QAction(MainWindow);
+        actionMaterialDark->setObjectName("actionMaterialDark");
+        actionMaterialDark->setCheckable(true);
+        actionNeonButtons = new QAction(MainWindow);
+        actionNeonButtons->setObjectName("actionNeonButtons");
+        actionNeonButtons->setCheckable(true);
+        actionUbuntu = new QAction(MainWindow);
+        actionUbuntu->setObjectName("actionUbuntu");
+        actionUbuntu->setCheckable(true);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setStyleSheet(QString::fromUtf8(""));
@@ -522,8 +539,6 @@ public:
         menubar->addAction(menu_4->menuAction());
         menubar->addAction(menu_5->menuAction());
         menubar->addAction(menu_A->menuAction());
-        menu->addAction(actionNewWindow);
-        menu->addSeparator();
         menu->addAction(actionDaori);
         menu->addAction(actionDaochu1);
         menu->addSeparator();
@@ -550,10 +565,14 @@ public:
         menu_6->addAction(actionCN);
         menu_6->addAction(actionEN);
         menu_6->addAction(actionJP);
-        menu_8->addAction(actionLightTheme);
-        menu_8->addAction(actionDarkTheme);
-        menu_8->addSeparator();
-        menu_8->addAction(actionAutoTheme);
+        menu_8->addAction(actionAMOLED);
+        menu_8->addAction(actionAqua);
+        menu_8->addAction(actionConsoleStyle);
+        menu_8->addAction(actionMacOS);
+        menu_8->addAction(actionManjaroMix);
+        menu_8->addAction(actionMaterialDark);
+        menu_8->addAction(actionNeonButtons);
+        menu_8->addAction(actionUbuntu);
         menu_3->addAction(actionFilter);
         menu_3->addAction(actionPreview);
         menu_3->addAction(actionStatusBar);
@@ -941,31 +960,27 @@ public:
 #if QT_CONFIG(tooltip)
         actionRelationships->setToolTip(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266\345\205\263\347\263\273\345\233\276\350\260\261", nullptr));
 #endif // QT_CONFIG(tooltip)
-        actionLightTheme->setText(QCoreApplication::translate("MainWindow", "\346\265\205\350\211\262\344\270\273\351\242\230(&L)", nullptr));
-#if QT_CONFIG(statustip)
-        actionLightTheme->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250\346\265\205\350\211\262\344\270\273\351\242\230.", nullptr));
-#endif // QT_CONFIG(statustip)
-        actionDarkTheme->setText(QCoreApplication::translate("MainWindow", "\346\267\261\350\211\262\344\270\273\351\242\230(&D)", nullptr));
-#if QT_CONFIG(statustip)
-        actionDarkTheme->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250\346\267\261\350\211\262\344\270\273\351\242\230.", nullptr));
-#endif // QT_CONFIG(statustip)
-        actionAutoTheme->setText(QCoreApplication::translate("MainWindow", "\350\267\237\351\232\217\347\263\273\347\273\237", nullptr));
+        actionAMOLED->setText(QCoreApplication::translate("MainWindow", "AMOLED", nullptr));
 #if QT_CONFIG(tooltip)
-        actionAutoTheme->setToolTip(QCoreApplication::translate("MainWindow", "\350\267\237\351\232\217\347\263\273\347\273\237", nullptr));
+        actionAMOLED->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250AMOLED\344\270\273\351\242\230.", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionAutoTheme->setStatusTip(QCoreApplication::translate("MainWindow", "\350\267\237\351\232\217\346\202\250\347\232\204\347\263\273\347\273\237\350\207\252\345\212\250\345\210\207\346\215\242\344\270\273\351\242\230.", nullptr));
+        actionAMOLED->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250AMOLED\344\270\273\351\242\230.", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionNewWindow->setText(QCoreApplication::translate("MainWindow", "\346\226\260\345\273\272\344\270\200\344\270\252\347\252\227\345\217\243(&N)", nullptr));
+        actionAqua->setText(QCoreApplication::translate("MainWindow", "Aqua", nullptr));
 #if QT_CONFIG(tooltip)
-        actionNewWindow->setToolTip(QCoreApplication::translate("MainWindow", "\346\226\260\345\273\272\344\270\200\344\270\252\347\252\227\345\217\243", nullptr));
+        actionAqua->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250Aqua\344\270\273\351\242\230.", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionNewWindow->setStatusTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\344\270\200\344\270\252\346\226\260\347\232\204\347\252\227\345\217\243.", nullptr));
+        actionAqua->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250Aqua\344\270\273\351\242\230.", nullptr));
 #endif // QT_CONFIG(statustip)
-#if QT_CONFIG(shortcut)
-        actionNewWindow->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+N", nullptr));
-#endif // QT_CONFIG(shortcut)
+        actionConsoleStyle->setText(QCoreApplication::translate("MainWindow", "ConsoleStyle", nullptr));
+#if QT_CONFIG(tooltip)
+        actionConsoleStyle->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250ConsoleStyle\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionConsoleStyle->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250ConsoleStyle\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(statustip)
         actionTransmission->setText(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266\344\274\240\350\276\223\345\267\245\345\205\267", nullptr));
 #if QT_CONFIG(statustip)
         actionTransmission->setStatusTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\346\226\207\344\273\266\344\274\240\350\276\223\345\267\245\345\205\267.", nullptr));
@@ -991,6 +1006,41 @@ public:
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
         actionEnableFileLog->setStatusTip(QCoreApplication::translate("MainWindow", "\345\220\257\347\224\250\346\210\226\347\246\201\346\255\242\346\227\245\345\277\227\346\226\207\344\273\266\347\224\237\346\210\220\357\274\210\345\273\272\350\256\256\346\202\250\345\220\257\347\224\250\357\274\211.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionMacOS->setText(QCoreApplication::translate("MainWindow", "MacOS", nullptr));
+#if QT_CONFIG(tooltip)
+        actionMacOS->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250MacOS\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionMacOS->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250MacOS\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionManjaroMix->setText(QCoreApplication::translate("MainWindow", "ManjaroMix", nullptr));
+#if QT_CONFIG(tooltip)
+        actionManjaroMix->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250ManjaroMix\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionManjaroMix->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250ManjaroMix\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionMaterialDark->setText(QCoreApplication::translate("MainWindow", "MaterialDark", nullptr));
+#if QT_CONFIG(tooltip)
+        actionMaterialDark->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250MaterialDark\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionMaterialDark->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250MaterialDark\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionNeonButtons->setText(QCoreApplication::translate("MainWindow", "NeonButtons", nullptr));
+#if QT_CONFIG(tooltip)
+        actionNeonButtons->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250NeonButtons\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionNeonButtons->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250NeonButtons\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionUbuntu->setText(QCoreApplication::translate("MainWindow", "Ubuntu", nullptr));
+#if QT_CONFIG(tooltip)
+        actionUbuntu->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250Ubuntu\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionUbuntu->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250Ubuntu\344\270\273\351\242\230.", nullptr));
 #endif // QT_CONFIG(statustip)
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));

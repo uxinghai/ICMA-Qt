@@ -17,11 +17,15 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 
+extern QString icmaRootDirPath;
+static QString staticFilePath;
+
 class JsonManager final : public QObject {
 public:
   explicit JsonManager(QObject* parent = nullptr) : QObject(parent)
   {
     jsonFilePath = icmaRootDirPath + "/appConfig.json";
+    staticFilePath = jsonFilePath;
     if (!QFile::exists(jsonFilePath)) { initJsonConfig(); }
   }
 
@@ -35,6 +39,30 @@ public:
     QFile jsonFile(jsonFilePath);
     if (!jsonFile.open(QIODevice::ReadOnly)) {
       qWarning() << jsonFilePath << ":" << jsonFile.errorString();
+      return QJsonObject{}; ///< 返回空对象
+    }
+
+    const QByteArray jsonData = jsonFile.readAll();
+    jsonFile.close();
+
+    // 解析JSON文档
+    QJsonParseError jsonError;
+    const QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &jsonError);
+    // 检查解析是否成功
+    if (jsonError.error != QJsonParseError::NoError) {
+      qWarning() << "Failed to parse JSON configuration file:"
+        << jsonError.errorString();
+      return QJsonObject{};
+    }
+
+    return jsonDoc.object(); ///< 返回根对象
+  }
+
+  static QJsonObject getJsonObject()
+  {
+    QFile jsonFile(staticFilePath);
+    if (!jsonFile.open(QIODevice::ReadOnly)) {
+      qWarning() << staticFilePath << ":" << jsonFile.errorString();
       return QJsonObject{}; ///< 返回空对象
     }
 
@@ -125,57 +153,6 @@ private:
           }
         }
       }
-    };
-    // 各项配置(最重要!)
-    obj["settings"] = QJsonObject{
-      {
-        "general",
-        QJsonObject{
-          {"enableFileLogging", true}, ///< 是否启动文件日志
-          {"filter", false},           ///< 是否显示过滤器
-          {"preview", false},          ///< 是否显示预览窗口
-          {"statusBar", true},         ///< 是否显示状态栏
-          {"autoRun", false},          ///< 开机是否自启动
-          {"closeNoRequire", false},   ///< 退出程序是否不再询问
-          {"font", 10}                 ///< 字号记录
-        }
-      },
-      {
-        "theme", QJsonObject{
-          {"light", true}, ///< 浅色主题
-          {"dark", false}, ///< 深色主题
-          {"auto", false}  ///< 自动主题
-        }
-      },
-      {
-        "language", QJsonObject{
-          {"CN", true},  ///< 中文语言
-          {"EN", false}, ///< 英文语言
-          {"JP", false}  ///< 日文语言
-        }
-      },
-      {
-        "view", QJsonObject{
-          {"list", false}, ///< 列表视图
-          {"icon", false}, ///< 图标视图
-          {"detail", true} ///< 详细信息视图
-        }
-      },
-      {
-        "sort", QJsonObject{
-          {"name", false},      ///< 名称
-          {"date", false},      ///< 日期
-          {"size", false},      ///< 大小
-          {"path", true},       ///< 路径
-          {"suffix", false},    ///< 扩展名
-          {"type", false},      ///< 类型
-          {"birth", false},     ///< 创建日期
-          {"modify", false},    ///< 修改日期
-          {"ascending", true},  ///< 升序
-          {"descending", false} ///< 降序
-        }
-      },
-
     };
 
     return obj;

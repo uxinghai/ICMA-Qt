@@ -24,7 +24,16 @@
 #include <QSettings>
 #include <QTableView>
 
-//class AppInit;
+inline QMap<QString, QString> themeMap{
+  {"actionAMOLED", ":/qss/res/QSS/AMOLED.qss"},
+  {"actionAqua", ":/qss/res/QSS/Aqua.qss"},
+  {"actionConsoleStyle", ":/qss/res/QSS/ConsoleStyle.qss"},
+  {"actionMacOS", ":/qss/res/QSS/MacOS.qss"},
+  {"actionManjaroMix", ":/qss/res/QSS/ManjaroMix.qss"},
+  {"actionMaterialDark", ":/qss/res/QSS/MaterialDark.qss"},
+  {"actionNeonButtons", ":/qss/res/QSS/NeonButtons.qss"},
+  {"actionUbuntu", ":/qss/res/QSS/Ubuntu.qss"}
+};
 QT_BEGIN_NAMESPACE
 
 namespace Ui
@@ -61,10 +70,10 @@ protected:
   void keyPressEvent(QKeyEvent* event) override;
 
 private slots:
-  void doCreateANewWindow() const;
   void doComBoxVisible(const bool& checked) const;
   void doPreviewVisible(const bool& checked) const;
   void doStatusBarVisible(const bool& checked) const;
+  void doChangeTheme() const;
 
 private:
   void setupConnections();
@@ -94,8 +103,6 @@ private:
   Ui::MainWindow* ui;
   QLabel* lbStatus; ///< 状态栏显示的标签
   QString filePath; ///< 保存文件路径，用于 Windows 右键菜单操作时动态更新
-
-  //std::unique_ptr<AppInit> appInit;
 };
 
 #endif // MAINWINDOW_H
