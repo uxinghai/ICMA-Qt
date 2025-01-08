@@ -483,5 +483,10 @@
     <file>res/QSS/MaterialDark.qss</file>
     <file>res/QSS/NeonButtons.qss</file>
     <file>res/QSS/Ubuntu.qss</file>
+    <file>res/QSS/QSS_IMG/go-down-symbolic.symbolic.png</file>
+    <file>res/QSS/QSS_IMG/go-up-symbolic.symbolic.png</file>
+    <file>res/QSS/QSS_IMG/go-next-symbolic.symbolic.png</file>
+    <file>res/QSS/QSS_IMG/go-previous-symbolic.symbolic.png</file>
+    <file>res/QSS/QSS_IMG/object-select-symbolic.symbolic.png</file>
   </qresource>
 </RCC>

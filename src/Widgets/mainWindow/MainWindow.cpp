@@ -2,10 +2,12 @@
 
 #include <QActionGroup>
 #include <QKeyEvent>
+#include <QMessageBox>
 #include <QTimer>
 #include <QTranslator>
 
 #include "../../../UI/ui_MainWindow.h"
+#include "../../Controls/Network/GetICMABrief.h"
 #include "../../DataBase/worker/FilesDBWorker.h"
 #include "../../Manager/Config/iniManager.h"
 #include "../../Manager/Config/JsonManager.h"
@@ -18,133 +20,169 @@ extern QTranslator tran;
 MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent), ui(new Ui::MainWindow),
     lbStatus(new QLabel(this))
-// appInit(std::make_unique<AppInit>())
 {
   ui->setupUi(this);
 
   setupConnections();
 }
 
-// 初始化界面
-void MainWindow::doInit()
-{
-  // 创建互斥组
-  auto* group = new QActionGroup(this);
-  group->addAction(ui->actionAMOLED);
-  group->addAction(ui->actionAqua);
-  group->addAction(ui->actionConsoleStyle);
-  group->addAction(ui->actionMacOS);
-  group->addAction(ui->actionManjaroMix);
-  group->addAction(ui->actionMaterialDark);
-  group->addAction(ui->actionNeonButtons);
-  group->addAction(ui->actionUbuntu);
-  group->setExclusive(true);
-}
-
 void MainWindow::setupConnections()
 {
-  connect(ui->actionFilter, &QAction::triggered,
-          this, &MainWindow::doComBoxVisible);
-  connect(ui->actionPreview, &QAction::triggered,
-          this, &MainWindow::doPreviewVisible);
-  connect(ui->actionStatusBar, &QAction::triggered,
-          this, &MainWindow::doStatusBarVisible);
+  // 为三个组件的可见性创建统一的槽函数
+  auto createVisible = [this](const QAction* action) {
+    connect(action, &QAction::triggered,
+            this, &MainWindow::doSetActionVisible);
+  };
+  createVisible(ui->actionFilter);
+  createVisible(ui->actionPreview);
+  createVisible(ui->actionStatusBar);
 
-  connect(ui->actionExit, &QAction::triggered,
-          this, &MainWindow::close);
-
-  // 为主题切换创建一个统一的槽函数处理
-  auto creatLangConnection = [this](const QAction* action) {
+  // 为主题切换创建统一的槽函数处理
+  auto createLangChanged = [this](const QAction* action) {
     connect(action, &QAction::triggered,
             this, &MainWindow::doChangeTheme);
   };
-  creatLangConnection(ui->actionAMOLED);
-  creatLangConnection(ui->actionAqua);
-  creatLangConnection(ui->actionConsoleStyle);
-  creatLangConnection(ui->actionMacOS);
-  creatLangConnection(ui->actionManjaroMix);
-  creatLangConnection(ui->actionMaterialDark);
-  creatLangConnection(ui->actionNeonButtons);
-  creatLangConnection(ui->actionUbuntu);
+  createLangChanged(ui->actionAMOLED);
+  createLangChanged(ui->actionAqua);
+  createLangChanged(ui->actionConsoleStyle);
+  createLangChanged(ui->actionMacOS);
+  createLangChanged(ui->actionManjaroMix);
+  createLangChanged(ui->actionMaterialDark);
+  createLangChanged(ui->actionNeonButtons);
+  createLangChanged(ui->actionUbuntu);
+
+  // ICMA简介
+  connect(ui->actionAbout, &QAction::triggered,
+          this, &MainWindow::doShowICMABrief);
+
+  // 退出程序
+  connect(ui->actionExit, &QAction::triggered,
+          this, &MainWindow::close);
 }
 
-void MainWindow::closeEvent(QCloseEvent* event)
+// 初始化界面
+void MainWindow::doInit()
 {
-  // 如果不再询问为True 直接关闭并退出
-  auto config = JsonManager::getJsonObject();
-  if (config["general"].toObject()["closeNoRequire"].toBool()) {
-    event->accept();
-    return;
+  // 创建互斥组的通用方法
+  auto createExclusiveGroup = [this](const QVector<QAction*>& actions) {
+    auto* group = new QActionGroup(this);
+    for (const auto& action : actions) { group->addAction(action); }
+    group->setExclusive(true);
+  };
+
+  // 定义各组的 QAction 列表并创建互斥组
+  createExclusiveGroup({
+    ui->actionAMOLED, ui->actionAqua, ui->actionConsoleStyle,
+    ui->actionMacOS, ui->actionManjaroMix, ui->actionMaterialDark,
+    ui->actionNeonButtons, ui->actionUbuntu
+  });
+
+  createExclusiveGroup({ui->actionCN, ui->actionEN, ui->actionJP});
+  createExclusiveGroup({
+    ui->actionListView, ui->actionDetaileView, ui->actionIconView
+  });
+  createExclusiveGroup({
+    ui->actionFileName, ui->actionFileDate, ui->actionFileSize,
+    ui->actionFilePath, ui->actionFileType, ui->actionFileSufix,
+    ui->actionFileModifyDate, ui->actionFileCeateDate
+  });
+  createExclusiveGroup({ui->actionAsc, ui->actionDesc});
+
+  // 读取配置文件修改UI
+  readIniConfig();
+}
+
+void MainWindow::doSetActionVisible(const bool& checked) const
+{
+  if (const QString objectName = sender()->objectName();
+    objectName == "actionFilter") { ui->comBoxFilter->setVisible(checked); }
+  else if (objectName == "actionPreview") {
+    ui->lbPreview->setVisible(checked);
   }
-
-  auto* closeMsgBox = new CloseWindowMsgBox(this);
-  if (closeMsgBox->exec() == QDialog::Accepted) {
-    // 如果勾选了不再询问，修改json
-    if (closeMsgBox->isCloseNoRequireChecked) {}
-  }
-  //   AppInit::writeInJsonConfig(*this); // 接受引用所以指针
-  //   // 如果勾选了不再询问 则写入Json
-  //   if (mesgBox->isCloseNoRequirChecked()) {
-  //     // 找到修改的根
-  //     auto root = JsonManager::getJsonObject();
-  //     auto settingsObj = root["settings"].toObject();
-  //     auto generalObj = settingsObj["general"].toObject();
-  //
-  //     // 修改值
-  //     generalObj["closeNoRequire"] = true;
-  //
-  //     // 写回
-  //     settingsObj["general"] = generalObj;
-  //     root["settings"] = settingsObj;
-  //
-  //     JsonManager::JsonObjWriteInFile(root);
-  //   }
-  //   event->accept();
-  // }
-  // else { event->ignore(); }
-}
-
-// 过滤器 Combox 显示/隐藏
-void MainWindow::doComBoxVisible(const bool& checked) const
-{
-  ui->comBoxFilter->setVisible(checked);
-}
-
-// 预览窗口显示/隐藏
-void MainWindow::doPreviewVisible(const bool& checked) const
-{
-  ui->lbPreview->setVisible(checked);
-}
-
-// 状态栏显示/隐藏
-void MainWindow::doStatusBarVisible(const bool& checked) const
-{
-  ui->statusbar->setVisible(checked);
+  else { ui->statusbar->setVisible(checked); }
 }
 
 void MainWindow::doChangeTheme() const
 {
+  // 获取到发送这个信号的 action
   const QString objectName = sender()->objectName();
-  QString qssPath;
-  if (themeMap.contains(objectName)) { qssPath = themeMap.value(objectName); }
-  else { qCritical("Error in doChangeTheme function!"); }
-
-  auto setting = iniManager::getIniSetting();
-  if (QFile qss(qssPath);
-    qss.open(QIODeviceBase::ReadOnly)) {
+  // 去掉 action 保留主题名称
+  const auto themeName = objectName.mid(6, objectName.length() - 1);
+  // 通过构建资源文件路径 优化了映射的额外内存占用
+  const QString qssPath = ":/qss/res/QSS/" + themeName + ".qss"; ///< 本地资源
+  if (QFile qss(qssPath); qss.open(QIODeviceBase::ReadOnly)) {
     qApp->setStyleSheet(qss.readAll());
     qss.close();
   }
+
+  // 写回文件
+  auto setting = iniManager::getIniSetting();
   setting.setValue("Settings/theme-style", qssPath);
+}
+
+void MainWindow::readIniConfig()
+{
+  // 修改UI及Action的选中情况
+  const auto Settings = iniManager::getIniSetting();
+  ui->actionAutoRun->setChecked(Settings.value("Settings/auto-run").toBool());
+  ui->actionEnableFileLog->setChecked(
+    Settings.value("Settings/enableFileLogging").toBool());
+  ui->actionShowHideFile->setChecked(
+    Settings.value("Settings/showHideFile").toBool());
+
+  ui->actionFilter->setChecked(Settings.value("Settings/filter").toBool());
+  ui->actionPreview->setChecked(Settings.value("Settings/preview").toBool());
+  ui->actionStatusBar->
+      setChecked(Settings.value("Settings/statusBar").toBool());
+  ui->comBoxFilter->setVisible(ui->actionFilter->isChecked());
+  ui->lbPreview->setVisible(ui->actionPreview->isChecked());
+  ui->statusbar->setVisible(ui->actionStatusBar->isChecked());
+
+  // 对于主题Action的选中
+  const QString themeName = Settings.value("Settings/theme-style").toString();
+  const auto leftPos = themeName.lastIndexOf('/') + 1;
+  const QString themeActionName = QString("action") +
+    themeName.mid(leftPos, themeName.length() - leftPos - 4);
+  if (auto* themeAction = findChild<QAction*>(themeActionName)) { ///< 确保存在
+    themeAction->setChecked(true);
+  }
+
+  // 对于排序方式的Action的选中
+  const auto sortValue = Settings.value("Settings/sort-method").toList();
+  if (auto* sortAction = findChild<QAction*>(QString("action") +
+    sortValue[0].toString())) { sortAction->setChecked(true); }
+  if (auto* sortAction2 = findChild<QAction*>(QString("action") +
+    sortValue[1].toString())) { sortAction2->setChecked(true); }
+
+  // 修改视图的Action的选中
+  if (auto* viewAction = findChild<QAction*>(QString("action") +
+    Settings.value("Settings/view-method").toString())) {
+    viewAction->setChecked(true);
+  }
+
+  // 修改语言Action的选中
+  if (auto* langAction = findChild<QAction*>(QString("action") +
+    Settings.value("Settings/language").toList()[0].toString())) {
+    langAction->setChecked(true);
+  }
+
+  // 修改系统字体
+  updateAppFont(Settings.value("Settings/font").toList());
+}
+
+void MainWindow::updateAppFont(const QList<QVariant>& list)
+{
+  if (list.isEmpty()) { return; }
+  QFont font;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
 {
   if (event->key() == Qt::Key_Escape) {
-    this->close(); // 关闭窗口
+    this->close(); ///< 关闭窗口
     return;
   }
-  QMainWindow::keyPressEvent(event); // 调用父类的默认处理
+  QMainWindow::keyPressEvent(event);
 }
 
 // // 导入文件(支持多选)
@@ -261,43 +299,23 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 //   retranslate("JP", ":/translations/res/translations/icmaLang_JP.qm");
 // }
 //
-// // 关于ICMA简介
-// void MainWindow::on_actionabout_triggered()
-// {
-//   QMessageBox aboutBox(this);
-//   aboutBox.setWindowTitle(tr("关于 ICMA"));
-//   aboutBox.setIconPixmap(QPixmap(":/icons/res/icons/logo/logo1024.ico")
-//     .scaledToWidth(128, Qt::SmoothTransformation));
+
+// ICMA简介
+void MainWindow::doShowICMABrief()
+{
+  QMessageBox aboutBox(this);
+  aboutBox.setWindowTitle(tr("关于 ICMA"));
+  aboutBox.setIconPixmap(QPixmap(":/icons/res/icons/logo/logo1024.ico")
+    .scaledToWidth(128, Qt::SmoothTransformation));
+
+  const QString aboutText = GetIcmaBrief::getIcmaBrief();
+  aboutBox.setText(aboutText);
+  aboutBox.setTextFormat(Qt::RichText);
+  aboutBox.setStandardButtons(QMessageBox::Ok);
+  aboutBox.exec();
+}
+
 //
-//   QString aboutText = tr(
-//     "<h3>ICMA 智能内容管理助手</h3>"
-//     "<p>版本 1.0</p>"
-//     "<p>ICMA 是一款功能强大的个人文件管理工具，专为需要高效组织和访问数字内容的用户设计。"
-//     "这款应用程序集成了先进的文件管理、智能搜索、内容推荐和数据安全功能，"
-//     "旨在提升用户的工作效率和数据管理体验。</p>"
-//     "<p><b>主要特点：</b></p>"
-//     "<ul>"
-//     "<li>智能文件组织：自动分类和标签系统，帮助用户轻松整理各类文件</li>"
-//     "<li>高效搜索：支持基本和高级搜索功能，快速定位所需文件</li>"
-//     "<li>个性化推荐：基于用户行为，智能推荐相关文件和内容</li>"
-//     "<li>数据安全：提供文件加密和MD5完整性校验，保护用户重要数据</li>"
-//     "<li>可视化分析：通过图表和报告，直观展示文件使用情况和存储状态</li>"
-//     "<li>用户友好界面：直观的布局设计，支持多种视图模式和主题切换</li>"
-//     "</ul>"
-//     "<p>ICMA 不仅是一个文件管理器，更是您的智能内容助手，"
-//     "致力于为用户提供一个更智能、更安全、更高效的数字内容管理解决方案。"
-//     "无论是日常文件整理，还是专业内容管理，ICMA 都能满足您的需求。</p>"
-//     "<p>Copyright &copy; 2024 UxhQt. All rights reserved.</p>");
-//
-//   aboutBox.setText(aboutText);
-//   aboutBox.setTextFormat(Qt::RichText);
-//   aboutBox.setStandardButtons(QMessageBox::Ok);
-//
-//   aboutBox.exec();
-// }
-//
-// // 退出应用
-// void MainWindow::on_actiontuichu_triggered() { this->close(); }
 //
 // // 开机自启动
 // void MainWindow::on_actionautoRun_triggered(bool checked)
@@ -305,6 +323,23 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 //   MainWindow::autoRunSystem(checked, QCoreApplication::applicationName(),
 //                             QCoreApplication::applicationFilePath());
 // }
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+  // 如果不再询问为True 直接关闭并退出
+  auto setting = iniManager::getIniSetting();
+  if (!setting.value("Settings/closeNoRequire").toBool()) {
+    auto* closeWindowMsgBox = new CloseWindowMsgBox(this);
+    closeWindowMsgBox->exec();
+  }
+  savaIniConfig();
+  event->accept();
+}
+
+void MainWindow::savaIniConfig()
+{
+  qDebug() << "写u";
+}
 
 MainWindow::~MainWindow()
 {

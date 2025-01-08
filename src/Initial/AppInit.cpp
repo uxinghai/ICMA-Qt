@@ -78,16 +78,16 @@ void AppInit::printSysInfo()
     "  | | |___| |  | |/ ___ \\   ___) | || (_| | |  | |_\n |___\\____|_|  |_/_/   "
     "\\_\\ |____/ \\__\\__,_|_|   \\__|\n                                                    ";
 
-  const auto iniSetting = iniManager::getIniSetting(); ///< 用来控制（读写）它
-  qDebug() << tr("版本：") << iniSetting.value("ICMA/version").toString();
-  qDebug() << tr("作者：") << iniSetting.value("ICMA/author").toString();
-  qDebug() << tr("联系方式：") << iniSetting.value("ICMA/contact").toString();
-  qDebug() << tr("开源地址：") << iniSetting.value("ICMA/git").toString();
-  qDebug() << tr("协议：") << iniSetting.value("ICMA/license").toString();
-  qDebug() << tr("描述：") << iniSetting.value("ICMA/description")
-                                     .toString();
-  qDebug() << tr("依赖：") << iniSetting.value("ICMA/dependencies")
-                                     .toStringList().join(",");
-  qDebug() << tr("发布日期：") << iniSetting.value("ICMA/releaseDate")
-                                       .toString();
+  const auto ICMA = iniManager::getIniSetting(); ///< 用来控制（读写）它
+  qDebug() << tr("版本：") << ICMA.value("ICMA/version").toString();
+  qDebug() << tr("作者：") << ICMA.value("ICMA/author").toString();
+  qDebug() << tr("联系方式：") << ICMA.value("ICMA/contact").toString();
+  qDebug() << tr("开源地址：") << ICMA.value("ICMA/git").toString();
+  qDebug() << tr("协议：") << ICMA.value("ICMA/license").toString();
+  qDebug() << tr("描述：") << ICMA.value("ICMA/description")
+                               .toString();
+  qDebug() << tr("依赖：") << ICMA.value("ICMA/dependencies")
+                               .toStringList().join(",");
+  qDebug() << tr("发布日期：") << ICMA.value("ICMA/releaseDate")
+                                 .toString();
 }

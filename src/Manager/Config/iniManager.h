@@ -45,7 +45,7 @@ private:
     if (QFile::exists(iniFilePath)) { return; }
     QSettings settings(iniFilePath, QSettings::IniFormat); ///< 如果路径下没有文件会自动生成
     // 系统信息
-    settings.setValue("ICMA/version", "1.0.0");
+    settings.setValue("ICMA/version", "1.0.1011");
     settings.setValue("ICMA/author", "uxinghai");
     settings.setValue("ICMA/description",
                       "为需要全面管理数字内容的高级用户或专业人士而创建");
@@ -61,8 +61,10 @@ private:
     settings.setValue("Settings/auto-run", false);
     settings.setValue("Settings/closeNoRequire", false);
     settings.setValue("Settings/enableFileLogging", true);
+    settings.setValue("Settings/showHideFile", false);
     settings.setValue("Settings/filter", false);
-    settings.setValue("Settings/font", 10);
+    settings.setValue("Settings/font",
+                      QStringList{"Microsoft YaHei UI", "10"});
     settings.setValue("Settings/preview", false);
     settings.setValue("Settings/statusBar", true);
     settings.setValue("Settings/language",
@@ -71,7 +73,7 @@ private:
                         ":/translations/res/translations/icmaLang_CN.qm"
                       });
     settings.setValue("Settings/sort-method",
-                      QStringList{"path", "asc"});
+                      QStringList{"FilePath", "Asc"});
     settings.setValue("Settings/view-method", "detail");
   }
 

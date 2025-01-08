@@ -12,7 +12,10 @@
   </property>
   <property name="font">
    <font>
+    <family>Microsoft YaHei UI</family>
     <pointsize>10</pointsize>
+    <italic>false</italic>
+    <bold>false</bold>
    </font>
   </property>
   <property name="windowTitle">
@@ -21,6 +24,9 @@
   <property name="windowIcon">
    <iconset resource="../Resource.qrc">
     <normaloff>:/icons/res/icons/logo/logo1024.ico</normaloff>:/icons/res/icons/logo/logo1024.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="styleSheet">
@@ -64,7 +70,10 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="styleSheet">
@@ -97,7 +106,10 @@
             </property>
             <property name="font">
              <font>
-              <pointsize>9</pointsize>
+              <family>Microsoft YaHei UI</family>
+              <pointsize>10</pointsize>
+              <italic>false</italic>
+              <bold>false</bold>
              </font>
             </property>
             <property name="frame">
@@ -154,7 +166,7 @@
           </property>
           <widget class="QStackedWidget" name="stackedWidgetView">
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <widget class="QWidget" name="TableViewPage">
             <layout class="QGridLayout" name="gridLayout_2">
@@ -177,7 +189,10 @@
               <widget class="QTableView" name="tableView">
                <property name="font">
                 <font>
-                 <pointsize>9</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>10</pointsize>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
               </widget>
@@ -205,7 +220,10 @@
               <widget class="QListView" name="listView">
                <property name="font">
                 <font>
-                 <pointsize>9</pointsize>
+                 <family>Microsoft YaHei UI</family>
+                 <pointsize>10</pointsize>
+                 <italic>false</italic>
+                 <bold>false</bold>
                 </font>
                </property>
               </widget>
@@ -242,7 +260,10 @@
           <widget class="QLabel" name="lbPreview">
            <property name="font">
             <font>
-             <pointsize>9</pointsize>
+             <family>Microsoft YaHei UI</family>
+             <pointsize>10</pointsize>
+             <italic>false</italic>
+             <bold>false</bold>
             </font>
            </property>
            <property name="text">
@@ -314,7 +335,10 @@
   <widget class="QStatusBar" name="statusbar">
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>10</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
     </font>
    </property>
   </widget>
@@ -342,7 +366,10 @@
    <widget class="QMenu" name="menu">
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <family>Microsoft YaHei UI</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="title">
@@ -361,7 +388,10 @@
    <widget class="QMenu" name="menu_2">
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <family>Microsoft YaHei UI</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="title">
@@ -370,7 +400,10 @@
     <widget class="QMenu" name="menu_6">
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Microsoft YaHei UI</family>
+       <pointsize>10</pointsize>
+       <italic>false</italic>
+       <bold>false</bold>
       </font>
      </property>
      <property name="title">
@@ -411,7 +444,10 @@
    <widget class="QMenu" name="menu_3">
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <family>Microsoft YaHei UI</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="title">
@@ -420,7 +456,10 @@
     <widget class="QMenu" name="menu_7">
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Microsoft YaHei UI</family>
+       <pointsize>10</pointsize>
+       <italic>false</italic>
+       <bold>false</bold>
       </font>
      </property>
      <property name="title">
@@ -434,20 +473,23 @@
     <widget class="QMenu" name="menu_S">
      <property name="font">
       <font>
-       <pointsize>9</pointsize>
+       <family>Microsoft YaHei UI</family>
+       <pointsize>10</pointsize>
+       <italic>false</italic>
+       <bold>false</bold>
       </font>
      </property>
      <property name="title">
       <string>排序(&amp;S)</string>
      </property>
-     <addaction name="actionName"/>
-     <addaction name="actionDate"/>
-     <addaction name="actionSize"/>
-     <addaction name="actionPath"/>
-     <addaction name="actionSufix"/>
-     <addaction name="actionType"/>
-     <addaction name="actionCeatDate"/>
-     <addaction name="actionModifyDate"/>
+     <addaction name="actionFileName"/>
+     <addaction name="actionFileDate"/>
+     <addaction name="actionFileSize"/>
+     <addaction name="actionFilePath"/>
+     <addaction name="actionFileSufix"/>
+     <addaction name="actionFileType"/>
+     <addaction name="actionFileCeateDate"/>
+     <addaction name="actionFileModifyDate"/>
      <addaction name="separator"/>
      <addaction name="actionAsc"/>
      <addaction name="actionDesc"/>
@@ -457,19 +499,22 @@
     <addaction name="actionStatusBar"/>
     <addaction name="separator"/>
     <addaction name="actionListView"/>
-    <addaction name="actionCconView"/>
-    <addaction name="actionDetaileview"/>
+    <addaction name="actionIconView"/>
+    <addaction name="actionDetaileView"/>
     <addaction name="separator"/>
     <addaction name="menu_7"/>
     <addaction name="separator"/>
     <addaction name="menu_S"/>
-    <addaction name="actionShowOrHide"/>
+    <addaction name="actionShowHideFile"/>
     <addaction name="actionRefreash"/>
    </widget>
    <widget class="QMenu" name="menu_4">
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <family>Microsoft YaHei UI</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="title">
@@ -490,7 +535,10 @@
    <widget class="QMenu" name="menu_5">
     <property name="font">
      <font>
-      <pointsize>9</pointsize>
+      <family>Microsoft YaHei UI</family>
+      <pointsize>10</pointsize>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="title">
@@ -503,7 +551,7 @@
     <addaction name="actionEnableFileLog"/>
     <addaction name="actionUpdateSys"/>
     <addaction name="separator"/>
-    <addaction name="actionAabout"/>
+    <addaction name="actionAbout"/>
     <addaction name="actionFeedback"/>
     <addaction name="separator"/>
    </widget>
@@ -526,6 +574,14 @@
    <addaction name="menu_A"/>
   </widget>
   <widget class="QToolBar" name="toolBar">
+   <property name="font">
+    <font>
+     <family>Microsoft YaHei UI</family>
+     <pointsize>10</pointsize>
+     <italic>false</italic>
+     <bold>false</bold>
+    </font>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -539,16 +595,19 @@
    <addaction name="actionTransmission"/>
    <addaction name="actionPS"/>
   </widget>
-  <action name="actionAabout">
+  <action name="actionAbout">
    <property name="text">
     <string>关于ICMA</string>
    </property>
    <property name="toolTip">
-    <string>查看软件介绍信息</string>
+    <string>查看ICMA相关信息.</string>
+   </property>
+   <property name="statusTip">
+    <string>查看ICMA相关信息.</string>
    </property>
    <property name="font">
     <font>
-     <pointsize>9</pointsize>
+     <pointsize>10</pointsize>
     </font>
    </property>
   </action>
@@ -893,7 +952,7 @@
     </font>
    </property>
   </action>
-  <action name="actionCconView">
+  <action name="actionIconView">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -912,7 +971,7 @@
     </font>
    </property>
   </action>
-  <action name="actionDetaileview">
+  <action name="actionDetaileView">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -988,7 +1047,7 @@
     <string>Ctrl+0</string>
    </property>
   </action>
-  <action name="actionName">
+  <action name="actionFileName">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1007,7 +1066,7 @@
     <string>Ctrl+1</string>
    </property>
   </action>
-  <action name="actionDate">
+  <action name="actionFileDate">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1026,7 +1085,7 @@
     <string>Ctrl+2</string>
    </property>
   </action>
-  <action name="actionSize">
+  <action name="actionFileSize">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1045,7 +1104,7 @@
     <string>Ctrl+3</string>
    </property>
   </action>
-  <action name="actionPath">
+  <action name="actionFilePath">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1067,7 +1126,7 @@
     <string>Ctrl+4</string>
    </property>
   </action>
-  <action name="actionSufix">
+  <action name="actionFileSufix">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1089,7 +1148,7 @@
     <string>Ctrl+5</string>
    </property>
   </action>
-  <action name="actionType">
+  <action name="actionFileType">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1108,7 +1167,7 @@
     <string>Ctrl+6</string>
    </property>
   </action>
-  <action name="actionCeatDate">
+  <action name="actionFileCeateDate">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1127,7 +1186,7 @@
     <string>Ctrl+7</string>
    </property>
   </action>
-  <action name="actionModifyDate">
+  <action name="actionFileModifyDate">
    <property name="checkable">
     <bool>true</bool>
    </property>
@@ -1198,12 +1257,12 @@
     <string>显示或隐藏过滤栏.</string>
    </property>
   </action>
-  <action name="actionShowOrHide">
+  <action name="actionShowHideFile">
    <property name="checkable">
     <bool>true</bool>
    </property>
    <property name="text">
-    <string>显示/隐藏隐藏文件</string>
+    <string>显示隐藏文件</string>
    </property>
    <property name="statusTip">
     <string>显示或隐藏隐藏文件.</string>
@@ -1407,6 +1466,9 @@
    </property>
    <property name="toolTip">
     <string>对图像作处理</string>
+   </property>
+   <property name="statusTip">
+    <string>简单的处理您的图片.</string>
    </property>
   </action>
   <action name="actionEnableFileLog">

@@ -24,16 +24,6 @@
 #include <QSettings>
 #include <QTableView>
 
-inline QMap<QString, QString> themeMap{
-  {"actionAMOLED", ":/qss/res/QSS/AMOLED.qss"},
-  {"actionAqua", ":/qss/res/QSS/Aqua.qss"},
-  {"actionConsoleStyle", ":/qss/res/QSS/ConsoleStyle.qss"},
-  {"actionMacOS", ":/qss/res/QSS/MacOS.qss"},
-  {"actionManjaroMix", ":/qss/res/QSS/ManjaroMix.qss"},
-  {"actionMaterialDark", ":/qss/res/QSS/MaterialDark.qss"},
-  {"actionNeonButtons", ":/qss/res/QSS/NeonButtons.qss"},
-  {"actionUbuntu", ":/qss/res/QSS/Ubuntu.qss"}
-};
 QT_BEGIN_NAMESPACE
 
 namespace Ui
@@ -70,12 +60,14 @@ protected:
   void keyPressEvent(QKeyEvent* event) override;
 
 private slots:
-  void doComBoxVisible(const bool& checked) const;
-  void doPreviewVisible(const bool& checked) const;
-  void doStatusBarVisible(const bool& checked) const;
   void doChangeTheme() const;
+  void doSetActionVisible(const bool& checked) const;
+  void doShowICMABrief();
 
 private:
+  void readIniConfig(); ///< 程序启动时读取文件配置界面
+  void savaIniConfig(); ///< 程序退出时读取界面写入文件
+  void updateAppFont(const QList<QVariant>& list);
   void setupConnections();
 
   /**

@@ -421,10 +421,10 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal, QScrollBar::ad
     background: none;
 }
 QScrollBar::up-arrow:vertical {
-    image: url(/usr/share/icons/Adwaita/16x16/actions/go-up-symbolic.symbolic.png);
+    image: url(:/qss/res/QSS/QSS_IMG/go-next-symbolic.symbolic.png);
 }
 QScrollBar::down-arrow:vertical {
-    image: url(/usr/share/icons/Adwaita/16x16/actions/go-down-symbolic.symbolic.png);
+    image: url(:/qss/res/QSS/QSS_IMG/go-previous-symbolic.symbolic.png);
 }
 QScrollBar::left-arrow:horizontal {
     image: url(/usr/share/icons/Adwaita/16x16/actions/go-previous-symbolic.symbolic.png);

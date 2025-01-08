@@ -37,7 +37,7 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
-    QAction *actionAabout;
+    QAction *actionAbout;
     QAction *actionDaori;
     QAction *actionDaochu1;
     QAction *actionJiaMi;
@@ -58,23 +58,23 @@ public:
     QAction *actionPreview;
     QAction *actionStatusBar;
     QAction *actionListView;
-    QAction *actionCconView;
-    QAction *actionDetaileview;
+    QAction *actionIconView;
+    QAction *actionDetaileView;
     QAction *actionBigFont;
     QAction *actionSmallFont;
     QAction *actionGeneralFont;
-    QAction *actionName;
-    QAction *actionDate;
-    QAction *actionSize;
-    QAction *actionPath;
-    QAction *actionSufix;
-    QAction *actionType;
-    QAction *actionCeatDate;
-    QAction *actionModifyDate;
+    QAction *actionFileName;
+    QAction *actionFileDate;
+    QAction *actionFileSize;
+    QAction *actionFilePath;
+    QAction *actionFileSufix;
+    QAction *actionFileType;
+    QAction *actionFileCeateDate;
+    QAction *actionFileModifyDate;
     QAction *actionAsc;
     QAction *actionDesc;
     QAction *actionFilter;
-    QAction *actionShowOrHide;
+    QAction *actionShowHideFile;
     QAction *actionRefreash;
     QAction *actionAdvancedSearch;
     QAction *actionFileSynchronization;
@@ -147,150 +147,156 @@ public:
             MainWindow->setObjectName("MainWindow");
         MainWindow->resize(852, 600);
         QFont font;
+        font.setFamilies({QString::fromUtf8("Microsoft YaHei UI")});
         font.setPointSize(10);
+        font.setBold(false);
+        font.setItalic(false);
         MainWindow->setFont(font);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/icons/res/icons/logo/logo1024.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
-        actionAabout = new QAction(MainWindow);
-        actionAabout->setObjectName("actionAabout");
+        MainWindow->setStyleSheet(QString::fromUtf8(""));
+        actionAbout = new QAction(MainWindow);
+        actionAbout->setObjectName("actionAbout");
         QFont font1;
-        font1.setPointSize(9);
-        actionAabout->setFont(font1);
+        font1.setPointSize(10);
+        actionAbout->setFont(font1);
         actionDaori = new QAction(MainWindow);
         actionDaori->setObjectName("actionDaori");
-        actionDaori->setFont(font);
+        actionDaori->setFont(font1);
         actionDaochu1 = new QAction(MainWindow);
         actionDaochu1->setObjectName("actionDaochu1");
-        actionDaochu1->setFont(font1);
+        QFont font2;
+        font2.setPointSize(9);
+        actionDaochu1->setFont(font2);
         actionJiaMi = new QAction(MainWindow);
         actionJiaMi->setObjectName("actionJiaMi");
-        actionJiaMi->setFont(font1);
+        actionJiaMi->setFont(font2);
         actionJieMi = new QAction(MainWindow);
         actionJieMi->setObjectName("actionJieMi");
-        actionJieMi->setFont(font1);
+        actionJieMi->setFont(font2);
         actionWenJianBaoGao = new QAction(MainWindow);
         actionWenJianBaoGao->setObjectName("actionWenJianBaoGao");
-        actionWenJianBaoGao->setFont(font1);
+        actionWenJianBaoGao->setFont(font2);
         actionExit = new QAction(MainWindow);
         actionExit->setObjectName("actionExit");
-        actionExit->setFont(font1);
+        actionExit->setFont(font2);
         actionCopy = new QAction(MainWindow);
         actionCopy->setObjectName("actionCopy");
-        actionCopy->setFont(font1);
+        actionCopy->setFont(font2);
         actionCut = new QAction(MainWindow);
         actionCut->setObjectName("actionCut");
-        actionCut->setFont(font1);
+        actionCut->setFont(font2);
         actionPast = new QAction(MainWindow);
         actionPast->setObjectName("actionPast");
-        actionPast->setFont(font1);
+        actionPast->setFont(font2);
         actionReName = new QAction(MainWindow);
         actionReName->setObjectName("actionReName");
-        actionReName->setFont(font1);
+        actionReName->setFont(font2);
         actionDelete = new QAction(MainWindow);
         actionDelete->setObjectName("actionDelete");
-        actionDelete->setFont(font1);
+        actionDelete->setFont(font2);
         actionSelectAll = new QAction(MainWindow);
         actionSelectAll->setObjectName("actionSelectAll");
-        actionSelectAll->setFont(font1);
+        actionSelectAll->setFont(font2);
         actionDeselect = new QAction(MainWindow);
         actionDeselect->setObjectName("actionDeselect");
-        actionDeselect->setFont(font1);
+        actionDeselect->setFont(font2);
         actionAddTag = new QAction(MainWindow);
         actionAddTag->setObjectName("actionAddTag");
-        actionAddTag->setFont(font1);
+        actionAddTag->setFont(font2);
         actionRemoveTag = new QAction(MainWindow);
         actionRemoveTag->setObjectName("actionRemoveTag");
-        actionRemoveTag->setFont(font1);
+        actionRemoveTag->setFont(font2);
         actionCN = new QAction(MainWindow);
         actionCN->setObjectName("actionCN");
         actionCN->setCheckable(true);
         actionCN->setChecked(true);
-        actionCN->setFont(font1);
+        actionCN->setFont(font2);
         actionEN = new QAction(MainWindow);
         actionEN->setObjectName("actionEN");
         actionEN->setCheckable(true);
-        actionEN->setFont(font1);
+        actionEN->setFont(font2);
         actionPreview = new QAction(MainWindow);
         actionPreview->setObjectName("actionPreview");
         actionPreview->setCheckable(true);
-        actionPreview->setFont(font1);
+        actionPreview->setFont(font2);
         actionStatusBar = new QAction(MainWindow);
         actionStatusBar->setObjectName("actionStatusBar");
         actionStatusBar->setCheckable(true);
         actionStatusBar->setChecked(true);
-        actionStatusBar->setFont(font1);
+        actionStatusBar->setFont(font2);
         actionListView = new QAction(MainWindow);
         actionListView->setObjectName("actionListView");
         actionListView->setCheckable(true);
-        actionListView->setFont(font1);
-        actionCconView = new QAction(MainWindow);
-        actionCconView->setObjectName("actionCconView");
-        actionCconView->setCheckable(true);
-        actionCconView->setFont(font1);
-        actionDetaileview = new QAction(MainWindow);
-        actionDetaileview->setObjectName("actionDetaileview");
-        actionDetaileview->setCheckable(true);
-        actionDetaileview->setChecked(true);
-        actionDetaileview->setFont(font1);
+        actionListView->setFont(font2);
+        actionIconView = new QAction(MainWindow);
+        actionIconView->setObjectName("actionIconView");
+        actionIconView->setCheckable(true);
+        actionIconView->setFont(font2);
+        actionDetaileView = new QAction(MainWindow);
+        actionDetaileView->setObjectName("actionDetaileView");
+        actionDetaileView->setCheckable(true);
+        actionDetaileView->setChecked(true);
+        actionDetaileView->setFont(font2);
         actionBigFont = new QAction(MainWindow);
         actionBigFont->setObjectName("actionBigFont");
-        actionBigFont->setFont(font1);
+        actionBigFont->setFont(font2);
         actionSmallFont = new QAction(MainWindow);
         actionSmallFont->setObjectName("actionSmallFont");
-        actionSmallFont->setFont(font1);
+        actionSmallFont->setFont(font2);
         actionGeneralFont = new QAction(MainWindow);
         actionGeneralFont->setObjectName("actionGeneralFont");
-        actionGeneralFont->setFont(font1);
-        actionName = new QAction(MainWindow);
-        actionName->setObjectName("actionName");
-        actionName->setCheckable(true);
-        actionName->setFont(font1);
-        actionDate = new QAction(MainWindow);
-        actionDate->setObjectName("actionDate");
-        actionDate->setCheckable(true);
-        actionDate->setFont(font1);
-        actionSize = new QAction(MainWindow);
-        actionSize->setObjectName("actionSize");
-        actionSize->setCheckable(true);
-        actionSize->setFont(font1);
-        actionPath = new QAction(MainWindow);
-        actionPath->setObjectName("actionPath");
-        actionPath->setCheckable(true);
-        actionPath->setChecked(true);
-        actionPath->setFont(font1);
-        actionSufix = new QAction(MainWindow);
-        actionSufix->setObjectName("actionSufix");
-        actionSufix->setCheckable(true);
-        actionSufix->setFont(font1);
-        actionType = new QAction(MainWindow);
-        actionType->setObjectName("actionType");
-        actionType->setCheckable(true);
-        actionType->setFont(font1);
-        actionCeatDate = new QAction(MainWindow);
-        actionCeatDate->setObjectName("actionCeatDate");
-        actionCeatDate->setCheckable(true);
-        actionCeatDate->setFont(font1);
-        actionModifyDate = new QAction(MainWindow);
-        actionModifyDate->setObjectName("actionModifyDate");
-        actionModifyDate->setCheckable(true);
-        actionModifyDate->setFont(font1);
+        actionGeneralFont->setFont(font2);
+        actionFileName = new QAction(MainWindow);
+        actionFileName->setObjectName("actionFileName");
+        actionFileName->setCheckable(true);
+        actionFileName->setFont(font2);
+        actionFileDate = new QAction(MainWindow);
+        actionFileDate->setObjectName("actionFileDate");
+        actionFileDate->setCheckable(true);
+        actionFileDate->setFont(font2);
+        actionFileSize = new QAction(MainWindow);
+        actionFileSize->setObjectName("actionFileSize");
+        actionFileSize->setCheckable(true);
+        actionFileSize->setFont(font2);
+        actionFilePath = new QAction(MainWindow);
+        actionFilePath->setObjectName("actionFilePath");
+        actionFilePath->setCheckable(true);
+        actionFilePath->setChecked(true);
+        actionFilePath->setFont(font2);
+        actionFileSufix = new QAction(MainWindow);
+        actionFileSufix->setObjectName("actionFileSufix");
+        actionFileSufix->setCheckable(true);
+        actionFileSufix->setFont(font2);
+        actionFileType = new QAction(MainWindow);
+        actionFileType->setObjectName("actionFileType");
+        actionFileType->setCheckable(true);
+        actionFileType->setFont(font2);
+        actionFileCeateDate = new QAction(MainWindow);
+        actionFileCeateDate->setObjectName("actionFileCeateDate");
+        actionFileCeateDate->setCheckable(true);
+        actionFileCeateDate->setFont(font2);
+        actionFileModifyDate = new QAction(MainWindow);
+        actionFileModifyDate->setObjectName("actionFileModifyDate");
+        actionFileModifyDate->setCheckable(true);
+        actionFileModifyDate->setFont(font2);
         actionAsc = new QAction(MainWindow);
         actionAsc->setObjectName("actionAsc");
         actionAsc->setCheckable(true);
         actionAsc->setChecked(true);
-        actionAsc->setFont(font1);
+        actionAsc->setFont(font2);
         actionDesc = new QAction(MainWindow);
         actionDesc->setObjectName("actionDesc");
         actionDesc->setCheckable(true);
-        actionDesc->setFont(font1);
+        actionDesc->setFont(font2);
         actionFilter = new QAction(MainWindow);
         actionFilter->setObjectName("actionFilter");
         actionFilter->setCheckable(true);
         actionFilter->setChecked(false);
-        actionShowOrHide = new QAction(MainWindow);
-        actionShowOrHide->setObjectName("actionShowOrHide");
-        actionShowOrHide->setCheckable(true);
+        actionShowHideFile = new QAction(MainWindow);
+        actionShowHideFile->setObjectName("actionShowHideFile");
+        actionShowHideFile->setCheckable(true);
         actionRefreash = new QAction(MainWindow);
         actionRefreash->setObjectName("actionRefreash");
         actionAdvancedSearch = new QAction(MainWindow);
@@ -381,7 +387,7 @@ public:
         lineEdit->setObjectName("lineEdit");
         lineEdit->setMinimumSize(QSize(0, 26));
         lineEdit->setMaximumSize(QSize(16777215, 26));
-        lineEdit->setFont(font1);
+        lineEdit->setFont(font);
         lineEdit->setStyleSheet(QString::fromUtf8(""));
         lineEdit->setFrame(true);
 
@@ -400,7 +406,7 @@ public:
         comBoxFilter->setEnabled(true);
         comBoxFilter->setMinimumSize(QSize(0, 26));
         comBoxFilter->setMaximumSize(QSize(16777215, 26));
-        comBoxFilter->setFont(font1);
+        comBoxFilter->setFont(font);
         comBoxFilter->setFrame(true);
 
         horizontalLayout->addWidget(comBoxFilter);
@@ -421,7 +427,7 @@ public:
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
         tableView = new QTableView(TableViewPage);
         tableView->setObjectName("tableView");
-        tableView->setFont(font1);
+        tableView->setFont(font);
 
         gridLayout_2->addWidget(tableView, 0, 0, 1, 1);
 
@@ -434,7 +440,7 @@ public:
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
         listView = new QListView(ListViewPage);
         listView->setObjectName("listView");
-        listView->setFont(font1);
+        listView->setFont(font);
 
         gridLayout_3->addWidget(listView, 0, 0, 1, 1);
 
@@ -455,7 +461,7 @@ public:
         splitter->addWidget(stackedWidgetView);
         lbPreview = new QLabel(splitter);
         lbPreview->setObjectName("lbPreview");
-        lbPreview->setFont(font1);
+        lbPreview->setFont(font);
         lbPreview->setAlignment(Qt::AlignCenter);
         lbPreview->setWordWrap(true);
         splitter->addWidget(lbPreview);
@@ -491,7 +497,7 @@ public:
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
-        statusbar->setFont(font1);
+        statusbar->setFont(font);
         MainWindow->setStatusBar(statusbar);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
@@ -502,35 +508,36 @@ public:
         menubar->setNativeMenuBar(true);
         menu = new QMenu(menubar);
         menu->setObjectName("menu");
-        menu->setFont(font1);
+        menu->setFont(font);
         menu_2 = new QMenu(menubar);
         menu_2->setObjectName("menu_2");
-        menu_2->setFont(font1);
+        menu_2->setFont(font);
         menu_6 = new QMenu(menu_2);
         menu_6->setObjectName("menu_6");
-        menu_6->setFont(font1);
+        menu_6->setFont(font);
         menu_8 = new QMenu(menu_2);
         menu_8->setObjectName("menu_8");
         menu_3 = new QMenu(menubar);
         menu_3->setObjectName("menu_3");
-        menu_3->setFont(font1);
+        menu_3->setFont(font);
         menu_7 = new QMenu(menu_3);
         menu_7->setObjectName("menu_7");
-        menu_7->setFont(font1);
+        menu_7->setFont(font);
         menu_S = new QMenu(menu_3);
         menu_S->setObjectName("menu_S");
-        menu_S->setFont(font1);
+        menu_S->setFont(font);
         menu_4 = new QMenu(menubar);
         menu_4->setObjectName("menu_4");
-        menu_4->setFont(font1);
+        menu_4->setFont(font);
         menu_5 = new QMenu(menubar);
         menu_5->setObjectName("menu_5");
-        menu_5->setFont(font1);
+        menu_5->setFont(font);
         menu_A = new QMenu(menubar);
         menu_A->setObjectName("menu_A");
         MainWindow->setMenuBar(menubar);
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName("toolBar");
+        toolBar->setFont(font);
         MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
         menubar->addAction(menu->menuAction());
@@ -578,26 +585,26 @@ public:
         menu_3->addAction(actionStatusBar);
         menu_3->addSeparator();
         menu_3->addAction(actionListView);
-        menu_3->addAction(actionCconView);
-        menu_3->addAction(actionDetaileview);
+        menu_3->addAction(actionIconView);
+        menu_3->addAction(actionDetaileView);
         menu_3->addSeparator();
         menu_3->addAction(menu_7->menuAction());
         menu_3->addSeparator();
         menu_3->addAction(menu_S->menuAction());
-        menu_3->addAction(actionShowOrHide);
+        menu_3->addAction(actionShowHideFile);
         menu_3->addAction(actionRefreash);
         menu_7->addAction(actionBigFont);
         menu_7->addAction(actionSmallFont);
         menu_7->addSeparator();
         menu_7->addAction(actionGeneralFont);
-        menu_S->addAction(actionName);
-        menu_S->addAction(actionDate);
-        menu_S->addAction(actionSize);
-        menu_S->addAction(actionPath);
-        menu_S->addAction(actionSufix);
-        menu_S->addAction(actionType);
-        menu_S->addAction(actionCeatDate);
-        menu_S->addAction(actionModifyDate);
+        menu_S->addAction(actionFileName);
+        menu_S->addAction(actionFileDate);
+        menu_S->addAction(actionFileSize);
+        menu_S->addAction(actionFilePath);
+        menu_S->addAction(actionFileSufix);
+        menu_S->addAction(actionFileType);
+        menu_S->addAction(actionFileCeateDate);
+        menu_S->addAction(actionFileModifyDate);
         menu_S->addSeparator();
         menu_S->addAction(actionAsc);
         menu_S->addAction(actionDesc);
@@ -619,7 +626,7 @@ public:
         menu_5->addAction(actionEnableFileLog);
         menu_5->addAction(actionUpdateSys);
         menu_5->addSeparator();
-        menu_5->addAction(actionAabout);
+        menu_5->addAction(actionAbout);
         menu_5->addAction(actionFeedback);
         menu_5->addSeparator();
         menu_A->addAction(actionCategorization);
@@ -634,7 +641,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        stackedWidgetView->setCurrentIndex(1);
+        stackedWidgetView->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -643,10 +650,13 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "ICMA\342\200\224\342\200\224\346\231\272\350\203\275\345\206\205\345\256\271\347\256\241\347\220\206\345\212\251\346\211\213", nullptr));
-        actionAabout->setText(QCoreApplication::translate("MainWindow", "\345\205\263\344\272\216ICMA", nullptr));
+        actionAbout->setText(QCoreApplication::translate("MainWindow", "\345\205\263\344\272\216ICMA", nullptr));
 #if QT_CONFIG(tooltip)
-        actionAabout->setToolTip(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213\350\275\257\344\273\266\344\273\213\347\273\215\344\277\241\346\201\257", nullptr));
+        actionAbout->setToolTip(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213ICMA\347\233\270\345\205\263\344\277\241\346\201\257.", nullptr));
 #endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionAbout->setStatusTip(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213ICMA\347\233\270\345\205\263\344\277\241\346\201\257.", nullptr));
+#endif // QT_CONFIG(statustip)
         actionDaori->setText(QCoreApplication::translate("MainWindow", "\345\257\274\345\205\245\346\226\207\344\273\266", nullptr));
 #if QT_CONFIG(statustip)
         actionDaori->setStatusTip(QCoreApplication::translate("MainWindow", "\345\257\274\345\205\245\346\226\207\344\273\266\346\210\226\346\226\207\344\273\266\345\244\271.", nullptr));
@@ -787,19 +797,19 @@ public:
 #if QT_CONFIG(statustip)
         actionListView->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\210\227\350\241\250\345\275\242\345\274\217\346\230\276\347\244\272.", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionCconView->setText(QCoreApplication::translate("MainWindow", "\345\233\276\346\240\207\350\247\206\345\233\276", nullptr));
+        actionIconView->setText(QCoreApplication::translate("MainWindow", "\345\233\276\346\240\207\350\247\206\345\233\276", nullptr));
 #if QT_CONFIG(tooltip)
-        actionCconView->setToolTip(QCoreApplication::translate("MainWindow", "\345\233\276\346\240\207\350\247\206\345\233\276", nullptr));
+        actionIconView->setToolTip(QCoreApplication::translate("MainWindow", "\345\233\276\346\240\207\350\247\206\345\233\276", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionCconView->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\233\276\346\240\207\345\275\242\345\274\217\346\230\276\347\244\272", nullptr));
+        actionIconView->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\233\276\346\240\207\345\275\242\345\274\217\346\230\276\347\244\272", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionDetaileview->setText(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
+        actionDetaileView->setText(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
 #if QT_CONFIG(tooltip)
-        actionDetaileview->setToolTip(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
+        actionDetaileView->setToolTip(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionDetaileview->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\233\264\350\257\246\347\273\206\347\232\204\344\277\241\346\201\257.", nullptr));
+        actionDetaileView->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\233\264\350\257\246\347\273\206\347\232\204\344\277\241\346\201\257.", nullptr));
 #endif // QT_CONFIG(statustip)
         actionBigFont->setText(QCoreApplication::translate("MainWindow", "\345\242\236\345\244\247(&I)", nullptr));
 #if QT_CONFIG(statustip)
@@ -828,64 +838,64 @@ public:
 #if QT_CONFIG(shortcut)
         actionGeneralFont->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+0", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionName->setText(QCoreApplication::translate("MainWindow", "\345\220\215\347\247\260", nullptr));
+        actionFileName->setText(QCoreApplication::translate("MainWindow", "\345\220\215\347\247\260", nullptr));
 #if QT_CONFIG(statustip)
-        actionName->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\220\215\347\247\260\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileName->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\220\215\347\247\260\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionName->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+1", nullptr));
+        actionFileName->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+1", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionDate->setText(QCoreApplication::translate("MainWindow", "\346\227\245\346\234\237", nullptr));
+        actionFileDate->setText(QCoreApplication::translate("MainWindow", "\346\227\245\346\234\237", nullptr));
 #if QT_CONFIG(statustip)
-        actionDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+2", nullptr));
+        actionFileDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+2", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionSize->setText(QCoreApplication::translate("MainWindow", "\345\244\247\345\260\217", nullptr));
+        actionFileSize->setText(QCoreApplication::translate("MainWindow", "\345\244\247\345\260\217", nullptr));
 #if QT_CONFIG(statustip)
-        actionSize->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\244\247\345\260\217\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileSize->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\244\247\345\260\217\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionSize->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+3", nullptr));
+        actionFileSize->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+3", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionPath->setText(QCoreApplication::translate("MainWindow", "\350\267\257\345\276\204", nullptr));
+        actionFilePath->setText(QCoreApplication::translate("MainWindow", "\350\267\257\345\276\204", nullptr));
 #if QT_CONFIG(statustip)
-        actionPath->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\350\267\257\345\276\204\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFilePath->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\350\267\257\345\276\204\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionPath->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+4", nullptr));
+        actionFilePath->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+4", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionSufix->setText(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
+        actionFileSufix->setText(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
 #if QT_CONFIG(tooltip)
-        actionSufix->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
+        actionFileSufix->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionSufix->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\211\251\345\261\225\345\220\215\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileSufix->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\211\251\345\261\225\345\220\215\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionSufix->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+5", nullptr));
+        actionFileSufix->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+5", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionType->setText(QCoreApplication::translate("MainWindow", "\347\261\273\345\236\213", nullptr));
+        actionFileType->setText(QCoreApplication::translate("MainWindow", "\347\261\273\345\236\213", nullptr));
 #if QT_CONFIG(statustip)
-        actionType->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\347\261\273\345\236\213\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileType->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\347\261\273\345\236\213\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionType->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+6", nullptr));
+        actionFileType->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+6", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionCeatDate->setText(QCoreApplication::translate("MainWindow", "\345\210\233\345\273\272\346\227\245\346\234\237", nullptr));
+        actionFileCeateDate->setText(QCoreApplication::translate("MainWindow", "\345\210\233\345\273\272\346\227\245\346\234\237", nullptr));
 #if QT_CONFIG(statustip)
-        actionCeatDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\210\233\345\273\272\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileCeateDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\210\233\345\273\272\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionCeatDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+7", nullptr));
+        actionFileCeateDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+7", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionModifyDate->setText(QCoreApplication::translate("MainWindow", "\344\277\256\346\224\271\346\227\245\346\234\237", nullptr));
+        actionFileModifyDate->setText(QCoreApplication::translate("MainWindow", "\344\277\256\346\224\271\346\227\245\346\234\237", nullptr));
 #if QT_CONFIG(statustip)
-        actionModifyDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\344\277\256\346\224\271\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileModifyDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\344\277\256\346\224\271\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionModifyDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+8", nullptr));
+        actionFileModifyDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+8", nullptr));
 #endif // QT_CONFIG(shortcut)
         actionAsc->setText(QCoreApplication::translate("MainWindow", "\345\215\207\345\272\217(&A)", nullptr));
 #if QT_CONFIG(statustip)
@@ -902,9 +912,9 @@ public:
 #if QT_CONFIG(statustip)
         actionFilter->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\210\226\351\232\220\350\227\217\350\277\207\346\273\244\346\240\217.", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionShowOrHide->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272/\351\232\220\350\227\217\351\232\220\350\227\217\346\226\207\344\273\266", nullptr));
+        actionShowHideFile->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\351\232\220\350\227\217\346\226\207\344\273\266", nullptr));
 #if QT_CONFIG(statustip)
-        actionShowOrHide->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\210\226\351\232\220\350\227\217\351\232\220\350\227\217\346\226\207\344\273\266.", nullptr));
+        actionShowHideFile->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\210\226\351\232\220\350\227\217\351\232\220\350\227\217\346\226\207\344\273\266.", nullptr));
 #endif // QT_CONFIG(statustip)
         actionRefreash->setText(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260(&R)", nullptr));
 #if QT_CONFIG(tooltip)
@@ -1000,6 +1010,9 @@ public:
 #if QT_CONFIG(tooltip)
         actionPS->setToolTip(QCoreApplication::translate("MainWindow", "\345\257\271\345\233\276\345\203\217\344\275\234\345\244\204\347\220\206", nullptr));
 #endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionPS->setStatusTip(QCoreApplication::translate("MainWindow", "\347\256\200\345\215\225\347\232\204\345\244\204\347\220\206\346\202\250\347\232\204\345\233\276\347\211\207.", nullptr));
+#endif // QT_CONFIG(statustip)
         actionEnableFileLog->setText(QCoreApplication::translate("MainWindow", "\345\220\257\347\224\250\346\227\245\345\277\227\346\226\207\344\273\266", nullptr));
 #if QT_CONFIG(tooltip)
         actionEnableFileLog->setToolTip(QCoreApplication::translate("MainWindow", "\345\220\257\347\224\250\346\227\245\345\277\227\346\226\207\344\273\266", nullptr));

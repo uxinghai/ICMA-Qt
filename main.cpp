@@ -21,15 +21,17 @@ int main(int argc, char* argv[])
 
   // 初始化界面,为界面设置主题和语言
   // 语言设置必须在窗口构建之前
-  const auto settings = iniManager::getIniSetting();
-  if (QStringList lang = settings.value("Settings/language").toStringList();
+  const auto Settings = iniManager::getIniSetting();
+  if (QStringList lang = Settings.value("Settings/language").toStringList();
     tran.load(lang[1])) { QApplication::installTranslator(&tran); }
+
   MainWindow w;
   QObject::connect(appInit, &AppInit::initMainWindowUI,
                    &w, &MainWindow::doInit);
   appInit->initMainwindow();
 
-  const QString style = settings.value("Settings/theme-style").toString();
+  // 为系统设置主题
+  const QString style = Settings.value("Settings/theme-style").toString();
   if (QFile qss(style); qss.open(QFile::ReadOnly)) {
     qApp->setStyleSheet(qss.readAll());
     qss.close();

@@ -80,6 +80,8 @@ set(PROJECT_SOURCES
         src/manager/Config/iniManager.h
         src/Utils/Tools/closeWindowMsgBox.h
         src/Utils/Tools/MovableFramelessWindow.h
+        src/Controls/Network/NetworkTool.h
+        src/Controls/Network/GetICMABrief.h
 )
 
 #                                            *********
