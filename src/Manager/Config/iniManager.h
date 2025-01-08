@@ -59,6 +59,8 @@ private:
     settings.setValue("Settings/theme-style",
                       ":/qss/res/QSS/NeonButtons.qss");
     settings.setValue("Settings/auto-run", false);
+    // directClose/tray
+    settings.setValue("Settings/close-method", "tray");
     settings.setValue("Settings/closeNoRequire", false);
     settings.setValue("Settings/enableFileLogging", true);
     settings.setValue("Settings/showHideFile", false);
@@ -74,7 +76,7 @@ private:
                       });
     settings.setValue("Settings/sort-method",
                       QStringList{"FilePath", "Asc"});
-    settings.setValue("Settings/view-method", "detail");
+    settings.setValue("Settings/view-method", "DetailView");
   }
 
   QString iniFilePath;

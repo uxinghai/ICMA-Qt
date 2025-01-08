@@ -66,7 +66,8 @@ private slots:
 
 private:
   void readIniConfig(); ///< 程序启动时读取文件配置界面
-  void savaIniConfig(); ///< 程序退出时读取界面写入文件
+  // 程序退出时读取界面写入文件，两个必要的信息通过参数获取
+  void savaIniConfig(const QString& closeMethod, bool noRequire) const;
   void updateAppFont(const QList<QVariant>& list);
   void setupConnections();
 

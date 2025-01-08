@@ -27,7 +27,9 @@
     </property>
     <property name="windowIcon">
       <iconset resource="../res.qrc">
-        <normaloff>:/transfer/res/transfer/fileTrans.png</normaloff>:/transfer/res/transfer/fileTrans.png</iconset>
+        <normaloff>:/transfer/res/transfer/fileTrans.png</normaloff>
+        :/transfer/res/transfer/fileTrans.png
+      </iconset>
     </property>
     <widget class="QWidget" name="centralwidget">
       <layout class="QGridLayout" name="gridLayout">
@@ -87,10 +89,13 @@
                       <enum>Qt::DropAction::IgnoreAction</enum>
                     </property>
                     <property name="selectionMode">
-                      <enum>QAbstractItemView::SelectionMode::ExtendedSelection</enum>
+                      <enum>
+                        QAbstractItemView::SelectionMode::ExtendedSelection
+                      </enum>
                     </property>
                     <property name="selectionBehavior">
-                      <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
+                      <enum>QAbstractItemView::SelectionBehavior::SelectRows
+                      </enum>
                     </property>
                   </widget>
                 </item>
@@ -134,7 +139,7 @@
                         }
 
                         QLabel {
-                        border: none;  /* 确保 QLabel 的边框不被修改 */
+                        border: none; /* 确保 QLabel 的边框不被修改 */
                         }
                       </string>
                     </property>
@@ -256,7 +261,9 @@
       </property>
       <property name="icon">
         <iconset resource="../res.qrc">
-          <normaloff>:/transfer/res/transfer/tranStart.png</normaloff>:/transfer/res/transfer/tranStart.png</iconset>
+          <normaloff>:/transfer/res/transfer/tranStart.png</normaloff>
+          :/transfer/res/transfer/tranStart.png
+        </iconset>
       </property>
       <property name="text">
         <string>发送</string>
@@ -274,7 +281,9 @@
       </property>
       <property name="icon">
         <iconset resource="../res.qrc">
-          <normaloff>:/transfer/res/transfer/disConnect.png</normaloff>:/transfer/res/transfer/disConnect.png</iconset>
+          <normaloff>:/transfer/res/transfer/disConnect.png</normaloff>
+          :/transfer/res/transfer/disConnect.png
+        </iconset>
       </property>
       <property name="text">
         <string>断开</string>
@@ -289,7 +298,9 @@
     <action name="actionHelp">
       <property name="icon">
         <iconset resource="../res.qrc">
-          <normaloff>:/transfer/res/transfer/help.png</normaloff>:/transfer/res/transfer/help.png</iconset>
+          <normaloff>:/transfer/res/transfer/help.png</normaloff>
+          :/transfer/res/transfer/help.png
+        </iconset>
       </property>
       <property name="text">
         <string>帮助</string>
@@ -307,7 +318,9 @@
       </property>
       <property name="icon">
         <iconset resource="../res.qrc">
-          <normaloff>:/transfer/res/transfer/addFile.png</normaloff>:/transfer/res/transfer/addFile.png</iconset>
+          <normaloff>:/transfer/res/transfer/addFile.png</normaloff>
+          :/transfer/res/transfer/addFile.png
+        </iconset>
       </property>
       <property name="text">
         <string>添加文件</string>
@@ -322,7 +335,9 @@
     <action name="actionRemove">
       <property name="icon">
         <iconset resource="../res.qrc">
-          <normaloff>:/transfer/res/transfer/removeFileFromList.png</normaloff>:/transfer/res/transfer/removeFileFromList.png</iconset>
+          <normaloff>:/transfer/res/transfer/removeFileFromList.png</normaloff>
+          :/transfer/res/transfer/removeFileFromList.png
+        </iconset>
       </property>
       <property name="text">
         <string>移除这条</string>
@@ -334,7 +349,9 @@
     <action name="actionClearList">
       <property name="icon">
         <iconset resource="../res.qrc">
-          <normaloff>:/transfer/res/transfer/clearList.png</normaloff>:/transfer/res/transfer/clearList.png</iconset>
+          <normaloff>:/transfer/res/transfer/clearList.png</normaloff>
+          :/transfer/res/transfer/clearList.png
+        </iconset>
       </property>
       <property name="text">
         <string>清空列表</string>
@@ -346,7 +363,9 @@
     <action name="actionConnect">
       <property name="icon">
         <iconset resource="../res.qrc">
-          <normaloff>:/transfer/res/transfer/Connect.png</normaloff>:/transfer/res/transfer/Connect.png</iconset>
+          <normaloff>:/transfer/res/transfer/Connect.png</normaloff>
+          :/transfer/res/transfer/Connect.png
+        </iconset>
       </property>
       <property name="text">
         <string>连接</string>

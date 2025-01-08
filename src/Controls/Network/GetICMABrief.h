@@ -13,29 +13,21 @@
 
 #pragma once
 
-#include <QEventLoop>
+#include <QJsonDocument>
+#include <QJsonObject>
 
-#include "./NetworkTool.h"
+#include "../../Utils/Tools/NetworkTool.h"
 
-class GetIcmaBrief final : public QObject {
-  Q_OBJECT
-
+class GetIcmaBrief final {
 public:
-  GetIcmaBrief() = default;
-  ~GetIcmaBrief() override = default;
-
   static QString getIcmaBrief()
   {
-    const auto accessManager = new QNetworkAccessManager();
+    const auto accessManager = std::make_unique<QNetworkAccessManager>();
     // 构建网络请求
     auto* reply = accessManager->get(QNetworkRequest(
       QUrl("http://127.0.0.1:4523/m1/5738159-5420866-default/getICMABrief")));
-    // 阻塞网络请求直到完成
-    QEventLoop loop;
-    connect(reply, &QNetworkReply::finished, &loop, &QEventLoop::quit);
-    loop.exec(); ///< 阻塞，直到事件循环退出
+    NetworkTool::waitForFinished(reply);
 
-    accessManager->deleteLater(); ///< 完成之后析构
     const QString replyStr = reply->readAll();
     if (auto obj = QJsonDocument::fromJson(replyStr.toUtf8())
       .object(); obj["code"].toInt() == 200) { return obj["brief"].toString(); }

@@ -59,7 +59,7 @@ public:
     QAction *actionStatusBar;
     QAction *actionListView;
     QAction *actionIconView;
-    QAction *actionDetaileView;
+    QAction *actionDetailView;
     QAction *actionBigFont;
     QAction *actionSmallFont;
     QAction *actionGeneralFont;
@@ -67,15 +67,15 @@ public:
     QAction *actionFileDate;
     QAction *actionFileSize;
     QAction *actionFilePath;
-    QAction *actionFileSufix;
+    QAction *actionFileSuffix;
     QAction *actionFileType;
-    QAction *actionFileCeateDate;
+    QAction *actionFileCreateDate;
     QAction *actionFileModifyDate;
     QAction *actionAsc;
     QAction *actionDesc;
     QAction *actionFilter;
     QAction *actionShowHideFile;
-    QAction *actionRefreash;
+    QAction *actionRefresh;
     QAction *actionAdvancedSearch;
     QAction *actionFileSynchronization;
     QAction *actionBatchRename;
@@ -234,11 +234,11 @@ public:
         actionIconView->setObjectName("actionIconView");
         actionIconView->setCheckable(true);
         actionIconView->setFont(font2);
-        actionDetaileView = new QAction(MainWindow);
-        actionDetaileView->setObjectName("actionDetaileView");
-        actionDetaileView->setCheckable(true);
-        actionDetaileView->setChecked(true);
-        actionDetaileView->setFont(font2);
+        actionDetailView = new QAction(MainWindow);
+        actionDetailView->setObjectName("actionDetailView");
+        actionDetailView->setCheckable(true);
+        actionDetailView->setChecked(true);
+        actionDetailView->setFont(font2);
         actionBigFont = new QAction(MainWindow);
         actionBigFont->setObjectName("actionBigFont");
         actionBigFont->setFont(font2);
@@ -265,18 +265,18 @@ public:
         actionFilePath->setCheckable(true);
         actionFilePath->setChecked(true);
         actionFilePath->setFont(font2);
-        actionFileSufix = new QAction(MainWindow);
-        actionFileSufix->setObjectName("actionFileSufix");
-        actionFileSufix->setCheckable(true);
-        actionFileSufix->setFont(font2);
+        actionFileSuffix = new QAction(MainWindow);
+        actionFileSuffix->setObjectName("actionFileSuffix");
+        actionFileSuffix->setCheckable(true);
+        actionFileSuffix->setFont(font2);
         actionFileType = new QAction(MainWindow);
         actionFileType->setObjectName("actionFileType");
         actionFileType->setCheckable(true);
         actionFileType->setFont(font2);
-        actionFileCeateDate = new QAction(MainWindow);
-        actionFileCeateDate->setObjectName("actionFileCeateDate");
-        actionFileCeateDate->setCheckable(true);
-        actionFileCeateDate->setFont(font2);
+        actionFileCreateDate = new QAction(MainWindow);
+        actionFileCreateDate->setObjectName("actionFileCreateDate");
+        actionFileCreateDate->setCheckable(true);
+        actionFileCreateDate->setFont(font2);
         actionFileModifyDate = new QAction(MainWindow);
         actionFileModifyDate->setObjectName("actionFileModifyDate");
         actionFileModifyDate->setCheckable(true);
@@ -297,8 +297,8 @@ public:
         actionShowHideFile = new QAction(MainWindow);
         actionShowHideFile->setObjectName("actionShowHideFile");
         actionShowHideFile->setCheckable(true);
-        actionRefreash = new QAction(MainWindow);
-        actionRefreash->setObjectName("actionRefreash");
+        actionRefresh = new QAction(MainWindow);
+        actionRefresh->setObjectName("actionRefresh");
         actionAdvancedSearch = new QAction(MainWindow);
         actionAdvancedSearch->setObjectName("actionAdvancedSearch");
         actionFileSynchronization = new QAction(MainWindow);
@@ -586,13 +586,13 @@ public:
         menu_3->addSeparator();
         menu_3->addAction(actionListView);
         menu_3->addAction(actionIconView);
-        menu_3->addAction(actionDetaileView);
+        menu_3->addAction(actionDetailView);
         menu_3->addSeparator();
         menu_3->addAction(menu_7->menuAction());
         menu_3->addSeparator();
         menu_3->addAction(menu_S->menuAction());
         menu_3->addAction(actionShowHideFile);
-        menu_3->addAction(actionRefreash);
+        menu_3->addAction(actionRefresh);
         menu_7->addAction(actionBigFont);
         menu_7->addAction(actionSmallFont);
         menu_7->addSeparator();
@@ -601,9 +601,9 @@ public:
         menu_S->addAction(actionFileDate);
         menu_S->addAction(actionFileSize);
         menu_S->addAction(actionFilePath);
-        menu_S->addAction(actionFileSufix);
+        menu_S->addAction(actionFileSuffix);
         menu_S->addAction(actionFileType);
-        menu_S->addAction(actionFileCeateDate);
+        menu_S->addAction(actionFileCreateDate);
         menu_S->addAction(actionFileModifyDate);
         menu_S->addSeparator();
         menu_S->addAction(actionAsc);
@@ -804,12 +804,12 @@ public:
 #if QT_CONFIG(statustip)
         actionIconView->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\233\276\346\240\207\345\275\242\345\274\217\346\230\276\347\244\272", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionDetaileView->setText(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
+        actionDetailView->setText(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
 #if QT_CONFIG(tooltip)
-        actionDetaileView->setToolTip(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
+        actionDetailView->setToolTip(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionDetaileView->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\233\264\350\257\246\347\273\206\347\232\204\344\277\241\346\201\257.", nullptr));
+        actionDetailView->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\233\264\350\257\246\347\273\206\347\232\204\344\277\241\346\201\257.", nullptr));
 #endif // QT_CONFIG(statustip)
         actionBigFont->setText(QCoreApplication::translate("MainWindow", "\345\242\236\345\244\247(&I)", nullptr));
 #if QT_CONFIG(statustip)
@@ -866,15 +866,15 @@ public:
 #if QT_CONFIG(shortcut)
         actionFilePath->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+4", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionFileSufix->setText(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
+        actionFileSuffix->setText(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
 #if QT_CONFIG(tooltip)
-        actionFileSufix->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
+        actionFileSuffix->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\251\345\261\225\345\220\215", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionFileSufix->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\211\251\345\261\225\345\220\215\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileSuffix->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\211\251\345\261\225\345\220\215\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionFileSufix->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+5", nullptr));
+        actionFileSuffix->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+5", nullptr));
 #endif // QT_CONFIG(shortcut)
         actionFileType->setText(QCoreApplication::translate("MainWindow", "\347\261\273\345\236\213", nullptr));
 #if QT_CONFIG(statustip)
@@ -883,12 +883,12 @@ public:
 #if QT_CONFIG(shortcut)
         actionFileType->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+6", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionFileCeateDate->setText(QCoreApplication::translate("MainWindow", "\345\210\233\345\273\272\346\227\245\346\234\237", nullptr));
+        actionFileCreateDate->setText(QCoreApplication::translate("MainWindow", "\345\210\233\345\273\272\346\227\245\346\234\237", nullptr));
 #if QT_CONFIG(statustip)
-        actionFileCeateDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\210\233\345\273\272\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileCreateDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\210\233\345\273\272\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionFileCeateDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+7", nullptr));
+        actionFileCreateDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+7", nullptr));
 #endif // QT_CONFIG(shortcut)
         actionFileModifyDate->setText(QCoreApplication::translate("MainWindow", "\344\277\256\346\224\271\346\227\245\346\234\237", nullptr));
 #if QT_CONFIG(statustip)
@@ -916,9 +916,9 @@ public:
 #if QT_CONFIG(statustip)
         actionShowHideFile->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\210\226\351\232\220\350\227\217\351\232\220\350\227\217\346\226\207\344\273\266.", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionRefreash->setText(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260(&R)", nullptr));
+        actionRefresh->setText(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260(&R)", nullptr));
 #if QT_CONFIG(tooltip)
-        actionRefreash->setToolTip(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260", nullptr));
+        actionRefresh->setToolTip(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260", nullptr));
 #endif // QT_CONFIG(tooltip)
         actionAdvancedSearch->setText(QCoreApplication::translate("MainWindow", "\351\253\230\347\272\247\346\220\234\347\264\242", nullptr));
 #if QT_CONFIG(tooltip)

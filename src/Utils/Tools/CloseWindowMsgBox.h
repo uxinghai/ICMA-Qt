@@ -14,7 +14,6 @@
 
 #include <QCheckBox>
 #include <QDialog>
-#include <QDialogButtonBox>
 #include <QLabel>
 #include <QPlainTextEdit>
 #include <QPushButton>
@@ -25,7 +24,7 @@ class CloseWindowMsgBox final : public QDialog {
 
 public:
   explicit CloseWindowMsgBox(QWidget* parent = nullptr)
-    : QDialog(parent), checkBox(nullptr), radioMinWindow(nullptr),
+    : QDialog(parent), checkBox(nullptr), radioTray(nullptr),
       radioDirectClose(nullptr), cancelButton(nullptr), okButton(nullptr)
   {
     this->setFixedSize(563, 156);
@@ -39,11 +38,17 @@ public:
 
     // 创建美观布局
     init();
+    setupConnections();
   }
 
   ~CloseWindowMsgBox() override = default;
 
-  bool isCloseNoRequireChecked = false;
+signals:
+  void okButtonClicked();
+  void cancelButtonClicked();
+  void trayRadioClicked();
+  void directCloseRadioClicked();
+  void checkBoxClicked(bool);
 
 protected:
   // 禁用 ESC 按钮
@@ -67,11 +72,11 @@ private:
 
     // 添加单选按钮组
     auto* radioGroup = new QVBoxLayout();
-    radioMinWindow = new QRadioButton(tr("最小化到托盘"), this);
+    radioTray = new QRadioButton(tr("最小化到托盘"), this);
     radioDirectClose = new QRadioButton(tr("退出"), this);
-    radioMinWindow->setChecked(true);
+    radioTray->setChecked(true);
     radioGroup->setSpacing(5);
-    radioGroup->addWidget(radioMinWindow);
+    radioGroup->addWidget(radioTray);
     radioGroup->addWidget(radioDirectClose);
     radioGroup->setContentsMargins(20, 0, 20, 0);
     mainLayout->addLayout(radioGroup);
@@ -104,8 +109,22 @@ private:
     mainLayout->addWidget(subWidget);
   }
 
+  void setupConnections()
+  {
+    connect(cancelButton, &QPushButton::clicked,
+            this, &CloseWindowMsgBox::cancelButtonClicked);
+    connect(okButton, &QPushButton::clicked,
+            this, &CloseWindowMsgBox::okButtonClicked);
+    connect(radioTray, &QRadioButton::clicked,
+            this, &CloseWindowMsgBox::trayRadioClicked);
+    connect(radioDirectClose, &QRadioButton::clicked,
+            this, &CloseWindowMsgBox::directCloseRadioClicked);
+    connect(checkBox, &QCheckBox::clicked,
+            this, &CloseWindowMsgBox::checkBoxClicked);
+  }
+
   QCheckBox* checkBox;
-  QRadioButton* radioMinWindow;
+  QRadioButton* radioTray;
   QRadioButton* radioDirectClose;
   QPushButton* cancelButton;
   QPushButton* okButton;

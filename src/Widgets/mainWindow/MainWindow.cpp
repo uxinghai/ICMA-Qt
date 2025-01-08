@@ -79,12 +79,12 @@ void MainWindow::doInit()
 
   createExclusiveGroup({ui->actionCN, ui->actionEN, ui->actionJP});
   createExclusiveGroup({
-    ui->actionListView, ui->actionDetaileView, ui->actionIconView
+    ui->actionListView, ui->actionDetailView, ui->actionIconView
   });
   createExclusiveGroup({
     ui->actionFileName, ui->actionFileDate, ui->actionFileSize,
-    ui->actionFilePath, ui->actionFileType, ui->actionFileSufix,
-    ui->actionFileModifyDate, ui->actionFileCeateDate
+    ui->actionFilePath, ui->actionFileType, ui->actionFileSuffix,
+    ui->actionFileModifyDate, ui->actionFileCreateDate
   });
   createExclusiveGroup({ui->actionAsc, ui->actionDesc});
 
@@ -308,6 +308,7 @@ void MainWindow::doShowICMABrief()
   aboutBox.setIconPixmap(QPixmap(":/icons/res/icons/logo/logo1024.ico")
     .scaledToWidth(128, Qt::SmoothTransformation));
 
+  // 需要apifox在后台启动！
   const QString aboutText = GetIcmaBrief::getIcmaBrief();
   aboutBox.setText(aboutText);
   aboutBox.setTextFormat(Qt::RichText);
@@ -326,19 +327,117 @@ void MainWindow::doShowICMABrief()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-  // 如果不再询问为True 直接关闭并退出
-  auto setting = iniManager::getIniSetting();
-  if (!setting.value("Settings/closeNoRequire").toBool()) {
-    auto* closeWindowMsgBox = new CloseWindowMsgBox(this);
-    closeWindowMsgBox->exec();
+  // 如果设置了不再询问，直接关闭应用
+  if (const auto& settings = iniManager::getIniSetting();
+    settings.value("Settings/closeNoRequire").toBool()) {
+    if (settings.value("Settings/close-method").toString() == "directClose") {
+      qApp->quit();
+    }
+    else {
+      // 放到托盘
+    }
+    event->accept();
+    return;
   }
-  savaIniConfig();
-  event->accept();
+
+  auto closeWindowMsgBox = std::make_unique<CloseWindowMsgBox>(this);
+
+  // 结构体存储用户选择
+  struct CloseOptions {
+    QString method = "tray";
+    bool noRequire = false;
+  } options;
+
+  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::trayRadioClicked,
+          [&options] { options.method = "tray"; });
+  connect(closeWindowMsgBox.get(),
+          &CloseWindowMsgBox::directCloseRadioClicked,
+          [&options] { options.method = "directClose"; });
+  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::checkBoxClicked,
+          [&options](const bool checked) { options.noRequire = checked; });
+  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::okButtonClicked,
+          [&options, this] {
+            savaIniConfig(options.method, options.noRequire);
+            if (options.method == "tray") {
+              // 放到托盘
+            }
+            else { qApp->quit(); }
+          });
+  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::cancelButtonClicked,
+          [event, &closeWindowMsgBox] {
+            event->ignore();
+            closeWindowMsgBox->close();
+          });
+
+  closeWindowMsgBox->exec();
 }
 
-void MainWindow::savaIniConfig()
+void MainWindow::savaIniConfig(const QString& closeMethod,
+                               const bool noRequire) const
 {
-  qDebug() << "写u";
+  auto settings = iniManager::getIniSetting();
+  const QString settingsPrefix = "Settings/";
+
+  // 基础设置保存
+  const QMap<QString, bool> boolSettings{
+    {"closeNoRequire", noRequire},
+    {"auto-run", ui->actionAutoRun->isChecked()},
+    {"enableFileLogging", ui->actionEnableFileLog->isChecked()},
+    {"showHideFile", ui->actionShowHideFile->isChecked()},
+    {"filter", ui->actionFilter->isChecked()},
+    {"preview", ui->actionPreview->isChecked()},
+    {"statusBar", ui->actionStatusBar->isChecked()}
+  };
+
+  // 批量保存布尔值设置
+  for (auto it = boolSettings.constBegin(); it != boolSettings.constEnd();
+       ++it) { settings.setValue(settingsPrefix + it.key(), it.value()); }
+
+  settings.setValue(settingsPrefix + "close-method", closeMethod);
+
+  // 保存字体设置
+  settings.setValue(settingsPrefix + "font",
+                    QStringList{
+                      font().family(), QString::number(font().pointSize())
+                    });
+
+  // 语言设置保存
+  const QString qmPath = ":/translations/res/translations/icmaLang_";
+  QString lang;
+  if (ui->actionCN->isChecked()) { lang = "CN"; }
+  else if (ui->actionEN->isChecked()) { lang = "EN"; }
+  else { lang = "JP"; }
+  settings.setValue(settingsPrefix + "language",
+                    QStringList{lang, qmPath + lang + ".qm"});
+
+  // 排序方法保存
+  const std::vector<std::pair<QAction*, QString>> sortActions = {
+    {ui->actionFileCreateDate, "FileCreateDate"},
+    {ui->actionFileDate, "FileDate"},
+    {ui->actionFileModifyDate, "FileModifyDate"},
+    {ui->actionFileName, "FileName"},
+    {ui->actionFilePath, "FilePath"},
+    {ui->actionFileSize, "FileSize"},
+    {ui->actionFileType, "FileType"}
+  };
+
+  QString sortType = "FileSuffix";
+  for (const auto& [action, value] : sortActions) {
+    if (action->isChecked()) {
+      sortType = value;
+      break;
+    }
+  }
+
+  const QString sortOrder = ui->actionAsc->isChecked() ? "Asc" : "Desc";
+  settings.setValue(settingsPrefix + "sort-method",
+                    QStringList{sortType, sortOrder});
+
+  // 视图方法保存
+  QString viewMethod = "ListView";
+  if (ui->actionDetailView->isChecked()) { viewMethod = "DetailView"; }
+  else if (ui->actionIconView->isChecked()) { viewMethod = "IconView"; }
+  settings.setValue(settingsPrefix + "view-method", viewMethod);
 }
 
 MainWindow::~MainWindow()
