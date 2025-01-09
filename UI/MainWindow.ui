@@ -551,7 +551,9 @@
     <addaction name="actionEnableFileLog"/>
     <addaction name="actionUpdateSys"/>
     <addaction name="separator"/>
+    <addaction name="actionAboutQT"/>
     <addaction name="actionAbout"/>
+    <addaction name="separator"/>
     <addaction name="actionFeedback"/>
     <addaction name="separator"/>
    </widget>
@@ -1457,7 +1459,7 @@
     <string>启用或者禁用开机自启动.</string>
    </property>
    <property name="statusTip">
-    <string>是否允许ICMA在您的计算机开机后自启动.</string>
+    <string>允许ICMA在您的计算机开机后自启动.</string>
    </property>
   </action>
   <action name="actionPS">
@@ -1556,6 +1558,17 @@
    </property>
    <property name="statusTip">
     <string>使用Ubuntu主题.</string>
+   </property>
+  </action>
+  <action name="actionAboutQT">
+   <property name="text">
+    <string>关于QT</string>
+   </property>
+   <property name="statusTip">
+    <string>依据协议向您展示QT的信息.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
    </property>
   </action>
  </widget>

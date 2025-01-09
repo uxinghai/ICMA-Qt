@@ -8,8 +8,6 @@
  * @version 0.1
  * @date 2024.07.30
  *
- * @note 使用 `QMainWindow` 作为基础类，提供信号槽机制和菜单操作的实现。
- *
  * @author uxinghai
  * @copyright Copyright (c) 2024
  */
@@ -22,9 +20,9 @@
 #include <QMenu>
 #include <QProgressBar>
 #include <QSettings>
-#include <QTableView>
 
 QT_BEGIN_NAMESPACE
+class SystemTrayIcon;
 
 namespace Ui
 {
@@ -63,12 +61,12 @@ private slots:
   void doChangeTheme() const;
   void doSetActionVisible(const bool& checked) const;
   void doShowICMABrief();
+  void doEnableLogOut(const bool& checked) const;
 
 private:
   void readIniConfig(); ///< 程序启动时读取文件配置界面
   // 程序退出时读取界面写入文件，两个必要的信息通过参数获取
   void savaIniConfig(const QString& closeMethod, bool noRequire) const;
-  void updateAppFont(const QList<QVariant>& list);
   void setupConnections();
 
   /**
@@ -83,7 +81,7 @@ private:
    * @param ApplicationName 应用程序名称
    * @param ApplicationPath 应用程序路径
    */
-  static void autoRunSystem(bool isAutoRun, const QString& ApplicationName,
+  static void autoRunSystem(const bool isAutoRun, const QString& ApplicationName,
                             const QString& ApplicationPath)
   {
     QSettings regedit(R"(HKEY_CURRENT_USER\Software\
@@ -96,6 +94,8 @@ private:
   Ui::MainWindow* ui;
   QLabel* lbStatus; ///< 状态栏显示的标签
   QString filePath; ///< 保存文件路径，用于 Windows 右键菜单操作时动态更新
+
+  std::unique_ptr<SystemTrayIcon> icmaTrayIcon; ///< 系统托盘图标
 };
 
 #endif // MAINWINDOW_H

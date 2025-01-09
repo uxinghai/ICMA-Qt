@@ -53,7 +53,6 @@ set(PROJECT_SOURCES
         UI/FileTransfer.ui
         # utils下所有文件
         src/manager/Config/JsonManager.h
-        src/utils/log/LogOut.h
         src/utils/threadWorkers/GetTokenWorker.h
         src/utils/threadWorkers/GetTokenWorker.cpp
         src/utils/threadWorkers/ToBase64Worker.h
@@ -82,6 +81,10 @@ set(PROJECT_SOURCES
         src/Utils/Tools/MovableFramelessWindow.h
         src/Utils/Tools/NetworkTool.h
         src/Controls/Network/GetICMABrief.h
+        src/Utils/Tools/SystemTrayIcon.h
+        src/Widgets/FileManage/FileManage.cpp
+        src/Widgets/FileManage/FileManage.h
+        src/Utils/Tools/LogOut.h
 )
 
 #                                            *********

@@ -103,6 +103,7 @@ public:
     QAction *actionMaterialDark;
     QAction *actionNeonButtons;
     QAction *actionUbuntu;
+    QAction *actionAboutQT;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QSplitter *splitter_2;
@@ -366,6 +367,9 @@ public:
         actionUbuntu = new QAction(MainWindow);
         actionUbuntu->setObjectName("actionUbuntu");
         actionUbuntu->setCheckable(true);
+        actionAboutQT = new QAction(MainWindow);
+        actionAboutQT->setObjectName("actionAboutQT");
+        actionAboutQT->setMenuRole(QAction::NoRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setStyleSheet(QString::fromUtf8(""));
@@ -626,7 +630,9 @@ public:
         menu_5->addAction(actionEnableFileLog);
         menu_5->addAction(actionUpdateSys);
         menu_5->addSeparator();
+        menu_5->addAction(actionAboutQT);
         menu_5->addAction(actionAbout);
+        menu_5->addSeparator();
         menu_5->addAction(actionFeedback);
         menu_5->addSeparator();
         menu_A->addAction(actionCategorization);
@@ -1004,7 +1010,7 @@ public:
         actionAutoRun->setToolTip(QCoreApplication::translate("MainWindow", "\345\220\257\347\224\250\346\210\226\350\200\205\347\246\201\347\224\250\345\274\200\346\234\272\350\207\252\345\220\257\345\212\250.", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionAutoRun->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\257\345\220\246\345\205\201\350\256\270ICMA\345\234\250\346\202\250\347\232\204\350\256\241\347\256\227\346\234\272\345\274\200\346\234\272\345\220\216\350\207\252\345\220\257\345\212\250.", nullptr));
+        actionAutoRun->setStatusTip(QCoreApplication::translate("MainWindow", "\345\205\201\350\256\270ICMA\345\234\250\346\202\250\347\232\204\350\256\241\347\256\227\346\234\272\345\274\200\346\234\272\345\220\216\350\207\252\345\220\257\345\212\250.", nullptr));
 #endif // QT_CONFIG(statustip)
         actionPS->setText(QCoreApplication::translate("MainWindow", "\345\233\276\345\203\217\345\244\204\347\220\206", nullptr));
 #if QT_CONFIG(tooltip)
@@ -1054,6 +1060,10 @@ public:
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
         actionUbuntu->setStatusTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250Ubuntu\344\270\273\351\242\230.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionAboutQT->setText(QCoreApplication::translate("MainWindow", "\345\205\263\344\272\216QT", nullptr));
+#if QT_CONFIG(statustip)
+        actionAboutQT->setStatusTip(QCoreApplication::translate("MainWindow", "\344\276\235\346\215\256\345\215\217\350\256\256\345\220\221\346\202\250\345\261\225\347\244\272QT\347\232\204\344\277\241\346\201\257.", nullptr));
 #endif // QT_CONFIG(statustip)
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));

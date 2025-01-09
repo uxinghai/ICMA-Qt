@@ -1,7 +1,6 @@
 #include "MainWindow.h"
 
 #include <QActionGroup>
-#include <QKeyEvent>
 #include <QMessageBox>
 #include <QTimer>
 #include <QTranslator>
@@ -12,14 +11,18 @@
 #include "../../Manager/Config/iniManager.h"
 #include "../../Manager/Config/JsonManager.h"
 #include "../../Utils/Tools/CloseWindowMsgBox.h"
+#include "../../Utils/Tools/SystemTrayIcon.h"
 #include "../fileTransfer/FileTransfer.h"
 #include "../photoShop/PS.h"
 
 extern QTranslator tran;
+extern QtMessageHandler IcmaMessageHandler;
 
 MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent), ui(new Ui::MainWindow),
-    lbStatus(new QLabel(this))
+    lbStatus(new QLabel(this)),
+    icmaTrayIcon(std::make_unique<SystemTrayIcon>(
+      QIcon(":/icons/res/icons/logo/logo64.ico"), this, "ICMA"))
 {
   ui->setupUi(this);
 
@@ -50,6 +53,15 @@ void MainWindow::setupConnections()
   createLangChanged(ui->actionMaterialDark);
   createLangChanged(ui->actionNeonButtons);
   createLangChanged(ui->actionUbuntu);
+
+  // 日志文件
+  connect(ui->actionEnableFileLog, &QAction::triggered,
+          this, &MainWindow::doEnableLogOut);
+
+  // 关于QT
+  connect(ui->actionAboutQT, &QAction::triggered, [this] {
+    QMessageBox::aboutQt(this, tr("关于QT"));
+  });
 
   // ICMA简介
   connect(ui->actionAbout, &QAction::triggered,
@@ -122,24 +134,29 @@ void MainWindow::doChangeTheme() const
 
 void MainWindow::readIniConfig()
 {
+  const QString settingsPrefix = "Settings/";
   // 修改UI及Action的选中情况
   const auto Settings = iniManager::getIniSetting();
-  ui->actionAutoRun->setChecked(Settings.value("Settings/auto-run").toBool());
+  ui->actionAutoRun->setChecked(
+    Settings.value(settingsPrefix + "auto-run").toBool());
   ui->actionEnableFileLog->setChecked(
-    Settings.value("Settings/enableFileLogging").toBool());
+    Settings.value(settingsPrefix + "enableFileLogging").toBool());
   ui->actionShowHideFile->setChecked(
-    Settings.value("Settings/showHideFile").toBool());
+    Settings.value(settingsPrefix + "showHideFile").toBool());
 
-  ui->actionFilter->setChecked(Settings.value("Settings/filter").toBool());
-  ui->actionPreview->setChecked(Settings.value("Settings/preview").toBool());
+  ui->actionFilter->setChecked(
+    Settings.value(settingsPrefix + "filter").toBool());
+  ui->actionPreview->setChecked(
+    Settings.value(settingsPrefix + "preview").toBool());
   ui->actionStatusBar->
-      setChecked(Settings.value("Settings/statusBar").toBool());
+      setChecked(Settings.value(settingsPrefix + "statusBar").toBool());
   ui->comBoxFilter->setVisible(ui->actionFilter->isChecked());
   ui->lbPreview->setVisible(ui->actionPreview->isChecked());
   ui->statusbar->setVisible(ui->actionStatusBar->isChecked());
 
   // 对于主题Action的选中
-  const QString themeName = Settings.value("Settings/theme-style").toString();
+  const QString themeName = Settings.value(settingsPrefix + "theme-style").
+                                     toString();
   const auto leftPos = themeName.lastIndexOf('/') + 1;
   const QString themeActionName = QString("action") +
     themeName.mid(leftPos, themeName.length() - leftPos - 4);
@@ -148,7 +165,8 @@ void MainWindow::readIniConfig()
   }
 
   // 对于排序方式的Action的选中
-  const auto sortValue = Settings.value("Settings/sort-method").toList();
+  const auto sortValue = Settings.value(settingsPrefix + "sort-method").
+                                  toList();
   if (auto* sortAction = findChild<QAction*>(QString("action") +
     sortValue[0].toString())) { sortAction->setChecked(true); }
   if (auto* sortAction2 = findChild<QAction*>(QString("action") +
@@ -156,7 +174,7 @@ void MainWindow::readIniConfig()
 
   // 修改视图的Action的选中
   if (auto* viewAction = findChild<QAction*>(QString("action") +
-    Settings.value("Settings/view-method").toString())) {
+    Settings.value(settingsPrefix + "view-method").toString())) {
     viewAction->setChecked(true);
   }
 
@@ -167,13 +185,8 @@ void MainWindow::readIniConfig()
   }
 
   // 修改系统字体
-  updateAppFont(Settings.value("Settings/font").toList());
-}
-
-void MainWindow::updateAppFont(const QList<QVariant>& list)
-{
-  if (list.isEmpty()) { return; }
-  QFont font;
+  auto font = Settings.value("Settings/font").toList();
+  this->setFont(QFont(font[0].toString(), font[1].toInt()));
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -184,121 +197,6 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
   }
   QMainWindow::keyPressEvent(event);
 }
-
-// // 导入文件(支持多选)
-// void MainWindow::on_actiondaori_triggered()
-// {
-//   ui->actiondaori->setEnabled(false);
-//   // 导入的多个文件
-//   QString filter = tr(
-//     "所有(*);;图片(*.png *.xpm *.jpg);;"
-//     "文本文件(*.txt);;C++(*.cpp;*.cc;*.c;*cxx;*.c++;*.h)");
-//   auto temp = QFileDialog::getOpenFileNames(this, tr("选择文件"),
-//                                             QDir::currentPath(), filter);
-//   decltype(temp) files; // 过滤无后缀文件
-//   for (const auto& file : temp) {
-//     QFileInfo fileInfo(file);
-//     if (!fileInfo.suffix().isEmpty()) { files << file; }
-//   }
-//
-//   // 处理选中的文件或文件夹
-//   if (!files.isEmpty()) {
-//     QProgressBar* progress = new QProgressBar();
-//     progress->setFixedSize(200, 10);
-//     progress->setRange(0, 0); // 形成加载中的样式
-//     lbStatus->setText(tr("正在导入文件."));
-//     ui->statusbar->addWidget(lbStatus);
-//     ui->statusbar->addWidget(progress);
-//
-//     // 使用文件数据库工具来导入到数据库
-//     FilesDBWorker* dbWorker = new FilesDBWorker(files, this); // 处理文件列表
-//     connect(dbWorker, &FilesDBWorker::resultReady,
-//             this, [this, progress](const qint32& nums) {
-//               lbStatus->setText(tr("已导入%1个对象").arg(nums));
-//               displayOnView(progress);
-//             });
-//     dbWorker->start();
-//   }
-//   else { ui->actiondaori->setEnabled(true); }
-// }
-//
-// void MainWindow::displayOnView(QProgressBar* progress)
-// {
-//   auto show = [](QTableView* view) {
-//     extern QString DataBasePath;
-//     if (SqlManager::instance().openDatabase(DataBasePath)) {
-//       qCritical("Failed to open database in displayOnView function!");
-//       return;
-//     }
-//
-//     auto* model = new QSqlQueryModel();
-//     QString selectAll = QStringLiteral(
-//       "SELECT file_name,file_path,file_size,"
-//       "file_type,creation_date,modification_date,"
-//       "last_access_date,md5_hash,CASE is_encrypted "
-//       "WHEN 1 THEN '是' ELSE '否' END FROM Files");
-//
-//     model->setQuery(selectAll);
-//     view->setModel(model);
-//   };
-//
-//   // 显示在对应视图上
-//   if (ui->actioniconView->isChecked()) {
-//     // show(ui->IconView);
-//   }
-//   else if (ui->actionlistView->isChecked()) {
-//     // show(ui->listView);
-//   }
-//   else { show(ui->tableView); }
-//   progress->setRange(0, 100);
-//   progress->setValue(100);
-//   ui->actiondaori->setEnabled(true);
-// }
-//
-// // 文件传输助手
-// void MainWindow::on_actiontransmission_triggered()
-// {
-//   FileTrans* fileTransferUi = new FileTrans;          // 不设parent
-//   fileTransferUi->setAttribute(Qt::WA_DeleteOnClose); // 自动清理内存
-//   fileTransferUi->show();
-// }
-//
-// // PS 图像处理
-// void MainWindow::on_actionPS_triggered()
-// {
-//   PS* psUi = new PS;
-//   psUi->setAttribute(Qt::WA_DeleteOnClose);
-//   psUi->show();
-// }
-//
-// ///////////////////////////////////////////////////////////////////////////
-// /////////////////////////// 修改系统语言 后续拓展往下写  //////////////////////
-// ///////////////////////////////////////////////////////////////////////////
-// void MainWindow::retranslate(const QString& lang, const QString& path)
-// {
-//   if (tran.load(path)) {
-//     ui->retranslateUi(this);
-//     QSettings settings;
-//     settings.setValue("Language", lang);
-//   }
-//   else { qCritical() << "Failed to load translation file:" << path; }
-// }
-//
-// void MainWindow::on_actionCN_triggered()
-// {
-//   retranslate("CN", ":/translations/res/translations/icmaLang_CN.qm");
-// }
-//
-// void MainWindow::on_actionEN_triggered()
-// {
-//   retranslate("EN", ":/translations/res/translations/icmaLang_EN.qm");
-// }
-//
-// void MainWindow::on_actionJP_triggered()
-// {
-//   retranslate("JP", ":/translations/res/translations/icmaLang_JP.qm");
-// }
-//
 
 // ICMA简介
 void MainWindow::doShowICMABrief()
@@ -316,31 +214,31 @@ void MainWindow::doShowICMABrief()
   aboutBox.exec();
 }
 
-//
-//
-// // 开机自启动
-// void MainWindow::on_actionautoRun_triggered(bool checked)
-// {
-//   MainWindow::autoRunSystem(checked, QCoreApplication::applicationName(),
-//                             QCoreApplication::applicationFilePath());
-// }
+void MainWindow::doEnableLogOut(const bool& checked) const
+{
+  if (checked) { qInstallMessageHandler(IcmaMessageHandler); }
+  else { qInstallMessageHandler(nullptr); }
+}
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
   // 如果设置了不再询问，直接关闭应用
   if (const auto& settings = iniManager::getIniSetting();
-    settings.value("Settings/closeNoRequire").toBool()) {
-    if (settings.value("Settings/close-method").toString() == "directClose") {
-      qApp->quit();
-    }
-    else {
-      // 放到托盘
-    }
+    settings.value("Settings/closeNoRequire").toBool() &&
+    settings.value("Settings/close-method").toString() == "directClose") {
+    qApp->quit();
     event->accept();
     return;
   }
 
-  auto closeWindowMsgBox = std::make_unique<CloseWindowMsgBox>(this);
+  // 询问用户
+  auto* closeWindowMsgBox = new CloseWindowMsgBox(this);
+
+  auto cancel = [&event, &closeWindowMsgBox, this](const bool& hide) {
+    event->ignore();
+    closeWindowMsgBox->deleteLater();
+    if (hide) { this->hide(); }
+  };
 
   // 结构体存储用户选择
   struct CloseOptions {
@@ -348,26 +246,21 @@ void MainWindow::closeEvent(QCloseEvent* event)
     bool noRequire = false;
   } options;
 
-  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::trayRadioClicked,
+  connect(closeWindowMsgBox, &CloseWindowMsgBox::trayRadioClicked,
           [&options] { options.method = "tray"; });
-  connect(closeWindowMsgBox.get(),
+  connect(closeWindowMsgBox,
           &CloseWindowMsgBox::directCloseRadioClicked,
           [&options] { options.method = "directClose"; });
-  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::checkBoxClicked,
+  connect(closeWindowMsgBox, &CloseWindowMsgBox::checkBoxClicked,
           [&options](const bool checked) { options.noRequire = checked; });
-  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::okButtonClicked,
-          [&options, this] {
+  connect(closeWindowMsgBox, &CloseWindowMsgBox::okButtonClicked,
+          [&options, this, cancel] {
             savaIniConfig(options.method, options.noRequire);
-            if (options.method == "tray") {
-              // 放到托盘
-            }
-            else { qApp->quit(); }
+            if (options.method != "tray") { qApp->quit(); }
+            else { cancel(true); }
           });
-  connect(closeWindowMsgBox.get(), &CloseWindowMsgBox::cancelButtonClicked,
-          [event, &closeWindowMsgBox] {
-            event->ignore();
-            closeWindowMsgBox->close();
-          });
+  connect(closeWindowMsgBox, &CloseWindowMsgBox::cancelButtonClicked,
+          [cancel] { cancel(false); });
 
   closeWindowMsgBox->exec();
 }
@@ -390,8 +283,10 @@ void MainWindow::savaIniConfig(const QString& closeMethod,
   };
 
   // 批量保存布尔值设置
-  for (auto it = boolSettings.constBegin(); it != boolSettings.constEnd();
-       ++it) { settings.setValue(settingsPrefix + it.key(), it.value()); }
+  for (auto it = boolSettings.constBegin();
+       it != boolSettings.constEnd(); ++it) {
+    settings.setValue(settingsPrefix + it.key(), it.value());
+  }
 
   settings.setValue(settingsPrefix + "close-method", closeMethod);
 

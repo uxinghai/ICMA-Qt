@@ -1,3 +1,9 @@
+/**
+ * This software uses the Qt framework, licensed under the GNU
+ * Lesser General Public License (LGPL) version 2.1 (or later).
+ * You can obtain a copy of the LGPL license at https://www.gnu.org/licenses/lgpl.html.
+ */
+
 #include <QApplication>
 #include <QMessageBox>
 #include <QTranslator>
@@ -5,11 +11,16 @@
 #include "../src/Initial/AppInit.h"
 #include "../src/Manager/Config/iniManager.h"
 #include "../src/Widgets/mainWindow/MainWindow.h"
+#include "src/Utils/Tools/LogOut.h"
 
-QTranslator tran; ///< 全局翻译器
+QtMessageHandler IcmaMessageHandler; ///< 安装自定义的日志处理器时返回这个指针
+QTranslator tran;                    ///< 全局翻译器
 int main(int argc, char* argv[])
 {
   QApplication app(argc, argv);
+
+  LogOut::initializeLog();
+  IcmaMessageHandler = qInstallMessageHandler(LogOut::messageOutput);
 
   const auto appInit = new AppInit();
   if (!appInit->init()) {
