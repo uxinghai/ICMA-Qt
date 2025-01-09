@@ -61,7 +61,7 @@ private slots:
   void doChangeTheme() const;
   void doSetActionVisible(const bool& checked) const;
   void doShowICMABrief();
-  void doEnableLogOut(const bool& checked) const;
+  static void doEnableLogOut(const bool& checked) ;
 
 private:
   void readIniConfig(); ///< 程序启动时读取文件配置界面

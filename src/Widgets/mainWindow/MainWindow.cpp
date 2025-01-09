@@ -201,20 +201,55 @@ void MainWindow::keyPressEvent(QKeyEvent* event)
 // ICMA简介
 void MainWindow::doShowICMABrief()
 {
-  QMessageBox aboutBox(this);
+  QDialog aboutBox(this);
   aboutBox.setWindowTitle(tr("关于 ICMA"));
-  aboutBox.setIconPixmap(QPixmap(":/icons/res/icons/logo/logo1024.ico")
-    .scaledToWidth(128, Qt::SmoothTransformation));
+  aboutBox.setMinimumSize(662, 563);
 
-  // 需要apifox在后台启动！
-  const QString aboutText = GetIcmaBrief::getIcmaBrief();
-  aboutBox.setText(aboutText);
-  aboutBox.setTextFormat(Qt::RichText);
-  aboutBox.setStandardButtons(QMessageBox::Ok);
+  // 主布局为水平布局
+  auto* mainLayout = new QHBoxLayout(&aboutBox);
+
+  // 图标部分
+  auto* iconLabel = new QLabel();
+  iconLabel->setPixmap(QPixmap(":/icons/res/icons/logo/logo1024.ico")
+    .scaledToWidth(64, Qt::SmoothTransformation));
+  iconLabel->setAlignment(Qt::AlignTop); ///< 图标靠上对齐
+  mainLayout->addWidget(iconLabel);
+
+  // 文本和按钮为垂直布局
+  auto* subLayout = new QVBoxLayout();
+
+  // 文本部分(后续添加更多语言支持)
+  auto* textLabel = new QLabel();
+  QString context;
+  if (ui->actionCN->isChecked()) { context = GetIcmaBrief::getIcmaBrief("CN"); }
+  else if (ui->actionEN->isChecked()) {
+    context = GetIcmaBrief::getIcmaBrief("EN");
+  }
+  else if (ui->actionJP->isChecked()) {
+    context = GetIcmaBrief::getIcmaBrief("JP");
+  }
+
+  textLabel->setText(context);
+  textLabel->setTextFormat(Qt::RichText);
+  textLabel->setWordWrap(true);
+  textLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft); ///< 文本靠左靠上
+  subLayout->addWidget(textLabel);
+
+  // 按钮部分
+  QHBoxLayout* buttonLayout = new QHBoxLayout;
+  QPushButton* okButton = new QPushButton(tr("OK"));
+  connect(okButton, &QPushButton::clicked, &aboutBox, &QDialog::accept);
+
+  buttonLayout->addStretch();        // 左侧留空
+  buttonLayout->addWidget(okButton); // 按钮靠右
+  subLayout->addLayout(buttonLayout);
+  mainLayout->addLayout(subLayout);
+  // 设置对话框的主布局
+  aboutBox.setLayout(mainLayout);
   aboutBox.exec();
 }
 
-void MainWindow::doEnableLogOut(const bool& checked) const
+void MainWindow::doEnableLogOut(const bool& checked)
 {
   if (checked) { qInstallMessageHandler(IcmaMessageHandler); }
   else { qInstallMessageHandler(nullptr); }
