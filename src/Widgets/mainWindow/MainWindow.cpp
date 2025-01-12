@@ -9,7 +9,7 @@
 #include "../../Controls/Network/GetICMABrief.h"
 #include "../../DataBase/worker/FilesDBWorker.h"
 #include "../../Manager/Config/iniManager.h"
-#include "../../Manager/Config/JsonManager.h"
+#include "../../Manager/JsonManager.h"
 #include "../../Utils/Tools/CloseWindowMsgBox.h"
 #include "../../Utils/Tools/SystemTrayIcon.h"
 #include "../fileTransfer/FileTransfer.h"

@@ -61,7 +61,7 @@ private slots:
   void doChangeTheme() const;
   void doSetActionVisible(const bool& checked) const;
   void doShowICMABrief();
-  static void doEnableLogOut(const bool& checked) ;
+  static void doEnableLogOut(const bool& checked);
 
 private:
   void readIniConfig(); ///< 程序启动时读取文件配置界面
@@ -81,7 +81,8 @@ private:
    * @param ApplicationName 应用程序名称
    * @param ApplicationPath 应用程序路径
    */
-  static void autoRunSystem(const bool isAutoRun, const QString& ApplicationName,
+  static void autoRunSystem(const bool isAutoRun,
+                            const QString& ApplicationName,
                             const QString& ApplicationPath)
   {
     QSettings regedit(R"(HKEY_CURRENT_USER\Software\

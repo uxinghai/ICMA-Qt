@@ -7,6 +7,9 @@
     <file>res/icons/logo/logo128.ico</file>
     <file>res/icons/logo/logo1024.ico</file>
     <file>res/faceTest.png</file>
+    <file>res/icons/Loading/loading.png</file>
+    <file>res/icons/disk.png</file>
+    <file>res/icons/directory.png</file>
   </qresource>
   <qresource prefix="/ps">
     <file>res/ps/AITool.png</file>
@@ -454,6 +457,7 @@
     <file>res/suffix/z_1.png</file>
     <file>res/suffix/zip.png</file>
     <file>res/suffix/zsh.png</file>
+    <file>res/suffix/unknown.png</file>
   </qresource>
   <qresource prefix="/transfer">
     <file>res/transfer/addFile.png</file>
@@ -488,5 +492,16 @@
     <file>res/QSS/QSS_IMG/go-next-symbolic.symbolic.png</file>
     <file>res/QSS/QSS_IMG/go-previous-symbolic.symbolic.png</file>
     <file>res/QSS/QSS_IMG/object-select-symbolic.symbolic.png</file>
+  </qresource>
+  <qresource prefix="/sql">
+    <file>res/SQLite3_ICMA/Directory.sql</file>
+    <file>res/SQLite3_ICMA/FileActions.sql</file>
+    <file>res/SQLite3_ICMA/FileContent.sql</file>
+    <file>res/SQLite3_ICMA/FileMetadata.sql</file>
+    <file>res/SQLite3_ICMA/Files.sql</file>
+    <file>res/SQLite3_ICMA/FileSimilarity.sql</file>
+    <file>res/SQLite3_ICMA/FileTags.sql</file>
+    <file>res/SQLite3_ICMA/HistoryActions.sql</file>
+    <file>res/SQLite3_ICMA/Tags.sql</file>
   </qresource>
 </RCC>

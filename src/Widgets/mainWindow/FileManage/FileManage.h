@@ -2,6 +2,7 @@
  * @file FileManage.h
  *
  * @Breife 文件管理类
+ *         用于处理系统文件写入数据库，处理数据库文件在UI的显示
  *
  * @version 1.0
  * @date 2025/1/9

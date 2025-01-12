@@ -52,7 +52,7 @@ set(PROJECT_SOURCES
         src/Widgets/fileTransfer/FileTransTool.h
         UI/FileTransfer.ui
         # utils下所有文件
-        src/manager/Config/JsonManager.h
+        src/manager/JsonManager.h
         src/utils/threadWorkers/GetTokenWorker.h
         src/utils/threadWorkers/GetTokenWorker.cpp
         src/utils/threadWorkers/ToBase64Worker.h
@@ -82,9 +82,14 @@ set(PROJECT_SOURCES
         src/Utils/Tools/NetworkTool.h
         src/Controls/Network/GetICMABrief.h
         src/Utils/Tools/SystemTrayIcon.h
-        src/Widgets/FileManage/FileManage.cpp
-        src/Widgets/FileManage/FileManage.h
+        src/Widgets/mainWindow/FileManage/FileManage.cpp
+        src/Widgets/mainWindow/FileManage/FileManage.h
         src/Utils/Tools/LogOut.h
+        icmaStart.h
+        src/DataBase/worker/FilesDBWorker.cpp
+        src/DataBase/SqlQuery/Directory.h
+        src/DataBase/SqlQuery/Files.h
+        src/DataBase/SqlQuery/SqlQueryHelper.h
 )
 
 #                                            *********

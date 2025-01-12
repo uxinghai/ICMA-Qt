@@ -22,7 +22,7 @@ class iniManager final : public QObject {
 public:
   explicit iniManager(QObject* parent = nullptr) : QObject(parent)
   {
-    iniFilePath = icmaRootDirPath + "/appInfo.ini";
+    iniFilePath = icmaRootDirPath + "/ICMAInfo.ini";
     staticIniFilePath = iniFilePath;
     if (QFile::exists(iniFilePath)) { return; }
     initIniConfig();
@@ -77,6 +77,7 @@ private:
     settings.setValue("Settings/sort-method",
                       QStringList{"FilePath", "Asc"});
     settings.setValue("Settings/view-method", "DetailView");
+    settings.setValue("Settings/lastBuildSqlTime", "");
   }
 
   QString iniFilePath;

@@ -27,8 +27,6 @@
 #include <QSqlError>
 #include <QSqlQuery>
 
-#include "./Config/JsonManager.h"
-
 class SqlManager {
 public:
   SqlManager(const SqlManager&) = delete;
@@ -46,11 +44,8 @@ public:
 
   void initSqlConfig()
   {
-    dbFilePath = icmaRootDirPath + "/dataBase.db";
-    if (!QFile::exists(dbFilePath)) {
-      json = std::make_unique<JsonManager>();
-      initDatabase(json->jsonObject());
-    }
+    dbFilePath = icmaRootDirPath + "/ICMA.db";
+    if (!QFile::exists(dbFilePath)) { initDatabase(); }
   }
 
   /**
@@ -86,6 +81,7 @@ public:
    */
   void closeDatabase()
   {
+    // db 在打开时会确保正确
     if (db.isOpen()) { db.close(); }
     QSqlDatabase::removeDatabase(db.connectionName());
   }
@@ -98,40 +94,88 @@ private:
   ~SqlManager() { if (db.isOpen()) { db.close(); } }
 
   // 初始化数据库文件
-  void initDatabase(const QJsonObject& obj) const
+  void initDatabase() const
   {
-    if (QFile::exists(dbFilePath))
-      return;
+    if (QFile::exists(dbFilePath)) { return; }
 
-    // 不存在则 创建数据库文件并建表
+    // ICMA.db文件不存在则新建
     QFile file(dbFilePath);
-    if (!file.open(QIODevice::WriteOnly))
+    if (!file.open(QIODevice::WriteOnly)) {
+      qWarning() << "Failed to create database file:" << dbFilePath;
       return;
-    file.close(); ///< 直接关闭 数据库文件交给sqlManager控制
+    }
+    file.close(); ///< 直接关闭，不需要这个file
 
-    // 打开数据库
     SqlManager& dbInstance = instance();
     if (!dbInstance.openDatabase(dbFilePath)) {
       qWarning() << "Failed to open database:" << dbFilePath;
       return;
     }
 
-    // 建表
     QSqlDatabase db = dbInstance.getDatabase();
     QSqlQuery query(db);
-    QJsonArray tables = obj["database"].toObject()["tables"].toArray();
-    db.transaction(); ///< 启用事务
-    for (const auto& table : tables) {
-      if (!query.exec(table.toObject()["sql"].toString())) {
-        qWarning() << "Failed to create table:" << query.lastError().text();
-        db.rollback(); ///< 回退
-        return;
-      }
+
+    // 来自资源文件，因为资源文件不能被 QDir::entryList获取，所以写死
+    const QVector<QString> sqlPaths{
+      ":/sql/res/SQLite3_ICMA/Directory.sql",
+      ":/sql/res/SQLite3_ICMA/FileActions.sql",
+      ":/sql/res/SQLite3_ICMA/FileContent.sql",
+      ":/sql/res/SQLite3_ICMA/FileMetadata.sql",
+      ":/sql/res/SQLite3_ICMA/Files.sql",
+      ":/sql/res/SQLite3_ICMA/FileSimilarity.sql",
+      ":/sql/res/SQLite3_ICMA/FileTags.sql",
+      ":/sql/res/SQLite3_ICMA/HistoryActions.sql",
+      ":/sql/res/SQLite3_ICMA/Tags.sql"
+    };
+
+    // 开启事务 准备建表
+    if (!db.transaction()) {
+      qWarning() << "Failed to start transaction:" << db.lastError().text();
+      dbInstance.closeDatabase();
+      return;
     }
 
-    if (!db.commit()) { ///< 提交
-      qWarning() << "Failed to commit transaction:" << db.lastError().text();
-      return;
+    bool success = true;
+    for (const auto& sqlPath : sqlPaths) {
+      QFile sqlFile(sqlPath);
+      if (!sqlFile.open(QIODevice::ReadOnly)) {
+        qWarning() << "Failed to open SQL file:" << sqlPath;
+        success = false;
+        break;
+      }
+
+      // 读取 SQL 文件内容
+      QString sqlContent = QString::fromUtf8(sqlFile.readAll());
+      sqlFile.close();
+
+      // 分割多条 SQL 语句, sqlite不能多条一起执行
+      QStringList statements = sqlContent.split(';', Qt::SkipEmptyParts);
+
+      // 逐条执行 SQL 语句
+      for (const QString& statement : statements) {
+        QString trimmedStmt = statement.trimmed();
+        if (trimmedStmt.isEmpty()) { continue; }
+
+        if (!query.exec(trimmedStmt)) {
+          qWarning() << "Failed to execute SQL statement from" << sqlPath << ":"
+            << query.lastError().text() << "\nStatement:" << trimmedStmt;
+          success = false;
+          break;
+        }
+      }
+
+      if (!success) { break; }
+    }
+
+    if (success) {
+      if (!db.commit()) {
+        qWarning() << "Failed to commit transaction:" << db.lastError().text();
+        db.rollback();
+      }
+    }
+    else {
+      db.rollback();
+      qWarning() << "Rolling back transaction due to errors";
     }
 
     dbInstance.closeDatabase();
@@ -139,5 +183,4 @@ private:
 
   QSqlDatabase db;
   QString dbFilePath;
-  std::unique_ptr<JsonManager> json;
 };

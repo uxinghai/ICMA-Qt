@@ -19,11 +19,14 @@ int main(int argc, char* argv[])
 {
   QApplication app(argc, argv);
 
+  // 建立系统日志
   LogOut::initializeLog();
   IcmaMessageHandler = qInstallMessageHandler(LogOut::messageOutput);
 
-  const auto appInit = new AppInit();
-  if (!appInit->init()) {
+  const auto appInit = new AppInit(); ///< 系统初始化
+  // 配置信息初始化 以及 读取系统文件写入数据库（耗时操作）
+  if (!appInit->configInit()
+    || !appInit->sysFileDBInit()) {
     QMessageBox::critical(nullptr, QObject::tr("Error"),
                           QObject::tr("Failed to initialize the application."
                             " The application will now exit."));
@@ -50,5 +53,6 @@ int main(int argc, char* argv[])
 
   w.show();
 
+  // 全局桌面下 ctrl+shift+f 弹出搜索
   return QApplication::exec();
 }

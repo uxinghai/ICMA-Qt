@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="ICMA" uuid="69a95eea-3b32-4af6-b7b8-bb94b2405bda">
+    <data-source source="LOCAL" name="ICMASqlite" uuid="e3d166a1-3309-4a49-a522-38e890a4d546">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
-      <remarks>icma--sqlite3</remarks>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$USER_HOME$/AppData/Local/ICMA/dataBase.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:$USER_HOME$/AppData/Local/ICMA/ICMA.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

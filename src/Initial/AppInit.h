@@ -9,7 +9,7 @@
  * 并在程序启动前检查是否存在，如果不存在则创建
  *
  * @version 1.0
- * @date 2024.8.4
+ * @date 2024/8/4
  *
  * @author uxinghai
  * @copyright Copyright (c) 2024
@@ -35,7 +35,10 @@ public:
   ~AppInit() override = default;
 
   // 初始化应用程序(程序启动时)
-  bool init();
+  bool configInit();
+
+  bool sysFileDBInit() const;
+
 
   void initMainwindow();
 

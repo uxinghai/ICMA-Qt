@@ -1,0 +1,30 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : ICMA
+ Source Server Type    : SQLite
+ Source Server Version : 3035005 (3.35.5)
+ Source Schema         : main
+
+ Target Server Type    : SQLite
+ Target Server Version : 3035005 (3.35.5)
+ File Encoding         : 65001
+
+ Date: 11/01/2025 15:13:26
+*/
+
+PRAGMA foreign_keys = false;
+
+-- ----------------------------
+-- Table structure for FileActions
+-- ----------------------------
+DROP TABLE IF EXISTS "FileActions";
+CREATE TABLE "FileActions" (
+  "action_id" INTEGER PRIMARY KEY AUTOINCREMENT,
+  "file_id" INTEGER,
+  "action_type" INTEGER,
+  "action_date" DATETIME,
+  FOREIGN KEY ("file_id") REFERENCES "Files" ("file_id") ON DELETE NO ACTION ON UPDATE NO ACTION
+);
+
+PRAGMA foreign_keys = true;
