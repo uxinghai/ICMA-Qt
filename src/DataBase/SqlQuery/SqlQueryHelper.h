@@ -16,11 +16,10 @@
 
 namespace SqlQueryHelper
 {
-  inline QSqlDatabase ensureDatabaseIsOpen()
+  inline QSharedPointer<QSqlDatabase> ensureDatabaseIsOpen()
   {
     auto& sqlInstance = SqlManager::instance();
-    if (
-      !sqlInstance.openDatabase(sqlInstance.DbFilePath())) {
+    if (!sqlInstance.getDatabase()) {
       qCritical() << "Directory.h-- Failed to open database";
       return {};
     }

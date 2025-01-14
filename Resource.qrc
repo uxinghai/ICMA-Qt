@@ -33,7 +33,7 @@
     <file>res/ps/slip1.png</file>
     <file>res/ps/undo.png</file>
   </qresource>
-  <qresource prefix="/suffixs">
+  <qresource prefix="/suffixes">
     <file>res/suffix/aa.png</file>
     <file>res/suffix/aac.png</file>
     <file>res/suffix/ac.png</file>

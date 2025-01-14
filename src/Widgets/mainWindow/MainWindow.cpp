@@ -2,8 +2,6 @@
 
 #include <QActionGroup>
 #include <QMessageBox>
-#include <QTimer>
-#include <QTranslator>
 
 #include "../../../UI/ui_MainWindow.h"
 #include "../../Controls/Network/GetICMABrief.h"
@@ -70,6 +68,14 @@ void MainWindow::setupConnections()
   // 退出程序
   connect(ui->actionExit, &QAction::triggered,
           this, &MainWindow::close);
+
+  // 启动图像处理窗口
+  connect(ui->actionPS, &QAction::triggered,
+          [this]() {
+            const auto psWidget = new PS();
+            psWidget->setAttribute(Qt::WA_DeleteOnClose);
+            psWidget->show();
+          });
 }
 
 // 初始化界面

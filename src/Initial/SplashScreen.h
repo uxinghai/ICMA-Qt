@@ -26,7 +26,7 @@ public:
   {
     this->setFixedSize(200, 70);
     progressBar = new QProgressBar(this);
-    progressBar->setRange(0,10000000);
+    progressBar->setRange(0, 10000000);
     progressBar->setAlignment(Qt::AlignCenter);
     progressBar->setStyleSheet(
       "QProgressBar { "
@@ -50,6 +50,8 @@ public:
   ~SplashScreen() override = default;
 
   void setProgress(const int value) const { progressBar->setValue(value); }
+
+  void setMaximum(const int value) const { progressBar->setMaximum(value); }
 
 private:
   QProgressBar* progressBar;

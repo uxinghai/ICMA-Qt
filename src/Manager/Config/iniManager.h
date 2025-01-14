@@ -15,7 +15,7 @@
 #include <QDir>
 #include <QSettings>
 
-extern QString icmaRootDirPath;
+extern QString icmaRootDirPath; ///< 别删！
 inline QString staticIniFilePath;
 
 class iniManager final : public QObject {
@@ -57,7 +57,7 @@ private:
     settings.setValue("ICMA/contact", "uxinghaiwyi@163.com");
     // UI配置
     settings.setValue("Settings/theme-style",
-                      ":/qss/res/QSS/NeonButtons.qss");
+                      ":/qss/res/QSS/MacOS.qss");
     settings.setValue("Settings/auto-run", false);
     // directClose/tray
     settings.setValue("Settings/close-method", "tray");

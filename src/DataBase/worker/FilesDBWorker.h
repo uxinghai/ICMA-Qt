@@ -28,11 +28,19 @@ class SplashScreen;
  */
 class FilesDBWorker {
 public:
-  bool doFullWork(SplashScreen* splash);
-  bool doIncrementalScan(SplashScreen* splash);
+  // 全盘扫描
+  bool doFullScan(SplashScreen* splash_pram);
+  // 增量扫描
+  bool doIncrementalScan(SplashScreen* splash_pram);
 
 private:
   static void updateLastBuildSqlTime();
-  static void processDirectory(const QString& dirPath);
-  static void processBatch(const QVector<QString>& files);
+
+  static void doDirectory(const QString& dirPath);
+
+  void doIncrementalBatch(const QStringList& dirs,
+                               const QMap<QString, QDateTime>& dbFiles,
+                               int& progress,
+                               int totalDirs) const;
+  SplashScreen* splash{};
 };

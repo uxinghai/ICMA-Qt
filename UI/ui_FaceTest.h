@@ -12,8 +12,8 @@
 #include <QtCore/QVariant>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
+#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGraphicsView>
-#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
@@ -28,140 +28,182 @@ QT_BEGIN_NAMESPACE
 class Ui_FaceTest
 {
 public:
-    QGridLayout *gridLayout_2;
+    QHBoxLayout *mainLayout;
+    QLabel *lbCamera;
     QGraphicsView *graphicsView;
-    QWidget *widget;
-    QVBoxLayout *verticalLayout;
-    QHBoxLayout *horizontalLayout_2;
+    QVBoxLayout *sidebarLayout;
+    QHBoxLayout *buttonLayout;
     QPushButton *btnCaptureImage;
     QPushButton *btnOPCamera;
     QGroupBox *detailGroupBox;
-    QVBoxLayout *verticalLayout_2;
+    QFormLayout *formLayout;
+    QLabel *labelGender;
     QLabel *gender;
+    QLabel *labelAge;
     QLabel *age;
+    QLabel *labelFaceShape;
     QLabel *face_shape;
+    QLabel *labelEmotion;
     QLabel *emotion;
+    QLabel *labelBeauty;
     QLabel *beauty;
-    QHBoxLayout *horizontalLayout;
-    QLabel *label_2;
+    QLabel *labelBeauty_2;
+    QLabel *beauty_2;
+    QLabel *labelBeauty_3;
+    QLabel *beauty_3;
+    QHBoxLayout *progressLayout;
+    QLabel *labelProgress;
     QProgressBar *progressBar;
     QSpacerItem *verticalSpacer;
-    QLabel *label;
+    QLabel *infoLabel;
 
     void setupUi(QWidget *FaceTest)
     {
         if (FaceTest->objectName().isEmpty())
             FaceTest->setObjectName("FaceTest");
-        FaceTest->resize(773, 567);
-        FaceTest->setMinimumSize(QSize(773, 567));
-        FaceTest->setMaximumSize(QSize(773, 567));
+        FaceTest->resize(800, 600);
+        FaceTest->setMinimumSize(QSize(800, 600));
         QFont font;
         font.setPointSize(11);
         FaceTest->setFont(font);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/icons/res/faceTest.png"), QSize(), QIcon::Normal, QIcon::Off);
         FaceTest->setWindowIcon(icon);
-        gridLayout_2 = new QGridLayout(FaceTest);
-        gridLayout_2->setObjectName("gridLayout_2");
+        mainLayout = new QHBoxLayout(FaceTest);
+        mainLayout->setObjectName("mainLayout");
+        lbCamera = new QLabel(FaceTest);
+        lbCamera->setObjectName("lbCamera");
+
+        mainLayout->addWidget(lbCamera);
+
         graphicsView = new QGraphicsView(FaceTest);
         graphicsView->setObjectName("graphicsView");
-        graphicsView->setMaximumSize(QSize(16777215, 16777215));
-        graphicsView->setRenderHints(QPainter::RenderHint::Antialiasing|QPainter::RenderHint::SmoothPixmapTransform|QPainter::RenderHint::TextAntialiasing);
-        graphicsView->setTransformationAnchor(QGraphicsView::ViewportAnchor::AnchorUnderMouse);
+        graphicsView->setMinimumSize(QSize(500, 0));
 
-        gridLayout_2->addWidget(graphicsView, 0, 0, 1, 1);
+        mainLayout->addWidget(graphicsView);
 
-        widget = new QWidget(FaceTest);
-        widget->setObjectName("widget");
-        widget->setMaximumSize(QSize(200, 16777215));
-        widget->setAutoFillBackground(false);
-        verticalLayout = new QVBoxLayout(widget);
-        verticalLayout->setSpacing(0);
-        verticalLayout->setObjectName("verticalLayout");
-        verticalLayout->setContentsMargins(0, 5, 0, 0);
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setObjectName("horizontalLayout_2");
-        btnCaptureImage = new QPushButton(widget);
+        sidebarLayout = new QVBoxLayout();
+        sidebarLayout->setObjectName("sidebarLayout");
+        buttonLayout = new QHBoxLayout();
+        buttonLayout->setObjectName("buttonLayout");
+        btnCaptureImage = new QPushButton(FaceTest);
         btnCaptureImage->setObjectName("btnCaptureImage");
 
-        horizontalLayout_2->addWidget(btnCaptureImage);
+        buttonLayout->addWidget(btnCaptureImage);
 
-        btnOPCamera = new QPushButton(widget);
+        btnOPCamera = new QPushButton(FaceTest);
         btnOPCamera->setObjectName("btnOPCamera");
 
-        horizontalLayout_2->addWidget(btnOPCamera);
+        buttonLayout->addWidget(btnOPCamera);
 
 
-        verticalLayout->addLayout(horizontalLayout_2);
+        sidebarLayout->addLayout(buttonLayout);
 
-        detailGroupBox = new QGroupBox(widget);
+        detailGroupBox = new QGroupBox(FaceTest);
         detailGroupBox->setObjectName("detailGroupBox");
-        verticalLayout_2 = new QVBoxLayout(detailGroupBox);
-        verticalLayout_2->setObjectName("verticalLayout_2");
+        formLayout = new QFormLayout(detailGroupBox);
+        formLayout->setObjectName("formLayout");
+        labelGender = new QLabel(detailGroupBox);
+        labelGender->setObjectName("labelGender");
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, labelGender);
+
         gender = new QLabel(detailGroupBox);
         gender->setObjectName("gender");
 
-        verticalLayout_2->addWidget(gender);
+        formLayout->setWidget(0, QFormLayout::FieldRole, gender);
+
+        labelAge = new QLabel(detailGroupBox);
+        labelAge->setObjectName("labelAge");
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, labelAge);
 
         age = new QLabel(detailGroupBox);
         age->setObjectName("age");
 
-        verticalLayout_2->addWidget(age);
+        formLayout->setWidget(1, QFormLayout::FieldRole, age);
+
+        labelFaceShape = new QLabel(detailGroupBox);
+        labelFaceShape->setObjectName("labelFaceShape");
+
+        formLayout->setWidget(2, QFormLayout::LabelRole, labelFaceShape);
 
         face_shape = new QLabel(detailGroupBox);
         face_shape->setObjectName("face_shape");
 
-        verticalLayout_2->addWidget(face_shape);
+        formLayout->setWidget(2, QFormLayout::FieldRole, face_shape);
+
+        labelEmotion = new QLabel(detailGroupBox);
+        labelEmotion->setObjectName("labelEmotion");
+
+        formLayout->setWidget(3, QFormLayout::LabelRole, labelEmotion);
 
         emotion = new QLabel(detailGroupBox);
         emotion->setObjectName("emotion");
 
-        verticalLayout_2->addWidget(emotion);
+        formLayout->setWidget(3, QFormLayout::FieldRole, emotion);
+
+        labelBeauty = new QLabel(detailGroupBox);
+        labelBeauty->setObjectName("labelBeauty");
+
+        formLayout->setWidget(4, QFormLayout::LabelRole, labelBeauty);
 
         beauty = new QLabel(detailGroupBox);
         beauty->setObjectName("beauty");
 
-        verticalLayout_2->addWidget(beauty);
+        formLayout->setWidget(4, QFormLayout::FieldRole, beauty);
+
+        labelBeauty_2 = new QLabel(detailGroupBox);
+        labelBeauty_2->setObjectName("labelBeauty_2");
+
+        formLayout->setWidget(5, QFormLayout::LabelRole, labelBeauty_2);
+
+        beauty_2 = new QLabel(detailGroupBox);
+        beauty_2->setObjectName("beauty_2");
+
+        formLayout->setWidget(5, QFormLayout::FieldRole, beauty_2);
+
+        labelBeauty_3 = new QLabel(detailGroupBox);
+        labelBeauty_3->setObjectName("labelBeauty_3");
+
+        formLayout->setWidget(6, QFormLayout::LabelRole, labelBeauty_3);
+
+        beauty_3 = new QLabel(detailGroupBox);
+        beauty_3->setObjectName("beauty_3");
+
+        formLayout->setWidget(6, QFormLayout::FieldRole, beauty_3);
 
 
-        verticalLayout->addWidget(detailGroupBox);
+        sidebarLayout->addWidget(detailGroupBox);
 
-        horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setObjectName("horizontalLayout");
-        label_2 = new QLabel(widget);
-        label_2->setObjectName("label_2");
+        progressLayout = new QHBoxLayout();
+        progressLayout->setObjectName("progressLayout");
+        labelProgress = new QLabel(FaceTest);
+        labelProgress->setObjectName("labelProgress");
 
-        horizontalLayout->addWidget(label_2);
+        progressLayout->addWidget(labelProgress);
 
-        progressBar = new QProgressBar(widget);
+        progressBar = new QProgressBar(FaceTest);
         progressBar->setObjectName("progressBar");
-        QSizePolicy sizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Fixed);
-        sizePolicy.setHorizontalStretch(0);
-        sizePolicy.setVerticalStretch(0);
-        sizePolicy.setHeightForWidth(progressBar->sizePolicy().hasHeightForWidth());
-        progressBar->setSizePolicy(sizePolicy);
-        progressBar->setMaximumSize(QSize(16777215, 25));
         progressBar->setValue(0);
 
-        horizontalLayout->addWidget(progressBar);
+        progressLayout->addWidget(progressBar);
 
 
-        verticalLayout->addLayout(horizontalLayout);
+        sidebarLayout->addLayout(progressLayout);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
-        verticalLayout->addItem(verticalSpacer);
+        sidebarLayout->addItem(verticalSpacer);
 
-        label = new QLabel(widget);
-        label->setObjectName("label");
-        label->setMaximumSize(QSize(250, 16777215));
-        label->setScaledContents(true);
-        label->setWordWrap(true);
+        infoLabel = new QLabel(FaceTest);
+        infoLabel->setObjectName("infoLabel");
+        infoLabel->setWordWrap(true);
 
-        verticalLayout->addWidget(label);
+        sidebarLayout->addWidget(infoLabel);
 
 
-        gridLayout_2->addWidget(widget, 0, 1, 1, 1);
+        mainLayout->addLayout(sidebarLayout);
 
 
         retranslateUi(FaceTest);
@@ -172,27 +214,20 @@ public:
     void retranslateUi(QWidget *FaceTest)
     {
         FaceTest->setWindowTitle(QCoreApplication::translate("FaceTest", "\344\272\272\350\204\270\344\277\241\346\201\257\346\243\200\346\265\213", nullptr));
+        lbCamera->setText(QCoreApplication::translate("FaceTest", "TextLabel", nullptr));
         btnCaptureImage->setText(QCoreApplication::translate("FaceTest", "\346\213\215\347\205\247\346\243\200\346\265\213", nullptr));
         btnOPCamera->setText(QCoreApplication::translate("FaceTest", "\345\205\263\351\227\255\346\221\204\345\203\217\345\244\264", nullptr));
         detailGroupBox->setTitle(QCoreApplication::translate("FaceTest", "\346\202\250\347\232\204\344\277\241\346\201\257\357\274\232", nullptr));
-        gender->setText(QString());
-        age->setText(QString());
-        face_shape->setText(QString());
-        emotion->setText(QString());
-        beauty->setText(QString());
-        label_2->setText(QCoreApplication::translate("FaceTest", "\350\277\233\345\272\246:", nullptr));
-        progressBar->setFormat(QString());
-        label->setText(QCoreApplication::translate("FaceTest", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"hr { height: 1px; border-width: 0; }\n"
-"li.unchecked::marker { content: \"\\2610\"; }\n"
-"li.checked::marker { content: \"\\2612\"; }\n"
-"</style></head><body style=\" font-family:'Microsoft YaHei UI'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">AI\346\243\200\346\265\213(\346\235\245\350\207\252\347\231\276\345\272\246\344\272\221AI)\357\274\214\346\225\260\346\215\256\344\273\205\344\276\233\345\217\202\350\200\203\343\200\202\346\234\211\345\205\263\351\242\234\345\200\274\351\241\271\357\274\214\345\246\202\346\236\234\345\200\274\350\276\203\344\275\216\343\200\202\351\202\243\344\270\200\345\256\232\346\230\257\346\210\221\347"
-                        "\232\204\347\250\213\345\272\217\345\207\272\351\224\231\344\272\206~</p>\n"
-"<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">\344\270\252\344\272\272\344\277\241\346\201\257\351\241\271\350\277\230\345\217\257\344\273\245\346\267\273\345\212\240\346\233\264\345\244\232\350\257\246\347\273\206\357\274\214\346\234\211\351\234\200\346\261\202\350\257\267\350\201\224\347\263\273\345\274\200\345\217\221\350\200\205\357\274\232uxinghaiwyi@163.com</p></body></html>", nullptr));
+        labelGender->setText(QCoreApplication::translate("FaceTest", "\346\200\247        \345\210\253\357\274\232", nullptr));
+        labelAge->setText(QCoreApplication::translate("FaceTest", "\345\271\264        \351\276\204\357\274\232", nullptr));
+        labelFaceShape->setText(QCoreApplication::translate("FaceTest", "\350\204\270        \345\236\213\357\274\232", nullptr));
+        labelEmotion->setText(QCoreApplication::translate("FaceTest", "\346\203\205        \347\273\252\357\274\232", nullptr));
+        labelBeauty->setText(QCoreApplication::translate("FaceTest", "\351\242\234        \345\200\274\357\274\232", nullptr));
+        labelBeauty_2->setText(QCoreApplication::translate("FaceTest", "\344\275\251\346\210\264\347\234\274\351\225\234\357\274\237", nullptr));
+        labelBeauty_3->setText(QCoreApplication::translate("FaceTest", "\344\275\251\346\210\264\345\217\243\347\275\251\357\274\237", nullptr));
+        labelProgress->setText(QCoreApplication::translate("FaceTest", "\350\277\233\345\272\246:", nullptr));
+        infoLabel->setText(QCoreApplication::translate("FaceTest", " AI\346\243\200\346\265\213\347\273\223\346\236\234\344\273\205\344\276\233\345\217\202\350\200\203\357\274\214\346\233\264\345\244\232\344\277\241\346\201\257\350\257\267\350\201\224\347\263\273\345\274\200\345\217\221\350\200\205\343\200\202\n"
+"Email:uxinghaiwyi@163.com               ", nullptr));
     } // retranslateUi
 
 };

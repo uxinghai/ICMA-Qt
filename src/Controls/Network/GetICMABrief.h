@@ -24,7 +24,8 @@ public:
   {
     const auto accessManager = std::make_unique<QNetworkAccessManager>();
     // 构建网络请求
-    const QString url = "http://127.0.0.1:4523/m1/5738159-5420866-default/getICMA"
+    const QString url =
+      "http://127.0.0.1:4523/m1/5738159-5420866-default/getICMA"
       + lang + "Brief";
     auto* reply = accessManager->get(QNetworkRequest(QUrl(url)));
     NetworkTool::waitForFinished(reply);

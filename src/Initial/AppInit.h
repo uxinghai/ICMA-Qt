@@ -34,10 +34,11 @@ public:
   AppInit();
   ~AppInit() override = default;
 
-  // 初始化应用程序(程序启动时)
+  // 初始化应用程序相关重要的配置信息(程序启动时)
   bool configInit();
 
-  bool sysFileDBInit() const;
+  // 把系统文件配置进数据库
+  [[nodiscard]] bool sysFileDBInit() const;
 
 
   void initMainwindow();

@@ -44,8 +44,8 @@ set(PROJECT_SOURCES
         src/Widgets/photoShop/PS.cpp
         src/Widgets/photoShop/PS.h
         UI/PS.ui
-        src/Widgets/faceTest/FaceTest.cpp
-        src/Widgets/faceTest/FaceTest.h
+        src/Widgets/photoShop/faceTest/FaceTest.cpp
+        src/Widgets/photoShop/faceTest/FaceTest.h
         UI/FaceTest.ui
         src/Widgets/fileTransfer/FileTransfer.cpp
         src/Widgets/fileTransfer/FileTransfer.h
@@ -53,10 +53,8 @@ set(PROJECT_SOURCES
         UI/FileTransfer.ui
         # utils下所有文件
         src/manager/JsonManager.h
-        src/utils/threadWorkers/GetTokenWorker.h
-        src/utils/threadWorkers/GetTokenWorker.cpp
+        src/Utils/threadWorkers/GetBaiduTokenWorker.h
         src/utils/threadWorkers/ToBase64Worker.h
-        src/utils/threadWorkers/ToBase64Worker.cpp
         # network下所有文件
         src/Widgets/fileTransfer/client/AClient.h
         src/Widgets/fileTransfer/client/AClient.cpp

@@ -1,27 +1,24 @@
 #include "AppInit.h"
 
 #include <QApplication>
-#include <QStandardPaths>
 
 #include "../../icmaStart.h"
+#include "../DataBase/worker/FilesDBWorker.h"
 #include "../Manager/Config/iniManager.h"
 #include "../Manager/JsonManager.h"
 #include "../Manager/SqlManager.h"
 #include "../Widgets/mainWindow/MainWindow.h"
 #include "SplashScreen.h"
 
-#include <QThread>
-
-#include "../DataBase/worker/FilesDBWorker.h"
-
 AppInit::AppInit()
   : splash(QSharedPointer<SplashScreen>::create()),
     ini(nullptr), json(nullptr)
 {
   icmaStart::printFZ();
-  splash->setProgress(0);
-  splash->show();
-  splash->showMessage(tr("正在加载资源，请您耐心等待..."));
+  // 在系统文件写入数据库功能实现时show
+  // splash->setProgress(0);
+  // splash->show();
+  // splash->showMessage(tr("正在加载资源，请您耐心等待..."));
 }
 
 bool AppInit::configInit()
@@ -44,15 +41,18 @@ bool AppInit::configInit()
 
 bool AppInit::sysFileDBInit() const
 {
-  auto* fileDbWorker = new FilesDBWorker();
-  const auto ICMA = iniManager::getIniSetting();
-  const auto lastBuildSqlTime = ICMA.value("Settings/lastBuildSqlTime")
-                                    .toString();
-  if (!lastBuildSqlTime.isEmpty()) {
-    // 非首次加载
-    return fileDbWorker->doIncrementalScan(splash.get());
-  }
-  return fileDbWorker->doFullWork(splash.get());
+  // 以下多线程版本系统文件写入数据库还有些问题。数据库作为共享资源出现了被争抢
+  // auto* fileDbWorker = new FilesDBWorker();
+  // const auto ICMA = iniManager::getIniSetting();
+  // const auto lastBuildSqlTime = ICMA.value("Settings/lastBuildSqlTime")
+  //                                   .toString();
+  // if (!lastBuildSqlTime.isEmpty()) {
+  //   // 非首次加载
+  //   return fileDbWorker->doIncrementalScan(splash.get());
+  // }
+  // return fileDbWorker->doFullScan(splash.get());
+
+  return true;
 }
 
 void AppInit::initMainwindow()

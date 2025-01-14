@@ -1,5 +1,6 @@
 /**
  * @file MainWindow.h
+ *
  * @brief 主程序窗口的头文件
  *
  * 该文件定义了 `MainWindow` 类，为程序的主窗口，提供用户界面和主要功能入口。
@@ -11,9 +12,7 @@
  * @author uxinghai
  * @copyright Copyright (c) 2024
  */
-
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QLabel>
 #include <QMainWindow>
@@ -98,5 +97,3 @@ private:
 
   std::unique_ptr<SystemTrayIcon> icmaTrayIcon; ///< 系统托盘图标
 };
-
-#endif // MAINWINDOW_H

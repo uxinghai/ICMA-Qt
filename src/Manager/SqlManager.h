@@ -1,40 +1,35 @@
 /**
-* @file SqlManager.h
- * @brief 数据库管理器的头文件
+ * @file SqlManager.h
  *
- * 该头文件用于管理本应用程序的数据库
- * 并使用单例设计模式来确保只有一个实例
- * 只能通过instance.getDatabase()函数获取db，然后使用db连接数据库
-
+ * @brief 线程安全的数据库管理器
+ *
+ * 该类使用单例模式和线程局部存储来确保在多线程环境下安全运行
+ * 通过 QThreadStorage 让每个线程都管理自己的数据库连接实例
  *
  * @author uxinghai
- * @date 2024.10.21
+ * @version 1.0
+ *
+ * @date 2024/10/21
  */
-
-/** sqlite 与 sqlServer 的区别
- *  db = QSqlDatabase::addDatabase("QSQLITE");
-    db.setDatabaseName(dbName);
-
- *  db = QSqlDatabase::addDatabase("QODBC");
-    db.setHostName(...);
-    db.setDatabaseName(dbName);
-
- * 因为sqlite是嵌入式数据库，不涉及网络通信，所以不应该设置主机名
-*/
 
 #pragma once
 
+#include <QMutex>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QThreadStorage>
 
+// 数据库文件路径亦即数据库名，在程序启动时调用的 initSqlConfig 中被赋值，后续全局可用
+inline QString dbFilePath; ///< 数据库文件路径
 class SqlManager {
 public:
+  // 删除拷贝构造和赋值操作符
   SqlManager(const SqlManager&) = delete;
   SqlManager& operator=(const SqlManager&) = delete;
 
   /**
    * @brief 获取唯一实例
-   * @return 静态的SqlManager对象
+   * @return SqlManager的静态引用
    */
   static SqlManager& instance()
   {
@@ -42,80 +37,126 @@ public:
     return _instance;
   }
 
-  void initSqlConfig()
+  ///////////////////////////////////////////////////////////////////
+  /////////////  通过 instance 调用 //////////////////////////////////
+  /**
+   * @brief 初始化SQL配置
+   * @thread 线程安全
+   */
+  void initSqlConfig() const
   {
+    QMutexLocker locker(&mutex);
     dbFilePath = icmaRootDirPath + "/ICMA.db";
+    // 如果文件不存在则创建文件并初始化数据库
     if (!QFile::exists(dbFilePath)) { initDatabase(); }
   }
 
   /**
-   * @brief 打开数据库
-   * @param dbPath .db 文件完整路径
-   * @return 是否成功打开数据库的布尔值
+   * @brief 获取当前线程的数据库连接(打开的数据库)
+   * @return 数据库连接的共享指针
+   * @thread 线程安全，每个线程获取独立的连接
    */
-  bool openDatabase(const QString& dbPath)
+  QSharedPointer<QSqlDatabase> getDatabase()
   {
-    if (!db.isOpen()) {
-      db = QSqlDatabase::addDatabase("QSQLITE");
-      db.setDatabaseName(dbPath);
-      if (!db.open())
-        return false;
+    // 检查当前线程内是否有数据库
+    if (!threadLocalDb.hasLocalData()) {
+      const auto db = QSharedPointer<QSqlDatabase>::create
+      (QSqlDatabase::addDatabase(
+        "QSQLITE",
+        QString("Connection-%1").arg(
+          reinterpret_cast<quintptr>(QThread::currentThread()))));
+      db->setDatabaseName(dbFilePath);
+      if (!db->open()) {
+        qWarning() << "Failed to open database for thread:" <<
+          QThread::currentThread()
+          << "Error:" << db->lastError().text();
+        return nullptr;
+      }
+      threadLocalDb.setLocalData(db);
     }
-    return true;
+    return threadLocalDb.localData();
   }
 
   /**
-   * @brief 获取数据库
-   * @return SqlDatabase
+   * @brief 获取数据库名称
+   * @return 数据库文件路径
+   * @thread 线程安全
    */
-  QSqlDatabase getDatabase() { return db; }
+  [[nodiscard]] QString getDatabaseName() const
+  {
+    QMutexLocker locker(&mutex);
+    return dbFilePath;
+  }
 
   /**
-   * @brief 获取数据库名称(由setDatabaseName设定)
-   * @return 返回名称(本系统找中实际是指完整路径)
-   */
-  [[nodiscard]] QString getDatabaseName() const { return db.databaseName(); }
-
-  /**
-   * @brief 关闭数据库并移除它
+   * @brief 关闭当前线程的数据库连接
+   * @thread 线程安全
    */
   void closeDatabase()
   {
-    // db 在打开时会确保正确
-    if (db.isOpen()) { db.close(); }
-    QSqlDatabase::removeDatabase(db.connectionName());
+    if (threadLocalDb.hasLocalData()) {
+      if (const auto db = threadLocalDb.localData();
+        db && db->isOpen()) {
+        {
+          QMutexLocker locker(&mutex);
+          db->close();
+        }
+        QSqlDatabase::removeDatabase(db->connectionName());
+      }
+      threadLocalDb.setLocalData(nullptr);
+    }
   }
 
-  [[nodiscard]] QString DbFilePath() { return dbFilePath; }
+  /**
+   * @brief 获取数据库文件路径
+   * @return 数据库文件路径
+   * @thread 线程安全
+   */
+  [[nodiscard]] QString DbFilePath() const
+  {
+    QMutexLocker locker(&mutex);
+    return dbFilePath;
+  }
 
 private:
-  // 把构造函数隐藏起来，并禁止一切拷贝方法
-  SqlManager() {}
-  ~SqlManager() { if (db.isOpen()) { db.close(); } }
+  SqlManager() = default;
 
-  // 初始化数据库文件
-  void initDatabase() const
+  ~SqlManager()
+  {
+    // 确保所有线程的连接都被正确关闭
+    threadLocalDb.setLocalData(nullptr);
+  }
+
+  /**
+   * @brief 初始化数据库文件和表结构，只被 initSqlConfig 调用
+   * 不使用QMutexLocker locker(&mutex);因为这个函数只被 initSqlConfig调用而initSqlConfig
+   * 中已经上锁确保线程安全，此处再次上锁会导致死锁问题!!!
+   * @note 私有的辅助函数不上锁！！！
+   */
+  static void initDatabase()
   {
     if (QFile::exists(dbFilePath)) { return; }
 
-    // ICMA.db文件不存在则新建
+    // 创建数据库文件
     QFile file(dbFilePath);
     if (!file.open(QIODevice::WriteOnly)) {
       qWarning() << "Failed to create database file:" << dbFilePath;
       return;
     }
-    file.close(); ///< 直接关闭，不需要这个file
+    file.close();
 
-    SqlManager& dbInstance = instance();
-    if (!dbInstance.openDatabase(dbFilePath)) {
+    // 创建数据库连接
+    const auto db = QSharedPointer<QSqlDatabase>::create(
+      QSqlDatabase::addDatabase("QSQLITE", "init-connection"));
+    db->setDatabaseName(dbFilePath);
+    if (!db->open()) {
       qWarning() << "Failed to open database:" << dbFilePath;
       return;
     }
 
-    QSqlDatabase db = dbInstance.getDatabase();
-    QSqlQuery query(db);
+    QSqlQuery query(*db);
 
-    // 来自资源文件，因为资源文件不能被 QDir::entryList获取，所以写死
+    // SQL文件路径列表
     const QVector<QString> sqlPaths{
       ":/sql/res/SQLite3_ICMA/Directory.sql",
       ":/sql/res/SQLite3_ICMA/FileActions.sql",
@@ -128,10 +169,11 @@ private:
       ":/sql/res/SQLite3_ICMA/Tags.sql"
     };
 
-    // 开启事务 准备建表
-    if (!db.transaction()) {
-      qWarning() << "Failed to start transaction:" << db.lastError().text();
-      dbInstance.closeDatabase();
+    // 开启事务
+    if (!db->transaction()) {
+      qWarning() << "Failed to start transaction:" << db->lastError().text();
+      db->close();
+      QSqlDatabase::removeDatabase(db->connectionName());
       return;
     }
 
@@ -144,14 +186,10 @@ private:
         break;
       }
 
-      // 读取 SQL 文件内容
       QString sqlContent = QString::fromUtf8(sqlFile.readAll());
       sqlFile.close();
 
-      // 分割多条 SQL 语句, sqlite不能多条一起执行
       QStringList statements = sqlContent.split(';', Qt::SkipEmptyParts);
-
-      // 逐条执行 SQL 语句
       for (const QString& statement : statements) {
         QString trimmedStmt = statement.trimmed();
         if (trimmedStmt.isEmpty()) { continue; }
@@ -168,19 +206,20 @@ private:
     }
 
     if (success) {
-      if (!db.commit()) {
-        qWarning() << "Failed to commit transaction:" << db.lastError().text();
-        db.rollback();
+      if (!db->commit()) {
+        qWarning() << "Failed to commit transaction:" << db->lastError().text();
+        db->rollback();
       }
     }
     else {
-      db.rollback();
+      db->rollback();
       qWarning() << "Rolling back transaction due to errors";
     }
 
-    dbInstance.closeDatabase();
+    db->close();
+    QSqlDatabase::removeDatabase(db->connectionName());
   }
 
-  QSqlDatabase db;
-  QString dbFilePath;
+  mutable QMutex mutex;                                       ///< 用于保护共享资源
+  QThreadStorage<QSharedPointer<QSqlDatabase>> threadLocalDb; ///< 线程局部存储的数据库连接
 };

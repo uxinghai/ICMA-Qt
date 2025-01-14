@@ -1,101 +1,195 @@
 /**
  * @file Directory.h
+ * @brief 线程安全的目录数据库操作接口
  *
- * @Breife 存放一系列用于操作 Directory 表的 sql 语句
- *
- * @version 1.0
+ * @version 2.0
  * @date 2025/1/12
  *
  * @author uxinghai
- * @copyright Copyright (c) 2025
  */
+
 #pragma once
 
-#include <QDir>
+#include <QFileInfo>
+#include <QVariant>
 
-#include "SqlQueryHelper.h"
+#include "../../Manager/SqlManager.h"
 
-namespace DirectoryHelper // 隐藏其可见性，尽量不被外部使用
-{
-  inline bool insertDirectory(QSqlQuery& query, const QString& dirPath)
+class DirectoryDB {
+public:
+  /**
+   * @brief 获取目录ID
+   * @param path 目录路径
+   * @return 目录ID，失败返回-1
+   * @thread 线程安全
+   */
+  static int getDirectoryId(const QString& path)
   {
-    const QFileInfo dirInfo(dirPath);
-    QString name = dirInfo.fileName();
-    QString icon = ":/icons/res/icons/directory.png";
-    QString path = dirInfo.absolutePath();
-
-    if (dirInfo.isRoot()) {
-      name = dirPath.left(2);
-      icon = ":/icons/res/icons/disk.png";
-      path = "";
+    const auto db = SqlManager::instance().getDatabase();
+    if (!db) {
+      qWarning() << "Failed to get database connection";
+      return -1;
     }
 
-    query.bindValue(0, name);
-    query.bindValue(1, path);
-    query.bindValue(2, dirInfo.birthTime().toString("yyyy/MM/dd hh:mm"));
-    query.bindValue(3, dirInfo.lastModified().toString("yyyy/MM/dd hh:mm"));
-    query.bindValue(4, dirInfo.lastRead().toString("yyyy/MM/dd hh:mm"));
-    query.bindValue(5, icon);
+    QSqlQuery query(*db);
+    query.prepare(
+      "SELECT directory_id FROM Directory WHERE directory_absFilePath = ?");
+    query.addBindValue(path);
+
+    if (!query.exec() || !query.next()) {
+      qWarning() << "Failed to get directory id for path:" << path
+        << "Error:" << query.lastError().text();
+      return -1;
+    }
+
+    return query.value(0).toInt();
+  }
+
+  /**
+   * @brief 插入单个目录记录
+   * @param dirPath 目录路径
+   * @param query 已准备好的查询对象
+   * @return 是否成功
+   */
+  static bool insertDirectory(QSqlQuery& query, const QString& dirPath)
+  {
+    const QFileInfo dirInfo(dirPath);
+
+    // 处理根目录和普通目录
+    const QString name =
+      dirInfo.isRoot() ? dirPath.left(2) : dirInfo.fileName();
+    const QString icon = dirInfo.isRoot()
+                           ? ":/icons/res/icons/disk.png"
+                           : ":/icons/res/icons/directory.png";
+    const QString path = dirInfo.isRoot() ? "" : dirInfo.absolutePath();
+
+    query.addBindValue(name);
+    query.addBindValue(path);
+    query.addBindValue(dirInfo.absoluteFilePath());
+    query.addBindValue(QVariant()); // parent_directory_id
+    query.addBindValue(dirInfo.birthTime().toString("yyyy/MM/dd hh:mm"));
+    query.addBindValue(dirInfo.lastModified().toString("yyyy/MM/dd hh:mm"));
+    query.addBindValue(dirInfo.lastRead().toString("yyyy/MM/dd hh:mm"));
+    query.addBindValue(icon);
 
     if (!query.exec()) {
       qWarning() << "Failed to insert directory:" << dirPath
         << "Error:" << query.lastError().text();
       return false;
     }
+
     return true;
   }
-}
 
-// 操作 Directory 表
-namespace Directory
-{
-  inline bool autoInsert(const QVariant& dirsPath)
+  /**
+   * @brief 自动插入目录记录
+   * @param dirsPath 单个目录路径或目录路径列表
+   * @return 是否成功
+   * @thread 线程安全
+   */
+  static bool autoInsert(const QVariant& dirsPath)
   {
-    auto dataBase = SqlQueryHelper::ensureDatabaseIsOpen();
-    if (!dataBase.isValid()) {
-      qWarning() << "Failed to open database";
+    const auto db = SqlManager::instance().getDatabase();
+    if (!db) {
+      qWarning() << "Failed to get database connection";
       return false;
     }
 
-    QSqlQuery query(dataBase);
-    query.prepare("INSERT INTO Directory("
-      "directory_name, directory_path, creation_date, "
-      "modification_date, last_access_date, icon_path) "
-      "VALUES (?, ?, ?, ?, ?, ?)");
+    QSqlQuery query(*db);
+    query.prepare(
+      "INSERT INTO Directory ("
+      "directory_name, directory_path, directory_absFilePath, "
+      "parent_directory_id, creation_date, "
+      "modification_date, last_access_date, icon_path"
+      ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+    );
 
-    // 开始事务
-    if (!dataBase.transaction()) {
+    if (!db->transaction()) {
       qWarning() << "Failed to begin transaction";
       return false;
     }
 
-    bool hasError = false;
-
-    // 处理目录（单个或多个）
-    if (dirsPath.typeId() == QVariant::StringList) {
-      const QStringList dirList = dirsPath.toStringList();
-      for (const auto& dirPath : dirList) {
-        if (!DirectoryHelper::insertDirectory(query, dirPath)) {
-          hasError = true;
-          break;
+    bool success = true;
+    try {
+      if (dirsPath.typeId() == QVariant::StringList) {
+        for (const QString& dirPath : dirsPath.toStringList()) {
+          if (!insertDirectory(query, dirPath)) {
+            throw std::runtime_error("Failed to insert directory");
+          }
         }
       }
+      else if (dirsPath.typeId() == QVariant::String) {
+        if (!insertDirectory(query, dirsPath.toString())) {
+          throw std::runtime_error("Failed to insert directory");
+        }
+      }
+      else { throw std::runtime_error("Unsupported input type"); }
+
+      if (!db->commit()) {
+        throw std::runtime_error("Failed to commit transaction");
+      }
+    } catch (const std::exception& e) {
+      qWarning() << "Error during directory insertion:" << e.what();
+      db->rollback();
+      success = false;
     }
-    else if (dirsPath.typeId() == QVariant::String) {
-      if (!DirectoryHelper::insertDirectory(query, dirsPath.toString())) {
-        hasError = true;
+
+    return success;
+  }
+
+  /**
+   * @brief 获取所有目录路径
+   * @return 目录路径列表
+   * @thread 线程安全
+   */
+  static QStringList getAllPaths()
+  {
+    const auto db = SqlManager::instance().getDatabase();
+    if (!db) {
+      qWarning() << "Failed to get database connection";
+      return {};
+    }
+
+    QSqlQuery query(*db);
+    if (!query.exec("SELECT directory_path FROM Directory")) {
+      qWarning() << "Failed to get directory paths:"
+        << query.lastError().text();
+      return {};
+    }
+
+    QStringList paths;
+    while (query.next()) {
+      if (const QString path = query.value(0).toString(); !path.isEmpty()) {
+        paths.append(path);
       }
     }
-    else {
-      qWarning() << "Unsupported input type for dirsPath";
+
+    return paths;
+  }
+
+  /**
+   * @brief 删除目录记录
+   * @param dirPath 要删除的目录路径
+   * @return 是否成功
+   * @thread 线程安全
+   */
+  static bool remove(const QString& dirPath)
+  {
+    const auto db = SqlManager::instance().getDatabase();
+    if (!db) {
+      qWarning() << "Failed to get database connection";
       return false;
     }
 
-    // 根据执行结果提交或回滚事务
-    if (hasError) { dataBase.rollback(); }
-    else { dataBase.commit(); }
+    QSqlQuery query(*db);
+    query.prepare("DELETE FROM Directory WHERE directory_path = ?");
+    query.bindValue(0, dirPath);
 
-    SqlQueryHelper::ensureDatabaseIsClose();
-    return !hasError;
+    if (!query.exec()) {
+      qWarning() << "Failed to remove directory:" << dirPath
+        << "Error:" << query.lastError().text();
+      return false;
+    }
+    return true;
   }
-}
+};

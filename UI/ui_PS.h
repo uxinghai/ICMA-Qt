@@ -142,79 +142,83 @@ public:
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/icons/res/icons/logo/imgEditor.png"), QSize(), QIcon::Normal, QIcon::Off);
         PS->setWindowIcon(icon);
-        PS->setStyleSheet(QString::fromUtf8("    QWidget {\n"
-"      font-family: 'Segoe UI', Arial, sans-serif;\n"
-"font-size:18px;\n"
-"    }\n"
-"    QPushButton {\n"
-"      background-color: #4a90e2;\n"
-"      color: white;\n"
-"      border: none;\n"
-"      padding: 8px 16px;\n"
-"      border-radius: 4px;\n"
-"    }\n"
-"    QPushButton:hover {\n"
-"      background-color: #357abd;\n"
-"    }\n"
-"    QPushButton:pressed {\n"
-"      background-color: #2a5d8c;\n"
-"    }\n"
-"    QSlider::groove:horizontal {\n"
-"      border: 1px solid #999999;\n"
-"      height: 8px;\n"
-"      background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\n"
-"      margin: 2px 0;\n"
-"    }\n"
-"QSlider::groove:vertical {\n"
-"      border: 1px solid #999999;\n"
-"      width: 8px; /* \346\224\271\344\270\272 width\357\274\214\351\200\202\345\220\210\345\236\202\347\233\264\346\226\271\345\220\221 */\n"
-"      background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1, stop:1 #c4c4c4);\n"
-"      margin: 0 2px; /* \350\260\203\346\225\264\345\236\202\347"
-                        "\233\264\346\226\271\345\220\221\347\232\204\351\227\264\350\267\235 */\n"
-"    }\n"
+        PS->setStyleSheet(QString::fromUtf8("QWidget {\n"
+"        font-family: 'Segoe UI', Arial, sans-serif;\n"
+"        font-size:18px;\n"
+"        }\n"
+"        QPushButton {\n"
+"        background-color: #4a90e2;\n"
+"        color: white;\n"
+"        border: none;\n"
+"        padding: 8px 16px;\n"
+"        border-radius: 4px;\n"
+"        }\n"
+"        QPushButton:hover {\n"
+"        background-color: #357abd;\n"
+"        }\n"
+"        QPushButton:pressed {\n"
+"        background-color: #2a5d8c;\n"
+"        }\n"
+"        QSlider::groove:horizontal {\n"
+"        border: 1px solid #999999;\n"
+"        height: 8px;\n"
+"        background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1,\n"
+"        stop:1 #c4c4c4);\n"
+"        margin: 2px 0;\n"
+"        }\n"
+"        QSlider::groove:vertical {\n"
+"        border: 1px solid #999999;\n"
+"        width: 8px; /* \346\224\271\344\270\272 width\357\274\214\351\200\202\345\220\210\345\236\202\347\233\264\346\226\271\345\220\221 */\n"
+"        background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B"
+                        "1B1B1,\n"
+"        stop:1 #c4c4c4);\n"
+"        margin: 0 2px; /* \350\260\203\346\225\264\345\236\202\347\233\264\346\226\271\345\220\221\347\232\204\351\227\264\350\267\235 */\n"
+"        }\n"
 "\n"
-"    QSlider::handle:horizontal {\n"
-"      background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #52a8ec, stop:1 #4a90e2);\n"
-"      border: 1px solid #5c5c5c;\n"
-"      width: 18px;\n"
-"      margin: -2px 0;\n"
-"      border-radius: 3px;\n"
-"    }\n"
+"        QSlider::handle:horizontal {\n"
+"        background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #52a8ec,\n"
+"        stop:1 #4a90e2);\n"
+"        border: 1px solid #5c5c5c;\n"
+"        width: 18px;\n"
+"        margin: -2px 0;\n"
+"        border-radius: 3px;\n"
+"        }\n"
 "\n"
-"QSlider::handle:vertical {\n"
-"      background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #52a8ec, stop:1 #4a90e2);\n"
-"      border: 1px solid #5c5c5c;\n"
-"      height: 18px; /* \345\257\271\345\272\224\345\236\202\347\233\264\346\226\271\345\220\221\347\232\204\346\273\221\345\235\227\345\244\247\345\260\217 */\n"
-"      margin: 0 -2px; /* \350\260\203\346\225\264\345\236\202\347\233\264\346\273\221\345\235\227\347\232\204\350\276\271\350\267\235 */\n"
-"      border-radius: 3px;\n"
-"    }\n"
+"        QSlider::handle:vertical {\n"
+"        background: qlineargradient(x1:0, y1:0, x2:1, y2:1, stop:0 #52a8ec,\n"
+"        stop:1 #4a90e2);\n"
+"        border: 1px solid #5c5c5c;\n"
+"        height: 18px; /* \345\257\271\345\272\224\345\236\202\347\233\264\346\226\271\345\220\221\347\232\204\346\273\221\345\235\227\345\244\247\345\260\217 */\n"
+"        margin: 0 -2px; /* \350\260\203\346\225\264\345\236\202\347\233\264\346\273\221\345\235\227\347\232\204\350\276\271\350\267\235 */\n"
+"        border-radius: 3px;\n"
+"    "
+                        "    }\n"
 "\n"
-"QDoubleSpinBox {\n"
-"      padding: 4px;\n"
-"      border: 1px solid #aaa;\n"
-"      border-radius: 4px;\n"
-"    }\n"
-"    QGroupBox {\n"
-"      font-weight: b"
-                        "old;\n"
-"      border: 1px solid #ccc;\n"
-"      border-radius: 6px;\n"
-"      margin-top: 6px;\n"
-"      padding-top: 10px;\n"
-"    }\n"
-"    QGroupBox::title {\n"
-"      subcontrol-origin: margin;\n"
-"      left: 10px;\n"
-"      padding: 0 3px 0 3px;\n"
-"    }\n"
-"   "));
+"        QDoubleSpinBox {\n"
+"        padding: 4px;\n"
+"        border: 1px solid #aaa;\n"
+"        border-radius: 4px;\n"
+"        }\n"
+"        QGroupBox {\n"
+"        font-weight: bold;\n"
+"        border: 1px solid #ccc;\n"
+"        border-radius: 6px;\n"
+"        margin-top: 6px;\n"
+"        padding-top: 10px;\n"
+"        }\n"
+"        QGroupBox::title {\n"
+"        subcontrol-origin: margin;\n"
+"        left: 10px;\n"
+"        padding: 0 3px 0 3px;\n"
+"        }\n"
+"      "));
         gridLayout_21 = new QGridLayout(PS);
         gridLayout_21->setSpacing(5);
         gridLayout_21->setObjectName("gridLayout_21");
         gridLayout_21->setContentsMargins(5, 5, 5, 5);
         splitter = new QSplitter(PS);
         splitter->setObjectName("splitter");
-        splitter->setOrientation(Qt::Orientation::Horizontal);
+        splitter->setOrientation(Qt::Horizontal);
         splitter->setOpaqueResize(true);
         splitter->setChildrenCollapsible(false);
         layoutWidget = new QWidget(splitter);
@@ -233,14 +237,13 @@ public:
         GraphicsView->setFont(font);
         GraphicsView->setAcceptDrops(false);
         GraphicsView->setStyleSheet(QString::fromUtf8("\n"
-"           border: 2px solid #ccc;\n"
-"           border-radius: 8px;\n"
-"          "));
-        GraphicsView->setRenderHints(QPainter::RenderHint::Antialiasing|QPainter::RenderHint::SmoothPixmapTransform|QPainter::RenderHint::TextAntialiasing);
-        GraphicsView->setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
-        GraphicsView->setTransformationAnchor(QGraphicsView::ViewportAnchor::AnchorUnderMouse);
-        GraphicsView->setResizeAnchor(QGraphicsView::ViewportAnchor::AnchorUnderMouse);
-        GraphicsView->setViewportUpdateMode(QGraphicsView::ViewportUpdateMode::FullViewportUpdate);
+"                      border: 2px solid #ccc;\n"
+"                      border-radius: 8px;\n"
+"                    "));
+        GraphicsView->setDragMode(QGraphicsView::ScrollHandDrag);
+        GraphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
+        GraphicsView->setResizeAnchor(QGraphicsView::AnchorUnderMouse);
+        GraphicsView->setViewportUpdateMode(QGraphicsView::FullViewportUpdate);
 
         verticalLayout1->addWidget(GraphicsView);
 
@@ -266,64 +269,68 @@ public:
         toolBox->setSizePolicy(sizePolicy);
         toolBox->setMaximumSize(QSize(16777215, 16777215));
         toolBox->setFont(font);
-        toolBox->setStyleSheet(QString::fromUtf8("/*--------------------------\350\260\203\346\225\264\344\270\255\347\232\204\346\273\221\345\212\250\346\235\241\346\240\267\345\274\217------------------*/\n"
-"QSlider {\n"
-"    min-height: 20px;\n"
-"    max-height: 20px;\n"
-"}\n"
+        toolBox->setStyleSheet(QString::fromUtf8("\n"
+"                              /*--------------------------\350\260\203\346\225\264\344\270\255\347\232\204\346\273\221\345\212\250\346\235\241\346\240\267\345\274\217------------------*/\n"
+"                              QSlider {\n"
+"                              min-height: 20px;\n"
+"                              max-height: 20px;\n"
+"                              }\n"
 "\n"
-"QSlider::groove:horizontal {\n"
-"    border: none;\n"
-"    height: 2px;  /* \351\231\215\344\275\216\350\275\250\351\201\223\351\253\230\345\272\246\344\275\277\345\205\266\346\233\264\347\273\206\350\205\273 */\n"
-"    background: #E0E0E0;\n"
-"    margin: 0px;\n"
-"    border-radius: 1px;\n"
-"}\n"
+"                              QSlider::groove:horizontal {\n"
+"                              border: none;\n"
+"                              height: 2px; /* \351\231\215\344\275\216\350\275\250\351\201\223\351\253\230\345\272\246\344\275\277\345\205\266\346\233\264\347\273\206\350\205\273 */\n"
+"                              background: #E0E0E0;\n"
+"                              margin: 0px;\n"
+"                              border-radius: 1px;\n"
+"                              }\n"
 "\n"
-"QSlider::sub-page:horizontal {\n"
-"    background: #6C5CE7;\n"
-"    border-radius: 1px;\n"
-"}\n"
+"                              QSlider::sub-page:horizontal {\n"
+"                              background: #6C5CE7;\n"
+"                          "
+                        "    border-radius: 1px;\n"
+"                              }\n"
 "\n"
-"QSlider::add-page:horizontal {\n"
-"    background: #E0E0E0;\n"
-"    border-radius: 1px;\n"
-"}\n"
+"                              QSlider::add-page:horizontal {\n"
+"                              background: #E0E0E0;\n"
+"                              border-radius: 1px;\n"
+"                              }\n"
 "\n"
-"QSlider::handle:horizontal {\n"
-"    background: white;\n"
-"    border: 1px solid #6C5CE7;  /* \350\276\271\346\241\206 */\n"
-"    width: 12px;  /* \345\234\206\347\220\203\345\260\272\345\257\270 */\n"
-"    height: 12px;\n"
-"    margin: -5px 0;  /* \345\236\202\347\233\264\344"
-                        "\275\215\347\275\256 */\n"
-"    border-radius: 6px;\n"
-"}\n"
+"                              QSlider::handle:horizontal {\n"
+"                              background: white;\n"
+"                              border: 1px solid #6C5CE7; /* \350\276\271\346\241\206 */\n"
+"                              width: 12px; /* \345\234\206\347\220\203\345\260\272\345\257\270 */\n"
+"                              height: 12px;\n"
+"                              margin: -5px 0; /* \345\236\202\347\233\264\344\275\215\347\275\256 */\n"
+"                              border-radius: 6px;\n"
+"                              }\n"
 "\n"
-"/* \351\274\240\346\240\207\346\202\254\345\201\234\346\227\266\347\232\204\346\240\267\345\274\217 */\n"
-"QSlider::handle:horizontal:hover {\n"
-"    background: white;\n"
-"    border: 1px solid #6C5CE7;  /* \347\250\215\345\276\256\345\212\240\347\262\227\350\276\271\346\241\206 */\n"
-"    width: 14px;  /* \347\250\215\345\276\256\345\242\236\345\244\247 */\n"
-"    height: 14px;\n"
-"    margin: -6px 0;\n"
-"    border-radius: 6px;\n"
-"}\n"
+"                              /* \351\274\240\346\240\207\346\202\254\345\201\234\346\227\266\347\232\204\346\240\267\345\274\217 */\n"
+"                              QSlider::handle:"
+                        "horizontal:hover {\n"
+"                              background: white;\n"
+"                              border: 1px solid #6C5CE7; /* \347\250\215\345\276\256\345\212\240\347\262\227\350\276\271\346\241\206 */\n"
+"                              width: 14px; /* \347\250\215\345\276\256\345\242\236\345\244\247 */\n"
+"                              height: 14px;\n"
+"                              margin: -6px 0;\n"
+"                              border-radius: 6px;\n"
+"                              }\n"
 "\n"
-"/* \351\274\240\346\240\207\346\214\211\344\270\213\346\227\266\347\232\204\346\240\267\345\274\217 */\n"
-"QSlider::handle:horizontal:pressed {\n"
-"    background: #6C5CE7;  /* \346\214\211\344\270\213\346\227\266\345\217\230\346\210\220\345\256\236\345\277\203 */\n"
-"    border: 1px solid #6C5CE7;\n"
-"    width: 12px;\n"
-"    height: 12px;\n"
-"    margin: -5px 0;\n"
-"    border-radius: 6px;\n"
-"}"));
-        toolBox->setFrameShape(QFrame::Shape::Box);
-        toolBox->setFrameShadow(QFrame::Shadow::Plain);
+"                              /* \351\274\240\346\240\207\346\214\211\344\270\213\346\227\266\347\232\204\346\240\267\345\274\217 */\n"
+"                              QSlider::handle:horizontal:pressed {\n"
+"                              background: #6C5CE7; /* \346\214\211\344\270\213\346\227\266\345\217\230\346\210\220\345\256\236\345\277\203 */\n"
+"                              border: 1px solid #6C5CE7;\n"
+"                              width: 12px;\n"
+"                              height: 12px;\n"
+"    "
+                        "                          margin: -5px 0;\n"
+"                              border-radius: 6px;\n"
+"                              }\n"
+"                            "));
+        toolBox->setFrameShape(QFrame::Box);
+        toolBox->setFrameShadow(QFrame::Plain);
         crop = new QWidget();
         crop->setObjectName("crop");
-        crop->setGeometry(QRect(0, 0, 260, 181));
+        crop->setGeometry(QRect(0, 0, 313, 268));
         gridLayout_3 = new QGridLayout(crop);
         gridLayout_3->setObjectName("gridLayout_3");
         cropList = new QListWidget(crop);
@@ -344,7 +351,7 @@ public:
         new QListWidgetItem(cropList);
         cropList->setObjectName("cropList");
         cropList->setFont(font);
-        cropList->setFrameShape(QFrame::Shape::NoFrame);
+        cropList->setFrameShape(QFrame::NoFrame);
 
         gridLayout_3->addWidget(cropList, 0, 0, 1, 1);
 
@@ -400,7 +407,7 @@ public:
         toolBox->addItem(crop, icon1, QString::fromUtf8("\350\243\201\345\211\252"));
         size = new QWidget();
         size->setObjectName("size");
-        size->setGeometry(QRect(0, 0, 345, 287));
+        size->setGeometry(QRect(0, 0, 313, 285));
         gridLayout_10 = new QGridLayout(size);
         gridLayout_10->setObjectName("gridLayout_10");
         sureSize = new QPushButton(size);
@@ -469,7 +476,7 @@ public:
         new QListWidgetItem(sizeList);
         sizeList->setObjectName("sizeList");
         sizeList->setFont(font);
-        sizeList->setFrameShape(QFrame::Shape::NoFrame);
+        sizeList->setFrameShape(QFrame::NoFrame);
 
         gridLayout_10->addWidget(sizeList, 0, 0, 1, 1);
 
@@ -478,23 +485,26 @@ public:
         toolBox->addItem(size, icon2, QString::fromUtf8("\346\224\271\345\260\272\345\257\270"));
         adjust = new QWidget();
         adjust->setObjectName("adjust");
-        adjust->setGeometry(QRect(0, 0, 142, 301));
-        adjust->setStyleSheet(QString::fromUtf8("QWidget:!QSpinBox:!QDoubleSpinBox {\n"
-"    font-family: 'Segoe UI', Arial, sans-serif;\n"
-"    font-size: 11pt;\n"
-"}\n"
+        adjust->setGeometry(QRect(0, 0, 296, 289));
+        adjust->setStyleSheet(QString::fromUtf8("\n"
+"                                QWidget:!QSpinBox:!QDoubleSpinBox {\n"
+"                                font-family: 'Segoe UI', Arial, sans-serif;\n"
+"                                font-size: 11pt;\n"
+"                                }\n"
 "\n"
-"/*--------------------------\350\260\203\346\225\264\344\270\255\347\232\204\345\234\206\350\247\222\346\240\267\345\274\217------------------*/\n"
-"QSpinBox, QDoubleSpinBox {\n"
-"    border: 1px solid #E0E0E0;\n"
-"    border-radius: 10px;  /* \345\234\206\350\247\222\345\215\212\345\276\204 */\n"
-"    padding: 5px 10px;\n"
-"    background: white;\n"
-"    min-width: 37px;\n"
-"    min-height: 15px;\n"
-"	max-width: 37px;\n"
-"    max-height: 15px;\n"
-"}"));
+"                                /*--------------------------\350\260\203\346\225\264\344\270\255\347\232\204\345\234\206\350\247\222\346\240\267\345\274\217------------------*/\n"
+"                                QSpinBox, QDoubleSpinBox {\n"
+"                                border: 1px solid #E0E0E0;\n"
+"                                border-radius: 10px; /* \345\234\206\350\247\222\345\215\212\345\276\204 */\n"
+"                                padding: 5px 10px;\n"
+"                                background: white;\n"
+"                                min-width: 37px;\n"
+"                                min-height: 15px;\n"
+"                                max-width: 37px;\n"
+"                                max-height: 15px;\n"
+"                             "
+                        "   }\n"
+"                              "));
         gridLayout_17 = new QGridLayout(adjust);
         gridLayout_17->setObjectName("gridLayout_17");
         label_2 = new QLabel(adjust);
@@ -516,9 +526,9 @@ public:
         spinBoxBrightness->setStyleSheet(QString::fromUtf8(""));
         spinBoxBrightness->setWrapping(false);
         spinBoxBrightness->setFrame(false);
-        spinBoxBrightness->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        spinBoxBrightness->setAlignment(Qt::AlignCenter);
         spinBoxBrightness->setReadOnly(false);
-        spinBoxBrightness->setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
+        spinBoxBrightness->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
         spinBoxBrightness->setAccelerated(false);
         spinBoxBrightness->setProperty("showGroupSeparator", QVariant(false));
         spinBoxBrightness->setMinimum(-50);
@@ -540,13 +550,13 @@ public:
         spinBoxContrast->setMaximumSize(QSize(59, 27));
         spinBoxContrast->setFont(font);
         spinBoxContrast->setFrame(false);
-        spinBoxContrast->setAlignment(Qt::AlignmentFlag::AlignCenter);
-        spinBoxContrast->setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
+        spinBoxContrast->setAlignment(Qt::AlignCenter);
+        spinBoxContrast->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
         spinBoxContrast->setDecimals(1);
         spinBoxContrast->setMinimum(0.100000000000000);
         spinBoxContrast->setMaximum(3.000000000000000);
         spinBoxContrast->setSingleStep(0.100000000000000);
-        spinBoxContrast->setStepType(QAbstractSpinBox::StepType::DefaultStepType);
+        spinBoxContrast->setStepType(QAbstractSpinBox::DefaultStepType);
         spinBoxContrast->setValue(1.000000000000000);
 
         gridLayout_17->addWidget(spinBoxContrast, 2, 1, 1, 1);
@@ -565,14 +575,14 @@ public:
         spinBoxSaturation->setMaximumSize(QSize(59, 27));
         spinBoxSaturation->setFont(font);
         spinBoxSaturation->setFrame(false);
-        spinBoxSaturation->setAlignment(Qt::AlignmentFlag::AlignCenter);
-        spinBoxSaturation->setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
+        spinBoxSaturation->setAlignment(Qt::AlignCenter);
+        spinBoxSaturation->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
         spinBoxSaturation->setAccelerated(false);
         spinBoxSaturation->setKeyboardTracking(true);
         spinBoxSaturation->setProperty("showGroupSeparator", QVariant(false));
         spinBoxSaturation->setMaximum(2.000000000000000);
         spinBoxSaturation->setSingleStep(0.010000000000000);
-        spinBoxSaturation->setStepType(QAbstractSpinBox::StepType::DefaultStepType);
+        spinBoxSaturation->setStepType(QAbstractSpinBox::DefaultStepType);
         spinBoxSaturation->setValue(1.000000000000000);
 
         gridLayout_17->addWidget(spinBoxSaturation, 4, 1, 1, 1);
@@ -593,9 +603,9 @@ public:
         spinBoxContrary->setStyleSheet(QString::fromUtf8(""));
         spinBoxContrary->setWrapping(false);
         spinBoxContrary->setFrame(false);
-        spinBoxContrary->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        spinBoxContrary->setAlignment(Qt::AlignCenter);
         spinBoxContrary->setReadOnly(false);
-        spinBoxContrary->setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
+        spinBoxContrary->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
         spinBoxContrary->setAccelerated(false);
         spinBoxContrary->setProperty("showGroupSeparator", QVariant(false));
         spinBoxContrary->setMinimum(0);
@@ -607,27 +617,27 @@ public:
         contrarySlider = new QSlider(adjust);
         contrarySlider->setObjectName("contrarySlider");
         contrarySlider->setCursor(QCursor(Qt::ArrowCursor));
-        contrarySlider->setFocusPolicy(Qt::FocusPolicy::StrongFocus);
+        contrarySlider->setFocusPolicy(Qt::StrongFocus);
         contrarySlider->setMinimum(0);
         contrarySlider->setMaximum(255);
         contrarySlider->setSingleStep(3);
         contrarySlider->setPageStep(0);
         contrarySlider->setValue(0);
         contrarySlider->setTracking(true);
-        contrarySlider->setOrientation(Qt::Orientation::Horizontal);
+        contrarySlider->setOrientation(Qt::Horizontal);
 
         gridLayout_17->addWidget(contrarySlider, 7, 0, 1, 2);
 
         saturationSlider = new QSlider(adjust);
         saturationSlider->setObjectName("saturationSlider");
         saturationSlider->setCursor(QCursor(Qt::ArrowCursor));
-        saturationSlider->setFocusPolicy(Qt::FocusPolicy::StrongFocus);
+        saturationSlider->setFocusPolicy(Qt::StrongFocus);
         saturationSlider->setMinimum(0);
         saturationSlider->setMaximum(200);
         saturationSlider->setPageStep(0);
         saturationSlider->setValue(100);
         saturationSlider->setTracking(true);
-        saturationSlider->setOrientation(Qt::Orientation::Horizontal);
+        saturationSlider->setOrientation(Qt::Horizontal);
 
         gridLayout_17->addWidget(saturationSlider, 5, 0, 1, 2);
 
@@ -639,7 +649,7 @@ public:
         contrastSlider->setPageStep(1);
         contrastSlider->setValue(10);
         contrastSlider->setTracking(true);
-        contrastSlider->setOrientation(Qt::Orientation::Horizontal);
+        contrastSlider->setOrientation(Qt::Horizontal);
 
         gridLayout_17->addWidget(contrastSlider, 3, 0, 1, 2);
 
@@ -651,8 +661,8 @@ public:
         brightnessSlider->setMaximum(50);
         brightnessSlider->setPageStep(1);
         brightnessSlider->setTracking(true);
-        brightnessSlider->setOrientation(Qt::Orientation::Horizontal);
-        brightnessSlider->setTickPosition(QSlider::TickPosition::TicksBelow);
+        brightnessSlider->setOrientation(Qt::Horizontal);
+        brightnessSlider->setTickPosition(QSlider::NoTicks);
         brightnessSlider->setTickInterval(1);
 
         gridLayout_17->addWidget(brightnessSlider, 1, 0, 1, 2);
@@ -668,77 +678,81 @@ public:
         toolBox->addItem(adjust, icon3, QString::fromUtf8("\350\260\203\346\225\264"));
         page_3 = new QWidget();
         page_3->setObjectName("page_3");
-        page_3->setGeometry(QRect(0, 0, 263, 165));
+        page_3->setGeometry(QRect(0, 0, 313, 156));
         gridLayout = new QGridLayout(page_3);
         gridLayout->setObjectName("gridLayout");
         rotaSlider = new QSlider(page_3);
         rotaSlider->setObjectName("rotaSlider");
         rotaSlider->setMaximum(360);
-        rotaSlider->setOrientation(Qt::Orientation::Horizontal);
+        rotaSlider->setOrientation(Qt::Horizontal);
 
         gridLayout->addWidget(rotaSlider, 3, 0, 1, 2);
 
         btnFlipVertical = new QToolButton(page_3);
         btnFlipVertical->setObjectName("btnFlipVertical");
         btnFlipVertical->setMaximumSize(QSize(16777215, 35));
-        btnFlipVertical->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-        btnFlipVertical->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
+        btnFlipVertical->setFocusPolicy(Qt::NoFocus);
+        btnFlipVertical->setContextMenuPolicy(Qt::NoContextMenu);
         QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/ps/res/ps/slip1.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon4.addFile(QString::fromUtf8("\n"
+"                                        :/ps/res/ps/slip1.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnFlipVertical->setIcon(icon4);
         btnFlipVertical->setIconSize(QSize(64, 64));
-        btnFlipVertical->setPopupMode(QToolButton::ToolButtonPopupMode::DelayedPopup);
-        btnFlipVertical->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonIconOnly);
+        btnFlipVertical->setPopupMode(QToolButton::DelayedPopup);
+        btnFlipVertical->setToolButtonStyle(Qt::ToolButtonIconOnly);
         btnFlipVertical->setAutoRaise(false);
-        btnFlipVertical->setArrowType(Qt::ArrowType::NoArrow);
+        btnFlipVertical->setArrowType(Qt::NoArrow);
 
         gridLayout->addWidget(btnFlipVertical, 1, 1, 1, 1);
 
         btnRotateLeft = new QToolButton(page_3);
         btnRotateLeft->setObjectName("btnRotateLeft");
         btnRotateLeft->setMaximumSize(QSize(16777215, 35));
-        btnRotateLeft->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-        btnRotateLeft->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
+        btnRotateLeft->setFocusPolicy(Qt::NoFocus);
+        btnRotateLeft->setContextMenuPolicy(Qt::NoContextMenu);
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/ps/res/ps/rotaLeft.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon5.addFile(QString::fromUtf8("\n"
+"                                        :/ps/res/ps/rotaLeft.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnRotateLeft->setIcon(icon5);
         btnRotateLeft->setIconSize(QSize(64, 64));
-        btnRotateLeft->setPopupMode(QToolButton::ToolButtonPopupMode::DelayedPopup);
-        btnRotateLeft->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonIconOnly);
+        btnRotateLeft->setPopupMode(QToolButton::DelayedPopup);
+        btnRotateLeft->setToolButtonStyle(Qt::ToolButtonIconOnly);
         btnRotateLeft->setAutoRaise(false);
-        btnRotateLeft->setArrowType(Qt::ArrowType::NoArrow);
+        btnRotateLeft->setArrowType(Qt::NoArrow);
 
         gridLayout->addWidget(btnRotateLeft, 0, 0, 1, 1);
 
         btnFlipHorizontal = new QToolButton(page_3);
         btnFlipHorizontal->setObjectName("btnFlipHorizontal");
         btnFlipHorizontal->setMaximumSize(QSize(16777215, 35));
-        btnFlipHorizontal->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-        btnFlipHorizontal->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
+        btnFlipHorizontal->setFocusPolicy(Qt::NoFocus);
+        btnFlipHorizontal->setContextMenuPolicy(Qt::NoContextMenu);
         QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/ps/res/ps/slip0.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon6.addFile(QString::fromUtf8("\n"
+"                                        :/ps/res/ps/slip0.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnFlipHorizontal->setIcon(icon6);
         btnFlipHorizontal->setIconSize(QSize(64, 64));
-        btnFlipHorizontal->setPopupMode(QToolButton::ToolButtonPopupMode::DelayedPopup);
-        btnFlipHorizontal->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonIconOnly);
+        btnFlipHorizontal->setPopupMode(QToolButton::DelayedPopup);
+        btnFlipHorizontal->setToolButtonStyle(Qt::ToolButtonIconOnly);
         btnFlipHorizontal->setAutoRaise(false);
-        btnFlipHorizontal->setArrowType(Qt::ArrowType::NoArrow);
+        btnFlipHorizontal->setArrowType(Qt::NoArrow);
 
         gridLayout->addWidget(btnFlipHorizontal, 1, 0, 1, 1);
 
         btnRotateRight = new QToolButton(page_3);
         btnRotateRight->setObjectName("btnRotateRight");
         btnRotateRight->setMaximumSize(QSize(16777215, 35));
-        btnRotateRight->setFocusPolicy(Qt::FocusPolicy::NoFocus);
-        btnRotateRight->setContextMenuPolicy(Qt::ContextMenuPolicy::NoContextMenu);
+        btnRotateRight->setFocusPolicy(Qt::NoFocus);
+        btnRotateRight->setContextMenuPolicy(Qt::NoContextMenu);
         QIcon icon7;
-        icon7.addFile(QString::fromUtf8(":/ps/res/ps/rotaRight.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon7.addFile(QString::fromUtf8("\n"
+"                                        :/ps/res/ps/rotaRight.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnRotateRight->setIcon(icon7);
         btnRotateRight->setIconSize(QSize(64, 64));
-        btnRotateRight->setPopupMode(QToolButton::ToolButtonPopupMode::DelayedPopup);
-        btnRotateRight->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonIconOnly);
+        btnRotateRight->setPopupMode(QToolButton::DelayedPopup);
+        btnRotateRight->setToolButtonStyle(Qt::ToolButtonIconOnly);
         btnRotateRight->setAutoRaise(false);
-        btnRotateRight->setArrowType(Qt::ArrowType::NoArrow);
+        btnRotateRight->setArrowType(Qt::NoArrow);
 
         gridLayout->addWidget(btnRotateRight, 0, 1, 1, 1);
 
@@ -752,7 +766,7 @@ public:
         toolBox->addItem(page_3, icon8, QString::fromUtf8("\346\227\213\350\275\254\345\217\230\346\215\242"));
         Filter = new QWidget();
         Filter->setObjectName("Filter");
-        Filter->setGeometry(QRect(0, 0, 105, 152));
+        Filter->setGeometry(QRect(0, 0, 313, 254));
         gridLayout_5 = new QGridLayout(Filter);
         gridLayout_5->setObjectName("gridLayout_5");
         FilterList = new QListWidget(Filter);
@@ -770,8 +784,8 @@ public:
         __qlistwidgetitem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
         FilterList->setObjectName("FilterList");
         FilterList->setAutoFillBackground(false);
-        FilterList->setFrameShape(QFrame::Shape::NoFrame);
-        FilterList->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
+        FilterList->setFrameShape(QFrame::NoFrame);
+        FilterList->setEditTriggers(QAbstractItemView::NoEditTriggers);
         FilterList->setAlternatingRowColors(false);
         FilterList->setSelectionRectVisible(false);
 
@@ -787,7 +801,7 @@ public:
         toolBox->addItem(Filter, icon9, QString::fromUtf8("\347\211\271\346\225\210\346\273\244\351\225\234"));
         algrothime = new QWidget();
         algrothime->setObjectName("algrothime");
-        algrothime->setGeometry(QRect(0, 0, 231, 225));
+        algrothime->setGeometry(QRect(0, 0, 313, 213));
         gridLayout_4 = new QGridLayout(algrothime);
         gridLayout_4->setObjectName("gridLayout_4");
         radioBilateral = new QRadioButton(algrothime);
@@ -827,8 +841,8 @@ public:
         kernelValue->setMinimum(1);
         kernelValue->setMaximum(20);
         kernelValue->setPageStep(1);
-        kernelValue->setOrientation(Qt::Orientation::Horizontal);
-        kernelValue->setTickPosition(QSlider::TickPosition::NoTicks);
+        kernelValue->setOrientation(Qt::Horizontal);
+        kernelValue->setTickPosition(QSlider::NoTicks);
         kernelValue->setTickInterval(1);
 
         horizontalLayout->addWidget(kernelValue);
@@ -837,8 +851,7 @@ public:
         spinBoxKernel->setObjectName("spinBoxKernel");
         spinBoxKernel->setEnabled(false);
         spinBoxKernel->setMaximumSize(QSize(16777215, 25));
-        spinBoxKernel->setAlignment(Qt::AlignmentFlag::AlignCenter);
-        spinBoxKernel->setButtonSymbols(QAbstractSpinBox::ButtonSymbols::NoButtons);
+        spinBoxKernel->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
         spinBoxKernel->setMinimum(1);
         spinBoxKernel->setMaximum(20);
 
@@ -853,11 +866,12 @@ public:
         gridLayout_4->addWidget(sureAlgo, 4, 0, 1, 2);
 
         QIcon icon10;
-        icon10.addFile(QString::fromUtf8(":/ps/res/ps/algrothime.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon10.addFile(QString::fromUtf8("\n"
+"                                  :/ps/res/ps/algrothime.png"), QSize(), QIcon::Normal, QIcon::Off);
         toolBox->addItem(algrothime, icon10, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
         AITool = new QWidget();
         AITool->setObjectName("AITool");
-        AITool->setGeometry(QRect(0, 0, 105, 105));
+        AITool->setGeometry(QRect(0, 0, 313, 210));
         gridLayout_8 = new QGridLayout(AITool);
         gridLayout_8->setObjectName("gridLayout_8");
         AIList = new QListWidget(AITool);
@@ -866,8 +880,8 @@ public:
         new QListWidgetItem(AIList);
         new QListWidgetItem(AIList);
         AIList->setObjectName("AIList");
-        AIList->setFrameShape(QFrame::Shape::NoFrame);
-        AIList->setSelectionMode(QAbstractItemView::SelectionMode::NoSelection);
+        AIList->setFrameShape(QFrame::NoFrame);
+        AIList->setSelectionMode(QAbstractItemView::NoSelection);
 
         gridLayout_8->addWidget(AIList, 0, 0, 1, 1);
 
@@ -922,7 +936,7 @@ public:
         QIcon icon12;
         icon12.addFile(QString::fromUtf8(":/ps/res/ps/undo.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnUndo->setIcon(icon12);
-        btnUndo->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextBesideIcon);
+        btnUndo->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnUndo->setAutoRaise(true);
 
         horizontalLayout1->addWidget(btnUndo);
@@ -935,7 +949,7 @@ public:
         QIcon icon13;
         icon13.addFile(QString::fromUtf8(":/ps/res/ps/resetImg.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnReset->setIcon(icon13);
-        btnReset->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextBesideIcon);
+        btnReset->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnReset->setAutoRaise(true);
 
         horizontalLayout1->addWidget(btnReset);
@@ -948,7 +962,7 @@ public:
         QIcon icon14;
         icon14.addFile(QString::fromUtf8(":/ps/res/ps/CloseEye.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnComparison->setIcon(icon14);
-        btnComparison->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextBesideIcon);
+        btnComparison->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnComparison->setAutoRaise(true);
 
         horizontalLayout1->addWidget(btnComparison);
@@ -996,7 +1010,7 @@ public:
         retranslateUi(PS);
 
         stackedWidget->setCurrentIndex(0);
-        toolBox->setCurrentIndex(1);
+        toolBox->setCurrentIndex(0);
         toolBox->layout()->setSpacing(7);
 
 
@@ -1056,33 +1070,33 @@ public:
         QListWidgetItem *___qlistwidgetitem15 = sizeList->item(0);
         ___qlistwidgetitem15->setText(QCoreApplication::translate("PS", "\350\207\252\345\256\232\344\271\211", nullptr));
         QListWidgetItem *___qlistwidgetitem16 = sizeList->item(1);
-        ___qlistwidgetitem16->setText(QCoreApplication::translate("PS", "\345\225\206\345\223\201\344\270\273\345\233\276         1000*1000px", nullptr));
+        ___qlistwidgetitem16->setText(QCoreApplication::translate("PS", "\345\225\206\345\223\201\344\270\273\345\233\276 1000*1000px", nullptr));
         QListWidgetItem *___qlistwidgetitem17 = sizeList->item(2);
-        ___qlistwidgetitem17->setText(QCoreApplication::translate("PS", "\347\253\226\347\211\210\344\270\273\345\233\276           800*1200px", nullptr));
+        ___qlistwidgetitem17->setText(QCoreApplication::translate("PS", "\347\253\226\347\211\210\344\270\273\345\233\276 800*1200px", nullptr));
         QListWidgetItem *___qlistwidgetitem18 = sizeList->item(3);
-        ___qlistwidgetitem18->setText(QCoreApplication::translate("PS", "\346\267\230\345\256\235                    800*800px", nullptr));
+        ___qlistwidgetitem18->setText(QCoreApplication::translate("PS", "\346\267\230\345\256\235 800*800px", nullptr));
         QListWidgetItem *___qlistwidgetitem19 = sizeList->item(4);
-        ___qlistwidgetitem19->setText(QCoreApplication::translate("PS", "Logo\350\256\276\350\256\241            500*500px", nullptr));
+        ___qlistwidgetitem19->setText(QCoreApplication::translate("PS", "Logo\350\256\276\350\256\241 500*500px", nullptr));
         QListWidgetItem *___qlistwidgetitem20 = sizeList->item(5);
-        ___qlistwidgetitem20->setText(QCoreApplication::translate("PS", "\344\272\254\344\270\234                    500*500px", nullptr));
+        ___qlistwidgetitem20->setText(QCoreApplication::translate("PS", "\344\272\254\344\270\234 500*500px", nullptr));
         QListWidgetItem *___qlistwidgetitem21 = sizeList->item(6);
-        ___qlistwidgetitem21->setText(QCoreApplication::translate("PS", "\351\245\277\344\272\206\344\271\210                 480*480px", nullptr));
+        ___qlistwidgetitem21->setText(QCoreApplication::translate("PS", "\351\245\277\344\272\206\344\271\210 480*480px", nullptr));
         QListWidgetItem *___qlistwidgetitem22 = sizeList->item(7);
-        ___qlistwidgetitem22->setText(QCoreApplication::translate("PS", "\346\212\226\351\237\263                    600*800px", nullptr));
+        ___qlistwidgetitem22->setText(QCoreApplication::translate("PS", "\346\212\226\351\237\263 600*800px", nullptr));
         QListWidgetItem *___qlistwidgetitem23 = sizeList->item(8);
-        ___qlistwidgetitem23->setText(QCoreApplication::translate("PS", "\347\276\216\345\233\242                    600*600px", nullptr));
+        ___qlistwidgetitem23->setText(QCoreApplication::translate("PS", "\347\276\216\345\233\242 600*600px", nullptr));
         QListWidgetItem *___qlistwidgetitem24 = sizeList->item(9);
-        ___qlistwidgetitem24->setText(QCoreApplication::translate("PS", "\344\270\200\345\257\270                    295*413px", nullptr));
+        ___qlistwidgetitem24->setText(QCoreApplication::translate("PS", "\344\270\200\345\257\270 295*413px", nullptr));
         QListWidgetItem *___qlistwidgetitem25 = sizeList->item(10);
-        ___qlistwidgetitem25->setText(QCoreApplication::translate("PS", "\345\244\247\344\270\200\345\257\270                 390*567px", nullptr));
+        ___qlistwidgetitem25->setText(QCoreApplication::translate("PS", "\345\244\247\344\270\200\345\257\270 390*567px", nullptr));
         QListWidgetItem *___qlistwidgetitem26 = sizeList->item(11);
-        ___qlistwidgetitem26->setText(QCoreApplication::translate("PS", "\344\270\244\345\257\270                    413*579px", nullptr));
+        ___qlistwidgetitem26->setText(QCoreApplication::translate("PS", "\344\270\244\345\257\270 413*579px", nullptr));
         QListWidgetItem *___qlistwidgetitem27 = sizeList->item(12);
-        ___qlistwidgetitem27->setText(QCoreApplication::translate("PS", "QQ\345\244\264\345\203\217               150*150px", nullptr));
+        ___qlistwidgetitem27->setText(QCoreApplication::translate("PS", "QQ\345\244\264\345\203\217 150*150px", nullptr));
         QListWidgetItem *___qlistwidgetitem28 = sizeList->item(13);
-        ___qlistwidgetitem28->setText(QCoreApplication::translate("PS", "\345\276\256\344\277\241\345\244\264\345\203\2171           200*200px", nullptr));
+        ___qlistwidgetitem28->setText(QCoreApplication::translate("PS", "\345\276\256\344\277\241\345\244\264\345\203\2171 200*200px", nullptr));
         QListWidgetItem *___qlistwidgetitem29 = sizeList->item(14);
-        ___qlistwidgetitem29->setText(QCoreApplication::translate("PS", "\345\276\256\344\277\241\345\244\264\345\203\2172           300*300px", nullptr));
+        ___qlistwidgetitem29->setText(QCoreApplication::translate("PS", "\345\276\256\344\277\241\345\244\264\345\203\2172 300*300px", nullptr));
         sizeList->setSortingEnabled(__sortingEnabled1);
 
         toolBox->setItemText(toolBox->indexOf(size), QCoreApplication::translate("PS", "\346\224\271\345\260\272\345\257\270", nullptr));
@@ -1161,7 +1175,10 @@ public:
         AIList->setSortingEnabled(__sortingEnabled3);
 
         toolBox->setItemText(toolBox->indexOf(AITool), QCoreApplication::translate("PS", "\346\231\272\350\203\275\345\267\245\345\205\267", nullptr));
-        otherTool->setTitle(QCoreApplication::translate("PS", "\345\250\261\344\271\220\345\267\245\345\205\267", nullptr));
+        otherTool->setTitle(QCoreApplication::translate("PS", "\345\205\266\344\273\226\345\267\245\345\205\267", nullptr));
+#if QT_CONFIG(tooltip)
+        FaceTestToolBtn->setToolTip(QCoreApplication::translate("PS", "\345\234\250\347\272\277\346\243\200\346\265\213\344\272\272\350\204\270\351\235\242\351\203\250\350\277\224\345\233\236\344\270\200\347\263\273\345\210\227\347\232\204\344\272\272\350\204\270\344\277\241\346\201\257", nullptr));
+#endif // QT_CONFIG(tooltip)
         FaceTestToolBtn->setText(QCoreApplication::translate("PS", "\344\272\272\350\204\270\344\277\241\346\201\257\346\243\200\346\265\213", nullptr));
 #if QT_CONFIG(tooltip)
         btnUndo->setToolTip(QCoreApplication::translate("PS", "\346\222\244\351\224\200\344\270\212\344\270\200\346\255\245\346\223\215\344\275\234", nullptr));

@@ -1,0 +1,10 @@
+Q:如何实现的快速扫描？
+A:并发QtConcurrent 配合 QDir::entryList
+
+Q:全盘扫描步骤？
+A:首先收集所有磁盘下的顶层目录，然后让QtConcurrent::Run 处理不同目录
+可以通过修改全局线程池中线程数 QThreadPool::globalInstance()->setMaxThreadCount(8);来
+控制其使用的线程数量
+
+Q:每次启动应用都会全盘扫描吗？
+A:不会，非首次启动应用会采用增量扫描方式更新数据库
