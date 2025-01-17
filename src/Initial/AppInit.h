@@ -25,7 +25,7 @@ class iniManager;
 class SplashScreen;
 class MainWindow;
 
-static QString icmaRootDirPath; ///< icma根路径
+inline QString icmaRootDirPath; ///< icma根路径
 
 class AppInit final : public QObject {
   Q_OBJECT
@@ -39,7 +39,6 @@ public:
 
   // 把系统文件配置进数据库
   [[nodiscard]] bool sysFileDBInit() const;
-
 
   void initMainwindow();
 

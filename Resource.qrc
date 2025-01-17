@@ -32,6 +32,11 @@
     <file>res/ps/slip0.png</file>
     <file>res/ps/slip1.png</file>
     <file>res/ps/undo.png</file>
+    <file>res/ps/camera_C.png</file>
+    <file>res/ps/camera_O.png</file>
+    <file>res/ps/cameraClose.png</file>
+    <file>res/ps/cameraDelay.png</file>
+    <file>res/ps/cameraSlip.png</file>
   </qresource>
   <qresource prefix="/suffixes">
     <file>res/suffix/aa.png</file>

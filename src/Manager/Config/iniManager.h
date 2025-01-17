@@ -59,8 +59,7 @@ private:
     settings.setValue("Settings/theme-style",
                       ":/qss/res/QSS/MacOS.qss");
     settings.setValue("Settings/auto-run", false);
-    // directClose/tray
-    settings.setValue("Settings/close-method", "tray");
+    settings.setValue("Settings/close-method", "tray"); // directClose/tray
     settings.setValue("Settings/closeNoRequire", false);
     settings.setValue("Settings/enableFileLogging", true);
     settings.setValue("Settings/showHideFile", false);
@@ -78,6 +77,11 @@ private:
                       QStringList{"FilePath", "Asc"});
     settings.setValue("Settings/view-method", "DetailView");
     settings.setValue("Settings/lastBuildSqlTime", "");
+    // 百度AI配置
+    settings.setValue("BaiduAI/API_KEY", "AXpJSMWfCfUzd0omZJheU7QZ");
+    settings.setValue("BaiduAI/SECRET_KEY", "TidB30gDa9QTdFIVqpjeN8ced15JMdmX");
+    settings.setValue("BaiduAI/TOKEN", "");
+    settings.setValue("BaiduAI/LastGetTokenTime", QDate());
   }
 
   QString iniFilePath;

@@ -53,8 +53,8 @@ set(PROJECT_SOURCES
         UI/FileTransfer.ui
         # utils下所有文件
         src/manager/JsonManager.h
-        src/Utils/threadWorkers/GetBaiduTokenWorker.h
-        src/utils/threadWorkers/ToBase64Worker.h
+        src/Controls/Network/GetBaiduToken.h
+        src/Utils/threadWorkers/ThreadImageToBase64.h
         # network下所有文件
         src/Widgets/fileTransfer/client/AClient.h
         src/Widgets/fileTransfer/client/AClient.cpp
@@ -88,6 +88,9 @@ set(PROJECT_SOURCES
         src/DataBase/SqlQuery/Directory.h
         src/DataBase/SqlQuery/Files.h
         src/DataBase/SqlQuery/SqlQueryHelper.h
+        src/Utils/Tools/ImageToBase64.h
+        src/Controls/Network/AIDoFaceDetect.h
+        src/Widgets/photoShop/ShareSrc.h
 )
 
 #                                            *********

@@ -1,5 +1,5 @@
 /**
-* @file GetBaiduTokenWorker.h
+* @file GetBaiduToken.h
  *
  * @Breife None
  *
@@ -15,22 +15,22 @@
 #include <QJsonObject>
 #include <QNetworkReply>
 #include <QThread>
+#include <QUrlQuery>
 
-extern inline QString API_KEY;
-extern inline QString SECRET_KEY;
+#include "../../Manager/Config/iniManager.h"
+#include "../../Widgets/photoShop/ShareSrc.h"
 
-static QString baseUrl = "https://aip.baidubce.com/oauth/2.0/token";
-
-class GetBaiduTokenWorker final : public QThread {
+class GetBaiduToken final : public QThread {
   Q_OBJECT
 
 public:
-  explicit GetBaiduTokenWorker(QObject* parent = nullptr) : QThread(parent)
+  explicit GetBaiduToken(QObject* parent = nullptr) : QThread(parent)
   {
-    // 此处不能放 manager 的实例化，构造函数由主线程调用
+    // 此处不能放 faceDetectManager 的实例化，构造函数由主线程调用
     // 而 run 会自动的分配另一个线程去调用 即在另一个线程中使用主线程的manager不对！！！
   }
 
+  // 通过 exec() 保证事件循环的正常运行
   void run() override
   {
     manager = std::make_unique<QNetworkAccessManager>();
@@ -44,16 +44,25 @@ public:
                   reply->deleteLater();
                   QJsonObject obj = QJsonDocument::fromJson(replyText.toUtf8())
                     .object();
-                  emit baiduTokenReady(obj["access_token"].toString());
+                  const auto token = obj["access_token"].toString();
+                  emit baiduTokenReady(token);
+
+                  // 需要在事件响应之后手动加上
+                  this->quit();
                 }
               }
             });
 
-    const QString url = baseUrl + "?grant_type=client_credentials&client_id=" +
+    const auto baiduAi = iniManager::getIniSetting();
+    const auto API_KEY = baiduAi.value("BaiduAI/API_KEY").toString();
+    const auto SECRET_KEY = baiduAi.value("BaiduAI/SECRET_KEY").toString();
+    const QString url = getTokenUrl +
+      "?grant_type=client_credentials&client_id=" +
       API_KEY + "&client_secret=" + SECRET_KEY;
 
-    manager->get(QNetworkRequest(QUrl(url)));
+    manager->get(QNetworkRequest(QUrl(url))); ///< 发出get请求
 
+    // thread 类带的exec
     this->exec(); ///< 事件循环等待 finished 的响应，否则线程直接退出
   }
 
@@ -62,5 +71,4 @@ signals:
 
 private:
   std::unique_ptr<QNetworkAccessManager> manager;
-  GetBaiduTokenWorker() = default;
 };

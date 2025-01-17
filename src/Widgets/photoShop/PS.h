@@ -13,13 +13,9 @@
 
 #pragma once
 
+#include <QUrl>
 #include <QWidget>
 
-inline QString API_KEY = "AXpJSMWfCfUzd0omZJheU7QZ";
-inline QString SECRET_KEY = "TidB30gDa9QTdFIVqpjeN8ced15JMdmX";
-static QString Token;
-
-class GetBaiduTokenWorker;
 QT_BEGIN_NAMESPACE
 
 namespace Ui
@@ -44,6 +40,4 @@ private:
   void getBaiduAIToken();
 
   Ui::PS* ui;
-  GetBaiduTokenWorker* getBaiduTokenWorker;
-
 };
