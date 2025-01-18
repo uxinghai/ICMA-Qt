@@ -417,14 +417,19 @@
      <property name="title">
       <string>主题</string>
      </property>
-     <addaction name="actionAMOLED"/>
+     <addaction name="actionLight"/>
+     <addaction name="separator"/>
      <addaction name="actionAqua"/>
-     <addaction name="actionConsoleStyle"/>
      <addaction name="actionMacOS"/>
-     <addaction name="actionManjaroMix"/>
-     <addaction name="actionMaterialDark"/>
      <addaction name="actionNeonButtons"/>
      <addaction name="actionUbuntu"/>
+     <addaction name="separator"/>
+     <addaction name="actionDark"/>
+     <addaction name="separator"/>
+     <addaction name="actionAMOLED"/>
+     <addaction name="actionConsoleStyle"/>
+     <addaction name="actionManjaroMix"/>
+     <addaction name="actionMaterialDark"/>
     </widget>
     <addaction name="actionCopy"/>
     <addaction name="actionCut"/>
@@ -1569,6 +1574,36 @@
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionDark">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/qss/res/QSS/QSS_IMG/DarkTheme.png</normaloff>:/qss/res/QSS/QSS_IMG/DarkTheme.png</iconset>
+   </property>
+   <property name="text">
+    <string>深色</string>
+   </property>
+   <property name="toolTip">
+    <string>使用深色主题</string>
+   </property>
+  </action>
+  <action name="actionLight">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/qss/res/QSS/QSS_IMG/LightTheme.png</normaloff>:/qss/res/QSS/QSS_IMG/LightTheme.png</iconset>
+   </property>
+   <property name="text">
+    <string>浅色</string>
+   </property>
+   <property name="toolTip">
+    <string>使用浅色主题</string>
    </property>
   </action>
  </widget>

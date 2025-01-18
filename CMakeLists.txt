@@ -53,7 +53,7 @@ set(PROJECT_SOURCES
         UI/FileTransfer.ui
         # utils下所有文件
         src/manager/JsonManager.h
-        src/Controls/Network/GetBaiduToken.h
+        src/Network/GetBaiduToken.h
         src/Utils/threadWorkers/ThreadImageToBase64.h
         # network下所有文件
         src/Widgets/fileTransfer/client/AClient.h
@@ -72,13 +72,11 @@ set(PROJECT_SOURCES
         src/manager/SqlManager.h
         src/dataBase/worker/FilesDBWorker.h
         # Controls
-        src/controls/graphics/MyGraphicsView.h
-        src/controls/graphics/MyGraphicsItem.h
         src/manager/Config/iniManager.h
         src/Utils/Tools/closeWindowMsgBox.h
         src/Utils/Tools/MovableFramelessWindow.h
         src/Utils/Tools/NetworkTool.h
-        src/Controls/Network/GetICMABrief.h
+        src/Network/GetICMABrief.h
         src/Utils/Tools/SystemTrayIcon.h
         src/Widgets/mainWindow/FileManage/FileManage.cpp
         src/Widgets/mainWindow/FileManage/FileManage.h
@@ -89,8 +87,11 @@ set(PROJECT_SOURCES
         src/DataBase/SqlQuery/Files.h
         src/DataBase/SqlQuery/SqlQueryHelper.h
         src/Utils/Tools/ImageToBase64.h
-        src/Controls/Network/AIDoFaceDetect.h
+        src/Network/AIDoFaceDetect.h
         src/Widgets/photoShop/ShareSrc.h
+        src/Widgets/photoShop/MyGraphicsView.h
+        src/Utils/Tools/LoadingGif.h
+        src/Utils/Tools/TipLabel.h
 )
 
 #                                            *********

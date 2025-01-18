@@ -8,6 +8,7 @@
     <file>res/icons/logo/logo1024.ico</file>
     <file>res/faceTest.png</file>
     <file>res/icons/Loading/loading.png</file>
+    <file>res/icons/Loading/dogLoading.gif</file>
     <file>res/icons/disk.png</file>
     <file>res/icons/directory.png</file>
   </qresource>
@@ -497,6 +498,8 @@
     <file>res/QSS/QSS_IMG/go-next-symbolic.symbolic.png</file>
     <file>res/QSS/QSS_IMG/go-previous-symbolic.symbolic.png</file>
     <file>res/QSS/QSS_IMG/object-select-symbolic.symbolic.png</file>
+    <file>res/QSS/QSS_IMG/LightTheme.png</file>
+    <file>res/QSS/QSS_IMG/DarkTheme.png</file>
   </qresource>
   <qresource prefix="/sql">
     <file>res/SQLite3_ICMA/Directory.sql</file>

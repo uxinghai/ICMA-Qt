@@ -4,7 +4,7 @@
 #include <QMessageBox>
 
 #include "../../../UI/ui_MainWindow.h"
-#include "../../Controls/Network/GetICMABrief.h"
+#include "../../Network/GetICMABrief.h"
 #include "../../DataBase/worker/FilesDBWorker.h"
 #include "../../Manager/Config/iniManager.h"
 #include "../../Manager/JsonManager.h"

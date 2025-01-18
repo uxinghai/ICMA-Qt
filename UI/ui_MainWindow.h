@@ -104,6 +104,8 @@ public:
     QAction *actionNeonButtons;
     QAction *actionUbuntu;
     QAction *actionAboutQT;
+    QAction *actionDark;
+    QAction *actionLight;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QSplitter *splitter_2;
@@ -370,6 +372,18 @@ public:
         actionAboutQT = new QAction(MainWindow);
         actionAboutQT->setObjectName("actionAboutQT");
         actionAboutQT->setMenuRole(QAction::NoRole);
+        actionDark = new QAction(MainWindow);
+        actionDark->setObjectName("actionDark");
+        actionDark->setEnabled(false);
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/qss/res/QSS/QSS_IMG/DarkTheme.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionDark->setIcon(icon1);
+        actionLight = new QAction(MainWindow);
+        actionLight->setObjectName("actionLight");
+        actionLight->setEnabled(false);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/qss/res/QSS/QSS_IMG/LightTheme.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionLight->setIcon(icon2);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setStyleSheet(QString::fromUtf8(""));
@@ -576,14 +590,19 @@ public:
         menu_6->addAction(actionCN);
         menu_6->addAction(actionEN);
         menu_6->addAction(actionJP);
-        menu_8->addAction(actionAMOLED);
+        menu_8->addAction(actionLight);
+        menu_8->addSeparator();
         menu_8->addAction(actionAqua);
-        menu_8->addAction(actionConsoleStyle);
         menu_8->addAction(actionMacOS);
-        menu_8->addAction(actionManjaroMix);
-        menu_8->addAction(actionMaterialDark);
         menu_8->addAction(actionNeonButtons);
         menu_8->addAction(actionUbuntu);
+        menu_8->addSeparator();
+        menu_8->addAction(actionDark);
+        menu_8->addSeparator();
+        menu_8->addAction(actionAMOLED);
+        menu_8->addAction(actionConsoleStyle);
+        menu_8->addAction(actionManjaroMix);
+        menu_8->addAction(actionMaterialDark);
         menu_3->addAction(actionFilter);
         menu_3->addAction(actionPreview);
         menu_3->addAction(actionStatusBar);
@@ -1065,6 +1084,14 @@ public:
 #if QT_CONFIG(statustip)
         actionAboutQT->setStatusTip(QCoreApplication::translate("MainWindow", "\344\276\235\346\215\256\345\215\217\350\256\256\345\220\221\346\202\250\345\261\225\347\244\272QT\347\232\204\344\277\241\346\201\257.", nullptr));
 #endif // QT_CONFIG(statustip)
+        actionDark->setText(QCoreApplication::translate("MainWindow", "\346\267\261\350\211\262", nullptr));
+#if QT_CONFIG(tooltip)
+        actionDark->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250\346\267\261\350\211\262\344\270\273\351\242\230", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionLight->setText(QCoreApplication::translate("MainWindow", "\346\265\205\350\211\262", nullptr));
+#if QT_CONFIG(tooltip)
+        actionLight->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250\346\265\205\350\211\262\344\270\273\351\242\230", nullptr));
+#endif // QT_CONFIG(tooltip)
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));
         comBoxFilter->setItemText(1, QCoreApplication::translate("MainWindow", "\351\237\263\351\242\221", nullptr));

@@ -11,7 +11,7 @@
 #include <QTimer>
 
 #include "../../../../UI/ui_FaceTest.h"
-#include "../../../Controls/Network/AIDoFaceDetect.h"
+#include "../../../Network/AIDoFaceDetect.h"
 #include "../../../Utils/threadWorkers/ThreadImageToBase64.h"
 #include "../ShareSrc.h"
 

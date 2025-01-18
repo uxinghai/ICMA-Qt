@@ -94,3 +94,5 @@ inline QUrl requestFaceDetectUrl{
 
 // 获取token
 inline QString getTokenUrl = "https://aip.baidubce.com/oauth/2.0/token";
+
+inline QStringList suffixList{"PNG", "JPG", "JPEG"};

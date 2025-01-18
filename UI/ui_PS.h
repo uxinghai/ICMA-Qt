@@ -14,7 +14,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
-#include <QtWidgets/QGraphicsView>
 #include <QtWidgets/QGridLayout>
 #include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
@@ -32,6 +31,7 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "../src/Widgets/photoShop/MyGraphicsView.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -42,7 +42,7 @@ public:
     QSplitter *splitter;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout1;
-    QGraphicsView *GraphicsView;
+    MyGraphicsView *GraphicsView;
     QWidget *widget_4;
     QGridLayout *gridLayout_7;
     QStackedWidget *stackedWidget;
@@ -218,6 +218,7 @@ public:
         gridLayout_21->setContentsMargins(5, 5, 5, 5);
         splitter = new QSplitter(PS);
         splitter->setObjectName("splitter");
+        splitter->setAcceptDrops(true);
         splitter->setOrientation(Qt::Horizontal);
         splitter->setOpaqueResize(true);
         splitter->setChildrenCollapsible(false);
@@ -226,7 +227,7 @@ public:
         verticalLayout1 = new QVBoxLayout(layoutWidget);
         verticalLayout1->setObjectName("verticalLayout1");
         verticalLayout1->setContentsMargins(0, 0, 0, 0);
-        GraphicsView = new QGraphicsView(layoutWidget);
+        GraphicsView = new MyGraphicsView(layoutWidget);
         GraphicsView->setObjectName("GraphicsView");
         QSizePolicy sizePolicy(QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Expanding);
         sizePolicy.setHorizontalStretch(0);
@@ -235,7 +236,7 @@ public:
         GraphicsView->setSizePolicy(sizePolicy);
         GraphicsView->setMinimumSize(QSize(600, 0));
         GraphicsView->setFont(font);
-        GraphicsView->setAcceptDrops(false);
+        GraphicsView->setAcceptDrops(true);
         GraphicsView->setStyleSheet(QString::fromUtf8("\n"
 "                      border: 2px solid #ccc;\n"
 "                      border-radius: 8px;\n"
@@ -250,6 +251,7 @@ public:
         splitter->addWidget(layoutWidget);
         widget_4 = new QWidget(splitter);
         widget_4->setObjectName("widget_4");
+        widget_4->setAcceptDrops(true);
         gridLayout_7 = new QGridLayout(widget_4);
         gridLayout_7->setSpacing(5);
         gridLayout_7->setObjectName("gridLayout_7");
@@ -900,10 +902,12 @@ public:
 
         otherTool = new QGroupBox(widget_4);
         otherTool->setObjectName("otherTool");
+        otherTool->setAcceptDrops(true);
         gridLayout_6 = new QGridLayout(otherTool);
         gridLayout_6->setObjectName("gridLayout_6");
         FaceTestToolBtn = new QToolButton(otherTool);
         FaceTestToolBtn->setObjectName("FaceTestToolBtn");
+        FaceTestToolBtn->setAcceptDrops(true);
         FaceTestToolBtn->setAutoRaise(true);
 
         gridLayout_6->addWidget(FaceTestToolBtn, 0, 0, 1, 1);
