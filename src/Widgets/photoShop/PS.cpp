@@ -11,13 +11,12 @@
 #include "../../Network/GetBaiduToken.h"
 #include "../../Utils/Tools/LoadingGif.h"
 #include "../../Utils/Tools/MovableFramelessWindow.h"
+#include "Crop.h"
 #include "faceTest/FaceTest.h"
 
 PS::PS()
   : ui(new Ui::PS),
-    scene(new QGraphicsScene(this)),
-    mySceneItem(new QGraphicsPixmapItem())
-
+    scene(new QGraphicsScene(this))
 {
   ui->setupUi(this);
 
@@ -40,6 +39,13 @@ void PS::setupConnections()
   connect(ui->btnOpenImg, &QToolButton::clicked,
           this, &PS::doOpenImg);
 
+  connect(ui->cropList, &QListWidget::currentRowChanged,
+          [this](const int currentRow) {
+            showImgToUi(Crop::cropPixmapBy(historyPixmap.top(), currentRow));
+          });
+
+  connect(ui->btnUndo, &QToolButton::clicked, this, &PS::doUndo);
+
   // 人脸检测
   connect(ui->FaceTestToolBtn, &QToolButton::clicked, [this] {
     const auto faceTestWidget = new FaceTest();
@@ -55,20 +61,55 @@ void PS::doOpenImg()
   filter += ")";
   const QString pixFilePath = QFileDialog::getOpenFileName(this, tr("打开图片"),
     "../", filter);
+  if (pixFilePath.isEmpty()) { return; }
 
-  showImgToUi(pixFilePath);
+  // 成功打开图片
+  srcPixmap = QPixmap::fromImage(QImage(pixFilePath));
+  showImgToUi(srcPixmap);
+  // 更新界面状态
+  ui->toolBox->setEnabled(true);
+  setEnableButton(true);
+  historyPixmap.pushBack(srcPixmap);
 }
 
-void PS::showImgToUi(const QString& imgPath)
+void PS::showImgToUi(const QPixmap& showPixmap)
 {
-  if (const auto img = QImage(imgPath);
-    !img.isNull()) {
-    mySceneItem->setPixmap(QPixmap::fromImage(img));
-    scene->clear();
-    scene->addItem(mySceneItem);
+  if (showPixmap.isNull()) { return; }
 
-    setEnableButton(true);
+  // 先清理场景
+  scene->clear();
+
+  // 创建并添加新的图片项
+  auto* pixmapItem = new QGraphicsPixmapItem(showPixmap);
+  scene->addItem(pixmapItem);
+
+  // 设置场景范围为图片大小!!
+  scene->setSceneRect(showPixmap.rect());
+
+  // 居中显示
+  ui->GraphicsView->setSceneRect(scene->sceneRect());
+  ui->GraphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
+
+  // 确保内容完全可见
+  ui->GraphicsView->ensureVisible(scene->sceneRect(), 0, 0);
+
+  showImgSize(showPixmap);
+}
+
+void PS::doUndo()
+{
+  QPixmap showPixmap;
+  // 撤回对于 tempStk是显示上一个
+  if (tempStk.size() > 1) {
+    tempStk.pop();
+    showPixmap = tempStk.top();
   }
+  else {
+    showPixmap = historyPixmap.top();
+    if (historyPixmap.size() > 1) { historyPixmap.pop(); }
+    tempStk.clear(); ///< 注意清空
+  }
+  showImgToUi(showPixmap);
 }
 
 void PS::setEnableButton(const bool enable) const
@@ -77,6 +118,19 @@ void PS::setEnableButton(const bool enable) const
   ui->btnUndo->setEnabled(enable);
   ui->btnComparison->setEnabled(enable);
   ui->btnSaveAs->setEnabled(enable);
+  ui->btnDireSave->setEnabled(enable);
+}
+
+void PS::showImgSize(const QPixmap& showPixmap) const
+{
+  if (!showPixmap.isNull()) {
+    const QString height = QString::number(showPixmap.height());
+    const QString width = QString::number(showPixmap.width());
+    ui->leSizeH->setText(height);
+    ui->leSizeH2->setText(height);
+    ui->leSizeW->setText(width);
+    ui->leSizeW2->setText(width);
+  }
 }
 
 void PS::getBaiduAIToken()
@@ -118,8 +172,6 @@ void PS::doGetTokenReady(const QString& token)
   requestFaceDetectUrl.setQuery(urlQuery);
 }
 
-PS::~PS() { delete ui; }
-
 void PS::dragEnterEvent(QDragEnterEvent* event)
 {
   ///< 拖入事件
@@ -142,7 +194,9 @@ void PS::dropEvent(QDropEvent* event)
   if (const auto* mimeData = event->mimeData();
     mimeData->hasUrls()) {
     const QString localFile = mimeData->urls().first().toLocalFile();
-    showImgToUi(localFile);
+    showImgToUi(QPixmap::fromImage(QImage(localFile)));
   }
   QWidget::dropEvent(event);
 }
+
+PS::~PS() { delete ui; }

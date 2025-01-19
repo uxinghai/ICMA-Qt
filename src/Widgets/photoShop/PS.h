@@ -15,6 +15,8 @@
 #include <QUrl>
 #include <QWidget>
 
+#include "../../Utils/Tools/MyAutoStack.h"
+
 class QLabel;
 class LoadingGif;
 class QGraphicsScene;
@@ -37,22 +39,29 @@ public:
   ~PS() override;
 
 protected:
+  // 此处实现的拖拽勿删
   void dragEnterEvent(QDragEnterEvent* event) override;
   void dropEvent(QDropEvent* event) override;
 
 private slots:
   static void doGetTokenReady(const QString& token);
   void doOpenImg();
-  void showImgToUi(const QString& imgPath);
+  void showImgToUi(const QPixmap& showPixmap);
+  void doUndo();
 
 private:
   void init();
   void setupConnections();
   void getBaiduAIToken();
   void setEnableButton(bool enable) const;
+  void showImgSize(const QPixmap& showPixmap) const;
 
   Ui::PS* ui;
 
   QGraphicsScene* scene;
-  QGraphicsPixmapItem* mySceneItem;
+
+  QPixmap srcPixmap;     ///< 保留原始图片
+  QPixmap processPixmap; ///< 保留处理图片
+
+  MyAutoStack<QPixmap> historyPixmap;
 };

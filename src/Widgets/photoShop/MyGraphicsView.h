@@ -14,6 +14,7 @@
 
 #include <qevent.h>
 #include <QGraphicsView>
+#include <QMenu>
 
 #include "../../Utils/Tools/TipLabel.h"
 #include "ShareSrc.h"
@@ -22,12 +23,16 @@ class MyGraphicsView final : public QGraphicsView {
 public:
   explicit MyGraphicsView(QWidget* parent = nullptr)
     : QGraphicsView(parent),
-      scaleTip(new TipLabel(tr("配合Ctrl缩放"), this))
+      scaleTip(new TipLabel(tr("配合Ctrl缩放"), this)),
+      fitInViewAction(new QAction(tr("最佳适应"), this))
   {
     this->setRenderHint(QPainter::Antialiasing);
     this->setCacheMode(CacheBackground);
     this->setViewportUpdateMode(BoundingRectViewportUpdate);
     this->setAcceptDrops(true);
+    this->setContextMenuPolicy(Qt::CustomContextMenu);
+
+    setupConnections();
   }
 
 protected:
@@ -60,24 +65,19 @@ protected:
     QGraphicsView::dropEvent(event);
   }
 
-  // 明天读一遍
   void resizeEvent(QResizeEvent* event) override
   {
-    // 处理空或无效的情况
-    if (!event || event->size().isEmpty()) {
-      QGraphicsView::resizeEvent(event);
-      return;
-    }
-
     const QSizeF oldSize = event->oldSize();
     const QSizeF newSize = event->size();
 
     // 处理首次调整大小的情况
     if (oldSize.isEmpty()) {
       QGraphicsView::resizeEvent(event);
-      if (this->scene()) {
+      /*if (this->scene()) { ///< 如果有场景
+        // 首次显示铺满整个场景
         this->fitInView(this->scene()->sceneRect(), Qt::KeepAspectRatio);
-      }
+      }*/
+      // 让首次不应用缩放
       return;
     }
 
@@ -92,7 +92,9 @@ protected:
     scaleY = qBound(minScale, scaleY, maxScale);
 
     // 保持当前视图的中心点
-    const QPointF centerPoint = mapToScene(viewport()->rect().center());
+    // viewport是局部视图区域
+    const QPointF centerPoint = this->mapToScene(
+      this->viewport()->rect().center());
 
     // 应用变换
     QTransform transform = this->transform();
@@ -100,17 +102,34 @@ protected:
     this->setTransform(transform);
 
     // 重新居中视图
-    if (scene()) {
-      centerOn(centerPoint);
+    if (this->scene()) {
+      this->centerOn(centerPoint);
       // 确保内容完全可见
-      ensureVisible(scene()->sceneRect(), 0, 0);
+      this->ensureVisible(this->scene()->sceneRect(), 0, 0);
     }
 
     QGraphicsView::resizeEvent(event);
   }
 
 private:
+  void setupConnections()
+  {
+    connect(this, &QGraphicsView::customContextMenuRequested,
+            [this](const QPoint&) {
+              const auto menu = std::make_unique<QMenu>();
+              menu->addAction(fitInViewAction);
+              menu->exec(QCursor::pos());
+            });
+
+    connect(fitInViewAction, &QAction::triggered, [this] {
+      this->fitInView(this->scene()->sceneRect(), Qt::KeepAspectRatio);
+    });
+  }
+
   TipLabel* scaleTip;
 
   QPoint lastPos;
+
+  // 右键动作项
+  QAction* fitInViewAction;
 };

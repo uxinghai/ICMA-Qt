@@ -16,7 +16,6 @@
   <property name="font">
    <font>
     <family>Segoe UI</family>
-    <pointsize>-1</pointsize>
    </font>
   </property>
   <property name="acceptDrops">
@@ -30,10 +29,7 @@
     <normaloff>:/icons/res/icons/logo/imgEditor.png</normaloff>:/icons/res/icons/logo/imgEditor.png</iconset>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget {
-        font-family: 'Segoe UI', Arial, sans-serif;
-        font-size:18px;
-        }
+   <string notr="true">
         QPushButton {
         background-color: #4a90e2;
         color: white;
@@ -120,6 +116,19 @@
      <property name="acceptDrops">
       <bool>true</bool>
      </property>
+     <property name="styleSheet">
+      <string notr="true">  /*--------------------------调整中的圆角样式------------------*/
+                                QSpinBox, QDoubleSpinBox {
+                                border: 1px solid #E0E0E0;
+                                border-radius: 10px; /* 圆角半径 */
+                                padding: 5px 10px;
+                                background: white;
+                                min-width: 37px;
+                                min-height: 15px;
+                                max-width: 37px;
+                                max-height: 15px;
+                                }</string>
+     </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
@@ -148,8 +157,10 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
+         </property>
+         <property name="contextMenuPolicy">
+          <enum>Qt::CustomContextMenu</enum>
          </property>
          <property name="acceptDrops">
           <bool>true</bool>
@@ -221,7 +232,7 @@
            <item row="0" column="0">
             <widget class="QToolBox" name="toolBox">
              <property name="enabled">
-              <bool>true</bool>
+              <bool>false</bool>
              </property>
              <property name="sizePolicy">
               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -238,7 +249,6 @@
              <property name="font">
               <font>
                <family>Segoe UI</family>
-               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="styleSheet">
@@ -304,7 +314,7 @@
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <property name="tabSpacing">
               <number>7</number>
@@ -314,8 +324,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>313</width>
-                <height>268</height>
+                <width>225</width>
+                <height>262</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -331,7 +341,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="frameShape">
@@ -424,7 +433,6 @@
                    <property name="font">
                     <font>
                      <family>Segoe UI</family>
-                     <pointsize>-1</pointsize>
                     </font>
                    </property>
                    <property name="text">
@@ -498,7 +506,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="text">
@@ -513,8 +520,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>313</width>
-                <height>285</height>
+                <width>164</width>
+                <height>287</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -620,7 +627,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="frameShape">
@@ -710,29 +716,12 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>296</width>
-                <height>289</height>
+                <width>160</width>
+                <height>287</height>
                </rect>
               </property>
               <property name="styleSheet">
-               <string notr="true">
-                                QWidget:!QSpinBox:!QDoubleSpinBox {
-                                font-family: 'Segoe UI', Arial, sans-serif;
-                                font-size: 11pt;
-                                }
-
-                                /*--------------------------调整中的圆角样式------------------*/
-                                QSpinBox, QDoubleSpinBox {
-                                border: 1px solid #E0E0E0;
-                                border-radius: 10px; /* 圆角半径 */
-                                padding: 5px 10px;
-                                background: white;
-                                min-width: 37px;
-                                min-height: 15px;
-                                max-width: 37px;
-                                max-height: 15px;
-                                }
-                              </string>
+               <string notr="true"/>
               </property>
               <attribute name="icon">
                <iconset>
@@ -775,7 +764,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -843,7 +831,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="frame">
@@ -908,7 +895,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="frame">
@@ -976,7 +962,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -1152,8 +1137,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>313</width>
-                <height>156</height>
+                <width>200</width>
+                <height>135</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1372,8 +1357,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>313</width>
-                <height>254</height>
+                <width>160</width>
+                <height>249</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1475,8 +1460,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>313</width>
-                <height>213</height>
+                <width>174</width>
+                <height>182</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1525,7 +1510,6 @@
                  <property name="font">
                   <font>
                    <family>Segoe UI</family>
-                   <pointsize>-1</pointsize>
                   </font>
                  </property>
                  <property name="styleSheet">
@@ -1544,7 +1528,7 @@
                  <item>
                   <widget class="QSlider" name="kernelValue">
                    <property name="enabled">
-                    <bool>true</bool>
+                    <bool>false</bool>
                    </property>
                    <property name="minimum">
                     <number>1</number>
@@ -1573,8 +1557,8 @@
                    </property>
                    <property name="maximumSize">
                     <size>
-                     <width>16777215</width>
-                     <height>25</height>
+                     <width>59</width>
+                     <height>27</height>
                     </size>
                    </property>
                    <property name="buttonSymbols">
@@ -1604,7 +1588,7 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>313</width>
+                <width>160</width>
                 <height>210</height>
                </rect>
               </property>
@@ -1712,7 +1696,6 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="orientation">
@@ -1740,7 +1723,6 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="toolTip">
@@ -1778,7 +1760,6 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="toolTip">
@@ -1816,7 +1797,6 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="toolTip">
@@ -1842,7 +1822,6 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="orientation">
@@ -1877,7 +1856,6 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="text">
@@ -1896,6 +1874,43 @@
         </widget>
        </item>
        <item>
+        <widget class="QPushButton" name="btnDireSave">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>35</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string>保存到指定目录</string>
+         </property>
+         <property name="text">
+          <string>保存替换</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>:/ps/res/ps/saveAS.png</normaloff>:/ps/res/ps/saveAS.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>32</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+S</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="btnSaveAs">
          <property name="enabled">
           <bool>false</bool>
@@ -1909,7 +1924,6 @@
          <property name="font">
           <font>
            <family>Segoe UI</family>
-           <pointsize>-1</pointsize>
           </font>
          </property>
          <property name="toolTip">

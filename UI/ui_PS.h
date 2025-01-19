@@ -127,6 +127,7 @@ public:
     QSpacerItem *horizontalSpacer2;
     QHBoxLayout *horizontalLayout2;
     QPushButton *btnOpenImg;
+    QPushButton *btnDireSave;
     QPushButton *btnSaveAs;
 
     void setupUi(QWidget *PS)
@@ -142,10 +143,7 @@ public:
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/icons/res/icons/logo/imgEditor.png"), QSize(), QIcon::Normal, QIcon::Off);
         PS->setWindowIcon(icon);
-        PS->setStyleSheet(QString::fromUtf8("QWidget {\n"
-"        font-family: 'Segoe UI', Arial, sans-serif;\n"
-"        font-size:18px;\n"
-"        }\n"
+        PS->setStyleSheet(QString::fromUtf8("\n"
 "        QPushButton {\n"
 "        background-color: #4a90e2;\n"
 "        color: white;\n"
@@ -169,10 +167,10 @@ public:
 "        QSlider::groove:vertical {\n"
 "        border: 1px solid #999999;\n"
 "        width: 8px; /* \346\224\271\344\270\272 width\357\274\214\351\200\202\345\220\210\345\236\202\347\233\264\346\226\271\345\220\221 */\n"
-"        background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B"
-                        "1B1B1,\n"
+"        background: qlineargradient(x1:0, y1:0, x2:0, y2:1, stop:0 #B1B1B1,\n"
 "        stop:1 #c4c4c4);\n"
-"        margin: 0 2px; /* \350\260\203\346\225\264\345\236\202\347\233\264\346\226\271\345\220\221\347\232\204\351\227\264\350\267\235 */\n"
+"        margin: 0 2px; /* \350\260\203\346\225\264\345\236\202\347\233"
+                        "\264\346\226\271\345\220\221\347\232\204\351\227\264\350\267\235 */\n"
 "        }\n"
 "\n"
 "        QSlider::handle:horizontal {\n"
@@ -191,13 +189,13 @@ public:
 "        height: 18px; /* \345\257\271\345\272\224\345\236\202\347\233\264\346\226\271\345\220\221\347\232\204\346\273\221\345\235\227\345\244\247\345\260\217 */\n"
 "        margin: 0 -2px; /* \350\260\203\346\225\264\345\236\202\347\233\264\346\273\221\345\235\227\347\232\204\350\276\271\350\267\235 */\n"
 "        border-radius: 3px;\n"
-"    "
-                        "    }\n"
+"        }\n"
 "\n"
 "        QDoubleSpinBox {\n"
 "        padding: 4px;\n"
 "        border: 1px solid #aaa;\n"
-"        border-radius: 4px;\n"
+"    "
+                        "    border-radius: 4px;\n"
 "        }\n"
 "        QGroupBox {\n"
 "        font-weight: bold;\n"
@@ -219,6 +217,17 @@ public:
         splitter = new QSplitter(PS);
         splitter->setObjectName("splitter");
         splitter->setAcceptDrops(true);
+        splitter->setStyleSheet(QString::fromUtf8("  /*--------------------------\350\260\203\346\225\264\344\270\255\347\232\204\345\234\206\350\247\222\346\240\267\345\274\217------------------*/\n"
+"                                QSpinBox, QDoubleSpinBox {\n"
+"                                border: 1px solid #E0E0E0;\n"
+"                                border-radius: 10px; /* \345\234\206\350\247\222\345\215\212\345\276\204 */\n"
+"                                padding: 5px 10px;\n"
+"                                background: white;\n"
+"                                min-width: 37px;\n"
+"                                min-height: 15px;\n"
+"                                max-width: 37px;\n"
+"                                max-height: 15px;\n"
+"                                }"));
         splitter->setOrientation(Qt::Horizontal);
         splitter->setOpaqueResize(true);
         splitter->setChildrenCollapsible(false);
@@ -236,6 +245,7 @@ public:
         GraphicsView->setSizePolicy(sizePolicy);
         GraphicsView->setMinimumSize(QSize(600, 0));
         GraphicsView->setFont(font);
+        GraphicsView->setContextMenuPolicy(Qt::CustomContextMenu);
         GraphicsView->setAcceptDrops(true);
         GraphicsView->setStyleSheet(QString::fromUtf8("\n"
 "                      border: 2px solid #ccc;\n"
@@ -266,7 +276,7 @@ public:
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
         toolBox = new QToolBox(page);
         toolBox->setObjectName("toolBox");
-        toolBox->setEnabled(true);
+        toolBox->setEnabled(false);
         sizePolicy.setHeightForWidth(toolBox->sizePolicy().hasHeightForWidth());
         toolBox->setSizePolicy(sizePolicy);
         toolBox->setMaximumSize(QSize(16777215, 16777215));
@@ -332,7 +342,7 @@ public:
         toolBox->setFrameShadow(QFrame::Plain);
         crop = new QWidget();
         crop->setObjectName("crop");
-        crop->setGeometry(QRect(0, 0, 313, 268));
+        crop->setGeometry(QRect(0, 0, 225, 262));
         gridLayout_3 = new QGridLayout(crop);
         gridLayout_3->setObjectName("gridLayout_3");
         cropList = new QListWidget(crop);
@@ -409,7 +419,7 @@ public:
         toolBox->addItem(crop, icon1, QString::fromUtf8("\350\243\201\345\211\252"));
         size = new QWidget();
         size->setObjectName("size");
-        size->setGeometry(QRect(0, 0, 313, 285));
+        size->setGeometry(QRect(0, 0, 164, 287));
         gridLayout_10 = new QGridLayout(size);
         gridLayout_10->setObjectName("gridLayout_10");
         sureSize = new QPushButton(size);
@@ -487,26 +497,8 @@ public:
         toolBox->addItem(size, icon2, QString::fromUtf8("\346\224\271\345\260\272\345\257\270"));
         adjust = new QWidget();
         adjust->setObjectName("adjust");
-        adjust->setGeometry(QRect(0, 0, 296, 289));
-        adjust->setStyleSheet(QString::fromUtf8("\n"
-"                                QWidget:!QSpinBox:!QDoubleSpinBox {\n"
-"                                font-family: 'Segoe UI', Arial, sans-serif;\n"
-"                                font-size: 11pt;\n"
-"                                }\n"
-"\n"
-"                                /*--------------------------\350\260\203\346\225\264\344\270\255\347\232\204\345\234\206\350\247\222\346\240\267\345\274\217------------------*/\n"
-"                                QSpinBox, QDoubleSpinBox {\n"
-"                                border: 1px solid #E0E0E0;\n"
-"                                border-radius: 10px; /* \345\234\206\350\247\222\345\215\212\345\276\204 */\n"
-"                                padding: 5px 10px;\n"
-"                                background: white;\n"
-"                                min-width: 37px;\n"
-"                                min-height: 15px;\n"
-"                                max-width: 37px;\n"
-"                                max-height: 15px;\n"
-"                             "
-                        "   }\n"
-"                              "));
+        adjust->setGeometry(QRect(0, 0, 160, 287));
+        adjust->setStyleSheet(QString::fromUtf8(""));
         gridLayout_17 = new QGridLayout(adjust);
         gridLayout_17->setObjectName("gridLayout_17");
         label_2 = new QLabel(adjust);
@@ -680,7 +672,7 @@ public:
         toolBox->addItem(adjust, icon3, QString::fromUtf8("\350\260\203\346\225\264"));
         page_3 = new QWidget();
         page_3->setObjectName("page_3");
-        page_3->setGeometry(QRect(0, 0, 313, 156));
+        page_3->setGeometry(QRect(0, 0, 200, 135));
         gridLayout = new QGridLayout(page_3);
         gridLayout->setObjectName("gridLayout");
         rotaSlider = new QSlider(page_3);
@@ -768,7 +760,7 @@ public:
         toolBox->addItem(page_3, icon8, QString::fromUtf8("\346\227\213\350\275\254\345\217\230\346\215\242"));
         Filter = new QWidget();
         Filter->setObjectName("Filter");
-        Filter->setGeometry(QRect(0, 0, 313, 254));
+        Filter->setGeometry(QRect(0, 0, 160, 249));
         gridLayout_5 = new QGridLayout(Filter);
         gridLayout_5->setObjectName("gridLayout_5");
         FilterList = new QListWidget(Filter);
@@ -803,7 +795,7 @@ public:
         toolBox->addItem(Filter, icon9, QString::fromUtf8("\347\211\271\346\225\210\346\273\244\351\225\234"));
         algrothime = new QWidget();
         algrothime->setObjectName("algrothime");
-        algrothime->setGeometry(QRect(0, 0, 313, 213));
+        algrothime->setGeometry(QRect(0, 0, 174, 182));
         gridLayout_4 = new QGridLayout(algrothime);
         gridLayout_4->setObjectName("gridLayout_4");
         radioBilateral = new QRadioButton(algrothime);
@@ -839,7 +831,7 @@ public:
         horizontalLayout->setObjectName("horizontalLayout");
         kernelValue = new QSlider(algrothime);
         kernelValue->setObjectName("kernelValue");
-        kernelValue->setEnabled(true);
+        kernelValue->setEnabled(false);
         kernelValue->setMinimum(1);
         kernelValue->setMaximum(20);
         kernelValue->setPageStep(1);
@@ -852,7 +844,7 @@ public:
         spinBoxKernel = new QSpinBox(algrothime);
         spinBoxKernel->setObjectName("spinBoxKernel");
         spinBoxKernel->setEnabled(false);
-        spinBoxKernel->setMaximumSize(QSize(16777215, 25));
+        spinBoxKernel->setMaximumSize(QSize(59, 27));
         spinBoxKernel->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
         spinBoxKernel->setMinimum(1);
         spinBoxKernel->setMaximum(20);
@@ -873,7 +865,7 @@ public:
         toolBox->addItem(algrothime, icon10, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
         AITool = new QWidget();
         AITool->setObjectName("AITool");
-        AITool->setGeometry(QRect(0, 0, 313, 210));
+        AITool->setGeometry(QRect(0, 0, 160, 210));
         gridLayout_8 = new QGridLayout(AITool);
         gridLayout_8->setObjectName("gridLayout_8");
         AIList = new QListWidget(AITool);
@@ -992,13 +984,23 @@ public:
 
         horizontalLayout2->addWidget(btnOpenImg);
 
+        btnDireSave = new QPushButton(PS);
+        btnDireSave->setObjectName("btnDireSave");
+        btnDireSave->setEnabled(false);
+        btnDireSave->setMaximumSize(QSize(16777215, 35));
+        btnDireSave->setFont(font);
+        QIcon icon16;
+        icon16.addFile(QString::fromUtf8(":/ps/res/ps/saveAS.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnDireSave->setIcon(icon16);
+        btnDireSave->setIconSize(QSize(32, 32));
+
+        horizontalLayout2->addWidget(btnDireSave);
+
         btnSaveAs = new QPushButton(PS);
         btnSaveAs->setObjectName("btnSaveAs");
         btnSaveAs->setEnabled(false);
         btnSaveAs->setMaximumSize(QSize(16777215, 35));
         btnSaveAs->setFont(font);
-        QIcon icon16;
-        icon16.addFile(QString::fromUtf8(":/ps/res/ps/saveAS.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnSaveAs->setIcon(icon16);
         btnSaveAs->setIconSize(QSize(32, 32));
 
@@ -1014,7 +1016,7 @@ public:
         retranslateUi(PS);
 
         stackedWidget->setCurrentIndex(0);
-        toolBox->setCurrentIndex(0);
+        toolBox->setCurrentIndex(1);
         toolBox->layout()->setSpacing(7);
 
 
@@ -1203,6 +1205,13 @@ public:
 #endif // QT_CONFIG(tooltip)
         btnComparison->setText(QCoreApplication::translate("PS", "\345\257\271\346\257\224", nullptr));
         btnOpenImg->setText(QCoreApplication::translate("PS", "\346\211\223\345\274\200\345\233\276\347\211\207", nullptr));
+#if QT_CONFIG(tooltip)
+        btnDireSave->setToolTip(QCoreApplication::translate("PS", "\344\277\235\345\255\230\345\210\260\346\214\207\345\256\232\347\233\256\345\275\225", nullptr));
+#endif // QT_CONFIG(tooltip)
+        btnDireSave->setText(QCoreApplication::translate("PS", "\344\277\235\345\255\230\346\233\277\346\215\242", nullptr));
+#if QT_CONFIG(shortcut)
+        btnDireSave->setShortcut(QCoreApplication::translate("PS", "Ctrl+S", nullptr));
+#endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
         btnSaveAs->setToolTip(QCoreApplication::translate("PS", "\344\277\235\345\255\230\345\210\260\346\214\207\345\256\232\347\233\256\345\275\225", nullptr));
 #endif // QT_CONFIG(tooltip)

@@ -92,6 +92,8 @@ set(PROJECT_SOURCES
         src/Widgets/photoShop/MyGraphicsView.h
         src/Utils/Tools/LoadingGif.h
         src/Utils/Tools/TipLabel.h
+        src/Utils/Tools/MyAutoStack.h
+        src/Widgets/photoShop/Crop.h
 )
 
 #                                            *********
