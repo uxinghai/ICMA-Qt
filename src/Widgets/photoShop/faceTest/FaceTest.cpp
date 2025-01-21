@@ -13,6 +13,7 @@
 #include "../../../../UI/ui_FaceTest.h"
 #include "../../../Network/AIDoFaceDetect.h"
 #include "../../../Utils/threadWorkers/ThreadImageToBase64.h"
+#include "../../../Utils/Tools/MyInformationBox.h"
 #include "../ShareSrc.h"
 
 FaceTest::FaceTest()
@@ -109,9 +110,14 @@ void FaceTest::setupConnections()
           &FaceTest::doFaceDetect);
 }
 
-void FaceTest::doOpenCamera() const
+void FaceTest::doOpenCamera()
 {
   camera->start();
+  if (!camera->isActive()) {
+    auto* infoBox = new MyInformationBox(this, tr("相机打开失败\n请重试"));
+    infoBox->show();
+    return;
+  }
   // 启动两个计时器
   captureTimer->start(0);
   getBase64Timer->start(0);

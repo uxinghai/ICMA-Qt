@@ -17,12 +17,13 @@
 
 #include "../../Utils/Tools/MyAutoStack.h"
 
+QT_BEGIN_NAMESPACE
 class QLabel;
 class LoadingGif;
 class QGraphicsScene;
 class MyGraphicsView;
+class MyInformationBox;
 class QGraphicsPixmapItem;
-QT_BEGIN_NAMESPACE
 
 namespace Ui
 {
@@ -31,11 +32,15 @@ namespace Ui
 
 QT_END_NAMESPACE
 
+// 维护历史记录
+// 栈顶元素是最新保存的图像
+inline MyAutoStack<QPixmap> historyPixmap;
+
 class PS final : public QWidget {
   Q_OBJECT
 
 public:
-  PS();
+  explicit PS(QWidget* parent = nullptr);
   ~PS() override;
 
 protected:
@@ -45,23 +50,33 @@ protected:
 
 private slots:
   static void doGetTokenReady(const QString& token);
-  void doOpenImg();
-  void showImgToUi(const QPixmap& showPixmap);
-  void doUndo();
+  void doImageOpen();
+  void showImgToUi(const QPixmap& pixmap) const;
+  void doUndo() const;
+  void doSizeChange() const;
+  static void doShowFaceTest();
+
+  // 保存图像，未指定路径则给用户选择
+  void doImageSave(bool isSaveAs);
+  void showInformationMessage(const QString& message, bool isSuccess);
+
+  void doToolBoxChanged(int index);
+  void doCropChange(int row) const;
+  void doResizeChange(int row) const;
 
 private:
   void init();
   void setupConnections();
   void getBaiduAIToken();
-  void setEnableButton(bool enable) const;
+  void updateUIState(bool enable) const;
   void showImgSize(const QPixmap& showPixmap) const;
-
+  static void pushToHistory(const QPixmap& pixmap);
   Ui::PS* ui;
 
   QGraphicsScene* scene;
 
-  QPixmap srcPixmap;     ///< 保留原始图片
-  QPixmap processPixmap; ///< 保留处理图片
-
-  MyAutoStack<QPixmap> historyPixmap;
+  QString pixFilePath;       ///< 打开的图像位置，是filePath完整路径
+  QPixmap srcPixmap;         ///< 保留原始图片
+  QPixmap shouldBeProcessed; ///< !!!应该被处理的图像（每次切换模块时变换）
+  QPixmap curPixmap;         ///< 显示的当前图像，每次调用show之前保留
 };

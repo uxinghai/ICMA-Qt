@@ -2,6 +2,7 @@
  * @file TipLabel.h
  *
  * @Breife 用于在鼠标位置提示信息
+ *          控制器透明度
  *
  * @version 1.0
  * @date 2025/1/18
@@ -20,39 +21,45 @@ class TipLabel final : public QLabel {
   Q_OBJECT
 
 public:
-  explicit TipLabel(QString tipText,
-                    QWidget* parent = nullptr,
+  explicit TipLabel(QWidget* parent,
+                    QString tipText,
                     const int displayDuration = 3000,
                     const int fadeTime = 200)
     : QLabel(parent)
       , text(std::move(tipText))
       , displayDuration(displayDuration)
-      , fadeAnimation(new QPropertyAnimation(this, "windowOpacity", this))
+      , anim(new QPropertyAnimation(this, "windowOpacity", this))
   {
-    initializeLabel();
-    setupAnimation(fadeTime);
+    this->setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint);
+    this->setAttribute(Qt::WA_TranslucentBackground);
+    this->setAttribute(Qt::WA_TransparentForMouseEvents);
+    this->setAlignment(Qt::AlignCenter);
+    this->setMinimumHeight(30);
+
+    anim->setDuration(fadeTime); ///< Duration 指的是动画从初始状态到终止状态的时长
+    anim->setEasingCurve(QEasingCurve::InOutQuad);
   }
 
-  void showTip(const QPoint& pos)
+  void show(const QPoint& pos)
   {
     this->setText(text);
     this->move(pos);
 
-    disconnect(fadeAnimation, &QPropertyAnimation::finished,
+    disconnect(anim, &QPropertyAnimation::finished,
                this, &TipLabel::hide);
 
     // 开始显示动画
-    fadeAnimation->setStartValue(0.0);
-    fadeAnimation->setEndValue(1.0);
-    this->show();
-    fadeAnimation->start();
+    anim->setStartValue(0.0);
+    anim->setEndValue(1.0);
+    QLabel::show();
+    anim->start();
 
     // 设置定时隐藏
     QTimer::singleShot(displayDuration, [this] {
-      fadeAnimation->setStartValue(1.0);
-      fadeAnimation->setEndValue(0.0);
-      fadeAnimation->start();
-      connect(fadeAnimation, &QPropertyAnimation::finished,
+      anim->setStartValue(1.0);
+      anim->setEndValue(0.0);
+      anim->start();
+      connect(anim, &QPropertyAnimation::finished,
               this, &TipLabel::hide);
     });
   }
@@ -61,22 +68,7 @@ public:
   void updateTipText(const QString& newText) { text = newText; }
 
 private:
-  void initializeLabel()
-  {
-    this->setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint);
-    this->setAttribute(Qt::WA_TranslucentBackground);
-    this->setAttribute(Qt::WA_TransparentForMouseEvents);
-    this->setAlignment(Qt::AlignCenter);
-    this->setMinimumHeight(30);
-  }
-
-  void setupAnimation(const int fadeTime) const
-  {
-    fadeAnimation->setDuration(fadeTime);
-    fadeAnimation->setEasingCurve(QEasingCurve::InOutQuad);
-  }
-
   QString text;
   int displayDuration;
-  QPropertyAnimation* fadeAnimation;
+  QPropertyAnimation* anim;
 };

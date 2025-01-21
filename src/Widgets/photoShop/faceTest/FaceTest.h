@@ -44,7 +44,7 @@ public:
   ~FaceTest() override;
 
 private slots:
-  void doOpenCamera() const;
+  void doOpenCamera();
   void doCloseCamera() const;
   void doFaceDetect() const;
 

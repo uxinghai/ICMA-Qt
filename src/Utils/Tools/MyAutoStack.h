@@ -92,9 +92,24 @@ public:
     stk.pop();
   }
 
+  T front()
+  {
+    if (stk.empty()) {
+      throw std::runtime_error("Attempt to access front of an empty stack.");
+    }
+    return stk.front();
+  }
+
   void clear() { stk.clear(); }
 
+  // 特殊功能，在系统保存图像后只保留最新栈顶图像
+  void afterSavePixmap()
+  {
+    const auto pixmap = stk.top();
+    stk.clear();
+    stk.push_back(pixmap);
+  }
 private:
-  int maxHistorySize = 20;
+  int maxHistorySize = 50;
   QStack<T> stk;
 };

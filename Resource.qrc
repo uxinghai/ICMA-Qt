@@ -14,7 +14,7 @@
   </qresource>
   <qresource prefix="/ps">
     <file>res/ps/AITool.png</file>
-    <file>res/ps/algrothime.png</file>
+    <file>res/ps/algorithm.png</file>
     <file>res/ps/change.png</file>
     <file>res/ps/CloseEye.png</file>
     <file>res/ps/crop.png</file>
@@ -38,6 +38,7 @@
     <file>res/ps/cameraClose.png</file>
     <file>res/ps/cameraDelay.png</file>
     <file>res/ps/cameraSlip.png</file>
+    <file>res/ps/changeImg.png</file>
   </qresource>
   <qresource prefix="/suffixes">
     <file>res/suffix/aa.png</file>

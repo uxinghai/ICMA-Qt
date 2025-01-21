@@ -94,6 +94,8 @@ set(PROJECT_SOURCES
         src/Utils/Tools/TipLabel.h
         src/Utils/Tools/MyAutoStack.h
         src/Widgets/photoShop/Crop.h
+        src/Utils/Tools/MyInformationBox.h
+        src/Widgets/photoShop/Resize.h
 )
 
 #                                            *********

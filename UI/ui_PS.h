@@ -59,11 +59,8 @@ public:
     QLineEdit *leSizeH2;
     QLabel *label_12;
     QSpacerItem *horizontalSpacer_12;
-    QPushButton *sureCrop;
     QWidget *size;
     QGridLayout *gridLayout_10;
-    QPushButton *sureSize;
-    QCheckBox *lockedAspectRatio;
     QHBoxLayout *horizontalLayout_6;
     QSpacerItem *horizontalSpacer_9;
     QLineEdit *leSizeW;
@@ -72,6 +69,7 @@ public:
     QLabel *label_9;
     QSpacerItem *horizontalSpacer_10;
     QListWidget *sizeList;
+    QCheckBox *lockedWHRatio;
     QWidget *adjust;
     QGridLayout *gridLayout_17;
     QLabel *label_2;
@@ -342,7 +340,7 @@ public:
         toolBox->setFrameShadow(QFrame::Plain);
         crop = new QWidget();
         crop->setObjectName("crop");
-        crop->setGeometry(QRect(0, 0, 225, 262));
+        crop->setGeometry(QRect(0, 0, 345, 239));
         gridLayout_3 = new QGridLayout(crop);
         gridLayout_3->setObjectName("gridLayout_3");
         cropList = new QListWidget(crop);
@@ -407,33 +405,14 @@ public:
 
         gridLayout_3->addLayout(horizontalLayout_11, 1, 0, 1, 1);
 
-        sureCrop = new QPushButton(crop);
-        sureCrop->setObjectName("sureCrop");
-        sureCrop->setMaximumSize(QSize(16777215, 35));
-        sureCrop->setFont(font);
-
-        gridLayout_3->addWidget(sureCrop, 2, 0, 1, 1);
-
         QIcon icon1;
         icon1.addFile(QString::fromUtf8(":/ps/res/ps/crop.png"), QSize(), QIcon::Normal, QIcon::Off);
         toolBox->addItem(crop, icon1, QString::fromUtf8("\350\243\201\345\211\252"));
         size = new QWidget();
         size->setObjectName("size");
-        size->setGeometry(QRect(0, 0, 164, 287));
+        size->setGeometry(QRect(0, 0, 345, 303));
         gridLayout_10 = new QGridLayout(size);
         gridLayout_10->setObjectName("gridLayout_10");
-        sureSize = new QPushButton(size);
-        sureSize->setObjectName("sureSize");
-        sureSize->setMaximumSize(QSize(16777215, 35));
-
-        gridLayout_10->addWidget(sureSize, 3, 0, 1, 1);
-
-        lockedAspectRatio = new QCheckBox(size);
-        lockedAspectRatio->setObjectName("lockedAspectRatio");
-        lockedAspectRatio->setChecked(true);
-
-        gridLayout_10->addWidget(lockedAspectRatio, 2, 0, 1, 1);
-
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(5);
         horizontalLayout_6->setObjectName("horizontalLayout_6");
@@ -444,6 +423,7 @@ public:
         leSizeW = new QLineEdit(size);
         leSizeW->setObjectName("leSizeW");
         leSizeW->setMaximumSize(QSize(16777215, 25));
+        leSizeW->setMaxLength(4);
 
         horizontalLayout_6->addWidget(leSizeW);
 
@@ -455,6 +435,7 @@ public:
         leSizeH = new QLineEdit(size);
         leSizeH->setObjectName("leSizeH");
         leSizeH->setMaximumSize(QSize(16777215, 25));
+        leSizeH->setMaxLength(4);
 
         horizontalLayout_6->addWidget(leSizeH);
 
@@ -492,12 +473,18 @@ public:
 
         gridLayout_10->addWidget(sizeList, 0, 0, 1, 1);
 
+        lockedWHRatio = new QCheckBox(size);
+        lockedWHRatio->setObjectName("lockedWHRatio");
+        lockedWHRatio->setChecked(true);
+
+        gridLayout_10->addWidget(lockedWHRatio, 2, 0, 1, 1);
+
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/ps/res/ps/size.png"), QSize(), QIcon::Normal, QIcon::Off);
         toolBox->addItem(size, icon2, QString::fromUtf8("\346\224\271\345\260\272\345\257\270"));
         adjust = new QWidget();
         adjust->setObjectName("adjust");
-        adjust->setGeometry(QRect(0, 0, 160, 287));
+        adjust->setGeometry(QRect(0, 0, 345, 287));
         adjust->setStyleSheet(QString::fromUtf8(""));
         gridLayout_17 = new QGridLayout(adjust);
         gridLayout_17->setObjectName("gridLayout_17");
@@ -672,7 +659,7 @@ public:
         toolBox->addItem(adjust, icon3, QString::fromUtf8("\350\260\203\346\225\264"));
         page_3 = new QWidget();
         page_3->setObjectName("page_3");
-        page_3->setGeometry(QRect(0, 0, 200, 135));
+        page_3->setGeometry(QRect(0, 0, 345, 135));
         gridLayout = new QGridLayout(page_3);
         gridLayout->setObjectName("gridLayout");
         rotaSlider = new QSlider(page_3);
@@ -760,7 +747,7 @@ public:
         toolBox->addItem(page_3, icon8, QString::fromUtf8("\346\227\213\350\275\254\345\217\230\346\215\242"));
         Filter = new QWidget();
         Filter->setObjectName("Filter");
-        Filter->setGeometry(QRect(0, 0, 160, 249));
+        Filter->setGeometry(QRect(0, 0, 345, 249));
         gridLayout_5 = new QGridLayout(Filter);
         gridLayout_5->setObjectName("gridLayout_5");
         FilterList = new QListWidget(Filter);
@@ -795,7 +782,7 @@ public:
         toolBox->addItem(Filter, icon9, QString::fromUtf8("\347\211\271\346\225\210\346\273\244\351\225\234"));
         algrothime = new QWidget();
         algrothime->setObjectName("algrothime");
-        algrothime->setGeometry(QRect(0, 0, 174, 182));
+        algrothime->setGeometry(QRect(0, 0, 345, 182));
         gridLayout_4 = new QGridLayout(algrothime);
         gridLayout_4->setObjectName("gridLayout_4");
         radioBilateral = new QRadioButton(algrothime);
@@ -860,12 +847,11 @@ public:
         gridLayout_4->addWidget(sureAlgo, 4, 0, 1, 2);
 
         QIcon icon10;
-        icon10.addFile(QString::fromUtf8("\n"
-"                                  :/ps/res/ps/algrothime.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon10.addFile(QString::fromUtf8(":/ps/res/ps/algorithm.png"), QSize(), QIcon::Normal, QIcon::Off);
         toolBox->addItem(algrothime, icon10, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
         AITool = new QWidget();
         AITool->setObjectName("AITool");
-        AITool->setGeometry(QRect(0, 0, 160, 210));
+        AITool->setGeometry(QRect(0, 0, 345, 210));
         gridLayout_8 = new QGridLayout(AITool);
         gridLayout_8->setObjectName("gridLayout_8");
         AIList = new QListWidget(AITool);
@@ -958,6 +944,7 @@ public:
         QIcon icon14;
         icon14.addFile(QString::fromUtf8(":/ps/res/ps/CloseEye.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnComparison->setIcon(icon14);
+        btnComparison->setCheckable(true);
         btnComparison->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnComparison->setAutoRaise(true);
 
@@ -990,7 +977,7 @@ public:
         btnDireSave->setMaximumSize(QSize(16777215, 35));
         btnDireSave->setFont(font);
         QIcon icon16;
-        icon16.addFile(QString::fromUtf8(":/ps/res/ps/saveAS.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon16.addFile(QString::fromUtf8(":/ps/res/ps/changeImg.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnDireSave->setIcon(icon16);
         btnDireSave->setIconSize(QSize(32, 32));
 
@@ -1001,7 +988,9 @@ public:
         btnSaveAs->setEnabled(false);
         btnSaveAs->setMaximumSize(QSize(16777215, 35));
         btnSaveAs->setFont(font);
-        btnSaveAs->setIcon(icon16);
+        QIcon icon17;
+        icon17.addFile(QString::fromUtf8(":/ps/res/ps/saveAS.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnSaveAs->setIcon(icon17);
         btnSaveAs->setIconSize(QSize(32, 32));
 
         horizontalLayout2->addWidget(btnSaveAs);
@@ -1064,10 +1053,7 @@ public:
         label2->setText(QCoreApplication::translate("PS", "\345\275\223\345\211\215\345\260\272\345\257\270\357\274\232", nullptr));
         label_11->setText(QCoreApplication::translate("PS", "<html><head/><body><p>\303\227</p></body></html>", nullptr));
         label_12->setText(QCoreApplication::translate("PS", "px", nullptr));
-        sureCrop->setText(QCoreApplication::translate("PS", "\345\272\224\347\224\250", nullptr));
         toolBox->setItemText(toolBox->indexOf(crop), QCoreApplication::translate("PS", "\350\243\201\345\211\252", nullptr));
-        sureSize->setText(QCoreApplication::translate("PS", "\345\272\224\347\224\250", nullptr));
-        lockedAspectRatio->setText(QCoreApplication::translate("PS", "\351\224\201\345\256\232\345\256\275\351\253\230\346\257\224\344\276\213", nullptr));
         label_8->setText(QCoreApplication::translate("PS", "<html><head/><body><p>\303\227</p></body></html>", nullptr));
         label_9->setText(QCoreApplication::translate("PS", "px", nullptr));
 
@@ -1105,6 +1091,7 @@ public:
         ___qlistwidgetitem29->setText(QCoreApplication::translate("PS", "\345\276\256\344\277\241\345\244\264\345\203\2172 300*300px", nullptr));
         sizeList->setSortingEnabled(__sortingEnabled1);
 
+        lockedWHRatio->setText(QCoreApplication::translate("PS", "\351\224\201\345\256\232\345\256\275\351\253\230\346\257\224\344\276\213", nullptr));
         toolBox->setItemText(toolBox->indexOf(size), QCoreApplication::translate("PS", "\346\224\271\345\260\272\345\257\270", nullptr));
         label_2->setText(QCoreApplication::translate("PS", "\344\272\256\345\272\246", nullptr));
         label_3->setText(QCoreApplication::translate("PS", "\345\257\271\346\257\224\345\272\246", nullptr));
@@ -1206,14 +1193,14 @@ public:
         btnComparison->setText(QCoreApplication::translate("PS", "\345\257\271\346\257\224", nullptr));
         btnOpenImg->setText(QCoreApplication::translate("PS", "\346\211\223\345\274\200\345\233\276\347\211\207", nullptr));
 #if QT_CONFIG(tooltip)
-        btnDireSave->setToolTip(QCoreApplication::translate("PS", "\344\277\235\345\255\230\345\210\260\346\214\207\345\256\232\347\233\256\345\275\225", nullptr));
+        btnDireSave->setToolTip(QCoreApplication::translate("PS", "\344\273\245\346\233\277\346\215\242\345\216\237\346\235\245\345\233\276\347\211\207\347\232\204\345\275\242\345\274\217\344\277\235\345\255\230", nullptr));
 #endif // QT_CONFIG(tooltip)
         btnDireSave->setText(QCoreApplication::translate("PS", "\344\277\235\345\255\230\346\233\277\346\215\242", nullptr));
 #if QT_CONFIG(shortcut)
         btnDireSave->setShortcut(QCoreApplication::translate("PS", "Ctrl+S", nullptr));
 #endif // QT_CONFIG(shortcut)
 #if QT_CONFIG(tooltip)
-        btnSaveAs->setToolTip(QCoreApplication::translate("PS", "\344\277\235\345\255\230\345\210\260\346\214\207\345\256\232\347\233\256\345\275\225", nullptr));
+        btnSaveAs->setToolTip(QCoreApplication::translate("PS", "\345\217\246\345\255\230\345\210\260\346\214\207\345\256\232\344\275\215\347\275\256", nullptr));
 #endif // QT_CONFIG(tooltip)
         btnSaveAs->setText(QCoreApplication::translate("PS", "\345\217\246\345\255\230\344\270\272", nullptr));
 #if QT_CONFIG(shortcut)
