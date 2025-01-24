@@ -1,0 +1,1161 @@
+{
+	"artifacts" : 
+	[
+		{
+			"path" : "ICMA.exe"
+		},
+		{
+			"path" : "ICMA.pdb"
+		}
+	],
+	"backtrace" : 4,
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"add_executable",
+			"_qt_internal_create_executable",
+			"qt6_add_executable",
+			"qt_add_executable",
+			"install",
+			"target_link_libraries",
+			"set_target_properties",
+			"include",
+			"find_package",
+			"find_dependency",
+			"_qt_internal_find_qt_dependencies",
+			"target_include_directories"
+		],
+		"files" : 
+		[
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreMacros.cmake",
+			"CMakeLists.txt",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkTargets.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Network/Qt6NetworkConfig.cmake",
+			"C:/Qt/Tools/CMake_64/share/cmake-3.29/Modules/CMakeFindDependencyMacro.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaDependencies.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Multimedia/Qt6MultimediaConfig.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6/Qt6Config.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsTargets.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Widgets/Qt6WidgetsConfig.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiTargets.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Gui/Qt6GuiConfig.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreTargets.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreConfig.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateTargets.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6EntryPointPrivate/Qt6EntryPointPrivateConfig.cmake",
+			"C:/Qt/6.6.3/mingw_64/lib/cmake/Qt6Core/Qt6CoreDependencies.cmake"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 1
+			},
+			{
+				"command" : 3,
+				"file" : 1,
+				"line" : 111,
+				"parent" : 0
+			},
+			{
+				"command" : 2,
+				"file" : 0,
+				"line" : 818,
+				"parent" : 1
+			},
+			{
+				"command" : 1,
+				"file" : 0,
+				"line" : 575,
+				"parent" : 2
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 629,
+				"parent" : 3
+			},
+			{
+				"command" : 4,
+				"file" : 1,
+				"line" : 169,
+				"parent" : 0
+			},
+			{
+				"command" : 5,
+				"file" : 1,
+				"line" : 140,
+				"parent" : 0
+			},
+			{
+				"command" : 8,
+				"file" : 1,
+				"line" : 24,
+				"parent" : 0
+			},
+			{
+				"file" : 8,
+				"parent" : 7
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 164,
+				"parent" : 8
+			},
+			{
+				"file" : 7,
+				"parent" : 9
+			},
+			{
+				"command" : 7,
+				"file" : 7,
+				"line" : 40,
+				"parent" : 10
+			},
+			{
+				"file" : 6,
+				"parent" : 11
+			},
+			{
+				"command" : 10,
+				"file" : 6,
+				"line" : 39,
+				"parent" : 12
+			},
+			{
+				"command" : 9,
+				"file" : 5,
+				"line" : 111,
+				"parent" : 13
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 76,
+				"parent" : 14
+			},
+			{
+				"file" : 3,
+				"parent" : 15
+			},
+			{
+				"command" : 7,
+				"file" : 3,
+				"line" : 52,
+				"parent" : 16
+			},
+			{
+				"file" : 2,
+				"parent" : 17
+			},
+			{
+				"command" : 6,
+				"file" : 2,
+				"line" : 61,
+				"parent" : 18
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 164,
+				"parent" : 8
+			},
+			{
+				"file" : 10,
+				"parent" : 20
+			},
+			{
+				"command" : 7,
+				"file" : 10,
+				"line" : 52,
+				"parent" : 21
+			},
+			{
+				"file" : 9,
+				"parent" : 22
+			},
+			{
+				"command" : 6,
+				"file" : 9,
+				"line" : 61,
+				"parent" : 23
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 164,
+				"parent" : 8
+			},
+			{
+				"file" : 12,
+				"parent" : 25
+			},
+			{
+				"command" : 7,
+				"file" : 12,
+				"line" : 52,
+				"parent" : 26
+			},
+			{
+				"file" : 11,
+				"parent" : 27
+			},
+			{
+				"command" : 6,
+				"file" : 11,
+				"line" : 61,
+				"parent" : 28
+			},
+			{
+				"command" : 5,
+				"file" : 0,
+				"line" : 576,
+				"parent" : 2
+			},
+			{
+				"command" : 8,
+				"file" : 8,
+				"line" : 164,
+				"parent" : 8
+			},
+			{
+				"file" : 14,
+				"parent" : 31
+			},
+			{
+				"command" : 7,
+				"file" : 14,
+				"line" : 53,
+				"parent" : 32
+			},
+			{
+				"file" : 13,
+				"parent" : 33
+			},
+			{
+				"command" : 6,
+				"file" : 13,
+				"line" : 61,
+				"parent" : 34
+			},
+			{
+				"command" : 7,
+				"file" : 14,
+				"line" : 41,
+				"parent" : 32
+			},
+			{
+				"file" : 17,
+				"parent" : 36
+			},
+			{
+				"command" : 10,
+				"file" : 17,
+				"line" : 39,
+				"parent" : 37
+			},
+			{
+				"command" : 9,
+				"file" : 5,
+				"line" : 111,
+				"parent" : 38
+			},
+			{
+				"command" : 8,
+				"file" : 4,
+				"line" : 76,
+				"parent" : 39
+			},
+			{
+				"file" : 16,
+				"parent" : 40
+			},
+			{
+				"command" : 7,
+				"file" : 16,
+				"line" : 52,
+				"parent" : 41
+			},
+			{
+				"file" : 15,
+				"parent" : 42
+			},
+			{
+				"command" : 6,
+				"file" : 15,
+				"line" : 61,
+				"parent" : 43
+			},
+			{
+				"command" : 6,
+				"file" : 15,
+				"line" : 76,
+				"parent" : 43
+			},
+			{
+				"command" : 11,
+				"file" : 1,
+				"line" : 150,
+				"parent" : 0
+			}
+		]
+	},
+	"compileGroups" : 
+	[
+		{
+			"compileCommandFragments" : 
+			[
+				{
+					"fragment" : "-g -std=gnu++17 -fdiagnostics-color=always"
+				}
+			],
+			"defines" : 
+			[
+				{
+					"backtrace" : 30,
+					"define" : "MINGW_HAS_SECURE_API=1"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "QT_CONCURRENT_LIB"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "QT_CORE_LIB"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "QT_GUI_LIB"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "QT_MULTIMEDIAWIDGETS_LIB"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "QT_MULTIMEDIA_LIB"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "QT_NEEDS_QMAIN"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "QT_NETWORK_LIB"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "QT_SQL_LIB"
+				},
+				{
+					"backtrace" : 6,
+					"define" : "QT_WIDGETS_LIB"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "UNICODE"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "WIN32"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "WIN64"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "_ENABLE_EXTENDED_ALIGNED_STORAGE"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "_UNICODE"
+				},
+				{
+					"backtrace" : 30,
+					"define" : "_WIN64"
+				}
+			],
+			"includes" : 
+			[
+				{
+					"backtrace" : 0,
+					"path" : "E:/ICMA-Qt/cmake-build-debug/ICMA_autogen/include"
+				},
+				{
+					"backtrace" : 46,
+					"path" : "E:/ICMA-Qt/cmake-build-debug"
+				},
+				{
+					"backtrace" : 46,
+					"isSystem" : true,
+					"path" : "D:/A-Develop/ToolLibrary/OpenCv/opencv-build/install/include"
+				},
+				{
+					"backtrace" : 30,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtCore"
+				},
+				{
+					"backtrace" : 30,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include"
+				},
+				{
+					"backtrace" : 30,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/mkspecs/win32-g++"
+				},
+				{
+					"backtrace" : 6,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtWidgets"
+				},
+				{
+					"backtrace" : 6,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtGui"
+				},
+				{
+					"backtrace" : 6,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtNetwork"
+				},
+				{
+					"backtrace" : 6,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtMultimedia"
+				},
+				{
+					"backtrace" : 6,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtMultimediaWidgets"
+				},
+				{
+					"backtrace" : 6,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtSql"
+				},
+				{
+					"backtrace" : 6,
+					"isSystem" : true,
+					"path" : "C:/Qt/6.6.3/mingw_64/include/QtConcurrent"
+				}
+			],
+			"language" : "CXX",
+			"languageStandard" : 
+			{
+				"backtraces" : 
+				[
+					30,
+					30,
+					6
+				],
+				"standard" : "17"
+			},
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				5,
+				8,
+				11,
+				19,
+				22,
+				25,
+				27,
+				37,
+				41,
+				66
+			]
+		}
+	],
+	"dependencies" : 
+	[
+		{
+			"id" : "ICMA_autogen_timestamp_deps::@6890427a1f51a3e7e1df"
+		},
+		{
+			"backtrace" : 0,
+			"id" : "ICMA_autogen::@6890427a1f51a3e7e1df"
+		}
+	],
+	"id" : "ICMA::@6890427a1f51a3e7e1df",
+	"install" : 
+	{
+		"destinations" : 
+		[
+			{
+				"backtrace" : 5,
+				"path" : "bin"
+			}
+		],
+		"prefix" : 
+		{
+			"path" : "C:/Program Files (x86)/ICMA"
+		}
+	},
+	"link" : 
+	{
+		"commandFragments" : 
+		[
+			{
+				"fragment" : "-g",
+				"role" : "flags"
+			},
+			{
+				"fragment" : "-mwindows",
+				"role" : "flags"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_gapi4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_highgui4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_ml4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_objdetect4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_photo4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_stitching4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_video4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_videoio4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6MultimediaWidgets.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6Sql.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6Concurrent.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_imgcodecs4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_dnn4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_calib3d4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_features2d4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_flann4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_imgproc4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "D:\\A-Develop\\ToolLibrary\\OpenCv\\opencv-build\\install\\x64\\mingw\\lib\\libopencv_core4100.dll.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6Multimedia.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6Network.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 19,
+				"fragment" : "-lws2_32",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 6,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6Widgets.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 24,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6Gui.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 29,
+				"fragment" : "-ld3d11",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 29,
+				"fragment" : "-ldxgi",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 29,
+				"fragment" : "-ldxguid",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 29,
+				"fragment" : "-ld3d12",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 30,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6Core.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 35,
+				"fragment" : "-lmpr",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 35,
+				"fragment" : "-luserenv",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 44,
+				"fragment" : "-lmingw32",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 44,
+				"fragment" : "C:\\Qt\\6.6.3\\mingw_64\\lib\\libQt6EntryPoint.a",
+				"role" : "libraries"
+			},
+			{
+				"backtrace" : 45,
+				"fragment" : "-lshell32",
+				"role" : "libraries"
+			},
+			{
+				"fragment" : "-lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32",
+				"role" : "libraries"
+			}
+		],
+		"language" : "CXX"
+	},
+	"name" : "ICMA",
+	"nameOnDisk" : "ICMA.exe",
+	"paths" : 
+	{
+		"build" : ".",
+		"source" : "."
+	},
+	"sourceGroups" : 
+	[
+		{
+			"name" : "Source Files",
+			"sourceIndexes" : 
+			[
+				0,
+				1,
+				2,
+				5,
+				8,
+				11,
+				19,
+				22,
+				25,
+				27,
+				37,
+				41,
+				66
+			]
+		},
+		{
+			"name" : "Header Files",
+			"sourceIndexes" : 
+			[
+				3,
+				6,
+				9,
+				12,
+				13,
+				15,
+				16,
+				17,
+				18,
+				21,
+				24,
+				26,
+				28,
+				29,
+				30,
+				31,
+				32,
+				33,
+				34,
+				35,
+				36,
+				38,
+				39,
+				40,
+				42,
+				43,
+				44,
+				45,
+				46,
+				47,
+				48,
+				49,
+				50,
+				51,
+				52,
+				53,
+				54,
+				55,
+				56,
+				57,
+				59,
+				60,
+				61,
+				62,
+				63,
+				64
+			]
+		},
+		{
+			"name" : "",
+			"sourceIndexes" : 
+			[
+				4,
+				7,
+				10,
+				14,
+				20,
+				23,
+				58,
+				65
+			]
+		},
+		{
+			"name" : "CMake Rules",
+			"sourceIndexes" : 
+			[
+				67,
+				68
+			]
+		}
+	],
+	"sources" : 
+	[
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/mocs_compilation.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "main.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Widgets/mainWindow/MainWindow.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/mainWindow/MainWindow.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "UI/MainWindow.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Widgets/photoShop/PS.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/PS.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "UI/PS.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Widgets/photoShop/faceTest/FaceTest.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/faceTest/FaceTest.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "UI/FaceTest.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Widgets/fileTransfer/FileTransfer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/fileTransfer/FileTransfer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/fileTransfer/FileTransTool.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "UI/FileTransfer.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Manager/JsonManager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Network/GetBaiduToken.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/threadWorkers/ThreadImageToBase64.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/fileTransfer/client/AClient.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Widgets/fileTransfer/client/AClient.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "UI/AClient.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/fileTransfer/server/AServer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Widgets/fileTransfer/server/AServer.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "UI/AServer.ui",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Manager/NetworkManager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Manager/NetworkManager.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Initial/AppInit.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Initial/AppInit.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Initial/SplashScreen.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Manager/SqlManager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/DataBase/worker/FilesDBWorker.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Manager/Config/iniManager.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/CloseWindowMsgBox.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/MovableFramelessWindow.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/NetworkTool.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Network/GetICMABrief.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/SystemTrayIcon.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/Widgets/mainWindow/FileManage/FileManage.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/mainWindow/FileManage/FileManage.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/LogOut.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "icmaStart.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"compileGroupIndex" : 0,
+			"path" : "src/DataBase/worker/FilesDBWorker.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/DataBase/SqlQuery/Directory.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/DataBase/SqlQuery/Files.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/DataBase/SqlQuery/SqlQueryHelper.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/ImageToBase64.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Network/AIDoFaceDetect.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/ShareSrc.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/MyGraphicsView.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/LoadingGif.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/TipLabel.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/MyAutoStack.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/Crop.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/MyInformationBox.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/Resize.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/Adjust.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Utils/Tools/NoWheelSlider.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "src/Widgets/photoShop/faceTest/ToGetToken.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 4,
+			"path" : "Resource.qrc",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/include/UI/ui_MainWindow.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/include/UI/ui_PS.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/include/UI/ui_FaceTest.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/include/UI/ui_FileTransfer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/include/UI/ui_AClient.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/include/UI/ui_AServer.h",
+			"sourceGroupIndex" : 1
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/timestamp",
+			"sourceGroupIndex" : 2
+		},
+		{
+			"backtrace" : 0,
+			"compileGroupIndex" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/EWIEGA46WW/qrc_Resource.cpp",
+			"sourceGroupIndex" : 0
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/timestamp.rule",
+			"sourceGroupIndex" : 3
+		},
+		{
+			"backtrace" : 0,
+			"isGenerated" : true,
+			"path" : "cmake-build-debug/ICMA_autogen/EWIEGA46WW/qrc_Resource.cpp.rule",
+			"sourceGroupIndex" : 3
+		}
+	],
+	"type" : "EXECUTABLE"
+}

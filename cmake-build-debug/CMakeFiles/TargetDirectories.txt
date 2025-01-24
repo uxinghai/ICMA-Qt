@@ -1,0 +1,9 @@
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/ICMA.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/edit_cache.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/list_install_components.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/install.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/install/local.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/install/strip.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/ICMA_autogen_timestamp_deps.dir
+E:/ICMA-Qt/cmake-build-debug/CMakeFiles/ICMA_autogen.dir
