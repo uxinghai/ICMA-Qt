@@ -20,7 +20,7 @@ namespace AutoCrop
   inline QPixmap autoCrop() { return {}; }
 }
 
-namespace Crop
+namespace DoCrop
 {
   // 定义裁剪模式
   enum class CropMode {

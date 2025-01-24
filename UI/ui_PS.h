@@ -31,6 +31,7 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "../src/Utils/Tools/NoWheelSlider.h"
 #include "../src/Widgets/photoShop/MyGraphicsView.h"
 
 QT_BEGIN_NAMESPACE
@@ -72,42 +73,38 @@ public:
     QCheckBox *lockedWHRatio;
     QWidget *adjust;
     QGridLayout *gridLayout_17;
-    QLabel *label_2;
-    QSpinBox *spinBoxBrightness;
+    NoWheelSlider *contrarySlider;
+    QDoubleSpinBox *spinBoxContrary;
+    NoWheelSlider *contrastSlider;
     QLabel *label_3;
-    QDoubleSpinBox *spinBoxContrast;
-    QLabel *label_4;
+    QDoubleSpinBox *spinBoxBrightness;
     QDoubleSpinBox *spinBoxSaturation;
+    QLabel *label_4;
+    NoWheelSlider *brightnessSlider;
     QLabel *label_5;
-    QSpinBox *spinBoxContrary;
-    QSlider *contrarySlider;
-    QSlider *saturationSlider;
-    QSlider *contrastSlider;
-    QSlider *brightnessSlider;
-    QPushButton *sureAdjust;
-    QWidget *page_3;
+    NoWheelSlider *saturationSlider;
+    QDoubleSpinBox *spinBoxContrast;
+    QLabel *label_2;
+    QWidget *rota;
     QGridLayout *gridLayout;
-    QSlider *rotaSlider;
     QToolButton *btnFlipVertical;
     QToolButton *btnRotateLeft;
-    QToolButton *btnFlipHorizontal;
+    QSlider *rotaSlider;
     QToolButton *btnRotateRight;
-    QPushButton *sureTransform;
+    QToolButton *btnFlipHorizontal;
     QWidget *Filter;
     QGridLayout *gridLayout_5;
     QListWidget *FilterList;
-    QPushButton *sureFilter;
-    QWidget *algrothime;
+    QWidget *algorithm;
     QGridLayout *gridLayout_4;
-    QRadioButton *radioBilateral;
-    QRadioButton *radioMedian;
-    QRadioButton *radioBlur;
-    QRadioButton *radioGaussion;
     QLabel *label4;
+    QRadioButton *radioGaussion;
     QHBoxLayout *horizontalLayout;
     QSlider *kernelValue;
     QSpinBox *spinBoxKernel;
-    QPushButton *sureAlgo;
+    QRadioButton *radioBlur;
+    QRadioButton *radioBilateral;
+    QRadioButton *radioMedian;
     QWidget *AITool;
     QGridLayout *gridLayout_8;
     QListWidget *AIList;
@@ -133,7 +130,7 @@ public:
         if (PS->objectName().isEmpty())
             PS->setObjectName("PS");
         PS->setEnabled(true);
-        PS->resize(964, 698);
+        PS->resize(942, 698);
         QFont font;
         font.setFamilies({QString::fromUtf8("Segoe UI")});
         PS->setFont(font);
@@ -340,7 +337,7 @@ public:
         toolBox->setFrameShadow(QFrame::Plain);
         crop = new QWidget();
         crop->setObjectName("crop");
-        crop->setGeometry(QRect(0, 0, 345, 239));
+        crop->setGeometry(QRect(0, 0, 225, 116));
         gridLayout_3 = new QGridLayout(crop);
         gridLayout_3->setObjectName("gridLayout_3");
         cropList = new QListWidget(crop);
@@ -410,7 +407,7 @@ public:
         toolBox->addItem(crop, icon1, QString::fromUtf8("\350\243\201\345\211\252"));
         size = new QWidget();
         size->setObjectName("size");
-        size->setGeometry(QRect(0, 0, 345, 303));
+        size->setGeometry(QRect(0, 0, 164, 143));
         gridLayout_10 = new QGridLayout(size);
         gridLayout_10->setObjectName("gridLayout_10");
         horizontalLayout_6 = new QHBoxLayout();
@@ -475,7 +472,7 @@ public:
 
         lockedWHRatio = new QCheckBox(size);
         lockedWHRatio->setObjectName("lockedWHRatio");
-        lockedWHRatio->setChecked(true);
+        lockedWHRatio->setChecked(false);
 
         gridLayout_10->addWidget(lockedWHRatio, 2, 0, 1, 1);
 
@@ -484,118 +481,11 @@ public:
         toolBox->addItem(size, icon2, QString::fromUtf8("\346\224\271\345\260\272\345\257\270"));
         adjust = new QWidget();
         adjust->setObjectName("adjust");
-        adjust->setGeometry(QRect(0, 0, 345, 287));
+        adjust->setGeometry(QRect(0, 0, 156, 248));
         adjust->setStyleSheet(QString::fromUtf8(""));
         gridLayout_17 = new QGridLayout(adjust);
         gridLayout_17->setObjectName("gridLayout_17");
-        label_2 = new QLabel(adjust);
-        label_2->setObjectName("label_2");
-
-        gridLayout_17->addWidget(label_2, 0, 0, 1, 1);
-
-        spinBoxBrightness = new QSpinBox(adjust);
-        spinBoxBrightness->setObjectName("spinBoxBrightness");
-        spinBoxBrightness->setEnabled(false);
-        QSizePolicy sizePolicy1(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
-        sizePolicy1.setHorizontalStretch(0);
-        sizePolicy1.setVerticalStretch(0);
-        sizePolicy1.setHeightForWidth(spinBoxBrightness->sizePolicy().hasHeightForWidth());
-        spinBoxBrightness->setSizePolicy(sizePolicy1);
-        spinBoxBrightness->setMinimumSize(QSize(59, 27));
-        spinBoxBrightness->setMaximumSize(QSize(59, 27));
-        spinBoxBrightness->setFont(font);
-        spinBoxBrightness->setStyleSheet(QString::fromUtf8(""));
-        spinBoxBrightness->setWrapping(false);
-        spinBoxBrightness->setFrame(false);
-        spinBoxBrightness->setAlignment(Qt::AlignCenter);
-        spinBoxBrightness->setReadOnly(false);
-        spinBoxBrightness->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
-        spinBoxBrightness->setAccelerated(false);
-        spinBoxBrightness->setProperty("showGroupSeparator", QVariant(false));
-        spinBoxBrightness->setMinimum(-50);
-        spinBoxBrightness->setMaximum(50);
-
-        gridLayout_17->addWidget(spinBoxBrightness, 0, 1, 1, 1);
-
-        label_3 = new QLabel(adjust);
-        label_3->setObjectName("label_3");
-
-        gridLayout_17->addWidget(label_3, 2, 0, 1, 1);
-
-        spinBoxContrast = new QDoubleSpinBox(adjust);
-        spinBoxContrast->setObjectName("spinBoxContrast");
-        spinBoxContrast->setEnabled(false);
-        sizePolicy1.setHeightForWidth(spinBoxContrast->sizePolicy().hasHeightForWidth());
-        spinBoxContrast->setSizePolicy(sizePolicy1);
-        spinBoxContrast->setMinimumSize(QSize(59, 27));
-        spinBoxContrast->setMaximumSize(QSize(59, 27));
-        spinBoxContrast->setFont(font);
-        spinBoxContrast->setFrame(false);
-        spinBoxContrast->setAlignment(Qt::AlignCenter);
-        spinBoxContrast->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
-        spinBoxContrast->setDecimals(1);
-        spinBoxContrast->setMinimum(0.100000000000000);
-        spinBoxContrast->setMaximum(3.000000000000000);
-        spinBoxContrast->setSingleStep(0.100000000000000);
-        spinBoxContrast->setStepType(QAbstractSpinBox::DefaultStepType);
-        spinBoxContrast->setValue(1.000000000000000);
-
-        gridLayout_17->addWidget(spinBoxContrast, 2, 1, 1, 1);
-
-        label_4 = new QLabel(adjust);
-        label_4->setObjectName("label_4");
-
-        gridLayout_17->addWidget(label_4, 4, 0, 1, 1);
-
-        spinBoxSaturation = new QDoubleSpinBox(adjust);
-        spinBoxSaturation->setObjectName("spinBoxSaturation");
-        spinBoxSaturation->setEnabled(false);
-        sizePolicy1.setHeightForWidth(spinBoxSaturation->sizePolicy().hasHeightForWidth());
-        spinBoxSaturation->setSizePolicy(sizePolicy1);
-        spinBoxSaturation->setMinimumSize(QSize(59, 27));
-        spinBoxSaturation->setMaximumSize(QSize(59, 27));
-        spinBoxSaturation->setFont(font);
-        spinBoxSaturation->setFrame(false);
-        spinBoxSaturation->setAlignment(Qt::AlignCenter);
-        spinBoxSaturation->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
-        spinBoxSaturation->setAccelerated(false);
-        spinBoxSaturation->setKeyboardTracking(true);
-        spinBoxSaturation->setProperty("showGroupSeparator", QVariant(false));
-        spinBoxSaturation->setMaximum(2.000000000000000);
-        spinBoxSaturation->setSingleStep(0.010000000000000);
-        spinBoxSaturation->setStepType(QAbstractSpinBox::DefaultStepType);
-        spinBoxSaturation->setValue(1.000000000000000);
-
-        gridLayout_17->addWidget(spinBoxSaturation, 4, 1, 1, 1);
-
-        label_5 = new QLabel(adjust);
-        label_5->setObjectName("label_5");
-
-        gridLayout_17->addWidget(label_5, 6, 0, 1, 1);
-
-        spinBoxContrary = new QSpinBox(adjust);
-        spinBoxContrary->setObjectName("spinBoxContrary");
-        spinBoxContrary->setEnabled(false);
-        sizePolicy1.setHeightForWidth(spinBoxContrary->sizePolicy().hasHeightForWidth());
-        spinBoxContrary->setSizePolicy(sizePolicy1);
-        spinBoxContrary->setMinimumSize(QSize(59, 27));
-        spinBoxContrary->setMaximumSize(QSize(59, 27));
-        spinBoxContrary->setFont(font);
-        spinBoxContrary->setStyleSheet(QString::fromUtf8(""));
-        spinBoxContrary->setWrapping(false);
-        spinBoxContrary->setFrame(false);
-        spinBoxContrary->setAlignment(Qt::AlignCenter);
-        spinBoxContrary->setReadOnly(false);
-        spinBoxContrary->setButtonSymbols(QAbstractSpinBox::UpDownArrows);
-        spinBoxContrary->setAccelerated(false);
-        spinBoxContrary->setProperty("showGroupSeparator", QVariant(false));
-        spinBoxContrary->setMinimum(0);
-        spinBoxContrary->setMaximum(100);
-        spinBoxContrary->setSingleStep(0);
-
-        gridLayout_17->addWidget(spinBoxContrary, 6, 1, 1, 1);
-
-        contrarySlider = new QSlider(adjust);
+        contrarySlider = new NoWheelSlider(adjust);
         contrarySlider->setObjectName("contrarySlider");
         contrarySlider->setCursor(QCursor(Qt::ArrowCursor));
         contrarySlider->setFocusPolicy(Qt::StrongFocus);
@@ -609,20 +499,37 @@ public:
 
         gridLayout_17->addWidget(contrarySlider, 7, 0, 1, 2);
 
-        saturationSlider = new QSlider(adjust);
-        saturationSlider->setObjectName("saturationSlider");
-        saturationSlider->setCursor(QCursor(Qt::ArrowCursor));
-        saturationSlider->setFocusPolicy(Qt::StrongFocus);
-        saturationSlider->setMinimum(0);
-        saturationSlider->setMaximum(200);
-        saturationSlider->setPageStep(0);
-        saturationSlider->setValue(100);
-        saturationSlider->setTracking(true);
-        saturationSlider->setOrientation(Qt::Horizontal);
+        spinBoxContrary = new QDoubleSpinBox(adjust);
+        spinBoxContrary->setObjectName("spinBoxContrary");
+        spinBoxContrary->setEnabled(false);
+        QSizePolicy sizePolicy1(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(spinBoxContrary->sizePolicy().hasHeightForWidth());
+        spinBoxContrary->setSizePolicy(sizePolicy1);
+        spinBoxContrary->setMinimumSize(QSize(59, 27));
+        spinBoxContrary->setMaximumSize(QSize(59, 27));
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Segoe UI")});
+        font1.setItalic(true);
+        font1.setUnderline(false);
+        spinBoxContrary->setFont(font1);
+        spinBoxContrary->setStyleSheet(QString::fromUtf8(""));
+        spinBoxContrary->setFrame(false);
+        spinBoxContrary->setAlignment(Qt::AlignCenter);
+        spinBoxContrary->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        spinBoxContrary->setAccelerated(false);
+        spinBoxContrary->setKeyboardTracking(true);
+        spinBoxContrary->setProperty("showGroupSeparator", QVariant(false));
+        spinBoxContrary->setDecimals(0);
+        spinBoxContrary->setMaximum(100.000000000000000);
+        spinBoxContrary->setSingleStep(1.000000000000000);
+        spinBoxContrary->setStepType(QAbstractSpinBox::DefaultStepType);
+        spinBoxContrary->setValue(0.000000000000000);
 
-        gridLayout_17->addWidget(saturationSlider, 5, 0, 1, 2);
+        gridLayout_17->addWidget(spinBoxContrary, 6, 1, 1, 1);
 
-        contrastSlider = new QSlider(adjust);
+        contrastSlider = new NoWheelSlider(adjust);
         contrastSlider->setObjectName("contrastSlider");
         contrastSlider->setCursor(QCursor(Qt::ArrowCursor));
         contrastSlider->setMinimum(1);
@@ -634,7 +541,60 @@ public:
 
         gridLayout_17->addWidget(contrastSlider, 3, 0, 1, 2);
 
-        brightnessSlider = new QSlider(adjust);
+        label_3 = new QLabel(adjust);
+        label_3->setObjectName("label_3");
+
+        gridLayout_17->addWidget(label_3, 2, 0, 1, 1);
+
+        spinBoxBrightness = new QDoubleSpinBox(adjust);
+        spinBoxBrightness->setObjectName("spinBoxBrightness");
+        spinBoxBrightness->setEnabled(false);
+        sizePolicy1.setHeightForWidth(spinBoxBrightness->sizePolicy().hasHeightForWidth());
+        spinBoxBrightness->setSizePolicy(sizePolicy1);
+        spinBoxBrightness->setMinimumSize(QSize(59, 27));
+        spinBoxBrightness->setMaximumSize(QSize(59, 27));
+        spinBoxBrightness->setFont(font1);
+        spinBoxBrightness->setStyleSheet(QString::fromUtf8(""));
+        spinBoxBrightness->setFrame(false);
+        spinBoxBrightness->setAlignment(Qt::AlignCenter);
+        spinBoxBrightness->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        spinBoxBrightness->setDecimals(0);
+        spinBoxBrightness->setMinimum(-50.000000000000000);
+        spinBoxBrightness->setMaximum(50.000000000000000);
+        spinBoxBrightness->setSingleStep(1.000000000000000);
+        spinBoxBrightness->setStepType(QAbstractSpinBox::DefaultStepType);
+        spinBoxBrightness->setValue(0.000000000000000);
+
+        gridLayout_17->addWidget(spinBoxBrightness, 0, 1, 1, 1);
+
+        spinBoxSaturation = new QDoubleSpinBox(adjust);
+        spinBoxSaturation->setObjectName("spinBoxSaturation");
+        spinBoxSaturation->setEnabled(false);
+        sizePolicy1.setHeightForWidth(spinBoxSaturation->sizePolicy().hasHeightForWidth());
+        spinBoxSaturation->setSizePolicy(sizePolicy1);
+        spinBoxSaturation->setMinimumSize(QSize(59, 27));
+        spinBoxSaturation->setMaximumSize(QSize(59, 27));
+        spinBoxSaturation->setFont(font1);
+        spinBoxSaturation->setStyleSheet(QString::fromUtf8(""));
+        spinBoxSaturation->setFrame(false);
+        spinBoxSaturation->setAlignment(Qt::AlignCenter);
+        spinBoxSaturation->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        spinBoxSaturation->setAccelerated(false);
+        spinBoxSaturation->setKeyboardTracking(true);
+        spinBoxSaturation->setProperty("showGroupSeparator", QVariant(false));
+        spinBoxSaturation->setMaximum(2.000000000000000);
+        spinBoxSaturation->setSingleStep(0.010000000000000);
+        spinBoxSaturation->setStepType(QAbstractSpinBox::DefaultStepType);
+        spinBoxSaturation->setValue(1.000000000000000);
+
+        gridLayout_17->addWidget(spinBoxSaturation, 4, 1, 1, 1);
+
+        label_4 = new QLabel(adjust);
+        label_4->setObjectName("label_4");
+
+        gridLayout_17->addWidget(label_4, 4, 0, 1, 1);
+
+        brightnessSlider = new NoWheelSlider(adjust);
         brightnessSlider->setObjectName("brightnessSlider");
         brightnessSlider->setCursor(QCursor(Qt::ArrowCursor));
         brightnessSlider->setStyleSheet(QString::fromUtf8(""));
@@ -648,28 +608,59 @@ public:
 
         gridLayout_17->addWidget(brightnessSlider, 1, 0, 1, 2);
 
-        sureAdjust = new QPushButton(adjust);
-        sureAdjust->setObjectName("sureAdjust");
-        sureAdjust->setMaximumSize(QSize(16777215, 35));
+        label_5 = new QLabel(adjust);
+        label_5->setObjectName("label_5");
 
-        gridLayout_17->addWidget(sureAdjust, 8, 0, 1, 2);
+        gridLayout_17->addWidget(label_5, 6, 0, 1, 1);
+
+        saturationSlider = new NoWheelSlider(adjust);
+        saturationSlider->setObjectName("saturationSlider");
+        saturationSlider->setCursor(QCursor(Qt::ArrowCursor));
+        saturationSlider->setFocusPolicy(Qt::StrongFocus);
+        saturationSlider->setMinimum(0);
+        saturationSlider->setMaximum(200);
+        saturationSlider->setPageStep(0);
+        saturationSlider->setValue(100);
+        saturationSlider->setTracking(true);
+        saturationSlider->setOrientation(Qt::Horizontal);
+
+        gridLayout_17->addWidget(saturationSlider, 5, 0, 1, 2);
+
+        spinBoxContrast = new QDoubleSpinBox(adjust);
+        spinBoxContrast->setObjectName("spinBoxContrast");
+        spinBoxContrast->setEnabled(false);
+        sizePolicy1.setHeightForWidth(spinBoxContrast->sizePolicy().hasHeightForWidth());
+        spinBoxContrast->setSizePolicy(sizePolicy1);
+        spinBoxContrast->setMinimumSize(QSize(59, 27));
+        spinBoxContrast->setMaximumSize(QSize(59, 27));
+        spinBoxContrast->setFont(font1);
+        spinBoxContrast->setStyleSheet(QString::fromUtf8(""));
+        spinBoxContrast->setFrame(false);
+        spinBoxContrast->setAlignment(Qt::AlignCenter);
+        spinBoxContrast->setButtonSymbols(QAbstractSpinBox::NoButtons);
+        spinBoxContrast->setDecimals(1);
+        spinBoxContrast->setMinimum(0.100000000000000);
+        spinBoxContrast->setMaximum(3.000000000000000);
+        spinBoxContrast->setSingleStep(0.100000000000000);
+        spinBoxContrast->setStepType(QAbstractSpinBox::DefaultStepType);
+        spinBoxContrast->setValue(1.000000000000000);
+
+        gridLayout_17->addWidget(spinBoxContrast, 2, 1, 1, 1);
+
+        label_2 = new QLabel(adjust);
+        label_2->setObjectName("label_2");
+
+        gridLayout_17->addWidget(label_2, 0, 0, 1, 1);
 
         QIcon icon3;
         icon3.addFile(QString::fromUtf8(":/ps/res/ps/change.png"), QSize(), QIcon::Normal, QIcon::Off);
         toolBox->addItem(adjust, icon3, QString::fromUtf8("\350\260\203\346\225\264"));
-        page_3 = new QWidget();
-        page_3->setObjectName("page_3");
-        page_3->setGeometry(QRect(0, 0, 345, 135));
-        gridLayout = new QGridLayout(page_3);
+        rota = new QWidget();
+        rota->setObjectName("rota");
+        rota->setGeometry(QRect(0, 0, 200, 96));
+        gridLayout = new QGridLayout(rota);
         gridLayout->setObjectName("gridLayout");
-        rotaSlider = new QSlider(page_3);
-        rotaSlider->setObjectName("rotaSlider");
-        rotaSlider->setMaximum(360);
-        rotaSlider->setOrientation(Qt::Horizontal);
-
-        gridLayout->addWidget(rotaSlider, 3, 0, 1, 2);
-
-        btnFlipVertical = new QToolButton(page_3);
+        btnFlipVertical = new QToolButton(rota);
         btnFlipVertical->setObjectName("btnFlipVertical");
         btnFlipVertical->setMaximumSize(QSize(16777215, 35));
         btnFlipVertical->setFocusPolicy(Qt::NoFocus);
@@ -686,7 +677,7 @@ public:
 
         gridLayout->addWidget(btnFlipVertical, 1, 1, 1, 1);
 
-        btnRotateLeft = new QToolButton(page_3);
+        btnRotateLeft = new QToolButton(rota);
         btnRotateLeft->setObjectName("btnRotateLeft");
         btnRotateLeft->setMaximumSize(QSize(16777215, 35));
         btnRotateLeft->setFocusPolicy(Qt::NoFocus);
@@ -703,32 +694,22 @@ public:
 
         gridLayout->addWidget(btnRotateLeft, 0, 0, 1, 1);
 
-        btnFlipHorizontal = new QToolButton(page_3);
-        btnFlipHorizontal->setObjectName("btnFlipHorizontal");
-        btnFlipHorizontal->setMaximumSize(QSize(16777215, 35));
-        btnFlipHorizontal->setFocusPolicy(Qt::NoFocus);
-        btnFlipHorizontal->setContextMenuPolicy(Qt::NoContextMenu);
-        QIcon icon6;
-        icon6.addFile(QString::fromUtf8("\n"
-"                                        :/ps/res/ps/slip0.png"), QSize(), QIcon::Normal, QIcon::Off);
-        btnFlipHorizontal->setIcon(icon6);
-        btnFlipHorizontal->setIconSize(QSize(64, 64));
-        btnFlipHorizontal->setPopupMode(QToolButton::DelayedPopup);
-        btnFlipHorizontal->setToolButtonStyle(Qt::ToolButtonIconOnly);
-        btnFlipHorizontal->setAutoRaise(false);
-        btnFlipHorizontal->setArrowType(Qt::NoArrow);
+        rotaSlider = new QSlider(rota);
+        rotaSlider->setObjectName("rotaSlider");
+        rotaSlider->setMaximum(360);
+        rotaSlider->setOrientation(Qt::Horizontal);
 
-        gridLayout->addWidget(btnFlipHorizontal, 1, 0, 1, 1);
+        gridLayout->addWidget(rotaSlider, 3, 0, 1, 2);
 
-        btnRotateRight = new QToolButton(page_3);
+        btnRotateRight = new QToolButton(rota);
         btnRotateRight->setObjectName("btnRotateRight");
         btnRotateRight->setMaximumSize(QSize(16777215, 35));
         btnRotateRight->setFocusPolicy(Qt::NoFocus);
         btnRotateRight->setContextMenuPolicy(Qt::NoContextMenu);
-        QIcon icon7;
-        icon7.addFile(QString::fromUtf8("\n"
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8("\n"
 "                                        :/ps/res/ps/rotaRight.png"), QSize(), QIcon::Normal, QIcon::Off);
-        btnRotateRight->setIcon(icon7);
+        btnRotateRight->setIcon(icon6);
         btnRotateRight->setIconSize(QSize(64, 64));
         btnRotateRight->setPopupMode(QToolButton::DelayedPopup);
         btnRotateRight->setToolButtonStyle(Qt::ToolButtonIconOnly);
@@ -737,17 +718,29 @@ public:
 
         gridLayout->addWidget(btnRotateRight, 0, 1, 1, 1);
 
-        sureTransform = new QPushButton(page_3);
-        sureTransform->setObjectName("sureTransform");
+        btnFlipHorizontal = new QToolButton(rota);
+        btnFlipHorizontal->setObjectName("btnFlipHorizontal");
+        btnFlipHorizontal->setMaximumSize(QSize(16777215, 35));
+        btnFlipHorizontal->setFocusPolicy(Qt::NoFocus);
+        btnFlipHorizontal->setContextMenuPolicy(Qt::NoContextMenu);
+        QIcon icon7;
+        icon7.addFile(QString::fromUtf8("\n"
+"                                        :/ps/res/ps/slip0.png"), QSize(), QIcon::Normal, QIcon::Off);
+        btnFlipHorizontal->setIcon(icon7);
+        btnFlipHorizontal->setIconSize(QSize(64, 64));
+        btnFlipHorizontal->setPopupMode(QToolButton::DelayedPopup);
+        btnFlipHorizontal->setToolButtonStyle(Qt::ToolButtonIconOnly);
+        btnFlipHorizontal->setAutoRaise(false);
+        btnFlipHorizontal->setArrowType(Qt::NoArrow);
 
-        gridLayout->addWidget(sureTransform, 4, 0, 1, 2);
+        gridLayout->addWidget(btnFlipHorizontal, 1, 0, 1, 1);
 
         QIcon icon8;
         icon8.addFile(QString::fromUtf8(":/ps/res/ps/rota2.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolBox->addItem(page_3, icon8, QString::fromUtf8("\346\227\213\350\275\254\345\217\230\346\215\242"));
+        toolBox->addItem(rota, icon8, QString::fromUtf8("\346\227\213\350\275\254\345\217\230\346\215\242"));
         Filter = new QWidget();
         Filter->setObjectName("Filter");
-        Filter->setGeometry(QRect(0, 0, 345, 249));
+        Filter->setGeometry(QRect(0, 0, 87, 87));
         gridLayout_5 = new QGridLayout(Filter);
         gridLayout_5->setObjectName("gridLayout_5");
         FilterList = new QListWidget(Filter);
@@ -772,41 +765,15 @@ public:
 
         gridLayout_5->addWidget(FilterList, 0, 0, 1, 1);
 
-        sureFilter = new QPushButton(Filter);
-        sureFilter->setObjectName("sureFilter");
-
-        gridLayout_5->addWidget(sureFilter, 1, 0, 1, 1);
-
         QIcon icon9;
         icon9.addFile(QString::fromUtf8(":/ps/res/ps/filter.png"), QSize(), QIcon::Normal, QIcon::Off);
         toolBox->addItem(Filter, icon9, QString::fromUtf8("\347\211\271\346\225\210\346\273\244\351\225\234"));
-        algrothime = new QWidget();
-        algrothime->setObjectName("algrothime");
-        algrothime->setGeometry(QRect(0, 0, 345, 182));
-        gridLayout_4 = new QGridLayout(algrothime);
+        algorithm = new QWidget();
+        algorithm->setObjectName("algorithm");
+        algorithm->setGeometry(QRect(0, 0, 174, 143));
+        gridLayout_4 = new QGridLayout(algorithm);
         gridLayout_4->setObjectName("gridLayout_4");
-        radioBilateral = new QRadioButton(algrothime);
-        radioBilateral->setObjectName("radioBilateral");
-
-        gridLayout_4->addWidget(radioBilateral, 2, 1, 1, 1);
-
-        radioMedian = new QRadioButton(algrothime);
-        radioMedian->setObjectName("radioMedian");
-
-        gridLayout_4->addWidget(radioMedian, 2, 0, 1, 1);
-
-        radioBlur = new QRadioButton(algrothime);
-        radioBlur->setObjectName("radioBlur");
-        radioBlur->setChecked(true);
-
-        gridLayout_4->addWidget(radioBlur, 1, 0, 1, 1);
-
-        radioGaussion = new QRadioButton(algrothime);
-        radioGaussion->setObjectName("radioGaussion");
-
-        gridLayout_4->addWidget(radioGaussion, 1, 1, 1, 1);
-
-        label4 = new QLabel(algrothime);
+        label4 = new QLabel(algorithm);
         label4->setObjectName("label4");
         label4->setFont(font);
         label4->setStyleSheet(QString::fromUtf8(""));
@@ -814,9 +781,14 @@ public:
 
         gridLayout_4->addWidget(label4, 3, 0, 1, 2);
 
+        radioGaussion = new QRadioButton(algorithm);
+        radioGaussion->setObjectName("radioGaussion");
+
+        gridLayout_4->addWidget(radioGaussion, 1, 1, 1, 1);
+
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setObjectName("horizontalLayout");
-        kernelValue = new QSlider(algrothime);
+        kernelValue = new QSlider(algorithm);
         kernelValue->setObjectName("kernelValue");
         kernelValue->setEnabled(false);
         kernelValue->setMinimum(1);
@@ -828,7 +800,7 @@ public:
 
         horizontalLayout->addWidget(kernelValue);
 
-        spinBoxKernel = new QSpinBox(algrothime);
+        spinBoxKernel = new QSpinBox(algorithm);
         spinBoxKernel->setObjectName("spinBoxKernel");
         spinBoxKernel->setEnabled(false);
         spinBoxKernel->setMaximumSize(QSize(59, 27));
@@ -841,17 +813,28 @@ public:
 
         gridLayout_4->addLayout(horizontalLayout, 0, 0, 1, 2);
 
-        sureAlgo = new QPushButton(algrothime);
-        sureAlgo->setObjectName("sureAlgo");
+        radioBlur = new QRadioButton(algorithm);
+        radioBlur->setObjectName("radioBlur");
+        radioBlur->setChecked(true);
 
-        gridLayout_4->addWidget(sureAlgo, 4, 0, 1, 2);
+        gridLayout_4->addWidget(radioBlur, 1, 0, 1, 1);
+
+        radioBilateral = new QRadioButton(algorithm);
+        radioBilateral->setObjectName("radioBilateral");
+
+        gridLayout_4->addWidget(radioBilateral, 2, 1, 1, 1);
+
+        radioMedian = new QRadioButton(algorithm);
+        radioMedian->setObjectName("radioMedian");
+
+        gridLayout_4->addWidget(radioMedian, 2, 0, 1, 1);
 
         QIcon icon10;
         icon10.addFile(QString::fromUtf8(":/ps/res/ps/algorithm.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolBox->addItem(algrothime, icon10, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
+        toolBox->addItem(algorithm, icon10, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
         AITool = new QWidget();
         AITool->setObjectName("AITool");
-        AITool->setGeometry(QRect(0, 0, 345, 210));
+        AITool->setGeometry(QRect(0, 0, 87, 87));
         gridLayout_8 = new QGridLayout(AITool);
         gridLayout_8->setObjectName("gridLayout_8");
         AIList = new QListWidget(AITool);
@@ -1005,7 +988,7 @@ public:
         retranslateUi(PS);
 
         stackedWidget->setCurrentIndex(0);
-        toolBox->setCurrentIndex(1);
+        toolBox->setCurrentIndex(2);
         toolBox->layout()->setSpacing(7);
 
 
@@ -1093,12 +1076,11 @@ public:
 
         lockedWHRatio->setText(QCoreApplication::translate("PS", "\351\224\201\345\256\232\345\256\275\351\253\230\346\257\224\344\276\213", nullptr));
         toolBox->setItemText(toolBox->indexOf(size), QCoreApplication::translate("PS", "\346\224\271\345\260\272\345\257\270", nullptr));
-        label_2->setText(QCoreApplication::translate("PS", "\344\272\256\345\272\246", nullptr));
+        spinBoxContrary->setSuffix(QCoreApplication::translate("PS", "%", nullptr));
         label_3->setText(QCoreApplication::translate("PS", "\345\257\271\346\257\224\345\272\246", nullptr));
         label_4->setText(QCoreApplication::translate("PS", "\351\245\261\345\222\214\345\272\246", nullptr));
         label_5->setText(QCoreApplication::translate("PS", "\345\217\215\347\233\270", nullptr));
-        spinBoxContrary->setSuffix(QCoreApplication::translate("PS", "%", nullptr));
-        sureAdjust->setText(QCoreApplication::translate("PS", "\345\272\224\347\224\250", nullptr));
+        label_2->setText(QCoreApplication::translate("PS", "\344\272\256\345\272\246", nullptr));
         toolBox->setItemText(toolBox->indexOf(adjust), QCoreApplication::translate("PS", "\350\260\203\346\225\264", nullptr));
 #if QT_CONFIG(tooltip)
         btnFlipVertical->setToolTip(QCoreApplication::translate("PS", "\345\236\202\347\233\264\347\277\273\350\275\254", nullptr));
@@ -1109,15 +1091,14 @@ public:
 #endif // QT_CONFIG(tooltip)
         btnRotateLeft->setText(QCoreApplication::translate("PS", "\345\220\221\345\267\246\346\227\213\350\275\25490\302\260", nullptr));
 #if QT_CONFIG(tooltip)
-        btnFlipHorizontal->setToolTip(QCoreApplication::translate("PS", "\346\260\264\345\271\263\351\225\234\345\203\217\347\277\273\350\275\254", nullptr));
-#endif // QT_CONFIG(tooltip)
-        btnFlipHorizontal->setText(QCoreApplication::translate("PS", "\346\260\264\345\271\263\347\277\273\350\275\254", nullptr));
-#if QT_CONFIG(tooltip)
         btnRotateRight->setToolTip(QCoreApplication::translate("PS", "\345\217\263\346\227\213\350\275\25490\345\272\246", nullptr));
 #endif // QT_CONFIG(tooltip)
         btnRotateRight->setText(QCoreApplication::translate("PS", "\345\220\221\345\217\263\346\227\213\350\275\25490\302\260", nullptr));
-        sureTransform->setText(QCoreApplication::translate("PS", "\345\272\224\347\224\250", nullptr));
-        toolBox->setItemText(toolBox->indexOf(page_3), QCoreApplication::translate("PS", "\346\227\213\350\275\254\345\217\230\346\215\242", nullptr));
+#if QT_CONFIG(tooltip)
+        btnFlipHorizontal->setToolTip(QCoreApplication::translate("PS", "\346\260\264\345\271\263\351\225\234\345\203\217\347\277\273\350\275\254", nullptr));
+#endif // QT_CONFIG(tooltip)
+        btnFlipHorizontal->setText(QCoreApplication::translate("PS", "\346\260\264\345\271\263\347\277\273\350\275\254", nullptr));
+        toolBox->setItemText(toolBox->indexOf(rota), QCoreApplication::translate("PS", "\346\227\213\350\275\254\345\217\230\346\215\242", nullptr));
 
         const bool __sortingEnabled2 = FilterList->isSortingEnabled();
         FilterList->setSortingEnabled(false);
@@ -1145,15 +1126,13 @@ public:
         ___qlistwidgetitem40->setText(QCoreApplication::translate("PS", "\350\226\260\350\241\243\350\215\211\346\262\271\347\224\273", nullptr));
         FilterList->setSortingEnabled(__sortingEnabled2);
 
-        sureFilter->setText(QCoreApplication::translate("PS", "\345\272\224\347\224\250", nullptr));
         toolBox->setItemText(toolBox->indexOf(Filter), QCoreApplication::translate("PS", "\347\211\271\346\225\210\346\273\244\351\225\234", nullptr));
+        label4->setText(QCoreApplication::translate("PS", "Note: \346\224\271\345\217\230\347\256\227\346\263\225\345\220\216\345\276\256\350\260\203\346\273\221\345\235\227\343\200\202", nullptr));
+        radioGaussion->setText(QCoreApplication::translate("PS", "\351\253\230\346\226\257\350\277\207\346\273\244", nullptr));
+        radioBlur->setText(QCoreApplication::translate("PS", "\345\235\207\345\200\274\350\277\207\346\273\244", nullptr));
         radioBilateral->setText(QCoreApplication::translate("PS", "\345\217\214\350\276\271\350\277\207\346\273\244", nullptr));
         radioMedian->setText(QCoreApplication::translate("PS", "\344\270\255\345\200\274\350\277\207\346\273\244", nullptr));
-        radioBlur->setText(QCoreApplication::translate("PS", "\345\235\207\345\200\274\350\277\207\346\273\244", nullptr));
-        radioGaussion->setText(QCoreApplication::translate("PS", "\351\253\230\346\226\257\350\277\207\346\273\244", nullptr));
-        label4->setText(QCoreApplication::translate("PS", "Note: \346\224\271\345\217\230\347\256\227\346\263\225\345\220\216\345\276\256\350\260\203\346\273\221\345\235\227\343\200\202", nullptr));
-        sureAlgo->setText(QCoreApplication::translate("PS", "\345\272\224\347\224\250", nullptr));
-        toolBox->setItemText(toolBox->indexOf(algrothime), QCoreApplication::translate("PS", "\350\277\207\346\273\244\347\256\227\346\263\225", nullptr));
+        toolBox->setItemText(toolBox->indexOf(algorithm), QCoreApplication::translate("PS", "\350\277\207\346\273\244\347\256\227\346\263\225", nullptr));
 
         const bool __sortingEnabled3 = AIList->isSortingEnabled();
         AIList->setSortingEnabled(false);

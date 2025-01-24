@@ -12,29 +12,23 @@
 
 #pragma once
 
-#include <QUrl>
+#include <opencv2/core/mat.hpp>
 #include <QWidget>
 
 #include "../../Utils/Tools/MyAutoStack.h"
+#include "ShareSrc.h"
 
 QT_BEGIN_NAMESPACE
-class QLabel;
-class LoadingGif;
-class QGraphicsScene;
-class MyGraphicsView;
-class MyInformationBox;
-class QGraphicsPixmapItem;
 
 namespace Ui
 {
   class PS;
 }
 
+class QGraphicsScene;
 QT_END_NAMESPACE
 
-// 维护历史记录
-// 栈顶元素是最新保存的图像
-inline MyAutoStack<QPixmap> historyPixmap;
+inline MyAutoStack historyPixmap;
 
 class PS final : public QWidget {
   Q_OBJECT
@@ -44,39 +38,35 @@ public:
   ~PS() override;
 
 protected:
-  // 此处实现的拖拽勿删
   void dragEnterEvent(QDragEnterEvent* event) override;
   void dropEvent(QDropEvent* event) override;
 
 private slots:
-  static void doGetTokenReady(const QString& token);
   void doImageOpen();
-  void showImgToUi(const QPixmap& pixmap) const;
-  void doUndo() const;
-  void doSizeChange() const;
+  void showImgToUi(const QPair<cv::Mat, MatInfo>& showPixmap);
+  void doUndo();
+  void doReset();
+  void doSizeChange();
   static void doShowFaceTest();
-
-  // 保存图像，未指定路径则给用户选择
   void doImageSave(bool isSaveAs);
-  void showInformationMessage(const QString& message, bool isSuccess);
-
   void doToolBoxChanged(int index);
-  void doCropChange(int row) const;
-  void doResizeChange(int row) const;
+  void doCropChange(int row);
+  void doResizeChange(int row);
 
 private:
   void init();
   void setupConnections();
-  void getBaiduAIToken();
   void updateUIState(bool enable) const;
   void showImgSize(const QPixmap& showPixmap) const;
-  static void pushToHistory(const QPixmap& pixmap);
+  static void pushToHistory(const QPair<cv::Mat, MatInfo>& pixmap);
+  void updateUIFromInfo(const MatInfo& matInfo) const;
+  void showInformationMessage(const QString& message, bool isSuccess);
+
   Ui::PS* ui;
-
   QGraphicsScene* scene;
-
-  QString pixFilePath;       ///< 打开的图像位置，是filePath完整路径
-  QPixmap srcPixmap;         ///< 保留原始图片
-  QPixmap shouldBeProcessed; ///< !!!应该被处理的图像（每次切换模块时变换）
-  QPixmap curPixmap;         ///< 显示的当前图像，每次调用show之前保留
+  QString pixFilePath;
+  QPair<cv::Mat, MatInfo> srcMat;
+  cv::Mat processedMat;
+  MatInfo curMatInfo;
+  QPair<cv::Mat, MatInfo> curMat;
 };

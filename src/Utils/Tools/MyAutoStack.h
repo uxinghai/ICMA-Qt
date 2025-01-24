@@ -12,104 +12,57 @@
 
 #pragma once
 
+#include <opencv2/opencv.hpp>
 #include <QStack>
 
-template <class T>
+#include "../../Widgets/photoShop/ShareSrc.h"
+
 class MyAutoStack {
 public:
   MyAutoStack() = default;
-
   explicit MyAutoStack(const int size) : maxHistorySize(size) {}
 
-  MyAutoStack(MyAutoStack&&) noexcept = default;
-  MyAutoStack& operator=(MyAutoStack&&) noexcept = default;
-
-  MyAutoStack(const MyAutoStack&) = default;
-  MyAutoStack& operator=(const MyAutoStack&) = default;
-
-  void pushBack(const T& var)
+  void push(const cv::Mat& mat, const MatInfo& info)
   {
     if (stk.size() >= maxHistorySize) { stk.removeFirst(); }
-    stk.push(var);
+    stk.push(std::make_pair(mat, info));
   }
 
-  void pushBack(T&& var)
+  void push(const QPair<cv::Mat, MatInfo>& pixmap)
   {
     if (stk.size() >= maxHistorySize) { stk.removeFirst(); }
-    stk.push(std::move(var));
+    stk.push(pixmap);
   }
 
-  void pushFront(const T& var)
+  std::pair<cv::Mat, MatInfo>& top()
   {
-    if (stk.size() >= maxHistorySize) { stk.removeLast(); }
-    stk.push_front(var);
-  }
-
-  void pushFront(T&& var)
-  {
-    if (stk.size() >= maxHistorySize) { stk.removeLast(); }
-    stk.push_front(std::move(var));
-  }
-
-  [[nodiscard]] int maxSize() const noexcept { return maxHistorySize; }
-
-  void setMaxSize(const int value)
-  {
-    if (value > 0) {
-      maxHistorySize = value;
-
-      while (stk.size() > maxHistorySize) { stk.pop(); }
-    }
-  }
-
-  [[nodiscard]] bool empty() const noexcept { return stk.empty(); }
-
-  [[nodiscard]] const T& top() const
-  {
-    if (stk.empty()) {
-      throw std::runtime_error("Attempt to access top of an empty stack.");
-    }
+    if (stk.empty()) { throw std::runtime_error("Stack is empty"); }
     return stk.top();
   }
 
-  T& top()
+  [[nodiscard]] const std::pair<cv::Mat, MatInfo>& top() const
   {
-    if (stk.empty()) {
-      throw std::runtime_error("Attempt to access top of an empty stack.");
-    }
+    if (stk.empty()) { throw std::runtime_error("Stack is empty"); }
     return stk.top();
   }
 
-  [[nodiscard]] int size() const noexcept { return stk.size(); }
+  void pop() { if (!stk.empty()) { stk.pop(); } }
 
-  void push(const T& value) { stk.push(value); }
+  [[nodiscard]] bool empty() const { return stk.empty(); }
+  [[nodiscard]] size_t size() const { return stk.size(); }
 
-  void pop()
+  void afterSavePixmap()
   {
-    if (stk.empty()) {
-      throw std::runtime_error("Attempt to pop from an empty stack.");
+    if (!stk.empty()) {
+      const auto top = stk.top();
+      stk.pop();
+      stk.push(top);
     }
-    stk.pop();
-  }
-
-  T front()
-  {
-    if (stk.empty()) {
-      throw std::runtime_error("Attempt to access front of an empty stack.");
-    }
-    return stk.front();
   }
 
   void clear() { stk.clear(); }
 
-  // 特殊功能，在系统保存图像后只保留最新栈顶图像
-  void afterSavePixmap()
-  {
-    const auto pixmap = stk.top();
-    stk.clear();
-    stk.push_back(pixmap);
-  }
 private:
   int maxHistorySize = 50;
-  QStack<T> stk;
+  QStack<QPair<cv::Mat, MatInfo>> stk;
 };

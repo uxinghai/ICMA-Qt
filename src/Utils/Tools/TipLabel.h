@@ -25,10 +25,10 @@ public:
                     QString tipText,
                     const int displayDuration = 3000,
                     const int fadeTime = 200)
-    : QLabel(parent)
-      , text(std::move(tipText))
-      , displayDuration(displayDuration)
-      , anim(new QPropertyAnimation(this, "windowOpacity", this))
+    : QLabel(parent),
+      text(std::move(tipText)),
+      displayDuration(displayDuration),
+      anim(new QPropertyAnimation(this, "windowOpacity", this))
   {
     this->setWindowFlags(Qt::ToolTip | Qt::FramelessWindowHint);
     this->setAttribute(Qt::WA_TranslucentBackground);

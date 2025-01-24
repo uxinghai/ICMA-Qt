@@ -28,7 +28,7 @@ namespace AutoResize
   }
 }
 
-namespace Resize
+namespace DoResize
 {
   // 定义预设尺寸结构体
   struct Size {

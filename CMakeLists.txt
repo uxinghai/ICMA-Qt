@@ -96,6 +96,9 @@ set(PROJECT_SOURCES
         src/Widgets/photoShop/Crop.h
         src/Utils/Tools/MyInformationBox.h
         src/Widgets/photoShop/Resize.h
+        src/Widgets/photoShop/Adjust.h
+        src/Utils/Tools/NoWheelSlider.h
+        src/Widgets/photoShop/faceTest/ToGetToken.h
 )
 
 #                                            *********

@@ -9,7 +9,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>964</width>
+    <width>942</width>
     <height>698</height>
    </rect>
   </property>
@@ -314,7 +314,7 @@
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>1</number>
+              <number>2</number>
              </property>
              <property name="tabSpacing">
               <number>7</number>
@@ -324,8 +324,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>345</width>
-                <height>239</height>
+                <width>225</width>
+                <height>116</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -502,8 +502,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>345</width>
-                <height>303</height>
+                <width>164</width>
+                <height>143</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -680,7 +680,7 @@
                   <string>锁定宽高比例</string>
                  </property>
                  <property name="checked">
-                  <bool>true</bool>
+                  <bool>false</bool>
                  </property>
                 </widget>
                </item>
@@ -691,8 +691,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>345</width>
-                <height>287</height>
+                <width>156</width>
+                <height>248</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -706,279 +706,8 @@
                <string>调整</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_17">
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_2">
-                 <property name="text">
-                  <string>亮度</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
-                <widget class="QSpinBox" name="spinBoxBrightness">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="wrapping">
-                  <bool>false</bool>
-                 </property>
-                 <property name="frame">
-                  <bool>false</bool>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="readOnly">
-                  <bool>false</bool>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::UpDownArrows</enum>
-                 </property>
-                 <property name="accelerated">
-                  <bool>false</bool>
-                 </property>
-                 <property name="showGroupSeparator" stdset="0">
-                  <bool>false</bool>
-                 </property>
-                 <property name="minimum">
-                  <number>-50</number>
-                 </property>
-                 <property name="maximum">
-                  <number>50</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_3">
-                 <property name="text">
-                  <string>对比度</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QDoubleSpinBox" name="spinBoxContrast">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                  </font>
-                 </property>
-                 <property name="frame">
-                  <bool>false</bool>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::UpDownArrows</enum>
-                 </property>
-                 <property name="decimals">
-                  <number>1</number>
-                 </property>
-                 <property name="minimum">
-                  <double>0.100000000000000</double>
-                 </property>
-                 <property name="maximum">
-                  <double>3.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.100000000000000</double>
-                 </property>
-                 <property name="stepType">
-                  <enum>QAbstractSpinBox::DefaultStepType</enum>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_4">
-                 <property name="text">
-                  <string>饱和度</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="1">
-                <widget class="QDoubleSpinBox" name="spinBoxSaturation">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                  </font>
-                 </property>
-                 <property name="frame">
-                  <bool>false</bool>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::UpDownArrows</enum>
-                 </property>
-                 <property name="accelerated">
-                  <bool>false</bool>
-                 </property>
-                 <property name="keyboardTracking">
-                  <bool>true</bool>
-                 </property>
-                 <property name="showGroupSeparator" stdset="0">
-                  <bool>false</bool>
-                 </property>
-                 <property name="maximum">
-                  <double>2.000000000000000</double>
-                 </property>
-                 <property name="singleStep">
-                  <double>0.010000000000000</double>
-                 </property>
-                 <property name="stepType">
-                  <enum>QAbstractSpinBox::DefaultStepType</enum>
-                 </property>
-                 <property name="value">
-                  <double>1.000000000000000</double>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>反相</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="1">
-                <widget class="QSpinBox" name="spinBoxContrary">
-                 <property name="enabled">
-                  <bool>false</bool>
-                 </property>
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>59</width>
-                   <height>27</height>
-                  </size>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="wrapping">
-                  <bool>false</bool>
-                 </property>
-                 <property name="frame">
-                  <bool>false</bool>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignCenter</set>
-                 </property>
-                 <property name="readOnly">
-                  <bool>false</bool>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::UpDownArrows</enum>
-                 </property>
-                 <property name="accelerated">
-                  <bool>false</bool>
-                 </property>
-                 <property name="showGroupSeparator" stdset="0">
-                  <bool>false</bool>
-                 </property>
-                 <property name="suffix">
-                  <string>%</string>
-                 </property>
-                 <property name="minimum">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <number>100</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>0</number>
-                 </property>
-                </widget>
-               </item>
                <item row="7" column="0" colspan="2">
-                <widget class="QSlider" name="contrarySlider">
+                <widget class="NoWheelSlider" name="contrarySlider">
                  <property name="cursor">
                   <cursorShape>ArrowCursor</cursorShape>
                  </property>
@@ -1008,36 +737,79 @@
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0" colspan="2">
-                <widget class="QSlider" name="saturationSlider">
-                 <property name="cursor">
-                  <cursorShape>ArrowCursor</cursorShape>
+               <item row="6" column="1">
+                <widget class="QDoubleSpinBox" name="spinBoxContrary">
+                 <property name="enabled">
+                  <bool>false</bool>
                  </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::StrongFocus</enum>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
-                 <property name="minimum">
+                 <property name="minimumSize">
+                  <size>
+                   <width>59</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>59</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <italic>true</italic>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="frame">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="accelerated">
+                  <bool>false</bool>
+                 </property>
+                 <property name="keyboardTracking">
+                  <bool>true</bool>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>false</bool>
+                 </property>
+                 <property name="suffix">
+                  <string>%</string>
+                 </property>
+                 <property name="decimals">
                   <number>0</number>
                  </property>
                  <property name="maximum">
-                  <number>200</number>
+                  <double>100.000000000000000</double>
                  </property>
-                 <property name="pageStep">
-                  <number>0</number>
+                 <property name="singleStep">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="stepType">
+                  <enum>QAbstractSpinBox::DefaultStepType</enum>
                  </property>
                  <property name="value">
-                  <number>100</number>
-                 </property>
-                 <property name="tracking">
-                  <bool>true</bool>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                  <double>0.000000000000000</double>
                  </property>
                 </widget>
                </item>
                <item row="3" column="0" colspan="2">
-                <widget class="QSlider" name="contrastSlider">
+                <widget class="NoWheelSlider" name="contrastSlider">
                  <property name="cursor">
                   <cursorShape>ArrowCursor</cursorShape>
                  </property>
@@ -1061,8 +833,149 @@
                  </property>
                 </widget>
                </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>对比度</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <widget class="QDoubleSpinBox" name="spinBoxBrightness">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>59</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>59</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <italic>true</italic>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="frame">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="decimals">
+                  <number>0</number>
+                 </property>
+                 <property name="minimum">
+                  <double>-50.000000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>50.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>1.000000000000000</double>
+                 </property>
+                 <property name="stepType">
+                  <enum>QAbstractSpinBox::DefaultStepType</enum>
+                 </property>
+                 <property name="value">
+                  <double>0.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QDoubleSpinBox" name="spinBoxSaturation">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>59</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>59</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <italic>true</italic>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="frame">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="accelerated">
+                  <bool>false</bool>
+                 </property>
+                 <property name="keyboardTracking">
+                  <bool>true</bool>
+                 </property>
+                 <property name="showGroupSeparator" stdset="0">
+                  <bool>false</bool>
+                 </property>
+                 <property name="maximum">
+                  <double>2.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.010000000000000</double>
+                 </property>
+                 <property name="stepType">
+                  <enum>QAbstractSpinBox::DefaultStepType</enum>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>饱和度</string>
+                 </property>
+                </widget>
+               </item>
                <item row="1" column="0" colspan="2">
-                <widget class="QSlider" name="brightnessSlider">
+                <widget class="NoWheelSlider" name="brightnessSlider">
                  <property name="cursor">
                   <cursorShape>ArrowCursor</cursorShape>
                  </property>
@@ -1092,28 +1005,119 @@
                  </property>
                 </widget>
                </item>
-               <item row="8" column="0" colspan="2">
-                <widget class="QPushButton" name="sureAdjust">
-                 <property name="maximumSize">
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_5">
+                 <property name="text">
+                  <string>反相</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0" colspan="2">
+                <widget class="NoWheelSlider" name="saturationSlider">
+                 <property name="cursor">
+                  <cursorShape>ArrowCursor</cursorShape>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::StrongFocus</enum>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>200</number>
+                 </property>
+                 <property name="pageStep">
+                  <number>0</number>
+                 </property>
+                 <property name="value">
+                  <number>100</number>
+                 </property>
+                 <property name="tracking">
+                  <bool>true</bool>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QDoubleSpinBox" name="spinBoxContrast">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
                   <size>
-                   <width>16777215</width>
-                   <height>35</height>
+                   <width>59</width>
+                   <height>27</height>
                   </size>
                  </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>59</width>
+                   <height>27</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI</family>
+                   <italic>true</italic>
+                   <underline>false</underline>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="frame">
+                  <bool>false</bool>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignCenter</set>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::NoButtons</enum>
+                 </property>
+                 <property name="decimals">
+                  <number>1</number>
+                 </property>
+                 <property name="minimum">
+                  <double>0.100000000000000</double>
+                 </property>
+                 <property name="maximum">
+                  <double>3.000000000000000</double>
+                 </property>
+                 <property name="singleStep">
+                  <double>0.100000000000000</double>
+                 </property>
+                 <property name="stepType">
+                  <enum>QAbstractSpinBox::DefaultStepType</enum>
+                 </property>
+                 <property name="value">
+                  <double>1.000000000000000</double>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_2">
                  <property name="text">
-                  <string>应用</string>
+                  <string>亮度</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="page_3">
+             <widget class="QWidget" name="rota">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>345</width>
-                <height>135</height>
+                <width>200</width>
+                <height>96</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1124,16 +1128,6 @@
                <string>旋转变换</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout">
-               <item row="3" column="0" colspan="2">
-                <widget class="QSlider" name="rotaSlider">
-                 <property name="maximum">
-                  <number>360</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                </widget>
-               </item>
                <item row="1" column="1">
                 <widget class="QToolButton" name="btnFlipVertical">
                  <property name="maximumSize">
@@ -1226,49 +1220,13 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QToolButton" name="btnFlipHorizontal">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>35</height>
-                  </size>
+               <item row="3" column="0" colspan="2">
+                <widget class="QSlider" name="rotaSlider">
+                 <property name="maximum">
+                  <number>360</number>
                  </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="toolTip">
-                  <string>水平镜像翻转</string>
-                 </property>
-                 <property name="text">
-                  <string>水平翻转</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>
-                                        :/ps/res/ps/slip0.png</normaloff>
-                                        :/ps/res/ps/slip0.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>64</width>
-                   <height>64</height>
-                  </size>
-                 </property>
-                 <property name="popupMode">
-                  <enum>QToolButton::DelayedPopup</enum>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonIconOnly</enum>
-                 </property>
-                 <property name="autoRaise">
-                  <bool>false</bool>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
                  </property>
                 </widget>
                </item>
@@ -1318,10 +1276,49 @@
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0" colspan="2">
-                <widget class="QPushButton" name="sureTransform">
+               <item row="1" column="0">
+                <widget class="QToolButton" name="btnFlipHorizontal">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="toolTip">
+                  <string>水平镜像翻转</string>
+                 </property>
                  <property name="text">
-                  <string>应用</string>
+                  <string>水平翻转</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>
+                                        :/ps/res/ps/slip0.png</normaloff>
+                                        :/ps/res/ps/slip0.png</iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>64</width>
+                   <height>64</height>
+                  </size>
+                 </property>
+                 <property name="popupMode">
+                  <enum>QToolButton::DelayedPopup</enum>
+                 </property>
+                 <property name="toolButtonStyle">
+                  <enum>Qt::ToolButtonIconOnly</enum>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>false</bool>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
                  </property>
                 </widget>
                </item>
@@ -1332,8 +1329,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>345</width>
-                <height>249</height>
+                <width>87</width>
+                <height>87</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1421,22 +1418,15 @@
                  </item>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QPushButton" name="sureFilter">
-                 <property name="text">
-                  <string>应用</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </widget>
-             <widget class="QWidget" name="algrothime">
+             <widget class="QWidget" name="algorithm">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>345</width>
-                <height>182</height>
+                <width>174</width>
+                <height>143</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1447,37 +1437,6 @@
                <string>过滤算法</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_4">
-               <item row="2" column="1">
-                <widget class="QRadioButton" name="radioBilateral">
-                 <property name="text">
-                  <string>双边过滤</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QRadioButton" name="radioMedian">
-                 <property name="text">
-                  <string>中值过滤</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QRadioButton" name="radioBlur">
-                 <property name="text">
-                  <string>均值过滤</string>
-                 </property>
-                 <property name="checked">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QRadioButton" name="radioGaussion">
-                 <property name="text">
-                  <string>高斯过滤</string>
-                 </property>
-                </widget>
-               </item>
                <item row="3" column="0" colspan="2">
                 <widget class="QLabel" name="label4">
                  <property name="font">
@@ -1493,6 +1452,13 @@
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QRadioButton" name="radioGaussion">
+                 <property name="text">
+                  <string>高斯过滤</string>
                  </property>
                 </widget>
                </item>
@@ -1547,10 +1513,27 @@
                  </item>
                 </layout>
                </item>
-               <item row="4" column="0" colspan="2">
-                <widget class="QPushButton" name="sureAlgo">
+               <item row="1" column="0">
+                <widget class="QRadioButton" name="radioBlur">
                  <property name="text">
-                  <string>应用</string>
+                  <string>均值过滤</string>
+                 </property>
+                 <property name="checked">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QRadioButton" name="radioBilateral">
+                 <property name="text">
+                  <string>双边过滤</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QRadioButton" name="radioMedian">
+                 <property name="text">
+                  <string>中值过滤</string>
                  </property>
                 </widget>
                </item>
@@ -1561,8 +1544,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>345</width>
-                <height>210</height>
+                <width>87</width>
+                <height>87</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1934,6 +1917,11 @@
    <class>MyGraphicsView</class>
    <extends>QGraphicsView</extends>
    <header>../src/Widgets/photoShop/MyGraphicsView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>NoWheelSlider</class>
+   <extends>QSlider</extends>
+   <header>../src/Utils/Tools/NoWheelSlider.h</header>
   </customwidget>
  </customwidgets>
  <resources>
