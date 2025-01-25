@@ -14,6 +14,8 @@
 
 #include <QObject>
 
+#include "../../../Network/GetBaiduToken.h"
+
 class ToGetToken final : public QObject {
   Q_OBJECT
 

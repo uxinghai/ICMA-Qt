@@ -184,16 +184,25 @@ struct Resize {
   }
 };
 
+struct Rota {
+  int rotaValue = 0; ///< 0-360
+
+  bool operator!=(const Rota rota) const { return rotaValue != rota.rotaValue; }
+};
+
 struct MatInfo {
   AdjustValue adjustValue;
   Algorithm algorithm;
   Crop crop;
   Resize resize;
+  Rota rota;
 
   bool operator!=(const MatInfo& matInfo) const
   {
     return adjustValue != matInfo.adjustValue ||
-      algorithm != matInfo.algorithm || crop != matInfo.crop ||
-      resize != matInfo.resize;
+      algorithm != matInfo.algorithm ||
+      crop != matInfo.crop ||
+      resize != matInfo.resize ||
+      rota != matInfo.rota;
   }
 };

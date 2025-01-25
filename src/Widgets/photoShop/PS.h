@@ -13,11 +13,13 @@
 #pragma once
 
 #include <opencv2/core/mat.hpp>
+#include <QSpinBox>
 #include <QWidget>
 
 #include "../../Utils/Tools/MyAutoStack.h"
 #include "ShareSrc.h"
 
+class NoWheelSlider;
 QT_BEGIN_NAMESPACE
 
 namespace Ui
@@ -52,21 +54,37 @@ private slots:
   void doToolBoxChanged(int index);
   void doCropChange(int row);
   void doResizeChange(int row);
+  void doAdjust();
 
 private:
-  void init();
+  void init() const;
   void setupConnections();
+  void setupSliderConnections(const NoWheelSlider* slider,
+                              QDoubleSpinBox* spinBox,
+                              const std::function<void(int)>& valueUpdateFunc,
+                              double sliderDivisor = 1.0,
+                              double spinBoxMultiplier = 1.0);
+  void setupRotationConnections();
+  void applyBlurAlgorithm(const QString& radioButtonName,
+                          const std::function<void(
+                            const cv::Mat&, cv::Mat&, int)>
+                          & blurFunc);
+  void setupBlurAlgorithmConnections();
+  void updateMatAndUI();
   void updateUIState(bool enable) const;
   void showImgSize(const QPixmap& showPixmap) const;
   static void pushToHistory(const QPair<cv::Mat, MatInfo>& pixmap);
-  void updateUIFromInfo(const MatInfo& matInfo) const;
+  void updateUIFromInfo(const MatInfo& matInfo);
   void showInformationMessage(const QString& message, bool isSuccess);
 
   Ui::PS* ui;
   QGraphicsScene* scene;
   QString pixFilePath;
   QPair<cv::Mat, MatInfo> srcMat;
-  cv::Mat processedMat;
-  MatInfo curMatInfo;
   QPair<cv::Mat, MatInfo> curMat;
+
+  // 以下两个在程序中共享，想要仔细统筹
+  cv::Mat processedMat; ///< 图像初始时、功能模块切换时、图像撤回时
+  MatInfo curMatInfo;
+  bool isProgrammaticChange = false; ///< 标记某些信号是由程序触发
 };

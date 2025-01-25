@@ -12,13 +12,13 @@
 #include "../../../UI/ui_FaceTest.h"
 #include "../../../UI/ui_PS.h"
 #include "../../Manager/Config/iniManager.h"
-#include "../../Network/GetBaiduToken.h"
 #include "../../Utils/Tools/MyInformationBox.h"
 #include "Adjust.h"
 #include "Crop.h"
 #include "faceTest/FaceTest.h"
 #include "faceTest/ToGetToken.h"
 #include "Resize.h"
+#include "Rota.h"
 
 PS::PS(QWidget* parent) : QWidget(parent), ui(new Ui::PS),
                           scene(new QGraphicsScene(this))
@@ -29,7 +29,7 @@ PS::PS(QWidget* parent) : QWidget(parent), ui(new Ui::PS),
   setupConnections();
 }
 
-void PS::init()
+void PS::init() const
 {
   ui->GraphicsView->setScene(scene);
   auto font = this->font();
@@ -39,20 +39,19 @@ void PS::init()
 
 void PS::setupConnections()
 {
-  // 连接各种信号和槽
+  // 基本图像操作连接
   connect(ui->btnOpenImg, &QToolButton::clicked, this, &PS::doImageOpen);
   connect(ui->btnUndo, &QToolButton::clicked, this, &PS::doUndo);
   connect(ui->btnReset, &QToolButton::clicked, this, &PS::doReset);
 
-  // 图像对比
+  // 图像对比显示
   connect(ui->btnComparison, &QToolButton::pressed, [this] {
     ui->btnComparison->setIcon(QIcon(":/ps/res/ps/OpenEye.png"));
-    showImgToUi(curMat);
+    showImgToUi(srcMat);
   });
-
   connect(ui->btnComparison, &QToolButton::released, [this] {
     ui->btnComparison->setIcon(QIcon(":/ps/res/ps/CloseEye.png"));
-    showImgToUi(historyPixmap.top());
+    showImgToUi(curMat);
   });
 
   // 图像保存
@@ -60,7 +59,7 @@ void PS::setupConnections()
           [this] { doImageSave(false); });
   connect(ui->btnSaveAs, &QToolButton::clicked, [this] { doImageSave(true); });
 
-  // 其他连接（调整、尺寸、裁剪等）
+  // 工具箱和列表连接
   connect(ui->toolBox, &QToolBox::currentChanged, this, &PS::doToolBoxChanged);
   connect(ui->cropList, &QListWidget::currentRowChanged, this,
           &PS::doCropChange);
@@ -68,90 +67,204 @@ void PS::setupConnections()
           &PS::doResizeChange);
 
   // 图像调整滑动条处理
-  connect(ui->brightnessSlider, &QSlider::valueChanged,
-          [this](const int value) {
-            ui->spinBoxBrightness->setValue(value);
-            curMatInfo.adjustValue.brightness = value;
+  setupSliderConnections(ui->brightnessSlider, ui->spinBoxBrightness,
+                         [this](const int value) {
+                           curMatInfo.adjustValue.brightness = value;
+                           doAdjust();
+                         });
 
-            const cv::Mat mat = Adjust::adjustMat(processedMat,
-                                                  ui->spinBoxBrightness->
-                                                  value(),
-                                                  ui->spinBoxContrast->value(),
-                                                  ui->spinBoxSaturation->
-                                                  value(),
-                                                  ui->spinBoxContrary->value());
-            curMat.first = mat;
-            curMat.second = curMatInfo;
-            showImgToUi(curMat);
-          });
-  connect(ui->brightnessSlider, &QSlider::sliderReleased, [this] {
-    pushToHistory(curMat);
-  });
-  connect(ui->contrastSlider, &QSlider::valueChanged,
-          [this](const int value) {
-            ui->spinBoxContrast->setValue(value / 10.0);
-            curMatInfo.adjustValue.contrast = value;
+  setupSliderConnections(ui->contrastSlider, ui->spinBoxContrast,
+                         [this](const int value) {
+                           curMatInfo.adjustValue.contrast = value;
+                           doAdjust();
+                         }, 10.0);
 
-            const cv::Mat mat = Adjust::adjustMat(processedMat,
-                                                  ui->spinBoxBrightness->
-                                                  value(),
-                                                  ui->spinBoxContrast->value(),
-                                                  ui->spinBoxSaturation->
-                                                  value(),
-                                                  ui->spinBoxContrary->value());
-            curMat.first = mat;
-            curMat.second = curMatInfo;
-            showImgToUi(curMat);
-          });
-  connect(ui->contrastSlider, &QSlider::sliderReleased, [this] {
-    pushToHistory(curMat);
-  });
-  connect(ui->saturationSlider, &QSlider::valueChanged,
-          [this](const int value) {
-            ui->spinBoxSaturation->setValue(value / 100.0);
-            curMatInfo.adjustValue.saturation = value;
+  setupSliderConnections(ui->saturationSlider, ui->spinBoxSaturation,
+                         [this](const int value) {
+                           curMatInfo.adjustValue.saturation = value;
+                           doAdjust();
+                         }, 100.0);
 
-            const cv::Mat mat = Adjust::adjustMat(processedMat,
-                                                  ui->spinBoxBrightness->
-                                                  value(),
-                                                  ui->spinBoxContrast->value(),
-                                                  ui->spinBoxSaturation->
-                                                  value(),
-                                                  ui->spinBoxContrary->value());
-            curMat.first = mat;
-            curMat.second = curMatInfo;
-            showImgToUi(curMat);
-          });
-  connect(ui->saturationSlider, &QSlider::sliderReleased, [this] {
-    pushToHistory(curMat);
-  });
-  connect(ui->contrarySlider, &QSlider::valueChanged,
-          [this](const int value) {
-            ui->spinBoxContrary->setValue(value / 255.0 * 100.0);
-            curMatInfo.adjustValue.contrary = value;
+  setupSliderConnections(ui->contrarySlider, ui->spinBoxContrary,
+                         [this](const int value) {
+                           curMatInfo.adjustValue.contrary = value;
+                           doAdjust();
+                         }, 255.0, 100.0);
 
-            const cv::Mat mat = Adjust::adjustMat(processedMat,
-                                                  ui->spinBoxBrightness->
-                                                  value(),
-                                                  ui->spinBoxContrast->value(),
-                                                  ui->spinBoxSaturation->
-                                                  value(),
-                                                  ui->spinBoxContrary->value());
-            curMat.first = mat;
-            curMat.second = curMatInfo;
-            showImgToUi(curMat);
-          });
-  connect(ui->contrarySlider, &QSlider::sliderReleased, [this] {
-    pushToHistory(curMat);
-  });
+  // 图像旋转和翻转
+  setupRotationConnections();
 
   // 尺寸输入
   connect(ui->leSizeW, &QLineEdit::textEdited, this, &PS::doSizeChange);
   connect(ui->leSizeH, &QLineEdit::textEdited, this, &PS::doSizeChange);
 
+  // 模糊算法连接
+  setupBlurAlgorithmConnections();
+
   // 人脸检测
   connect(ui->FaceTestToolBtn, &QToolButton::clicked, this,
           &PS::doShowFaceTest);
+}
+
+// 通用滑动条连接处理
+void PS::setupSliderConnections(const NoWheelSlider* slider,
+                                QDoubleSpinBox* spinBox,
+                                const std::function<void(int)>& valueUpdateFunc,
+                                double sliderDivisor,
+                                double spinBoxMultiplier)
+{
+  connect(slider, &QSlider::valueChanged,
+          [this, spinBox, valueUpdateFunc, sliderDivisor,
+            spinBoxMultiplier](const int value) {
+            spinBox->setValue(value / sliderDivisor * spinBoxMultiplier);
+            valueUpdateFunc(value);
+          });
+
+  connect(slider, &QSlider::sliderReleased, [this] { pushToHistory(curMat); });
+}
+
+// 旋转和翻转连接处理
+void PS::setupRotationConnections()
+{
+  // 旋转按钮
+  connect(ui->btnRotateLeft, &QToolButton::clicked, [this] {
+    rotate(processedMat, processedMat, cv::ROTATE_90_COUNTERCLOCKWISE);
+    updateMatAndUI();
+  });
+
+  connect(ui->btnRotateRight, &QToolButton::clicked, [this] {
+    rotate(processedMat, processedMat, cv::ROTATE_90_CLOCKWISE);
+    updateMatAndUI();
+  });
+
+  // 翻转按钮
+  connect(ui->btnFlipHorizontal, &QToolButton::clicked, [this] {
+    flip(processedMat, processedMat, 1);
+    updateMatAndUI();
+  });
+
+  connect(ui->btnFlipVertical, &QToolButton::clicked, [this] {
+    flip(processedMat, processedMat, 0);
+    updateMatAndUI();
+  });
+
+  // 自由旋转滑动条
+  connect(ui->rotaSlider, &QSlider::valueChanged, [this](const int value) {
+    curMatInfo.rota.rotaValue = value;
+    const QPixmap pixmap = DoRota::rota(matToPixmap(processedMat),
+                                        value);
+    curMat.first = pixmapToMat(pixmap);
+    curMat.second = curMatInfo;
+    showImgToUi(curMat);
+  });
+
+  connect(ui->rotaSlider, &QSlider::sliderReleased, [this] {
+    pushToHistory(curMat);
+  });
+}
+
+// 定义通用模糊处理函数
+void PS::applyBlurAlgorithm(const QString& radioButtonName,
+                            const std::function<void(
+                              const cv::Mat&, cv::Mat&, int)>& blurFunc)
+{
+  if (processedMat.empty()) { processedMat = srcMat.first; }
+  // 以上方法不想用
+
+  int kernelValue = curMatInfo.algorithm.kernelValue;
+  kernelValue = (kernelValue % 2 == 0) ? kernelValue + 1 : kernelValue;
+
+  cv::Mat mat = cv::Mat::zeros(processedMat.size(), CV_8UC3);
+  blurFunc(processedMat, mat, kernelValue);
+
+  curMat.first = mat;
+  curMatInfo.algorithm.radioButtonObjName = radioButtonName;
+  curMat.second = curMatInfo;
+  showImgToUi(curMat);
+}
+
+// 模糊算法连接处理
+void PS::setupBlurAlgorithmConnections()
+{
+  // 连接各种模糊算法单选按钮
+  connect(ui->radioBlur, &QRadioButton::clicked,
+          [this](const bool checked) {
+            if (checked)
+              applyBlurAlgorithm(ui->radioBlur->objectName(),
+                                 [](const cv::Mat& src, cv::Mat& dst,
+                                    const int kernelSize) {
+                                   blur(src, dst,
+                                        cv::Size(kernelSize, kernelSize));
+                                 });
+          });
+
+  connect(ui->radioMedian, &QRadioButton::clicked,
+          [this](const bool checked) {
+            if (checked)
+              applyBlurAlgorithm(ui->radioMedian->objectName(),
+                                 [](const cv::Mat& src, cv::Mat& dst,
+                                    const int kernelSize) {
+                                   medianBlur(src, dst, kernelSize);
+                                 });
+          });
+
+  connect(ui->radioGaussion, &QRadioButton::clicked,
+          [this](const bool checked) {
+            if (checked)
+              applyBlurAlgorithm(ui->radioGaussion->objectName(),
+                                 [](const cv::Mat& src, cv::Mat& dst,
+                                    const int kernelSize) {
+                                   GaussianBlur(
+                                     src, dst, cv::Size(kernelSize, kernelSize),
+                                     0, 0);
+                                 });
+          });
+
+  connect(ui->radioBilateral, &QRadioButton::clicked,
+          [this](const bool checked) {
+            if (checked)
+              applyBlurAlgorithm(ui->radioBilateral->objectName(),
+                                 [](const cv::Mat& src, cv::Mat& dst,
+                                    const int kernelSize) {
+                                   bilateralFilter(
+                                     src, dst, kernelSize, kernelSize * 2,
+                                     kernelSize / 2);
+                                 });
+          });
+
+  // Kernel值修改连接
+  ui->kernelValue->setEnabled(true); ///< 明明界面上已经使能了...
+  connect(ui->kernelValue, &QSlider::valueChanged, [this](const int value) {
+    curMatInfo.algorithm.kernelValue = value;
+    ui->spinBoxKernel->setValue(value);
+
+    // 根据当前选中的模糊算法触发相应的单选按钮
+    QRadioButton* currentRadioButton = nullptr;
+    if (curMatInfo.algorithm.radioButtonObjName == "radioBlur")
+      currentRadioButton = ui->radioBlur;
+    else if (curMatInfo.algorithm.radioButtonObjName == "radioMedian")
+      currentRadioButton = ui->radioMedian;
+    else if (curMatInfo.algorithm.radioButtonObjName == "radioGaussion")
+      currentRadioButton = ui->radioGaussion;
+    else if (curMatInfo.algorithm.radioButtonObjName ==
+      "radioBilateral")
+      currentRadioButton = ui->radioBilateral;
+
+    if (currentRadioButton)
+      currentRadioButton->click();
+  });
+
+  connect(ui->kernelValue, &QSlider::sliderReleased, [this] {
+    pushToHistory(curMat);
+  });
+}
+
+// 辅助函数：更新图像并刷新UI
+void PS::updateMatAndUI()
+{
+  curMat.first = processedMat;
+  showImgToUi(curMat);
+  pushToHistory(curMat);
 }
 
 void PS::doImageOpen()
@@ -224,7 +337,6 @@ void PS::dropEvent(QDropEvent* event)
 
     // 显示图像到 UI
     showImgToUi(srcMat);
-    processedMat = srcMat.first;
     updateUIFromInfo(srcMat.second);
 
     // 更新历史记录和工具栏状态
@@ -241,25 +353,32 @@ void PS::doUndo()
 {
   if (historyPixmap.size() > 2) {
     historyPixmap.pop();
-    showImgToUi(historyPixmap.top());
-    updateUIFromInfo(curMat.second);
+
+    const auto curMat = historyPixmap.top();
+    processedMat = curMat.first;
+    curMatInfo = curMat.second;
+    showImgToUi(curMat);
   }
-  else { ui->btnReset->click(); }
+  else { ///< 调用还原
+    ui->btnReset->click();
+  }
 }
 
 void PS::doReset()
 {
-  showImgToUi(srcMat);
   historyPixmap.clear(); ///< 还原清空历史记录
   historyPixmap.push(srcMat);
-  updateUIFromInfo(srcMat.second);
+  processedMat = srcMat.first;
+  curMatInfo = srcMat.second;
+  showImgToUi(srcMat);
 }
 
 void PS::doCropChange(const int row)
 {
+  if (isProgrammaticChange) { return; }
+  curMatInfo.crop.cropValue = row;
   const auto pixmap = DoCrop::cropPixmapBy(matToPixmap(processedMat), row);
   curMat.first = pixmapToMat(pixmap);
-  curMatInfo.crop.cropValue = row;
   curMat.second = curMatInfo;
   showImgToUi(curMat);
   pushToHistory(curMat);
@@ -267,6 +386,7 @@ void PS::doCropChange(const int row)
 
 void PS::doResizeChange(const int row)
 {
+  if (isProgrammaticChange) { return; }
   const QPixmap pixmap = DoResize::resizePixmapBy(
     matToPixmap(processedMat), row,
     ui->lockedWHRatio->isChecked());
@@ -276,6 +396,21 @@ void PS::doResizeChange(const int row)
   curMat.second = curMatInfo;
   showImgToUi(curMat);
   pushToHistory(curMat);
+}
+
+void PS::doAdjust()
+{
+  // 有时候真不是想额外添加代码，但真找不到内在错误，只能解决表象上的错误了...
+  if (processedMat.empty()) { processedMat = srcMat.first; }
+  // 以上方法不想用
+  const cv::Mat mat = Adjust::adjustMat(processedMat,
+                                        ui->spinBoxBrightness->value(),
+                                        ui->spinBoxContrast->value(),
+                                        ui->spinBoxSaturation->value(),
+                                        ui->spinBoxContrary->value());
+  curMat.first = mat;
+  curMat.second = curMatInfo;
+  showImgToUi(curMat);
 }
 
 void PS::doSizeChange()
@@ -304,7 +439,7 @@ void PS::doShowFaceTest()
 
 void PS::doImageSave(const bool isSaveAs)
 {
-  if (!isSaveAs) {
+  if (!isSaveAs) { ///< 不是另存
     if (QMessageBox::information(this, tr("询问"), tr("是否要替换文件"),
                                  QMessageBox::Ok | QMessageBox::Cancel) !=
       QMessageBox::Ok) { return; }
@@ -319,13 +454,9 @@ void PS::doImageSave(const bool isSaveAs)
     if (pixFilePath.isEmpty()) { return; }
   }
 
-  // 保存栈顶图像
-  if (const cv::Mat mat = historyPixmap.top().first;
+  if (const cv::Mat mat = curMat.first;
     matToPixmap(mat).save(pixFilePath)) {
     showInformationMessage(tr("保存成功"), true);
-    historyPixmap.afterSavePixmap();
-    srcMat = historyPixmap.top();
-    processedMat = mat;
   }
   else { showInformationMessage(tr("保存失败"), false); }
 }
@@ -341,25 +472,23 @@ void PS::showInformationMessage(const QString& message, const bool isSuccess)
 void PS::doToolBoxChanged(const int index)
 {
   Q_UNUSED(index);
-  processedMat = historyPixmap.top().first;
+  processedMat = curMat.first;
 }
 
 void PS::showImgToUi(const QPair<cv::Mat, MatInfo>& showPixmap)
 {
   scene->clear();
   const cv::Mat mat = showPixmap.first;
-  const auto pixmap = matToPixmap(mat);
 
-  auto* pixmapItem = new QGraphicsPixmapItem(pixmap);
-  scene->addItem(pixmapItem);
+  const auto pixmap = matToPixmap(mat);
+  scene->addItem(new QGraphicsPixmapItem(pixmap));
   scene->setSceneRect(pixmap.rect());
 
   ui->GraphicsView->setSceneRect(scene->sceneRect());
   ui->GraphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 
   showImgSize(pixmap);
-  curMatInfo = showPixmap.second;
-  updateUIFromInfo(curMatInfo);
+  updateUIFromInfo(showPixmap.second);
 }
 
 void PS::updateUIState(const bool enable) const
@@ -391,21 +520,25 @@ void PS::pushToHistory(const QPair<cv::Mat, MatInfo>& pixmap)
     lastMatInfo != curMatInfo) { historyPixmap.push(pixmap); }
 }
 
-void PS::updateUIFromInfo(const MatInfo& matInfo) const
+void PS::updateUIFromInfo(const MatInfo& matInfo)
 {
-  ui->brightnessSlider->setValue(matInfo.adjustValue.brightness);
-  ui->saturationSlider->setValue(matInfo.adjustValue.saturation);
-  ui->contrastSlider->setValue(matInfo.adjustValue.contrast);
-  ui->contrarySlider->setValue(matInfo.adjustValue.contrary);
+  isProgrammaticChange = true;
+  ui->brightnessSlider->setValue(
+    static_cast<int>(matInfo.adjustValue.brightness));
+  ui->saturationSlider->setValue(
+    static_cast<int>(matInfo.adjustValue.saturation));
+  ui->contrastSlider->setValue(static_cast<int>(matInfo.adjustValue.contrast));
+  ui->contrarySlider->setValue(static_cast<int>(matInfo.adjustValue.contrary));
   ui->kernelValue->setValue(matInfo.algorithm.kernelValue);
   for (const auto obj : ui->algorithm->findChildren<QRadioButton*>()) {
     if (obj->objectName() == matInfo.algorithm.radioButtonObjName) {
       obj->setChecked(true);
     }
   }
-  ui->rotaSlider->setValue(matInfo.crop.cropValue);
+  //ui->rotaSlider->setValue(matInfo.crop.cropValue);///< 不需要！！！
   ui->sizeList->setCurrentRow(matInfo.resize.resizeValue);
   ui->cropList->setCurrentRow(matInfo.crop.cropValue);
+  isProgrammaticChange = false;
 }
 
 PS::~PS() { delete ui; }

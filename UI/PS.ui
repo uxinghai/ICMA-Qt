@@ -9,9 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>942</width>
-    <height>698</height>
+    <width>1032</width>
+    <height>707</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>40</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="font">
    <font>
@@ -95,39 +101,275 @@
         }
       </string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_21">
-   <property name="leftMargin">
-    <number>5</number>
-   </property>
-   <property name="topMargin">
-    <number>5</number>
-   </property>
-   <property name="rightMargin">
-    <number>5</number>
-   </property>
-   <property name="bottomMargin">
-    <number>5</number>
-   </property>
-   <property name="spacing">
-    <number>5</number>
-   </property>
+  <layout class="QGridLayout" name="gridLayout_9">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QToolButton" name="btnUndo">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>33</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>撤销上一步操作</string>
+       </property>
+       <property name="text">
+        <string>撤销</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/ps/res/ps/undo.png</normaloff>:/ps/res/ps/undo.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+Z</string>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="btnReset">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>33</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>还原到初始图像</string>
+       </property>
+       <property name="text">
+        <string>还原</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/ps/res/ps/resetImg.png</normaloff>:/ps/res/ps/resetImg.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+R</string>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="btnComparison">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>33</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>与原图进行对比</string>
+       </property>
+       <property name="text">
+        <string>对比</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/ps/res/ps/CloseEye.png</normaloff>:/ps/res/ps/CloseEye.png</iconset>
+       </property>
+       <property name="checkable">
+        <bool>true</bool>
+       </property>
+       <property name="toolButtonStyle">
+        <enum>Qt::ToolButtonTextBesideIcon</enum>
+       </property>
+       <property name="autoRaise">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnOpenImg">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+        </font>
+       </property>
+       <property name="text">
+        <string>打开图片</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/ps/res/ps/open.png</normaloff>:/ps/res/ps/open.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnDireSave">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>以替换原来图片的形式保存</string>
+       </property>
+       <property name="text">
+        <string>保存替换</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/ps/res/ps/changeImg.png</normaloff>:/ps/res/ps/changeImg.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+S</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="btnSaveAs">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>35</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>Segoe UI</family>
+        </font>
+       </property>
+       <property name="toolTip">
+        <string>另存到指定位置</string>
+       </property>
+       <property name="text">
+        <string>另存为</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../Resource.qrc">
+         <normaloff>:/ps/res/ps/saveAS.png</normaloff>:/ps/res/ps/saveAS.png</iconset>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>32</width>
+         <height>32</height>
+        </size>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+S</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
    <item row="1" column="0">
     <widget class="QSplitter" name="splitter">
      <property name="acceptDrops">
       <bool>true</bool>
      </property>
      <property name="styleSheet">
-      <string notr="true">  /*--------------------------调整中的圆角样式------------------*/
-                                QSpinBox, QDoubleSpinBox {
-                                border: 1px solid #E0E0E0;
-                                border-radius: 10px; /* 圆角半径 */
-                                padding: 5px 10px;
-                                background: white;
-                                min-width: 37px;
-                                min-height: 15px;
-                                max-width: 37px;
-                                max-height: 15px;
-                                }</string>
+      <string notr="true">
+              /*--------------------------调整中的圆角样式------------------*/
+              QSpinBox, QDoubleSpinBox {
+              border: 1px solid #E0E0E0;
+              border-radius: 10px; /* 圆角半径 */
+              padding: 5px 10px;
+              background: white;
+              min-width: 37px;
+              min-height: 15px;
+              max-width: 37px;
+              max-height: 15px;
+              }
+            </string>
      </property>
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -142,6 +384,9 @@
       <layout class="QVBoxLayout" name="verticalLayout1">
        <item>
         <widget class="MyGraphicsView" name="GraphicsView">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
@@ -205,7 +450,7 @@
         <number>0</number>
        </property>
        <property name="spacing">
-        <number>5</number>
+        <number>0</number>
        </property>
        <item row="0" column="0">
         <widget class="QStackedWidget" name="stackedWidget">
@@ -249,63 +494,114 @@
              <property name="font">
               <font>
                <family>Segoe UI</family>
+               <pointsize>10</pointsize>
               </font>
              </property>
              <property name="styleSheet">
-              <string notr="true">
-                              /*--------------------------调整中的滑动条样式------------------*/
-                              QSlider {
-                              min-height: 20px;
-                              max-height: 20px;
-                              }
+              <string notr="true">QToolBox {
+  background-color: #f4f4f6;
+  border-radius: 10px;
+  padding: 10px;
+}
 
-                              QSlider::groove:horizontal {
-                              border: none;
-                              height: 2px; /* 降低轨道高度使其更细腻 */
-                              background: #E0E0E0;
-                              margin: 0px;
-                              border-radius: 1px;
-                              }
+QToolBox::tab {
+  background-color: #e1e1e6;
+  color: #2c3e50;
+  border-radius: 8px;
+  padding: 0px 16px; /* 上下间距改为0正常了 */
+  font-weight: 600;
+  margin-bottom: 5px;
+  height: auto; /* 自动调整高度以适配内容 */
+  min-width: 300px; /* 增加最小宽度，确保文字完全显示 */
+  max-width: 400px; /* 设置最大宽度，防止过宽 */
+  text-align: left; /* 文字靠左对齐 */
+  white-space: nowrap; /* 禁止文字换行 */
+}
 
-                              QSlider::sub-page:horizontal {
-                              background: #6C5CE7;
-                              border-radius: 1px;
-                              }
+QToolBox::tab:hover {
+  background-color: #6C5CE7;
+  color: white;
+}
 
-                              QSlider::add-page:horizontal {
-                              background: #E0E0E0;
-                              border-radius: 1px;
-                              }
+QToolBox::tab:selected {
+  background-color: #6C5CE7;
+  color: white;
+}
 
-                              QSlider::handle:horizontal {
-                              background: white;
-                              border: 1px solid #6C5CE7; /* 边框 */
-                              width: 12px; /* 圆球尺寸 */
-                              height: 12px;
-                              margin: -5px 0; /* 垂直位置 */
-                              border-radius: 6px;
-                              }
 
-                              /* 鼠标悬停时的样式 */
-                              QSlider::handle:horizontal:hover {
-                              background: white;
-                              border: 1px solid #6C5CE7; /* 稍微加粗边框 */
-                              width: 14px; /* 稍微增大 */
-                              height: 14px;
-                              margin: -6px 0;
-                              border-radius: 6px;
-                              }
 
-                              /* 鼠标按下时的样式 */
-                              QSlider::handle:horizontal:pressed {
-                              background: #6C5CE7; /* 按下时变成实心 */
-                              border: 1px solid #6C5CE7;
-                              width: 12px;
-                              height: 12px;
-                              margin: -5px 0;
-                              border-radius: 6px;
-                              }
-                            </string>
+/* Slider Improvements */
+QSlider {
+  min-height: 24px;
+  max-height: 24px;
+}
+
+QSlider::groove:horizontal {
+  background: #E0E0E0;
+  height: 4px;
+  border-radius: 2px;
+}
+
+QSlider::sub-page:horizontal {
+  background: #6C5CE7;
+  border-radius: 2px;
+}
+
+QSlider::handle:horizontal {
+  background: white;
+  border: 2px solid #6C5CE7;
+  width: 16px;
+  height: 16px;
+  margin: -6px 0;
+  border-radius: 8px;
+
+}
+
+QSlider::handle:horizontal:hover {
+  background: #6C5CE7;
+}
+
+/* List Widgets */
+QListWidget {
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+}
+
+QListWidget::item {
+  background-color: #f4f4f6;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 0px;
+  color: #2c3e50;
+}
+
+QListWidget::item:hover {
+  background-color: #e1e1e6;
+}
+
+QListWidget::item:selected {
+  background-color: #6C5CE7;
+  color: white;
+}
+
+/* Radio Buttons */
+QRadioButton {
+  spacing: 8px;
+  color: #2c3e50;
+}
+
+QRadioButton::indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 9px;
+  border: 2px solid #6C5CE7;
+}
+
+QRadioButton::indicator:checked {
+  background-color: #6C5CE7;
+}
+</string>
              </property>
              <property name="frameShape">
               <enum>QFrame::Box</enum>
@@ -314,18 +610,18 @@
               <enum>QFrame::Plain</enum>
              </property>
              <property name="currentIndex">
-              <number>2</number>
+              <number>0</number>
              </property>
              <property name="tabSpacing">
-              <number>7</number>
+              <number>4</number>
              </property>
              <widget class="QWidget" name="crop">
               <property name="geometry">
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>225</width>
-                <height>116</height>
+                <width>239</width>
+                <height>236</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -336,6 +632,9 @@
                <string>裁剪</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_3">
+               <property name="spacing">
+                <number>3</number>
+               </property>
                <item row="0" column="0">
                 <widget class="QListWidget" name="cropList">
                  <property name="font">
@@ -345,6 +644,9 @@
                  </property>
                  <property name="frameShape">
                   <enum>QFrame::NoFrame</enum>
+                 </property>
+                 <property name="editTriggers">
+                  <set>QAbstractItemView::NoEditTriggers</set>
                  </property>
                  <item>
                   <property name="text">
@@ -502,8 +804,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>164</width>
-                <height>143</height>
+                <width>222</width>
+                <height>153</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -691,8 +993,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>156</width>
-                <height>248</height>
+                <width>222</width>
+                <height>264</height>
                </rect>
               </property>
               <property name="styleSheet">
@@ -812,6 +1114,9 @@
                 <widget class="NoWheelSlider" name="contrastSlider">
                  <property name="cursor">
                   <cursorShape>ArrowCursor</cursorShape>
+                 </property>
+                 <property name="mouseTracking">
+                  <bool>true</bool>
                  </property>
                  <property name="minimum">
                   <number>1</number>
@@ -979,6 +1284,9 @@
                  <property name="cursor">
                   <cursorShape>ArrowCursor</cursorShape>
                  </property>
+                 <property name="mouseTracking">
+                  <bool>true</bool>
+                 </property>
                  <property name="styleSheet">
                   <string notr="true"/>
                  </property>
@@ -1116,8 +1424,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>200</width>
-                <height>96</height>
+                <width>239</width>
+                <height>102</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1128,52 +1436,6 @@
                <string>旋转变换</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout">
-               <item row="1" column="1">
-                <widget class="QToolButton" name="btnFlipVertical">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>35</height>
-                  </size>
-                 </property>
-                 <property name="focusPolicy">
-                  <enum>Qt::NoFocus</enum>
-                 </property>
-                 <property name="contextMenuPolicy">
-                  <enum>Qt::NoContextMenu</enum>
-                 </property>
-                 <property name="toolTip">
-                  <string>垂直翻转</string>
-                 </property>
-                 <property name="text">
-                  <string>垂直翻转</string>
-                 </property>
-                 <property name="icon">
-                  <iconset>
-                   <normaloff>
-                                        :/ps/res/ps/slip1.png</normaloff>
-                                        :/ps/res/ps/slip1.png</iconset>
-                 </property>
-                 <property name="iconSize">
-                  <size>
-                   <width>64</width>
-                   <height>64</height>
-                  </size>
-                 </property>
-                 <property name="popupMode">
-                  <enum>QToolButton::DelayedPopup</enum>
-                 </property>
-                 <property name="toolButtonStyle">
-                  <enum>Qt::ToolButtonIconOnly</enum>
-                 </property>
-                 <property name="autoRaise">
-                  <bool>false</bool>
-                 </property>
-                 <property name="arrowType">
-                  <enum>Qt::NoArrow</enum>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="0">
                 <widget class="QToolButton" name="btnRotateLeft">
                  <property name="maximumSize">
@@ -1197,8 +1459,10 @@
                  <property name="icon">
                   <iconset>
                    <normaloff>
-                                        :/ps/res/ps/rotaLeft.png</normaloff>
-                                        :/ps/res/ps/rotaLeft.png</iconset>
+                                        :/ps/res/ps/rotaLeft.png
+                                      </normaloff>
+                                        :/ps/res/ps/rotaLeft.png
+                                      </iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1217,16 +1481,6 @@
                  </property>
                  <property name="arrowType">
                   <enum>Qt::NoArrow</enum>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="0" colspan="2">
-                <widget class="QSlider" name="rotaSlider">
-                 <property name="maximum">
-                  <number>360</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
                  </property>
                 </widget>
                </item>
@@ -1253,8 +1507,10 @@
                  <property name="icon">
                   <iconset>
                    <normaloff>
-                                        :/ps/res/ps/rotaRight.png</normaloff>
-                                        :/ps/res/ps/rotaRight.png</iconset>
+                                        :/ps/res/ps/rotaRight.png
+                                      </normaloff>
+                                        :/ps/res/ps/rotaRight.png
+                                      </iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1299,8 +1555,10 @@
                  <property name="icon">
                   <iconset>
                    <normaloff>
-                                        :/ps/res/ps/slip0.png</normaloff>
-                                        :/ps/res/ps/slip0.png</iconset>
+                                        :/ps/res/ps/slip0.png
+                                      </normaloff>
+                                        :/ps/res/ps/slip0.png
+                                      </iconset>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1322,6 +1580,78 @@
                  </property>
                 </widget>
                </item>
+               <item row="1" column="1">
+                <widget class="QToolButton" name="btnFlipVertical">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>35</height>
+                  </size>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::NoFocus</enum>
+                 </property>
+                 <property name="contextMenuPolicy">
+                  <enum>Qt::NoContextMenu</enum>
+                 </property>
+                 <property name="toolTip">
+                  <string>垂直翻转</string>
+                 </property>
+                 <property name="text">
+                  <string>垂直翻转</string>
+                 </property>
+                 <property name="icon">
+                  <iconset>
+                   <normaloff>
+                                        :/ps/res/ps/slip1.png
+                                      </normaloff>
+                                        :/ps/res/ps/slip1.png
+                                      </iconset>
+                 </property>
+                 <property name="iconSize">
+                  <size>
+                   <width>64</width>
+                   <height>64</height>
+                  </size>
+                 </property>
+                 <property name="popupMode">
+                  <enum>QToolButton::DelayedPopup</enum>
+                 </property>
+                 <property name="toolButtonStyle">
+                  <enum>Qt::ToolButtonIconOnly</enum>
+                 </property>
+                 <property name="autoRaise">
+                  <bool>false</bool>
+                 </property>
+                 <property name="arrowType">
+                  <enum>Qt::NoArrow</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>旋转</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QSlider" name="rotaSlider">
+                   <property name="maximum">
+                    <number>360</number>
+                   </property>
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="tickPosition">
+                    <enum>QSlider::NoTicks</enum>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
               </layout>
              </widget>
              <widget class="QWidget" name="Filter">
@@ -1329,8 +1659,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>87</width>
-                <height>87</height>
+                <width>239</width>
+                <height>143</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1425,8 +1755,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>174</width>
-                <height>143</height>
+                <width>239</width>
+                <height>103</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1437,35 +1767,13 @@
                <string>过滤算法</string>
               </attribute>
               <layout class="QGridLayout" name="gridLayout_4">
-               <item row="3" column="0" colspan="2">
-                <widget class="QLabel" name="label4">
-                 <property name="font">
-                  <font>
-                   <family>Segoe UI</family>
-                  </font>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>Note: 改变算法后微调滑块。</string>
-                 </property>
-                 <property name="wordWrap">
-                  <bool>true</bool>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QRadioButton" name="radioGaussion">
-                 <property name="text">
-                  <string>高斯过滤</string>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="0" colspan="2">
                 <layout class="QHBoxLayout" name="horizontalLayout">
+                 <property name="spacing">
+                  <number>3</number>
+                 </property>
                  <item>
-                  <widget class="QSlider" name="kernelValue">
+                  <widget class="NoWheelSlider" name="kernelValue">
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
@@ -1494,14 +1802,26 @@
                    <property name="enabled">
                     <bool>false</bool>
                    </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>59</width>
+                     <height>27</height>
+                    </size>
+                   </property>
                    <property name="maximumSize">
                     <size>
                      <width>59</width>
                      <height>27</height>
                     </size>
                    </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="readOnly">
+                    <bool>true</bool>
+                   </property>
                    <property name="buttonSymbols">
-                    <enum>QAbstractSpinBox::UpDownArrows</enum>
+                    <enum>QAbstractSpinBox::NoButtons</enum>
                    </property>
                    <property name="minimum">
                     <number>1</number>
@@ -1516,24 +1836,31 @@
                <item row="1" column="0">
                 <widget class="QRadioButton" name="radioBlur">
                  <property name="text">
-                  <string>均值过滤</string>
+                  <string>粗糙磨皮</string>
                  </property>
                  <property name="checked">
                   <bool>true</bool>
                  </property>
                 </widget>
                </item>
-               <item row="2" column="1">
-                <widget class="QRadioButton" name="radioBilateral">
+               <item row="1" column="1">
+                <widget class="QRadioButton" name="radioGaussion">
                  <property name="text">
-                  <string>双边过滤</string>
+                  <string>柔和磨皮</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="0">
                 <widget class="QRadioButton" name="radioMedian">
                  <property name="text">
-                  <string>中值过滤</string>
+                  <string>去除杂边</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QRadioButton" name="radioBilateral">
+                 <property name="text">
+                  <string>精细磨皮</string>
                  </property>
                 </widget>
                </item>
@@ -1544,8 +1871,8 @@
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>87</width>
-                <height>87</height>
+                <width>239</width>
+                <height>143</height>
                </rect>
               </property>
               <attribute name="icon">
@@ -1639,276 +1966,6 @@
       </layout>
      </widget>
     </widget>
-   </item>
-   <item row="0" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_10">
-     <property name="leftMargin">
-      <number>0</number>
-     </property>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout1">
-       <item>
-        <spacer name="horizontalSpacer1">
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>70</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QToolButton" name="btnUndo">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>33</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>撤销上一步操作</string>
-         </property>
-         <property name="text">
-          <string>撤销</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/ps/res/ps/undo.png</normaloff>:/ps/res/ps/undo.png</iconset>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+Z</string>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-         <property name="autoRaise">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="btnReset">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>33</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>还原到初始图像</string>
-         </property>
-         <property name="text">
-          <string>还原</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/ps/res/ps/resetImg.png</normaloff>:/ps/res/ps/resetImg.png</iconset>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+R</string>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-         <property name="autoRaise">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="btnComparison">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>33</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>与原图进行对比</string>
-         </property>
-         <property name="text">
-          <string>对比</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/ps/res/ps/CloseEye.png</normaloff>:/ps/res/ps/CloseEye.png</iconset>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
-         </property>
-         <property name="toolButtonStyle">
-          <enum>Qt::ToolButtonTextBesideIcon</enum>
-         </property>
-         <property name="autoRaise">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <spacer name="horizontalSpacer2">
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>10</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout2">
-       <item>
-        <widget class="QPushButton" name="btnOpenImg">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="text">
-          <string>打开图片</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/ps/res/ps/open.png</normaloff>:/ps/res/ps/open.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnDireSave">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>以替换原来图片的形式保存</string>
-         </property>
-         <property name="text">
-          <string>保存替换</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/ps/res/ps/changeImg.png</normaloff>:/ps/res/ps/changeImg.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+S</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="btnSaveAs">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>35</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <family>Segoe UI</family>
-          </font>
-         </property>
-         <property name="toolTip">
-          <string>另存到指定位置</string>
-         </property>
-         <property name="text">
-          <string>另存为</string>
-         </property>
-         <property name="icon">
-          <iconset resource="../Resource.qrc">
-           <normaloff>:/ps/res/ps/saveAS.png</normaloff>:/ps/res/ps/saveAS.png</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>32</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="shortcut">
-          <string>Ctrl+S</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
    </item>
   </layout>
  </widget>

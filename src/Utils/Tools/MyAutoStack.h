@@ -22,25 +22,26 @@ public:
   MyAutoStack() = default;
   explicit MyAutoStack(const int size) : maxHistorySize(size) {}
 
-  void push(const cv::Mat& mat, const MatInfo& info)
-  {
-    if (stk.size() >= maxHistorySize) { stk.removeFirst(); }
-    stk.push(std::make_pair(mat, info));
-  }
-
   void push(const QPair<cv::Mat, MatInfo>& pixmap)
   {
-    if (stk.size() >= maxHistorySize) { stk.removeFirst(); }
+    // 栈满则弹出最近一个然后再放入
+    if (stk.size() >= maxHistorySize) { stk.pop(); }
     stk.push(pixmap);
   }
 
-  std::pair<cv::Mat, MatInfo>& top()
+  QPair<cv::Mat, MatInfo>& top()
   {
     if (stk.empty()) { throw std::runtime_error("Stack is empty"); }
     return stk.top();
   }
 
-  [[nodiscard]] const std::pair<cv::Mat, MatInfo>& top() const
+  QPair<cv::Mat, MatInfo>& bottom()
+  {
+    if (stk.empty()) { throw std::runtime_error("Stack is empty"); }
+    return stk.front();
+  }
+
+  [[nodiscard]] const QPair<cv::Mat, MatInfo>& top() const
   {
     if (stk.empty()) { throw std::runtime_error("Stack is empty"); }
     return stk.top();
@@ -63,6 +64,6 @@ public:
   void clear() { stk.clear(); }
 
 private:
-  int maxHistorySize = 50;
+  int maxHistorySize = 100;
   QStack<QPair<cv::Mat, MatInfo>> stk;
 };

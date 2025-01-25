@@ -99,6 +99,7 @@ set(PROJECT_SOURCES
         src/Widgets/photoShop/Adjust.h
         src/Utils/Tools/NoWheelSlider.h
         src/Widgets/photoShop/faceTest/ToGetToken.h
+        src/Widgets/photoShop/Rota.h
 )
 
 #                                            *********
