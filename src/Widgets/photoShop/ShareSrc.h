@@ -190,19 +190,31 @@ struct Rota {
   bool operator!=(const Rota rota) const { return rotaValue != rota.rotaValue; }
 };
 
+struct Filter {
+  int filter1 = -1;
+  int filter2 = -1;
+
+  bool operator!=(const Filter filter) const
+  {
+    return filter1 != filter.filter1 || filter2 != filter.filter2;
+  }
+};
+
 struct MatInfo {
   AdjustValue adjustValue;
   Algorithm algorithm;
   Crop crop;
   Resize resize;
   Rota rota;
+  Filter filter;
 
-  bool operator!=(const MatInfo& matInfo) const
+  bool operator!=(const MatInfo matInfo) const
   {
     return adjustValue != matInfo.adjustValue ||
       algorithm != matInfo.algorithm ||
       crop != matInfo.crop ||
       resize != matInfo.resize ||
-      rota != matInfo.rota;
+      rota != matInfo.rota ||
+      filter != matInfo.filter;
   }
 };

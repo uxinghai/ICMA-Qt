@@ -12,8 +12,6 @@
 //  * @copyright Copyright (c) 2024
 //  */
 //
-// #ifndef FILETRANSFER_H
-// #define FILETRANSFER_H
 //
 // #include <QSharedPointer>
 // #include <QWidget>
@@ -54,4 +52,3 @@
 //   QSharedPointer<AClient> aClient; // 管理客户端实例的智能指针
 // };
 //
-// #endif // FILETRANSFER_H

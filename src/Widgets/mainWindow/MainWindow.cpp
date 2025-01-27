@@ -72,7 +72,9 @@ void MainWindow::setupConnections()
   // 启动图像处理窗口
   connect(ui->actionPS, &QAction::triggered,
           [this]() {
-            const auto psWidget = new PS();
+            auto* psWidget = new PS();
+            connect(psWidget, &PS::WindowClose,this, &MainWindow::show);
+            this->hide();
             psWidget->setAttribute(Qt::WA_DeleteOnClose);
             psWidget->show();
           });

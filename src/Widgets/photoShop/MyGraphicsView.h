@@ -12,9 +12,9 @@
 
 #pragma once
 
-#include <qevent.h>
 #include <QGraphicsView>
 #include <QMenu>
+#include <QWheelEvent>
 
 #include "../../Utils/Tools/TipLabel.h"
 #include "ShareSrc.h"
@@ -23,7 +23,7 @@ class MyGraphicsView final : public QGraphicsView {
 public:
   explicit MyGraphicsView(QWidget* parent = nullptr)
     : QGraphicsView(parent),
-      scaleTip(new TipLabel( this,tr("配合Ctrl缩放"))),
+      scaleTip(new TipLabel(this, tr("配合Ctrl缩放"))),
       fitInViewAction(new QAction(tr("最佳适应"), this))
   {
     this->setRenderHint(QPainter::Antialiasing);

@@ -15,7 +15,6 @@
 #include <QtWidgets/QCheckBox>
 #include <QtWidgets/QDoubleSpinBox>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
@@ -26,7 +25,6 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QSplitter>
-#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QToolBox>
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
@@ -54,9 +52,6 @@ public:
     QVBoxLayout *verticalLayout1;
     MyGraphicsView *GraphicsView;
     QWidget *widget_4;
-    QGridLayout *gridLayout_7;
-    QStackedWidget *stackedWidget;
-    QWidget *page;
     QGridLayout *gridLayout_2;
     QToolBox *toolBox;
     QWidget *crop;
@@ -106,6 +101,7 @@ public:
     QWidget *Filter;
     QGridLayout *gridLayout_5;
     QListWidget *FilterList;
+    QListWidget *FilterList2;
     QWidget *algorithm;
     QGridLayout *gridLayout_4;
     QHBoxLayout *horizontalLayout;
@@ -118,11 +114,10 @@ public:
     QWidget *AITool;
     QGridLayout *gridLayout_8;
     QListWidget *AIList;
-    QWidget *page_2;
-    QGroupBox *otherTool;
-    QGridLayout *gridLayout_6;
-    QToolButton *FaceTestToolBtn;
-    QSpacerItem *verticalSpacer_9;
+    QWidget *otherTool;
+    QGridLayout *gridLayout_11;
+    QListWidget *otherToolListWidget;
+    QSpacerItem *verticalSpacer;
 
     void setupUi(QWidget *PS)
     {
@@ -207,7 +202,11 @@ public:
 "      "));
         gridLayout_9 = new QGridLayout(PS);
         gridLayout_9->setObjectName("gridLayout_9");
+        gridLayout_9->setHorizontalSpacing(5);
+        gridLayout_9->setVerticalSpacing(4);
+        gridLayout_9->setContentsMargins(0, 0, 5, 0);
         horizontalLayout_3 = new QHBoxLayout();
+        horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName("horizontalLayout_3");
         horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
 
@@ -347,19 +346,11 @@ public:
         widget_4 = new QWidget(splitter);
         widget_4->setObjectName("widget_4");
         widget_4->setAcceptDrops(true);
-        gridLayout_7 = new QGridLayout(widget_4);
-        gridLayout_7->setSpacing(0);
-        gridLayout_7->setObjectName("gridLayout_7");
-        gridLayout_7->setContentsMargins(0, 0, 0, 0);
-        stackedWidget = new QStackedWidget(widget_4);
-        stackedWidget->setObjectName("stackedWidget");
-        page = new QWidget();
-        page->setObjectName("page");
-        gridLayout_2 = new QGridLayout(page);
+        gridLayout_2 = new QGridLayout(widget_4);
         gridLayout_2->setSpacing(0);
         gridLayout_2->setObjectName("gridLayout_2");
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        toolBox = new QToolBox(page);
+        toolBox = new QToolBox(widget_4);
         toolBox->setObjectName("toolBox");
         toolBox->setEnabled(false);
         sizePolicy.setHeightForWidth(toolBox->sizePolicy().hasHeightForWidth());
@@ -475,14 +466,16 @@ public:
 "  background-color: #6C5CE7;\n"
 "}\n"
 ""));
-        toolBox->setFrameShape(QFrame::Box);
+        toolBox->setFrameShape(QFrame::NoFrame);
         toolBox->setFrameShadow(QFrame::Plain);
         crop = new QWidget();
         crop->setObjectName("crop");
-        crop->setGeometry(QRect(0, 0, 239, 236));
+        crop->setGeometry(QRect(0, 0, 301, 220));
         gridLayout_3 = new QGridLayout(crop);
-        gridLayout_3->setSpacing(3);
         gridLayout_3->setObjectName("gridLayout_3");
+        gridLayout_3->setHorizontalSpacing(0);
+        gridLayout_3->setVerticalSpacing(5);
+        gridLayout_3->setContentsMargins(0, 0, 0, 0);
         cropList = new QListWidget(crop);
         new QListWidgetItem(cropList);
         new QListWidgetItem(cropList);
@@ -551,9 +544,12 @@ public:
         toolBox->addItem(crop, icon7, QString::fromUtf8("\350\243\201\345\211\252"));
         size = new QWidget();
         size->setObjectName("size");
-        size->setGeometry(QRect(0, 0, 222, 153));
+        size->setGeometry(QRect(0, 0, 301, 233));
         gridLayout_10 = new QGridLayout(size);
         gridLayout_10->setObjectName("gridLayout_10");
+        gridLayout_10->setHorizontalSpacing(0);
+        gridLayout_10->setVerticalSpacing(5);
+        gridLayout_10->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_6 = new QHBoxLayout();
         horizontalLayout_6->setSpacing(5);
         horizontalLayout_6->setObjectName("horizontalLayout_6");
@@ -625,10 +621,12 @@ public:
         toolBox->addItem(size, icon8, QString::fromUtf8("\346\224\271\345\260\272\345\257\270"));
         adjust = new QWidget();
         adjust->setObjectName("adjust");
-        adjust->setGeometry(QRect(0, 0, 222, 264));
+        adjust->setGeometry(QRect(0, 0, 301, 204));
         adjust->setStyleSheet(QString::fromUtf8(""));
         gridLayout_17 = new QGridLayout(adjust);
+        gridLayout_17->setSpacing(0);
         gridLayout_17->setObjectName("gridLayout_17");
+        gridLayout_17->setContentsMargins(0, 0, 0, 0);
         contrarySlider = new NoWheelSlider(adjust);
         contrarySlider->setObjectName("contrarySlider");
         contrarySlider->setCursor(QCursor(Qt::ArrowCursor));
@@ -803,9 +801,12 @@ public:
         toolBox->addItem(adjust, icon9, QString::fromUtf8("\350\260\203\346\225\264"));
         rota = new QWidget();
         rota->setObjectName("rota");
-        rota->setGeometry(QRect(0, 0, 239, 102));
+        rota->setGeometry(QRect(0, 0, 301, 82));
         gridLayout = new QGridLayout(rota);
         gridLayout->setObjectName("gridLayout");
+        gridLayout->setHorizontalSpacing(0);
+        gridLayout->setVerticalSpacing(5);
+        gridLayout->setContentsMargins(0, 0, 0, 0);
         btnRotateLeft = new QToolButton(rota);
         btnRotateLeft->setObjectName("btnRotateLeft");
         btnRotateLeft->setMaximumSize(QSize(16777215, 35));
@@ -879,6 +880,7 @@ public:
         gridLayout->addWidget(btnFlipVertical, 1, 1, 1, 1);
 
         horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(5);
         horizontalLayout_2->setObjectName("horizontalLayout_2");
         label = new QLabel(rota);
         label->setObjectName("label");
@@ -901,9 +903,11 @@ public:
         toolBox->addItem(rota, icon14, QString::fromUtf8("\346\227\213\350\275\254\345\217\230\346\215\242"));
         Filter = new QWidget();
         Filter->setObjectName("Filter");
-        Filter->setGeometry(QRect(0, 0, 239, 143));
+        Filter->setGeometry(QRect(0, 0, 301, 192));
         gridLayout_5 = new QGridLayout(Filter);
+        gridLayout_5->setSpacing(0);
         gridLayout_5->setObjectName("gridLayout_5");
+        gridLayout_5->setContentsMargins(0, 0, 0, 0);
         FilterList = new QListWidget(Filter);
         new QListWidgetItem(FilterList);
         new QListWidgetItem(FilterList);
@@ -912,28 +916,41 @@ public:
         new QListWidgetItem(FilterList);
         new QListWidgetItem(FilterList);
         new QListWidgetItem(FilterList);
-        new QListWidgetItem(FilterList);
-        new QListWidgetItem(FilterList);
-        new QListWidgetItem(FilterList);
-        QListWidgetItem *__qlistwidgetitem = new QListWidgetItem(FilterList);
-        __qlistwidgetitem->setFlags(Qt::ItemIsSelectable|Qt::ItemIsUserCheckable|Qt::ItemIsEnabled);
         FilterList->setObjectName("FilterList");
         FilterList->setAutoFillBackground(false);
         FilterList->setFrameShape(QFrame::NoFrame);
         FilterList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        FilterList->setDragDropOverwriteMode(false);
         FilterList->setAlternatingRowColors(false);
+        FilterList->setProperty("isWrapping", QVariant(false));
+        FilterList->setWordWrap(false);
         FilterList->setSelectionRectVisible(false);
 
         gridLayout_5->addWidget(FilterList, 0, 0, 1, 1);
+
+        FilterList2 = new QListWidget(Filter);
+        new QListWidgetItem(FilterList2);
+        new QListWidgetItem(FilterList2);
+        new QListWidgetItem(FilterList2);
+        new QListWidgetItem(FilterList2);
+        new QListWidgetItem(FilterList2);
+        new QListWidgetItem(FilterList2);
+        FilterList2->setObjectName("FilterList2");
+        FilterList2->setProperty("isWrapping", QVariant(false));
+
+        gridLayout_5->addWidget(FilterList2, 0, 1, 1, 1);
 
         QIcon icon15;
         icon15.addFile(QString::fromUtf8(":/ps/res/ps/filter.png"), QSize(), QIcon::Normal, QIcon::Off);
         toolBox->addItem(Filter, icon15, QString::fromUtf8("\347\211\271\346\225\210\346\273\244\351\225\234"));
         algorithm = new QWidget();
         algorithm->setObjectName("algorithm");
-        algorithm->setGeometry(QRect(0, 0, 239, 103));
+        algorithm->setGeometry(QRect(0, 0, 301, 83));
         gridLayout_4 = new QGridLayout(algorithm);
         gridLayout_4->setObjectName("gridLayout_4");
+        gridLayout_4->setHorizontalSpacing(0);
+        gridLayout_4->setVerticalSpacing(5);
+        gridLayout_4->setContentsMargins(0, 0, 0, 0);
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(3);
         horizontalLayout->setObjectName("horizontalLayout");
@@ -991,9 +1008,11 @@ public:
         toolBox->addItem(algorithm, icon16, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
         AITool = new QWidget();
         AITool->setObjectName("AITool");
-        AITool->setGeometry(QRect(0, 0, 239, 143));
+        AITool->setGeometry(QRect(0, 0, 301, 192));
         gridLayout_8 = new QGridLayout(AITool);
+        gridLayout_8->setSpacing(0);
         gridLayout_8->setObjectName("gridLayout_8");
+        gridLayout_8->setContentsMargins(0, 0, 0, 0);
         AIList = new QListWidget(AITool);
         new QListWidgetItem(AIList);
         new QListWidgetItem(AIList);
@@ -1002,40 +1021,35 @@ public:
         AIList->setObjectName("AIList");
         AIList->setFrameShape(QFrame::NoFrame);
         AIList->setSelectionMode(QAbstractItemView::NoSelection);
+        AIList->setProperty("isWrapping", QVariant(false));
 
         gridLayout_8->addWidget(AIList, 0, 0, 1, 1);
 
         QIcon icon17;
-        icon17.addFile(QString::fromUtf8(":/ps/res/ps/AITool.png"), QSize(), QIcon::Normal, QIcon::Off);
-        toolBox->addItem(AITool, icon17, QString::fromUtf8("\346\231\272\350\203\275\345\267\245\345\205\267"));
+        icon17.addFile(QString::fromUtf8(":/suffixes/res/suffix/ai.png"), QSize(), QIcon::Normal, QIcon::Off);
+        toolBox->addItem(AITool, icon17, QString::fromUtf8("AI\345\267\245\345\205\267"));
+        otherTool = new QWidget();
+        otherTool->setObjectName("otherTool");
+        otherTool->setGeometry(QRect(0, 0, 301, 192));
+        gridLayout_11 = new QGridLayout(otherTool);
+        gridLayout_11->setSpacing(0);
+        gridLayout_11->setObjectName("gridLayout_11");
+        gridLayout_11->setContentsMargins(0, 0, 0, 0);
+        otherToolListWidget = new QListWidget(otherTool);
+        new QListWidgetItem(otherToolListWidget);
+        otherToolListWidget->setObjectName("otherToolListWidget");
+
+        gridLayout_11->addWidget(otherToolListWidget, 0, 0, 1, 1);
+
+        QIcon icon18;
+        icon18.addFile(QString::fromUtf8(":/ps/res/ps/AITool.png"), QSize(), QIcon::Normal, QIcon::Off);
+        toolBox->addItem(otherTool, icon18, QString::fromUtf8("\345\205\266\345\256\203\345\267\245\345\205\267"));
 
         gridLayout_2->addWidget(toolBox, 0, 0, 1, 1);
 
-        stackedWidget->addWidget(page);
-        page_2 = new QWidget();
-        page_2->setObjectName("page_2");
-        stackedWidget->addWidget(page_2);
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
 
-        gridLayout_7->addWidget(stackedWidget, 0, 0, 1, 1);
-
-        otherTool = new QGroupBox(widget_4);
-        otherTool->setObjectName("otherTool");
-        otherTool->setAcceptDrops(true);
-        gridLayout_6 = new QGridLayout(otherTool);
-        gridLayout_6->setObjectName("gridLayout_6");
-        FaceTestToolBtn = new QToolButton(otherTool);
-        FaceTestToolBtn->setObjectName("FaceTestToolBtn");
-        FaceTestToolBtn->setAcceptDrops(true);
-        FaceTestToolBtn->setAutoRaise(true);
-
-        gridLayout_6->addWidget(FaceTestToolBtn, 0, 0, 1, 1);
-
-
-        gridLayout_7->addWidget(otherTool, 1, 0, 1, 1);
-
-        verticalSpacer_9 = new QSpacerItem(20, 40, QSizePolicy::Policy::Minimum, QSizePolicy::Policy::Expanding);
-
-        gridLayout_7->addItem(verticalSpacer_9, 3, 0, 1, 1);
+        gridLayout_2->addItem(verticalSpacer, 1, 0, 1, 1);
 
         splitter->addWidget(widget_4);
 
@@ -1044,7 +1058,6 @@ public:
 
         retranslateUi(PS);
 
-        stackedWidget->setCurrentIndex(0);
         toolBox->setCurrentIndex(0);
         toolBox->layout()->setSpacing(4);
 
@@ -1196,26 +1209,35 @@ public:
         QListWidgetItem *___qlistwidgetitem30 = FilterList->item(0);
         ___qlistwidgetitem30->setText(QCoreApplication::translate("PS", "\345\244\247\345\270\210\351\273\221\347\231\275", nullptr));
         QListWidgetItem *___qlistwidgetitem31 = FilterList->item(1);
-        ___qlistwidgetitem31->setText(QCoreApplication::translate("PS", "\345\244\215\345\217\244\350\203\266\347\211\207", nullptr));
+        ___qlistwidgetitem31->setText(QCoreApplication::translate("PS", "\347\262\211\347\254\224\347\224\273", nullptr));
         QListWidgetItem *___qlistwidgetitem32 = FilterList->item(2);
-        ___qlistwidgetitem32->setText(QCoreApplication::translate("PS", "\351\223\205\347\254\224\347\264\240\346\217\217", nullptr));
+        ___qlistwidgetitem32->setText(QCoreApplication::translate("PS", "\346\265\256\351\233\225\346\273\244\351\225\234", nullptr));
         QListWidgetItem *___qlistwidgetitem33 = FilterList->item(3);
-        ___qlistwidgetitem33->setText(QCoreApplication::translate("PS", "\345\275\251\350\211\262\351\223\205\347\254\224\347\224\273", nullptr));
+        ___qlistwidgetitem33->setText(QCoreApplication::translate("PS", "\345\244\215\345\217\244\350\203\266\347\211\207", nullptr));
         QListWidgetItem *___qlistwidgetitem34 = FilterList->item(4);
-        ___qlistwidgetitem34->setText(QCoreApplication::translate("PS", "\345\215\241\351\200\232\345\212\250\346\274\253", nullptr));
+        ___qlistwidgetitem34->setText(QCoreApplication::translate("PS", "\351\223\205\347\254\224\347\264\240\346\217\217", nullptr));
         QListWidgetItem *___qlistwidgetitem35 = FilterList->item(5);
-        ___qlistwidgetitem35->setText(QCoreApplication::translate("PS", "\345\223\245\347\211\271\346\262\271\347\224\273", nullptr));
+        ___qlistwidgetitem35->setText(QCoreApplication::translate("PS", "\345\275\251\350\211\262\351\223\205\347\254\224\347\224\273", nullptr));
         QListWidgetItem *___qlistwidgetitem36 = FilterList->item(6);
-        ___qlistwidgetitem36->setText(QCoreApplication::translate("PS", "\345\275\251\350\211\262\347\263\226\345\235\227\346\262\271\347\224\273", nullptr));
-        QListWidgetItem *___qlistwidgetitem37 = FilterList->item(7);
-        ___qlistwidgetitem37->setText(QCoreApplication::translate("PS", "\345\221\220\345\226\212\346\262\271\347\224\273", nullptr));
-        QListWidgetItem *___qlistwidgetitem38 = FilterList->item(8);
-        ___qlistwidgetitem38->setText(QCoreApplication::translate("PS", "\347\245\236\345\245\210\345\267\235\345\206\262\346\265\252\351\207\214\346\262\271\347\224\273", nullptr));
-        QListWidgetItem *___qlistwidgetitem39 = FilterList->item(9);
-        ___qlistwidgetitem39->setText(QCoreApplication::translate("PS", "\345\245\207\345\274\202\346\262\271\347\224\273", nullptr));
-        QListWidgetItem *___qlistwidgetitem40 = FilterList->item(10);
-        ___qlistwidgetitem40->setText(QCoreApplication::translate("PS", "\350\226\260\350\241\243\350\215\211\346\262\271\347\224\273", nullptr));
+        ___qlistwidgetitem36->setText(QCoreApplication::translate("PS", "\345\215\241\351\200\232\345\212\250\346\274\253", nullptr));
         FilterList->setSortingEnabled(__sortingEnabled2);
+
+
+        const bool __sortingEnabled3 = FilterList2->isSortingEnabled();
+        FilterList2->setSortingEnabled(false);
+        QListWidgetItem *___qlistwidgetitem37 = FilterList2->item(0);
+        ___qlistwidgetitem37->setText(QCoreApplication::translate("PS", "\345\223\245\347\211\271\346\262\271\347\224\273", nullptr));
+        QListWidgetItem *___qlistwidgetitem38 = FilterList2->item(1);
+        ___qlistwidgetitem38->setText(QCoreApplication::translate("PS", "\350\226\260\350\241\243\350\215\211\346\262\271\347\224\273", nullptr));
+        QListWidgetItem *___qlistwidgetitem39 = FilterList2->item(2);
+        ___qlistwidgetitem39->setText(QCoreApplication::translate("PS", "\345\245\207\345\274\202\346\262\271\347\224\273", nullptr));
+        QListWidgetItem *___qlistwidgetitem40 = FilterList2->item(3);
+        ___qlistwidgetitem40->setText(QCoreApplication::translate("PS", "\347\245\236\345\245\210\345\267\235\345\206\262\346\265\252\351\207\214\346\262\271\347\224\273", nullptr));
+        QListWidgetItem *___qlistwidgetitem41 = FilterList2->item(4);
+        ___qlistwidgetitem41->setText(QCoreApplication::translate("PS", "\345\221\220\345\226\212\346\262\271\347\224\273", nullptr));
+        QListWidgetItem *___qlistwidgetitem42 = FilterList2->item(5);
+        ___qlistwidgetitem42->setText(QCoreApplication::translate("PS", "\345\275\251\350\211\262\347\263\226\345\235\227\346\262\271\347\224\273", nullptr));
+        FilterList2->setSortingEnabled(__sortingEnabled3);
 
         toolBox->setItemText(toolBox->indexOf(Filter), QCoreApplication::translate("PS", "\347\211\271\346\225\210\346\273\244\351\225\234", nullptr));
         radioBlur->setText(QCoreApplication::translate("PS", "\347\262\227\347\263\231\347\243\250\347\232\256", nullptr));
@@ -1224,24 +1246,27 @@ public:
         radioBilateral->setText(QCoreApplication::translate("PS", "\347\262\276\347\273\206\347\243\250\347\232\256", nullptr));
         toolBox->setItemText(toolBox->indexOf(algorithm), QCoreApplication::translate("PS", "\350\277\207\346\273\244\347\256\227\346\263\225", nullptr));
 
-        const bool __sortingEnabled3 = AIList->isSortingEnabled();
+        const bool __sortingEnabled4 = AIList->isSortingEnabled();
         AIList->setSortingEnabled(false);
-        QListWidgetItem *___qlistwidgetitem41 = AIList->item(0);
-        ___qlistwidgetitem41->setText(QCoreApplication::translate("PS", "\346\231\272\350\203\275\347\276\216\345\214\226", nullptr));
-        QListWidgetItem *___qlistwidgetitem42 = AIList->item(1);
-        ___qlistwidgetitem42->setText(QCoreApplication::translate("PS", "\351\273\221\347\231\275\345\233\276\345\203\217\344\270\212\350\211\262", nullptr));
-        QListWidgetItem *___qlistwidgetitem43 = AIList->item(2);
-        ___qlistwidgetitem43->setText(QCoreApplication::translate("PS", "\344\272\272\347\211\251\345\212\250\346\274\253\345\214\226", nullptr));
-        QListWidgetItem *___qlistwidgetitem44 = AIList->item(3);
-        ___qlistwidgetitem44->setText(QCoreApplication::translate("PS", "\350\203\214\346\231\257\346\266\210\351\231\244", nullptr));
-        AIList->setSortingEnabled(__sortingEnabled3);
+        QListWidgetItem *___qlistwidgetitem43 = AIList->item(0);
+        ___qlistwidgetitem43->setText(QCoreApplication::translate("PS", "\346\231\272\350\203\275\347\276\216\345\214\226", nullptr));
+        QListWidgetItem *___qlistwidgetitem44 = AIList->item(1);
+        ___qlistwidgetitem44->setText(QCoreApplication::translate("PS", "\351\273\221\347\231\275\345\233\276\345\203\217\344\270\212\350\211\262", nullptr));
+        QListWidgetItem *___qlistwidgetitem45 = AIList->item(2);
+        ___qlistwidgetitem45->setText(QCoreApplication::translate("PS", "\344\272\272\347\211\251\345\212\250\346\274\253\345\214\226", nullptr));
+        QListWidgetItem *___qlistwidgetitem46 = AIList->item(3);
+        ___qlistwidgetitem46->setText(QCoreApplication::translate("PS", "\350\203\214\346\231\257\346\266\210\351\231\244", nullptr));
+        AIList->setSortingEnabled(__sortingEnabled4);
 
-        toolBox->setItemText(toolBox->indexOf(AITool), QCoreApplication::translate("PS", "\346\231\272\350\203\275\345\267\245\345\205\267", nullptr));
-        otherTool->setTitle(QCoreApplication::translate("PS", "\345\205\266\344\273\226\345\267\245\345\205\267", nullptr));
-#if QT_CONFIG(tooltip)
-        FaceTestToolBtn->setToolTip(QCoreApplication::translate("PS", "\345\234\250\347\272\277\346\243\200\346\265\213\344\272\272\350\204\270\351\235\242\351\203\250\350\277\224\345\233\236\344\270\200\347\263\273\345\210\227\347\232\204\344\272\272\350\204\270\344\277\241\346\201\257", nullptr));
-#endif // QT_CONFIG(tooltip)
-        FaceTestToolBtn->setText(QCoreApplication::translate("PS", "\344\272\272\350\204\270\344\277\241\346\201\257\346\243\200\346\265\213", nullptr));
+        toolBox->setItemText(toolBox->indexOf(AITool), QCoreApplication::translate("PS", "AI\345\267\245\345\205\267", nullptr));
+
+        const bool __sortingEnabled5 = otherToolListWidget->isSortingEnabled();
+        otherToolListWidget->setSortingEnabled(false);
+        QListWidgetItem *___qlistwidgetitem47 = otherToolListWidget->item(0);
+        ___qlistwidgetitem47->setText(QCoreApplication::translate("PS", "\344\272\272\350\204\270\344\277\241\346\201\257\346\243\200\346\265\213", nullptr));
+        otherToolListWidget->setSortingEnabled(__sortingEnabled5);
+
+        toolBox->setItemText(toolBox->indexOf(otherTool), QCoreApplication::translate("PS", "\345\205\266\345\256\203\345\267\245\345\205\267", nullptr));
     } // retranslateUi
 
 };

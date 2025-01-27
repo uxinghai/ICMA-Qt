@@ -13,15 +13,18 @@
 #include "../../../UI/ui_PS.h"
 #include "../../Manager/Config/iniManager.h"
 #include "../../Utils/Tools/MyInformationBox.h"
-#include "Adjust.h"
-#include "Crop.h"
 #include "faceTest/FaceTest.h"
 #include "faceTest/ToGetToken.h"
-#include "Resize.h"
-#include "Rota.h"
+#include "ImgCropper/Cropper.h"
+#include "PSTools/Adjust.h"
+#include "PSTools/Crop.h"
+#include "PSTools/Filter.h"
+#include "PSTools/Resize.h"
+#include "PSTools/Rota.h"
 
-PS::PS(QWidget* parent) : QWidget(parent), ui(new Ui::PS),
-                          scene(new QGraphicsScene(this))
+PS::PS(QWidget* parent)
+  : QWidget(parent), ui(new Ui::PS),
+    scene(new QGraphicsScene(this))
 {
   ui->setupUi(this);
   init();
@@ -101,8 +104,11 @@ void PS::setupConnections()
   // 模糊算法连接
   setupBlurAlgorithmConnections();
 
+  // 特效过滤连接
+  setupFilterConnections();
+
   // 人脸检测
-  connect(ui->FaceTestToolBtn, &QToolButton::clicked, this,
+  connect(ui->otherToolListWidget, &QListWidget::itemClicked, this,
           &PS::doShowFaceTest);
 }
 
@@ -349,6 +355,12 @@ void PS::dropEvent(QDropEvent* event)
   QWidget::dropEvent(event);
 }
 
+void PS::closeEvent(QCloseEvent* event)
+{
+  emit WindowClose();
+  QWidget::closeEvent(event);
+}
+
 void PS::doUndo()
 {
   if (historyPixmap.size() > 2) {
@@ -376,7 +388,29 @@ void PS::doReset()
 void PS::doCropChange(const int row)
 {
   if (isProgrammaticChange) { return; }
+
+  if (row == 0) { ///< 通过信号槽控制裁剪
+    if (curMat.first.empty()) { curMat.first = srcMat.first; }
+    // 把当前的图像保存为临时图像文件用于裁剪然后裁剪结束发回该文件
+    if (matToPixmap(curMat.first).save("ICMAIMGPRO_tempImg.png", "PNG")) {
+      auto* cropMethodSelect = new Cropper("ICMAIMGPRO_tempImg.png");
+      connect(cropMethodSelect, &Cropper::WindowClose,
+              [this] {
+                this->show();
+                // 删除tempImg.png
+                QFile::remove("ICMAIMGPRO_tempImg.png");
+              });
+      this->hide();
+
+      cropMethodSelect->show();
+    }
+    else { QMessageBox::critical(this, "错误", "无法获取裁剪文件，请重试."); }
+
+    return;
+  }
+
   curMatInfo.crop.cropValue = row;
+
   const auto pixmap = DoCrop::cropPixmapBy(matToPixmap(processedMat), row);
   curMat.first = pixmapToMat(pixmap);
   curMat.second = curMatInfo;
@@ -387,6 +421,7 @@ void PS::doCropChange(const int row)
 void PS::doResizeChange(const int row)
 {
   if (isProgrammaticChange) { return; }
+
   const QPixmap pixmap = DoResize::resizePixmapBy(
     matToPixmap(processedMat), row,
     ui->lockedWHRatio->isChecked());
@@ -469,6 +504,24 @@ void PS::showInformationMessage(const QString& message, const bool isSuccess)
   information->show();
 }
 
+void PS::setupFilterConnections()
+{
+  auto applyFilter = [this](QListWidget* list, auto filterFunc, int& value) {
+    connect(list, &QListWidget::currentRowChanged,
+            [this, filterFunc, &value](const int row) {
+              if (processedMat.empty()) { processedMat = srcMat.first; }
+              value = row;
+              curMat.first = filterFunc(processedMat, row);
+              curMat.second = curMatInfo;
+              showImgToUi(curMat);
+              pushToHistory(curMat);
+            });
+  };
+
+  applyFilter(ui->FilterList, DoFilter::filter, curMatInfo.filter.filter1);
+  applyFilter(ui->FilterList2, DoFilter::filter2, curMatInfo.filter.filter2);
+}
+
 void PS::doToolBoxChanged(const int index)
 {
   Q_UNUSED(index);
@@ -535,9 +588,10 @@ void PS::updateUIFromInfo(const MatInfo& matInfo)
       obj->setChecked(true);
     }
   }
-  //ui->rotaSlider->setValue(matInfo.crop.cropValue);///< 不需要！！！
   ui->sizeList->setCurrentRow(matInfo.resize.resizeValue);
   ui->cropList->setCurrentRow(matInfo.crop.cropValue);
+  ui->FilterList->setCurrentRow(matInfo.filter.filter1);
+  ui->FilterList2->setCurrentRow(matInfo.filter.filter2);
   isProgrammaticChange = false;
 }
 

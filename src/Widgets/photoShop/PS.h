@@ -19,15 +19,15 @@
 #include "../../Utils/Tools/MyAutoStack.h"
 #include "ShareSrc.h"
 
-class NoWheelSlider;
 QT_BEGIN_NAMESPACE
+class QGraphicsScene;
+class NoWheelSlider;
 
 namespace Ui
 {
   class PS;
 }
 
-class QGraphicsScene;
 QT_END_NAMESPACE
 
 inline MyAutoStack historyPixmap;
@@ -39,9 +39,13 @@ public:
   explicit PS(QWidget* parent = nullptr);
   ~PS() override;
 
+signals:
+  void WindowClose();
+
 protected:
   void dragEnterEvent(QDragEnterEvent* event) override;
   void dropEvent(QDropEvent* event) override;
+  void closeEvent(QCloseEvent* event) override;
 
 private slots:
   void doImageOpen();
@@ -76,6 +80,7 @@ private:
   static void pushToHistory(const QPair<cv::Mat, MatInfo>& pixmap);
   void updateUIFromInfo(const MatInfo& matInfo);
   void showInformationMessage(const QString& message, bool isSuccess);
+  void setupFilterConnections();
 
   Ui::PS* ui;
   QGraphicsScene* scene;

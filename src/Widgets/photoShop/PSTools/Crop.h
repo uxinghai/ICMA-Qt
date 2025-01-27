@@ -15,11 +15,6 @@
 #include <array>
 #include <QPixmap>
 
-namespace AutoCrop
-{
-  inline QPixmap autoCrop() { return {}; }
-}
-
 namespace DoCrop
 {
   // 定义裁剪模式
@@ -83,8 +78,6 @@ namespace DoCrop
     if (pixmap.isNull() || (row < 0 || row >= CROP_PRESETS.size())) {
       return pixmap;
     }
-
-    if (row == 0) { return AutoCrop::autoCrop(); } ///< 自由裁剪
 
     const auto& preset = CROP_PRESETS[row];
 

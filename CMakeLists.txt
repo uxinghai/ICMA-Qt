@@ -37,31 +37,55 @@ find_package(OpenCV REQUIRED)
 #                                            收集所有文件
 set(PROJECT_SOURCES
         main.cpp
+        icmaStart.h
         # widgets下所有文件
         src/Widgets/mainWindow/MainWindow.cpp
         src/Widgets/mainWindow/MainWindow.h
-        UI/MainWindow.ui
         src/Widgets/photoShop/PS.cpp
         src/Widgets/photoShop/PS.h
-        UI/PS.ui
         src/Widgets/photoShop/faceTest/FaceTest.cpp
         src/Widgets/photoShop/faceTest/FaceTest.h
-        UI/FaceTest.ui
         src/Widgets/fileTransfer/FileTransfer.cpp
         src/Widgets/fileTransfer/FileTransfer.h
         src/Widgets/fileTransfer/FileTransTool.h
-        UI/FileTransfer.ui
-        # utils下所有文件
-        src/manager/JsonManager.h
-        src/Network/GetBaiduToken.h
-        src/Utils/threadWorkers/ThreadImageToBase64.h
-        # network下所有文件
         src/Widgets/fileTransfer/client/AClient.h
         src/Widgets/fileTransfer/client/AClient.cpp
-        UI/AClient.ui
         src/Widgets/fileTransfer/server/AServer.h
         src/Widgets/fileTransfer/server/AServer.cpp
-        UI/AServer.ui
+        src/Widgets/mainWindow/FileManage/FileManage.cpp
+        src/Widgets/mainWindow/FileManage/FileManage.h
+        src/Widgets/photoShop/ShareSrc.h
+        src/Widgets/photoShop/MyGraphicsView.h
+        src/Widgets/photoShop/faceTest/ToGetToken.h
+        src/Widgets/photoShop/PSTools/Rota.h
+        src/Widgets/photoShop/PSTools/Filter.h
+        src/Widgets/photoShop/ImgCropper/Cropper.cpp
+        src/Widgets/photoShop/ImgCropper/Cropper.h
+        src/Widgets/photoShop/ImgCropper/imagecropperdemo.cpp
+        src/Widgets/photoShop/ImgCropper/imagecropperdemo.h
+        src/Widgets/photoShop/ImgCropper/base/SimpleCropperDialog.h
+        src/Widgets/photoShop/ImgCropper/base/Imagecropperlabel.cpp
+        src/Widgets/photoShop/ImgCropper/base/Imagecropperlabel.h
+        src/Widgets/photoShop/PSTools/Resize.h
+        src/Widgets/photoShop/PSTools/Adjust.h
+        src/Widgets/photoShop/PSTools/Crop.h
+        # utils下所有文件
+        src/Utils/Tools/closeWindowMsgBox.h
+        src/Utils/Tools/MovableFramelessWindow.h
+        src/Utils/Tools/NetworkTool.h
+        src/Utils/threadWorkers/ThreadImageToBase64.h
+        src/Network/GetICMABrief.h
+        src/Utils/Tools/SystemTrayIcon.h
+        src/Utils/Tools/LoadingGif.h
+        src/Utils/Tools/TipLabel.h
+        src/Utils/Tools/MyAutoStack.h
+        src/Utils/Tools/ImageToBase64.h
+        src/Utils/Tools/MyInformationBox.h
+        src/Utils/Tools/NoWheelSlider.h
+        src/Utils/Tools/LogOut.h
+        # network下所有文件
+        src/manager/JsonManager.h
+        src/Network/GetBaiduToken.h
         src/manager/NetworkManager.h
         src/manager/NetworkManager.cpp
         # initial下所有文件
@@ -71,35 +95,21 @@ set(PROJECT_SOURCES
         # dataBase下所有文件
         src/manager/SqlManager.h
         src/dataBase/worker/FilesDBWorker.h
-        # Controls
         src/manager/Config/iniManager.h
-        src/Utils/Tools/closeWindowMsgBox.h
-        src/Utils/Tools/MovableFramelessWindow.h
-        src/Utils/Tools/NetworkTool.h
-        src/Network/GetICMABrief.h
-        src/Utils/Tools/SystemTrayIcon.h
-        src/Widgets/mainWindow/FileManage/FileManage.cpp
-        src/Widgets/mainWindow/FileManage/FileManage.h
-        src/Utils/Tools/LogOut.h
-        icmaStart.h
         src/DataBase/worker/FilesDBWorker.cpp
         src/DataBase/SqlQuery/Directory.h
         src/DataBase/SqlQuery/Files.h
         src/DataBase/SqlQuery/SqlQueryHelper.h
-        src/Utils/Tools/ImageToBase64.h
         src/Network/AIDoFaceDetect.h
-        src/Widgets/photoShop/ShareSrc.h
-        src/Widgets/photoShop/MyGraphicsView.h
-        src/Utils/Tools/LoadingGif.h
-        src/Utils/Tools/TipLabel.h
-        src/Utils/Tools/MyAutoStack.h
-        src/Widgets/photoShop/Crop.h
-        src/Utils/Tools/MyInformationBox.h
-        src/Widgets/photoShop/Resize.h
-        src/Widgets/photoShop/Adjust.h
-        src/Utils/Tools/NoWheelSlider.h
-        src/Widgets/photoShop/faceTest/ToGetToken.h
-        src/Widgets/photoShop/Rota.h
+        # UI
+        UI/MainWindow.ui
+        UI/PS.ui
+        UI/FileTransfer.ui
+        UI/AClient.ui
+        UI/AServer.ui
+        UI/FaceTest.ui
+        UI/SimpleCrop.ui
+        UI/CustomCrop.ui
 )
 
 #                                            *********
@@ -112,12 +122,7 @@ if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ICMA
             MANUAL_FINALIZATION
             ${PROJECT_SOURCES}
-            UI/FaceTest.ui
-            UI/FileTransfer.ui
-            UI/PS.ui
-            UI/MainWindow.ui
-            UI/FileTransfer.ui
-            Resource.qrc # 添加资源文件
+            Resource.qrc
     )
     # Define target properties for Android with Qt 6 as:
     #    set_property(TARGET ICMA APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
