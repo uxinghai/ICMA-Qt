@@ -3,10 +3,10 @@
 #include <QApplication>
 
 #include "../../icmaStart.h"
-#include "../DataBase/worker/FilesDBWorker.h"
 #include "../Manager/Config/iniManager.h"
 #include "../Manager/JsonManager.h"
 #include "../Manager/SqlManager.h"
+#include "../Utils/ThreadWorkers/File/FilesDBWorker.h"
 #include "../Widgets/mainWindow/MainWindow.h"
 #include "SplashScreen.h"
 

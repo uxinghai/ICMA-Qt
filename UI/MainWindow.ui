@@ -33,6 +33,21 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="verticalSpacing">
+     <number>1</number>
+    </property>
     <item row="0" column="0">
      <widget class="QSplitter" name="splitter_2">
       <property name="orientation">
@@ -40,19 +55,25 @@
       </property>
       <widget class="QWidget" name="layoutWidget">
        <layout class="QVBoxLayout" name="verticalLayout">
+        <property name="spacing">
+         <number>3</number>
+        </property>
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout">
           <property name="spacing">
-           <number>3</number>
+           <number>2</number>
           </property>
           <property name="leftMargin">
-           <number>0</number>
+           <number>3</number>
+          </property>
+          <property name="topMargin">
+           <number>1</number>
           </property>
           <property name="rightMargin">
-           <number>0</number>
+           <number>3</number>
           </property>
           <property name="bottomMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <item>
            <widget class="QLineEdit" name="lineEdit">
@@ -186,7 +207,7 @@
               <number>0</number>
              </property>
              <item row="0" column="0">
-              <widget class="QTableView" name="tableView">
+              <widget class="MyTableView" name="tableView">
                <property name="font">
                 <font>
                  <family>Microsoft YaHei UI</family>
@@ -195,6 +216,18 @@
                  <bold>false</bold>
                 </font>
                </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectItems</enum>
+               </property>
+               <property name="showGrid">
+                <bool>false</bool>
+               </property>
+               <attribute name="horizontalHeaderStretchLastSection">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
               </widget>
              </item>
             </layout>
@@ -226,6 +259,12 @@
                  <bold>false</bold>
                 </font>
                </property>
+               <property name="selectionMode">
+                <enum>QAbstractItemView::ExtendedSelection</enum>
+               </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
               </widget>
              </item>
             </layout>
@@ -249,6 +288,12 @@
              </property>
              <item row="0" column="0">
               <widget class="QListView" name="IconView">
+               <property name="selectionMode">
+                <enum>QAbstractItemView::ExtendedSelection</enum>
+               </property>
+               <property name="selectionBehavior">
+                <enum>QAbstractItemView::SelectRows</enum>
+               </property>
                <property name="viewMode">
                 <enum>QListView::IconMode</enum>
                </property>
@@ -276,54 +321,6 @@
             <bool>true</bool>
            </property>
           </widget>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-      <widget class="QWidget" name="widget" native="true">
-       <property name="contextMenuPolicy">
-        <enum>Qt::NoContextMenu</enum>
-       </property>
-       <property name="autoFillBackground">
-        <bool>false</bool>
-       </property>
-       <layout class="QGridLayout" name="gridLayout_5">
-        <property name="leftMargin">
-         <number>0</number>
-        </property>
-        <property name="topMargin">
-         <number>0</number>
-        </property>
-        <property name="rightMargin">
-         <number>0</number>
-        </property>
-        <property name="bottomMargin">
-         <number>0</number>
-        </property>
-        <property name="horizontalSpacing">
-         <number>0</number>
-        </property>
-        <property name="verticalSpacing">
-         <number>3</number>
-        </property>
-        <item row="0" column="0">
-         <widget class="QGroupBox" name="GroupRecommand">
-          <property name="title">
-           <string>推荐</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QGroupBox" name="GroupStatistical">
-          <property name="title">
-           <string>统计分析</string>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignCenter</set>
-          </property>
          </widget>
         </item>
        </layout>
@@ -958,6 +955,9 @@
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+1</string>
+   </property>
   </action>
   <action name="actionIconView">
    <property name="checkable">
@@ -976,6 +976,9 @@
     <font>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+2</string>
    </property>
   </action>
   <action name="actionDetailView">
@@ -998,6 +1001,9 @@
     <font>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+6</string>
    </property>
   </action>
   <action name="actionBigFont">
@@ -1281,6 +1287,9 @@
    </property>
    <property name="toolTip">
     <string>刷新</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
    </property>
   </action>
   <action name="actionAdvancedSearch">
@@ -1606,7 +1615,165 @@
     <string>使用浅色主题</string>
    </property>
   </action>
+  <action name="actionShowNameCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>名称</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件名称列内容(固定显示).</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowPathCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>路径</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件路径列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowSizeCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>大小</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件大小列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowTypeCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>类型</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件类型列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowCreateDateCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>创建时间</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件创建时间列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowModifyDateCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>修改时间</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件修改时间列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowLastModDateCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>最近修改时间</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件最近修改时间列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowHashCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>哈希值</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件哈希值列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionShowEncrCol">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>是否加密</string>
+   </property>
+   <property name="toolTip">
+    <string>显示文件是否加密列内容.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionAutoFit">
+   <property name="text">
+    <string>自适应栏目大小(&amp;S)</string>
+   </property>
+   <property name="toolTip">
+    <string>自动调整栏目到合适大小.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionAutoFitColWidth">
+   <property name="text">
+    <string>自动调整列宽(&amp;W)</string>
+   </property>
+   <property name="toolTip">
+    <string>自动调整列宽到合适的大小.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+\</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>../src/Utils/BoostClass/MyTableView.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Resource.qrc"/>
  </resources>

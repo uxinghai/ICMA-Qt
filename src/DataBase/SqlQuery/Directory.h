@@ -12,6 +12,7 @@
 
 #include <QFileInfo>
 #include <QVariant>
+#include <QCryptographicHash>
 
 #include "../../Manager/SqlManager.h"
 
@@ -19,11 +20,11 @@ class DirectoryDB {
 public:
   /**
    * @brief 获取目录ID
-   * @param path 目录路径
-   * @return 目录ID，失败返回-1
+   * @param absPath 目录路径
+   * @return 目录ID，失败返回-1，正确返回ID号
    * @thread 线程安全
    */
-  static int getDirectoryId(const QString& path)
+  static int getDirectoryId(const QString& absPath)
   {
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
@@ -33,14 +34,11 @@ public:
 
     QSqlQuery query(*db);
     query.prepare(
-      "SELECT directory_id FROM Directory WHERE directory_absFilePath = ?");
-    query.addBindValue(path);
+      "SELECT directory_id FROM Directory WHERE "
+      "directory_absFilePath = ?");
+    query.addBindValue(absPath);
 
-    if (!query.exec() || !query.next()) {
-      qWarning() << "Failed to get directory id for path:" << path
-        << "Error:" << query.lastError().text();
-      return -1;
-    }
+    if (!query.exec() || !query.next()) { return -1; }
 
     return query.value(0).toInt();
   }
@@ -55,22 +53,29 @@ public:
   {
     const QFileInfo dirInfo(dirPath);
 
+    // 如果文件记录已经存在直接返回
+    if (getDirectoryId(dirInfo.absolutePath()) != -1) {
+      //qDebug() << "信息记录已经存在！" << dirInfo.absolutePath();
+      return true;
+    }
+
     // 处理根目录和普通目录
     const QString name =
       dirInfo.isRoot() ? dirPath.left(2) : dirInfo.fileName();
-    const QString icon = dirInfo.isRoot()
-                           ? ":/icons/res/icons/disk.png"
-                           : ":/icons/res/icons/directory.png";
-    const QString path = dirInfo.isRoot() ? "" : dirInfo.absolutePath();
-
     query.addBindValue(name);
+    const QString path = dirInfo.isRoot() ? "" : dirInfo.absolutePath();
     query.addBindValue(path);
     query.addBindValue(dirInfo.absoluteFilePath());
-    query.addBindValue(QVariant()); // parent_directory_id
+    const int parentId = getDirectoryId(path);
+    query.addBindValue(parentId == -1 ? QVariant() : parentId); ///< 父目录ID
     query.addBindValue(dirInfo.birthTime().toString("yyyy/MM/dd hh:mm"));
     query.addBindValue(dirInfo.lastModified().toString("yyyy/MM/dd hh:mm"));
     query.addBindValue(dirInfo.lastRead().toString("yyyy/MM/dd hh:mm"));
-    query.addBindValue(icon);
+    const QString iconPath = dirInfo.isRoot()
+                               ? ":/icons/res/icons/disk.png"
+                               : ":/icons/res/icons/directory.png";
+
+    query.addBindValue(iconPath);
 
     if (!query.exec()) {
       qWarning() << "Failed to insert directory:" << dirPath
@@ -95,13 +100,22 @@ public:
       return false;
     }
 
+    // 插入的 SQL 语句，在 insertDirectory 中使用执行
     QSqlQuery query(*db);
     query.prepare(
       "INSERT INTO Directory ("
       "directory_name, directory_path, directory_absFilePath, "
       "parent_directory_id, creation_date, "
       "modification_date, last_access_date, icon_path"
-      ") VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
+      ") VALUES (?, ?, ?, ?, ?, ?, ?, ?) "
+      "ON CONFLICT(directory_absFilePath) DO UPDATE SET "
+      "directory_name = excluded.directory_name, "
+      "directory_absFilePath = excluded.directory_absFilePath, "
+      "parent_directory_id = excluded.parent_directory_id, "
+      "creation_date = excluded.creation_date, "
+      "modification_date = excluded.modification_date, "
+      "last_access_date = excluded.last_access_date, "
+      "icon_path = excluded.icon_path;"
     );
 
     if (!db->transaction()) {
@@ -112,6 +126,7 @@ public:
     bool success = true;
     try {
       if (dirsPath.typeId() == QVariant::StringList) {
+        // 如果是 list 循环处理
         for (const QString& dirPath : dirsPath.toStringList()) {
           if (!insertDirectory(query, dirPath)) {
             throw std::runtime_error("Failed to insert directory");

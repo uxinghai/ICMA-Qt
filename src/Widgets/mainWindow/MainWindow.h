@@ -17,7 +17,6 @@
 #include <QLabel>
 #include <QMainWindow>
 #include <QMenu>
-#include <QProgressBar>
 #include <QSettings>
 
 QT_BEGIN_NAMESPACE
@@ -61,18 +60,16 @@ private slots:
   void doSetActionVisible(const bool& checked) const;
   void doShowICMABrief();
   static void doEnableLogOut(const bool& checked);
+  void doDaoRu();
+  void showFileContextMenu();
 
 private:
+  // 配置文件操作
   void readIniConfig(); ///< 程序启动时读取文件配置界面
   // 程序退出时读取界面写入文件，两个必要的信息通过参数获取
   void savaIniConfig(const QString& closeMethod, bool noRequire) const;
-  void setupConnections();
 
-  /**
-   * @brief 在视图上显示进度条
-   * @param progress 进度条指针
-   */
-  void displayOnView(QProgressBar* progress);
+  void setupConnections();
 
   /**
    * @brief 设置系统自启动功能

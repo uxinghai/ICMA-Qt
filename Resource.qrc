@@ -11,6 +11,7 @@
     <file>res/icons/Loading/dogLoading.gif</file>
     <file>res/icons/disk.png</file>
     <file>res/icons/directory.png</file>
+    <file>res/deduplicate.png</file>
   </qresource>
   <qresource prefix="/ps">
     <file>res/ps/AITool.png</file>
@@ -39,6 +40,9 @@
     <file>res/ps/cameraDelay.png</file>
     <file>res/ps/cameraSlip.png</file>
     <file>res/ps/changeImg.png</file>
+    <file>res/ps/ICMAPS_128x128.ico</file>
+    <file>res/ps/ICMATRAN_128x128.ico</file>
+
   </qresource>
   <qresource prefix="/suffixes">
     <file>res/suffix/aa.png</file>

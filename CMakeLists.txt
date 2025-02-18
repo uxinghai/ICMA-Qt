@@ -55,17 +55,17 @@ set(PROJECT_SOURCES
         src/Widgets/mainWindow/FileManage/FileManage.cpp
         src/Widgets/mainWindow/FileManage/FileManage.h
         src/Widgets/photoShop/ShareSrc.h
-        src/Widgets/photoShop/MyGraphicsView.h
+        src/Utils/BoostClass/MyGraphicsView.h
         src/Widgets/photoShop/faceTest/ToGetToken.h
         src/Widgets/photoShop/PSTools/Rota.h
         src/Widgets/photoShop/PSTools/Filter.h
         src/Widgets/photoShop/ImgCropper/Cropper.cpp
         src/Widgets/photoShop/ImgCropper/Cropper.h
-        src/Widgets/photoShop/ImgCropper/imagecropperdemo.cpp
-        src/Widgets/photoShop/ImgCropper/imagecropperdemo.h
-        src/Widgets/photoShop/ImgCropper/base/SimpleCropperDialog.h
-        src/Widgets/photoShop/ImgCropper/base/Imagecropperlabel.cpp
-        src/Widgets/photoShop/ImgCropper/base/Imagecropperlabel.h
+        src/Widgets/photoShop/ImgCropper/CropperDialog/CustomCropperDialog.cpp
+        src/Widgets/photoShop/ImgCropper/CropperDialog/CustomCropperDialog.h
+        src/Widgets/photoShop/ImgCropper/CropperDialog/SimpleCropperDialog.h
+        src/Widgets/photoShop/ImgCropper/Tool/ImageCropperLabel.cpp
+        src/Widgets/photoShop/ImgCropper/Tool/ImageCropperLabel.h
         src/Widgets/photoShop/PSTools/Resize.h
         src/Widgets/photoShop/PSTools/Adjust.h
         src/Widgets/photoShop/PSTools/Crop.h
@@ -81,7 +81,7 @@ set(PROJECT_SOURCES
         src/Utils/Tools/MyAutoStack.h
         src/Utils/Tools/ImageToBase64.h
         src/Utils/Tools/MyInformationBox.h
-        src/Utils/Tools/NoWheelSlider.h
+        src/Utils/BoostClass/NoWheelSlider.h
         src/Utils/Tools/LogOut.h
         # network下所有文件
         src/manager/JsonManager.h
@@ -94,9 +94,9 @@ set(PROJECT_SOURCES
         src/initial/SplashScreen.h
         # dataBase下所有文件
         src/manager/SqlManager.h
-        src/dataBase/worker/FilesDBWorker.h
+        src/Utils/ThreadWorkers/File/FilesDBWorker.h
         src/manager/Config/iniManager.h
-        src/DataBase/worker/FilesDBWorker.cpp
+        src/Utils/ThreadWorkers/File/FilesDBWorker.cpp
         src/DataBase/SqlQuery/Directory.h
         src/DataBase/SqlQuery/Files.h
         src/DataBase/SqlQuery/SqlQueryHelper.h
@@ -110,6 +110,12 @@ set(PROJECT_SOURCES
         UI/FaceTest.ui
         UI/SimpleCrop.ui
         UI/CustomCrop.ui
+        src/Widgets/fileTransfer/ShareSrc.h
+        src/Widgets/fileDeduplicate/FileDeduplicate.h
+        src/Widgets/fileDeduplicate/FileDeduplicate.cpp
+        src/Utils/Tools/DataUnitCalc.h
+        src/Utils/Tools/CustomQueryModel.h
+        src/Utils/BoostClass/MyTableView.h
 )
 
 #                                            *********

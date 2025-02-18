@@ -30,6 +30,7 @@ PS::PS(QWidget* parent)
   init();
   ToGetToken::getBaiduAIToken();
   setupConnections();
+  this->setAttribute(Qt::WA_DeleteOnClose);
 }
 
 void PS::init() const
@@ -64,8 +65,57 @@ void PS::setupConnections()
 
   // 工具箱和列表连接
   connect(ui->toolBox, &QToolBox::currentChanged, this, &PS::doToolBoxChanged);
-  connect(ui->cropList, &QListWidget::currentRowChanged, this,
-          &PS::doCropChange);
+  // 以下信号用于其他按比例裁剪图像
+  connect(ui->cropList, &QListWidget::currentRowChanged,
+          this, &PS::doCropChange);
+  // 以下信号只用于处理用户点击自由裁剪
+  connect(ui->cropList, &QListWidget::itemClicked,
+          [this](const QListWidgetItem* item) {
+            // 如果是第0行则处理，其他行不作处理
+            if (item->listWidget()->indexFromItem(item).row() == 0) {
+              // 保存临时图像文件
+              if (matToPixmap(curMat.first).save(
+                "ICMAIMGPRO_tempImg.png", "PNG")) {
+                auto* cropMethodSelect = Cropper::getInstance(
+                  "ICMAIMGPRO_tempImg.png");
+
+                // 处理裁剪完成的信号
+                connect(cropMethodSelect, &Cropper::ProcessedPixmap,
+                        [this, cropMethodSelect](const QPixmap& pixmap) {
+                          // 更新主界面
+                          curMat.first = pixmapToMat(pixmap);
+                          curMatInfo.crop.cropValue = -1;
+                          curMat.second = curMatInfo;
+                          showImgToUi(curMat, true);
+                          pushToHistory(curMat);
+                          processedMat = curMat.first;
+
+                          // 删除裁剪界面并显示主界面
+                          cropMethodSelect->deleteLater();
+                          this->show();
+                        });
+
+                // 处理裁剪错误信号
+                connect(cropMethodSelect, &Cropper::ProcessedError,
+                        [cropMethodSelect](const QString& text) {
+                          qCritical() << "Processed img error:" << text;
+                          cropMethodSelect->deleteLater();
+                        });
+
+                // 处理裁剪界面关闭信号
+                connect(cropMethodSelect, &Cropper::WindowClose,
+                        [this, cropMethodSelect] {
+                          // 删除临时文件并显示主界面
+                          QFile::remove("ICMAIMGPRO_tempImg.png");
+                          cropMethodSelect->deleteLater();
+                          this->show();
+                        });
+
+                cropMethodSelect->show();
+              }
+              else { QMessageBox::critical(this, "错误", "无法获取裁剪文件，请重试."); }
+            }
+          });
   connect(ui->sizeList, &QListWidget::currentRowChanged, this,
           &PS::doResizeChange);
 
@@ -120,7 +170,7 @@ void PS::setupSliderConnections(const NoWheelSlider* slider,
                                 double spinBoxMultiplier)
 {
   connect(slider, &QSlider::valueChanged,
-          [this, spinBox, valueUpdateFunc, sliderDivisor,
+          [spinBox, valueUpdateFunc, sliderDivisor,
             spinBoxMultiplier](const int value) {
             spinBox->setValue(value / sliderDivisor * spinBoxMultiplier);
             valueUpdateFunc(value);
@@ -297,6 +347,9 @@ void PS::doImageOpen()
   srcMat.first = mat;
   srcMat.second = curMatInfo;
 
+  // 备份到 curMat 以便修改
+  curMat.first = srcMat.first;
+
   // 显示图像到 UI，并更新状态
   showImgToUi(srcMat);
   pushToHistory(srcMat);         ///< 存入历史记录
@@ -341,6 +394,9 @@ void PS::dropEvent(QDropEvent* event)
     srcMat.first = mat;
     srcMat.second = curMatInfo;
 
+    // 备份到 curMat 以便修改
+    curMat.first = srcMat.first;
+
     // 显示图像到 UI
     showImgToUi(srcMat);
     updateUIFromInfo(srcMat.second);
@@ -366,7 +422,7 @@ void PS::doUndo()
   if (historyPixmap.size() > 2) {
     historyPixmap.pop();
 
-    const auto curMat = historyPixmap.top();
+    curMat = historyPixmap.top();
     processedMat = curMat.first;
     curMatInfo = curMat.second;
     showImgToUi(curMat);
@@ -378,6 +434,13 @@ void PS::doUndo()
 
 void PS::doReset()
 {
+  if (const auto button = QMessageBox::warning(this, tr("警告"),
+                                               tr("确定要还原所有修改吗？"),
+                                               QMessageBox::Yes |
+                                               QMessageBox::No,
+                                               QMessageBox::No);
+    button == QMessageBox::No) { return; }
+  // 确定还原操作
   historyPixmap.clear(); ///< 还原清空历史记录
   historyPixmap.push(srcMat);
   processedMat = srcMat.first;
@@ -389,28 +452,9 @@ void PS::doCropChange(const int row)
 {
   if (isProgrammaticChange) { return; }
 
-  if (row == 0) { ///< 通过信号槽控制裁剪
-    if (curMat.first.empty()) { curMat.first = srcMat.first; }
-    // 把当前的图像保存为临时图像文件用于裁剪然后裁剪结束发回该文件
-    if (matToPixmap(curMat.first).save("ICMAIMGPRO_tempImg.png", "PNG")) {
-      auto* cropMethodSelect = new Cropper("ICMAIMGPRO_tempImg.png");
-      connect(cropMethodSelect, &Cropper::WindowClose,
-              [this] {
-                this->show();
-                // 删除tempImg.png
-                QFile::remove("ICMAIMGPRO_tempImg.png");
-              });
-      this->hide();
-
-      cropMethodSelect->show();
-    }
-    else { QMessageBox::critical(this, "错误", "无法获取裁剪文件，请重试."); }
-
-    return;
-  }
-
   curMatInfo.crop.cropValue = row;
 
+  // 处理其他裁剪方式
   const auto pixmap = DoCrop::cropPixmapBy(matToPixmap(processedMat), row);
   curMat.first = pixmapToMat(pixmap);
   curMat.second = curMatInfo;
@@ -474,23 +518,24 @@ void PS::doShowFaceTest()
 
 void PS::doImageSave(const bool isSaveAs)
 {
+  QString tmpSaveFilePath;
   if (!isSaveAs) { ///< 不是另存
     if (QMessageBox::information(this, tr("询问"), tr("是否要替换文件"),
                                  QMessageBox::Ok | QMessageBox::Cancel) !=
       QMessageBox::Ok) { return; }
   }
   else {
-    pixFilePath = QFileDialog::getSaveFileName(
+    tmpSaveFilePath = QFileDialog::getSaveFileName(
       this,
       tr("另存为"),
       QStandardPaths::writableLocation(QStandardPaths::DesktopLocation),
       "*.png;;*.jpg;;*.jpeg"
     );
-    if (pixFilePath.isEmpty()) { return; }
+    if (tmpSaveFilePath.isEmpty()) { return; }
   }
 
   if (const cv::Mat mat = curMat.first;
-    matToPixmap(mat).save(pixFilePath)) {
+    matToPixmap(mat).save(tmpSaveFilePath)) {
     showInformationMessage(tr("保存成功"), true);
   }
   else { showInformationMessage(tr("保存失败"), false); }
@@ -506,11 +551,21 @@ void PS::showInformationMessage(const QString& message, const bool isSuccess)
 
 void PS::setupFilterConnections()
 {
-  auto applyFilter = [this](QListWidget* list, auto filterFunc, int& value) {
+  auto applyFilter = [this
+    ](QListWidget* list, auto filterFunc, bool isFilter1) {
     connect(list, &QListWidget::currentRowChanged,
-            [this, filterFunc, &value](const int row) {
+            [this, filterFunc, isFilter1](const int row) {
               if (processedMat.empty()) { processedMat = srcMat.first; }
-              value = row;
+              // 使对应的列表项被选中
+              if (isFilter1) {
+                curMatInfo.filter.filter1 = row;
+                curMatInfo.filter.filter2 = -1;
+              }
+              else {
+                curMatInfo.filter.filter1 = -1;
+                curMatInfo.filter.filter2 = row;
+              }
+
               curMat.first = filterFunc(processedMat, row);
               curMat.second = curMatInfo;
               showImgToUi(curMat);
@@ -518,8 +573,8 @@ void PS::setupFilterConnections()
             });
   };
 
-  applyFilter(ui->FilterList, DoFilter::filter, curMatInfo.filter.filter1);
-  applyFilter(ui->FilterList2, DoFilter::filter2, curMatInfo.filter.filter2);
+  applyFilter(ui->FilterList, DoFilter::filter, true);
+  applyFilter(ui->FilterList2, DoFilter::filter2, false);
 }
 
 void PS::doToolBoxChanged(const int index)
@@ -528,7 +583,8 @@ void PS::doToolBoxChanged(const int index)
   processedMat = curMat.first;
 }
 
-void PS::showImgToUi(const QPair<cv::Mat, MatInfo>& showPixmap)
+void PS::showImgToUi(const QPair<cv::Mat, MatInfo>& showPixmap,
+                     const bool& noUpdateUi)
 {
   scene->clear();
   const cv::Mat mat = showPixmap.first;
@@ -541,7 +597,7 @@ void PS::showImgToUi(const QPair<cv::Mat, MatInfo>& showPixmap)
   ui->GraphicsView->fitInView(scene->sceneRect(), Qt::KeepAspectRatio);
 
   showImgSize(pixmap);
-  updateUIFromInfo(showPixmap.second);
+  if (!noUpdateUi) { updateUIFromInfo(showPixmap.second); }
 }
 
 void PS::updateUIState(const bool enable) const
@@ -595,4 +651,9 @@ void PS::updateUIFromInfo(const MatInfo& matInfo)
   isProgrammaticChange = false;
 }
 
-PS::~PS() { delete ui; }
+PS::~PS()
+{
+  qDebug() << "图像处理被正常析构";
+  psInstance = nullptr;
+  delete ui;
+}

@@ -32,7 +32,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../Resource.qrc">
-    <normaloff>:/icons/res/icons/logo/imgEditor.png</normaloff>:/icons/res/icons/logo/imgEditor.png</iconset>
+    <normaloff>:/ps/res/ps/ICMAPS_128x128.ico</normaloff>:/ps/res/ps/ICMAPS_128x128.ico</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">
@@ -609,7 +609,7 @@ QRadioButton::indicator:checked {
           <enum>QFrame::Plain</enum>
          </property>
          <property name="currentIndex">
-          <number>0</number>
+          <number>2</number>
          </property>
          <property name="tabSpacing">
           <number>4</number>
@@ -2125,12 +2125,12 @@ QRadioButton::indicator:checked {
   <customwidget>
    <class>MyGraphicsView</class>
    <extends>QGraphicsView</extends>
-   <header>../src/Widgets/photoShop/MyGraphicsView.h</header>
+   <header>../src/Utils/BoostClass/MyGraphicsView.h</header>
   </customwidget>
   <customwidget>
    <class>NoWheelSlider</class>
    <extends>QSlider</extends>
-   <header>../src/Utils/Tools/NoWheelSlider.h</header>
+   <header>../src/Utils/BoostClass/NoWheelSlider.h</header>
   </customwidget>
  </customwidgets>
  <resources>

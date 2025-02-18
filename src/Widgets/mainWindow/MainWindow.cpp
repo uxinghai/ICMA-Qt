@@ -1,15 +1,18 @@
 #include "MainWindow.h"
 
 #include <QActionGroup>
+#include <QFileDialog>
 #include <QMessageBox>
 
 #include "../../../UI/ui_MainWindow.h"
-#include "../../Network/GetICMABrief.h"
-#include "../../DataBase/worker/FilesDBWorker.h"
+#include "../../DataBase/SqlQuery/Files.h"
 #include "../../Manager/Config/iniManager.h"
 #include "../../Manager/JsonManager.h"
+#include "../../Network/GetICMABrief.h"
+#include "../../Utils/ThreadWorkers/File/FilesDBWorker.h"
 #include "../../Utils/Tools/CloseWindowMsgBox.h"
 #include "../../Utils/Tools/SystemTrayIcon.h"
+#include "../fileDeduplicate/FileDeduplicate.h"
 #include "../fileTransfer/FileTransfer.h"
 #include "../photoShop/PS.h"
 
@@ -52,6 +55,8 @@ void MainWindow::setupConnections()
   createLangChanged(ui->actionNeonButtons);
   createLangChanged(ui->actionUbuntu);
 
+  connect(ui->actionDaori, &QAction::triggered, this, &MainWindow::doDaoRu);
+
   // 日志文件
   connect(ui->actionEnableFileLog, &QAction::triggered,
           this, &MainWindow::doEnableLogOut);
@@ -71,12 +76,61 @@ void MainWindow::setupConnections()
 
   // 启动图像处理窗口
   connect(ui->actionPS, &QAction::triggered,
-          [this]() {
-            auto* psWidget = new PS();
-            connect(psWidget, &PS::WindowClose,this, &MainWindow::show);
+          [this] {
+            auto* psWidget = PS::getInstance();
+            connect(psWidget, &PS::WindowClose, this, &MainWindow::show);
             this->hide();
-            psWidget->setAttribute(Qt::WA_DeleteOnClose);
             psWidget->show();
+          });
+
+  // 启动文件传输
+  connect(ui->actionTransmission, &QAction::triggered,
+          [this] {
+            auto* fileTransWidget = new FileTrans();
+            connect(fileTransWidget, &FileTrans::WindowClose,
+                    this, &MainWindow::show);
+            this->hide();
+            fileTransWidget->show();
+          });
+
+  // 启动文件去重
+  connect(ui->actionFileDuplication, &QAction::triggered,
+          [this] {
+            auto* fileDepWidget = new FileDeduplicate();
+            connect(fileDepWidget, &FileDeduplicate::WindowClose,
+                    this, &MainWindow::show);
+            this->hide();
+            fileDepWidget->show();
+          });
+
+  // 自定义的 TableView 右键菜单
+  connect(ui->tableView, &QTableView::customContextMenuRequested,
+          [this](const QPoint& pos) {
+            // 如果 pos 不位于名称列（第0列）
+            if (ui->tableView->indexAt(pos).column() != 0) {
+              const auto menu = std::make_unique<QMenu>();
+              // 视图 排序 刷新
+              auto* viewMenu = new QMenu(tr("视图(&V)"));
+              viewMenu->addActions({
+                ui->actionListView, ui->actionIconView,
+                ui->actionDetailView
+              });
+              auto* sortMenu = new QMenu(tr("排序(&S)"));
+              sortMenu->addActions({
+                ui->actionFileName, ui->actionFileDate, ui->actionFileSize,
+                ui->actionFilePath, ui->actionFileType, ui->actionFileSuffix,
+                ui->actionFileModifyDate, ui->actionFileCreateDate
+              });
+              sortMenu->addSeparator();
+              sortMenu->addActions({ui->actionAsc, ui->actionDesc});
+              menu->addMenu(viewMenu);
+              menu->addMenu(sortMenu);
+              menu->addAction(ui->actionRefresh);
+              menu->exec(QCursor::pos());
+            }
+            else {
+              showFileContextMenu(); ///< 显示名称列上下文菜单
+            }
           });
 }
 
@@ -145,6 +199,9 @@ void MainWindow::readIniConfig()
   const QString settingsPrefix = "Settings/";
   // 修改UI及Action的选中情况
   const auto Settings = iniManager::getIniSetting();
+  QStringList pos = Settings.value(
+    settingsPrefix + "window-size").toStringList();
+  if (pos.length() == 2) { this->resize(pos[0].toInt(), pos[1].toInt()); }
   ui->actionAutoRun->setChecked(
     Settings.value(settingsPrefix + "auto-run").toBool());
   ui->actionEnableFileLog->setChecked(
@@ -188,13 +245,33 @@ void MainWindow::readIniConfig()
 
   // 修改语言Action的选中
   if (auto* langAction = findChild<QAction*>(QString("action") +
-    Settings.value("Settings/language").toList()[0].toString())) {
+    Settings.value(settingsPrefix + "language").toList()[0].toString())) {
     langAction->setChecked(true);
   }
 
   // 修改系统字体
-  auto font = Settings.value("Settings/font").toList();
+  auto font = Settings.value(settingsPrefix + "font").toList();
   this->setFont(QFont(font[0].toString(), font[1].toInt()));
+
+  // 详细的列表视图中显示的列
+  ui->actionShowNameCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowNameCol").toBool());
+  ui->actionShowPathCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowPathCol").toBool());
+  ui->actionShowTypeCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowTypeCol").toBool());
+  ui->actionShowSizeCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowSizeCol").toBool());
+  ui->actionShowCreateDateCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowCreateDateCol").toBool());
+  ui->actionShowModifyDateCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowModifyDateCol").toBool());
+  ui->actionShowLastModDateCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowLastModDateCol").toBool());
+  ui->actionShowHashCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowHashCol").toBool());
+  ui->actionShowEncrCol->setChecked(Settings.value
+    (settingsPrefix + "actionShowEncrCol").toBool());
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)
@@ -244,8 +321,8 @@ void MainWindow::doShowICMABrief()
   subLayout->addWidget(textLabel);
 
   // 按钮部分
-  QHBoxLayout* buttonLayout = new QHBoxLayout;
-  QPushButton* okButton = new QPushButton(tr("OK"));
+  auto* buttonLayout = new QHBoxLayout;
+  auto* okButton = new QPushButton(tr("OK"));
   connect(okButton, &QPushButton::clicked, &aboutBox, &QDialog::accept);
 
   buttonLayout->addStretch();        // 左侧留空
@@ -261,6 +338,38 @@ void MainWindow::doEnableLogOut(const bool& checked)
 {
   if (checked) { qInstallMessageHandler(IcmaMessageHandler); }
   else { qInstallMessageHandler(nullptr); }
+}
+
+void MainWindow::doDaoRu()
+{
+  const QString directoryPath = QFileDialog::getExistingDirectory(
+    this, tr("选择文件夹"));
+  // 检查界面当前的视图模式
+  if (const int index = ui->stackedWidgetView->currentIndex(); index == 0) {
+    FilesDB::getAllFilesShowView(directoryPath, ui->tableView);
+    ui->tableView->setColumnWidth(0, 500); ///< 让名称列显示的更宽一些
+    ui->tableView->setTheSelectionModel(ui->tableView->selectionModel());
+    ui->tableView->initHeaderCustomMenu(ui->actionAutoFit,
+                                        ui->actionAutoFitColWidth,
+                                        ui->actionShowNameCol,
+                                        ui->actionShowPathCol,
+                                        ui->actionShowSizeCol,
+                                        ui->actionShowTypeCol,
+                                        ui->actionShowCreateDateCol,
+                                        ui->actionShowModifyDateCol,
+                                        ui->actionShowLastModDateCol,
+                                        ui->actionShowHashCol,
+                                        ui->actionShowEncrCol);
+  }
+  else if (index == 1) {
+    FilesDB::getAllFilesShowView(directoryPath, ui->listView);
+  }
+  else { FilesDB::getAllFilesShowView(directoryPath, ui->IconView, true); }
+}
+
+void MainWindow::showFileContextMenu()
+{
+  auto menu = std::make_unique<QMenu>();
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)
@@ -313,6 +422,13 @@ void MainWindow::savaIniConfig(const QString& closeMethod,
 {
   auto settings = iniManager::getIniSetting();
   const QString settingsPrefix = "Settings/";
+
+  // 窗口大小和位置保存
+  settings.setValue(settingsPrefix + "window-size",
+                    QStringList{
+                      QString::number(this->width()),
+                      QString::number(this->height())
+                    });
 
   // 基础设置保存
   const QMap<QString, bool> boolSettings{
@@ -376,6 +492,26 @@ void MainWindow::savaIniConfig(const QString& closeMethod,
   if (ui->actionDetailView->isChecked()) { viewMethod = "DetailView"; }
   else if (ui->actionIconView->isChecked()) { viewMethod = "IconView"; }
   settings.setValue(settingsPrefix + "view-method", viewMethod);
+
+  // 详细的列表视图中显示的列
+  settings.setValue(settingsPrefix + "actionShowNameCol",
+                    ui->actionShowNameCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowPathCol",
+                    ui->actionShowPathCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowSizeCol",
+                    ui->actionShowSizeCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowTypeCol",
+                    ui->actionShowTypeCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowCreateDateCol",
+                    ui->actionShowCreateDateCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowModifyDateCol",
+                    ui->actionShowModifyDateCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowLastModDateCol",
+                    ui->actionShowLastModDateCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowHashCol",
+                    ui->actionShowHashCol->isChecked());
+  settings.setValue(settingsPrefix + "actionShowEncrCol",
+                    ui->actionShowEncrCol->isChecked());
 }
 
 MainWindow::~MainWindow()

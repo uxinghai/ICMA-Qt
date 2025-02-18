@@ -29,8 +29,8 @@
 #include <QtWidgets/QToolButton>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
-#include "../src/Utils/Tools/NoWheelSlider.h"
-#include "../src/Widgets/photoShop/MyGraphicsView.h"
+#include "../src/Utils/BoostClass/MyGraphicsView.h"
+#include "../src/Utils/BoostClass/NoWheelSlider.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -131,7 +131,7 @@ public:
         PS->setFont(font);
         PS->setAcceptDrops(true);
         QIcon icon;
-        icon.addFile(QString::fromUtf8(":/icons/res/icons/logo/imgEditor.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QString::fromUtf8(":/ps/res/ps/ICMAPS_128x128.ico"), QSize(), QIcon::Normal, QIcon::Off);
         PS->setWindowIcon(icon);
         PS->setStyleSheet(QString::fromUtf8("\n"
 "        QPushButton {\n"
@@ -1058,7 +1058,7 @@ public:
 
         retranslateUi(PS);
 
-        toolBox->setCurrentIndex(0);
+        toolBox->setCurrentIndex(2);
         toolBox->layout()->setSpacing(4);
 
 

@@ -15,7 +15,6 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
-#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
@@ -27,10 +26,10 @@
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
-#include <QtWidgets/QTableView>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "../src/Utils/BoostClass/MyTableView.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -106,6 +105,17 @@ public:
     QAction *actionAboutQT;
     QAction *actionDark;
     QAction *actionLight;
+    QAction *actionShowNameCol;
+    QAction *actionShowPathCol;
+    QAction *actionShowSizeCol;
+    QAction *actionShowTypeCol;
+    QAction *actionShowCreateDateCol;
+    QAction *actionShowModifyDateCol;
+    QAction *actionShowLastModDateCol;
+    QAction *actionShowHashCol;
+    QAction *actionShowEncrCol;
+    QAction *actionAutoFit;
+    QAction *actionAutoFitColWidth;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QSplitter *splitter_2;
@@ -118,7 +128,7 @@ public:
     QStackedWidget *stackedWidgetView;
     QWidget *TableViewPage;
     QGridLayout *gridLayout_2;
-    QTableView *tableView;
+    MyTableView *tableView;
     QWidget *ListViewPage;
     QGridLayout *gridLayout_3;
     QListView *listView;
@@ -126,10 +136,6 @@ public:
     QGridLayout *gridLayout_4;
     QListView *IconView;
     QLabel *lbPreview;
-    QWidget *widget;
-    QGridLayout *gridLayout_5;
-    QGroupBox *GroupRecommand;
-    QGroupBox *GroupStatistical;
     QStatusBar *statusbar;
     QMenuBar *menubar;
     QMenu *menu;
@@ -384,23 +390,68 @@ public:
         QIcon icon2;
         icon2.addFile(QString::fromUtf8(":/qss/res/QSS/QSS_IMG/LightTheme.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionLight->setIcon(icon2);
+        actionShowNameCol = new QAction(MainWindow);
+        actionShowNameCol->setObjectName("actionShowNameCol");
+        actionShowNameCol->setCheckable(true);
+        actionShowNameCol->setMenuRole(QAction::NoRole);
+        actionShowPathCol = new QAction(MainWindow);
+        actionShowPathCol->setObjectName("actionShowPathCol");
+        actionShowPathCol->setCheckable(true);
+        actionShowPathCol->setMenuRole(QAction::NoRole);
+        actionShowSizeCol = new QAction(MainWindow);
+        actionShowSizeCol->setObjectName("actionShowSizeCol");
+        actionShowSizeCol->setCheckable(true);
+        actionShowSizeCol->setMenuRole(QAction::NoRole);
+        actionShowTypeCol = new QAction(MainWindow);
+        actionShowTypeCol->setObjectName("actionShowTypeCol");
+        actionShowTypeCol->setCheckable(true);
+        actionShowTypeCol->setMenuRole(QAction::NoRole);
+        actionShowCreateDateCol = new QAction(MainWindow);
+        actionShowCreateDateCol->setObjectName("actionShowCreateDateCol");
+        actionShowCreateDateCol->setCheckable(true);
+        actionShowCreateDateCol->setMenuRole(QAction::NoRole);
+        actionShowModifyDateCol = new QAction(MainWindow);
+        actionShowModifyDateCol->setObjectName("actionShowModifyDateCol");
+        actionShowModifyDateCol->setCheckable(true);
+        actionShowModifyDateCol->setMenuRole(QAction::NoRole);
+        actionShowLastModDateCol = new QAction(MainWindow);
+        actionShowLastModDateCol->setObjectName("actionShowLastModDateCol");
+        actionShowLastModDateCol->setCheckable(true);
+        actionShowLastModDateCol->setMenuRole(QAction::NoRole);
+        actionShowHashCol = new QAction(MainWindow);
+        actionShowHashCol->setObjectName("actionShowHashCol");
+        actionShowHashCol->setCheckable(true);
+        actionShowHashCol->setMenuRole(QAction::NoRole);
+        actionShowEncrCol = new QAction(MainWindow);
+        actionShowEncrCol->setObjectName("actionShowEncrCol");
+        actionShowEncrCol->setCheckable(true);
+        actionShowEncrCol->setMenuRole(QAction::NoRole);
+        actionAutoFit = new QAction(MainWindow);
+        actionAutoFit->setObjectName("actionAutoFit");
+        actionAutoFit->setMenuRole(QAction::NoRole);
+        actionAutoFitColWidth = new QAction(MainWindow);
+        actionAutoFitColWidth->setObjectName("actionAutoFitColWidth");
+        actionAutoFitColWidth->setMenuRole(QAction::NoRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setStyleSheet(QString::fromUtf8(""));
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setObjectName("gridLayout");
+        gridLayout->setVerticalSpacing(1);
+        gridLayout->setContentsMargins(0, 0, 0, 0);
         splitter_2 = new QSplitter(centralwidget);
         splitter_2->setObjectName("splitter_2");
         splitter_2->setOrientation(Qt::Horizontal);
         layoutWidget = new QWidget(splitter_2);
         layoutWidget->setObjectName("layoutWidget");
         verticalLayout = new QVBoxLayout(layoutWidget);
+        verticalLayout->setSpacing(3);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout = new QHBoxLayout();
-        horizontalLayout->setSpacing(3);
+        horizontalLayout->setSpacing(2);
         horizontalLayout->setObjectName("horizontalLayout");
-        horizontalLayout->setContentsMargins(0, -1, 0, 3);
+        horizontalLayout->setContentsMargins(3, 1, 3, 0);
         lineEdit = new QLineEdit(layoutWidget);
         lineEdit->setObjectName("lineEdit");
         lineEdit->setMinimumSize(QSize(0, 26));
@@ -443,9 +494,13 @@ public:
         gridLayout_2->setSpacing(0);
         gridLayout_2->setObjectName("gridLayout_2");
         gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        tableView = new QTableView(TableViewPage);
+        tableView = new MyTableView(TableViewPage);
         tableView->setObjectName("tableView");
         tableView->setFont(font);
+        tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
+        tableView->setShowGrid(false);
+        tableView->horizontalHeader()->setStretchLastSection(true);
+        tableView->verticalHeader()->setVisible(false);
 
         gridLayout_2->addWidget(tableView, 0, 0, 1, 1);
 
@@ -459,6 +514,8 @@ public:
         listView = new QListView(ListViewPage);
         listView->setObjectName("listView");
         listView->setFont(font);
+        listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        listView->setSelectionBehavior(QAbstractItemView::SelectRows);
 
         gridLayout_3->addWidget(listView, 0, 0, 1, 1);
 
@@ -471,6 +528,8 @@ public:
         gridLayout_4->setContentsMargins(0, 0, 0, 0);
         IconView = new QListView(IconViewPage);
         IconView->setObjectName("IconView");
+        IconView->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        IconView->setSelectionBehavior(QAbstractItemView::SelectRows);
         IconView->setViewMode(QListView::IconMode);
 
         gridLayout_4->addWidget(IconView, 0, 0, 1, 1);
@@ -487,28 +546,6 @@ public:
         verticalLayout->addWidget(splitter);
 
         splitter_2->addWidget(layoutWidget);
-        widget = new QWidget(splitter_2);
-        widget->setObjectName("widget");
-        widget->setContextMenuPolicy(Qt::NoContextMenu);
-        widget->setAutoFillBackground(false);
-        gridLayout_5 = new QGridLayout(widget);
-        gridLayout_5->setObjectName("gridLayout_5");
-        gridLayout_5->setHorizontalSpacing(0);
-        gridLayout_5->setVerticalSpacing(3);
-        gridLayout_5->setContentsMargins(0, 0, 0, 0);
-        GroupRecommand = new QGroupBox(widget);
-        GroupRecommand->setObjectName("GroupRecommand");
-        GroupRecommand->setAlignment(Qt::AlignCenter);
-
-        gridLayout_5->addWidget(GroupRecommand, 0, 0, 1, 1);
-
-        GroupStatistical = new QGroupBox(widget);
-        GroupStatistical->setObjectName("GroupStatistical");
-        GroupStatistical->setAlignment(Qt::AlignCenter);
-
-        gridLayout_5->addWidget(GroupStatistical, 1, 0, 1, 1);
-
-        splitter_2->addWidget(widget);
 
         gridLayout->addWidget(splitter_2, 0, 0, 1, 1);
 
@@ -822,6 +859,9 @@ public:
 #if QT_CONFIG(statustip)
         actionListView->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\210\227\350\241\250\345\275\242\345\274\217\346\230\276\347\244\272.", nullptr));
 #endif // QT_CONFIG(statustip)
+#if QT_CONFIG(shortcut)
+        actionListView->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Shift+1", nullptr));
+#endif // QT_CONFIG(shortcut)
         actionIconView->setText(QCoreApplication::translate("MainWindow", "\345\233\276\346\240\207\350\247\206\345\233\276", nullptr));
 #if QT_CONFIG(tooltip)
         actionIconView->setToolTip(QCoreApplication::translate("MainWindow", "\345\233\276\346\240\207\350\247\206\345\233\276", nullptr));
@@ -829,6 +869,9 @@ public:
 #if QT_CONFIG(statustip)
         actionIconView->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\345\233\276\346\240\207\345\275\242\345\274\217\346\230\276\347\244\272", nullptr));
 #endif // QT_CONFIG(statustip)
+#if QT_CONFIG(shortcut)
+        actionIconView->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Shift+2", nullptr));
+#endif // QT_CONFIG(shortcut)
         actionDetailView->setText(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
 #if QT_CONFIG(tooltip)
         actionDetailView->setToolTip(QCoreApplication::translate("MainWindow", "\350\257\246\347\273\206\344\277\241\346\201\257\350\247\206\345\233\276", nullptr));
@@ -836,6 +879,9 @@ public:
 #if QT_CONFIG(statustip)
         actionDetailView->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\233\264\350\257\246\347\273\206\347\232\204\344\277\241\346\201\257.", nullptr));
 #endif // QT_CONFIG(statustip)
+#if QT_CONFIG(shortcut)
+        actionDetailView->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Shift+6", nullptr));
+#endif // QT_CONFIG(shortcut)
         actionBigFont->setText(QCoreApplication::translate("MainWindow", "\345\242\236\345\244\247(&I)", nullptr));
 #if QT_CONFIG(statustip)
         actionBigFont->setStatusTip(QCoreApplication::translate("MainWindow", "\345\242\236\345\244\247\347\263\273\347\273\237\345\255\227\344\275\223\346\230\276\347\244\272.", nullptr));
@@ -945,6 +991,9 @@ public:
 #if QT_CONFIG(tooltip)
         actionRefresh->setToolTip(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260", nullptr));
 #endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        actionRefresh->setShortcut(QCoreApplication::translate("MainWindow", "F5", nullptr));
+#endif // QT_CONFIG(shortcut)
         actionAdvancedSearch->setText(QCoreApplication::translate("MainWindow", "\351\253\230\347\272\247\346\220\234\347\264\242", nullptr));
 #if QT_CONFIG(tooltip)
         actionAdvancedSearch->setToolTip(QCoreApplication::translate("MainWindow", "\351\253\230\347\272\247\346\220\234\347\264\242", nullptr));
@@ -1092,6 +1141,53 @@ public:
 #if QT_CONFIG(tooltip)
         actionLight->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250\346\265\205\350\211\262\344\270\273\351\242\230", nullptr));
 #endif // QT_CONFIG(tooltip)
+        actionShowNameCol->setText(QCoreApplication::translate("MainWindow", "\345\220\215\347\247\260", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowNameCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\345\220\215\347\247\260\345\210\227\345\206\205\345\256\271(\345\233\272\345\256\232\346\230\276\347\244\272).", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowPathCol->setText(QCoreApplication::translate("MainWindow", "\350\267\257\345\276\204", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowPathCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\350\267\257\345\276\204\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowSizeCol->setText(QCoreApplication::translate("MainWindow", "\345\244\247\345\260\217", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowSizeCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\345\244\247\345\260\217\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowTypeCol->setText(QCoreApplication::translate("MainWindow", "\347\261\273\345\236\213", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowTypeCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\347\261\273\345\236\213\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowCreateDateCol->setText(QCoreApplication::translate("MainWindow", "\345\210\233\345\273\272\346\227\266\351\227\264", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowCreateDateCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\345\210\233\345\273\272\346\227\266\351\227\264\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowModifyDateCol->setText(QCoreApplication::translate("MainWindow", "\344\277\256\346\224\271\346\227\266\351\227\264", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowModifyDateCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\344\277\256\346\224\271\346\227\266\351\227\264\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowLastModDateCol->setText(QCoreApplication::translate("MainWindow", "\346\234\200\350\277\221\344\277\256\346\224\271\346\227\266\351\227\264", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowLastModDateCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\346\234\200\350\277\221\344\277\256\346\224\271\346\227\266\351\227\264\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowHashCol->setText(QCoreApplication::translate("MainWindow", "\345\223\210\345\270\214\345\200\274", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowHashCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\345\223\210\345\270\214\345\200\274\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionShowEncrCol->setText(QCoreApplication::translate("MainWindow", "\346\230\257\345\220\246\345\212\240\345\257\206", nullptr));
+#if QT_CONFIG(tooltip)
+        actionShowEncrCol->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\226\207\344\273\266\346\230\257\345\220\246\345\212\240\345\257\206\345\210\227\345\206\205\345\256\271.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionAutoFit->setText(QCoreApplication::translate("MainWindow", "\350\207\252\351\200\202\345\272\224\346\240\217\347\233\256\345\244\247\345\260\217(&S)", nullptr));
+#if QT_CONFIG(tooltip)
+        actionAutoFit->setToolTip(QCoreApplication::translate("MainWindow", "\350\207\252\345\212\250\350\260\203\346\225\264\346\240\217\347\233\256\345\210\260\345\220\210\351\200\202\345\244\247\345\260\217.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionAutoFitColWidth->setText(QCoreApplication::translate("MainWindow", "\350\207\252\345\212\250\350\260\203\346\225\264\345\210\227\345\256\275(&W)", nullptr));
+#if QT_CONFIG(tooltip)
+        actionAutoFitColWidth->setToolTip(QCoreApplication::translate("MainWindow", "\350\207\252\345\212\250\350\260\203\346\225\264\345\210\227\345\256\275\345\210\260\345\220\210\351\200\202\347\232\204\345\244\247\345\260\217.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(shortcut)
+        actionAutoFitColWidth->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Shift+\\", nullptr));
+#endif // QT_CONFIG(shortcut)
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));
         comBoxFilter->setItemText(1, QCoreApplication::translate("MainWindow", "\351\237\263\351\242\221", nullptr));
@@ -1103,8 +1199,6 @@ public:
         comBoxFilter->setItemText(7, QCoreApplication::translate("MainWindow", "\350\247\206\351\242\221", nullptr));
 
         lbPreview->setText(QCoreApplication::translate("MainWindow", "\351\242\204\350\247\210\345\233\276", nullptr));
-        GroupRecommand->setTitle(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220", nullptr));
-        GroupStatistical->setTitle(QCoreApplication::translate("MainWindow", "\347\273\237\350\256\241\345\210\206\346\236\220", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266(&F)", nullptr));
         menu_2->setTitle(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221(&E)", nullptr));
         menu_6->setTitle(QCoreApplication::translate("MainWindow", "\350\257\255\350\250\200", nullptr));

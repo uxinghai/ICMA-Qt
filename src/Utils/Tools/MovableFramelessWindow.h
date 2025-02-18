@@ -34,7 +34,6 @@ protected:
       return;
     }
     if (event->button() & Qt::LeftButton) { pos = event->pos(); }
-    qDebug() << "按下：" << event->pos();
     QWidget::mousePressEvent(event);
   }
 
@@ -46,7 +45,6 @@ protected:
     }
     const auto newPos = event->pos() - pos;
     processWidget->move(this->x() + newPos.x(), this->y() + newPos.y());
-    qDebug() << "移动：" << newPos;
     QWidget::mouseMoveEvent(event);
   }
 
@@ -56,7 +54,6 @@ protected:
       event->ignore();
       return;
     }
-    qDebug() << "释放";
     QWidget::mouseReleaseEvent(event);
   }
 

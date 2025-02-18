@@ -13,11 +13,12 @@
 #include <QtGui/QAction>
 #include <QtGui/QIcon>
 #include <QtWidgets/QApplication>
-#include <QtWidgets/QFormLayout>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
@@ -29,260 +30,216 @@ QT_BEGIN_NAMESPACE
 class Ui_AClient
 {
 public:
-    QAction *actionSend;
-    QAction *actionDisConnect;
-    QAction *actionHelp;
-    QAction *actionAdd;
-    QAction *actionRemove;
-    QAction *actionClearList;
     QAction *actionConnect;
+    QAction *actionDisconnect;
+    QAction *actionAddFiles;
+    QAction *actionSend;
+    QAction *actionHelp;
+    QAction *actionRemoveFile;
+    QAction *actionClearList;
     QWidget *centralwidget;
-    QGridLayout *gridLayout;
-    QSplitter *splitter;
-    QWidget *layoutWidget;
+    QVBoxLayout *verticalLayout_3;
+    QSplitter *mainSplitter;
+    QWidget *fileListContainer;
     QVBoxLayout *verticalLayout;
-    QLabel *label;
-    QListWidget *FileListWidget;
-    QWidget *layoutWidget1;
+    QGroupBox *fileListGroup;
+    QVBoxLayout *verticalLayout_4;
+    QListWidget *fileListWidget;
+    QWidget *transferDetailsContainer;
     QVBoxLayout *verticalLayout_2;
-    QLabel *label_2;
-    QWidget *TransDetail;
-    QFormLayout *formLayout;
-    QLabel *lb1;
-    QLabel *lbStatus;
-    QLabel *lb2;
-    QLabel *lbCurFile;
-    QLabel *lb3;
-    QLabel *lbSize;
-    QLabel *lb4;
-    QLabel *lbSpeed;
-    QLabel *lb5;
-    QLabel *lbRemaingTime;
-    QStatusBar *statusbar;
+    QGroupBox *transferDetailsGroup;
+    QVBoxLayout *verticalLayout_5;
+    QWidget *detailsWidget;
+    QGridLayout *gridLayout;
+    QLabel *statusLabel;
+    QLabel *statusValue;
+    QLabel *currentFileLabel;
+    QLabel *currentFileValue;
+    QLabel *sizeLabel;
+    QLabel *sizeValue;
+    QLabel *speedLabel;
+    QLabel *speedValue;
+    QLabel *remainingTimeLabel;
+    QLabel *remainingTimeValue;
+    QProgressBar *progressBar;
     QToolBar *toolBar;
+    QStatusBar *statusBar;
 
     void setupUi(QMainWindow *AClient)
     {
         if (AClient->objectName().isEmpty())
             AClient->setObjectName("AClient");
-        AClient->resize(640, 450);
-        AClient->setMinimumSize(QSize(640, 450));
-        AClient->setMaximumSize(QSize(660, 450));
-        QFont font;
-        font.setPointSize(11);
-        AClient->setFont(font);
+        AClient->resize(800, 600);
+        AClient->setMinimumSize(QSize(800, 600));
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/transfer/res/transfer/fileTrans.png"), QSize(), QIcon::Normal, QIcon::Off);
         AClient->setWindowIcon(icon);
-        AClient->setStyleSheet(QString::fromUtf8("color: rgb(0, 0, 0);\n"
-"background-color: rgb(255, 255, 255);\n"
-""));
+        actionConnect = new QAction(AClient);
+        actionConnect->setObjectName("actionConnect");
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/transfer/res/transfer/Connect.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionConnect->setIcon(icon1);
+        actionDisconnect = new QAction(AClient);
+        actionDisconnect->setObjectName("actionDisconnect");
+        actionDisconnect->setEnabled(false);
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/transfer/res/transfer/disConnect.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionDisconnect->setIcon(icon2);
+        actionAddFiles = new QAction(AClient);
+        actionAddFiles->setObjectName("actionAddFiles");
+        actionAddFiles->setEnabled(true);
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/transfer/res/transfer/addFile.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionAddFiles->setIcon(icon3);
         actionSend = new QAction(AClient);
         actionSend->setObjectName("actionSend");
         actionSend->setEnabled(false);
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/transfer/res/transfer/tranStart.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionSend->setIcon(icon1);
-        actionSend->setFont(font);
-        actionSend->setMenuRole(QAction::MenuRole::NoRole);
-        actionDisConnect = new QAction(AClient);
-        actionDisConnect->setObjectName("actionDisConnect");
-        actionDisConnect->setEnabled(false);
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/transfer/res/transfer/disConnect.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionDisConnect->setIcon(icon2);
-        actionDisConnect->setFont(font);
-        actionDisConnect->setMenuRole(QAction::MenuRole::NoRole);
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/transfer/res/transfer/tranStart.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionSend->setIcon(icon4);
         actionHelp = new QAction(AClient);
         actionHelp->setObjectName("actionHelp");
-        QIcon icon3;
-        icon3.addFile(QString::fromUtf8(":/transfer/res/transfer/help.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionHelp->setIcon(icon3);
-        actionHelp->setFont(font);
-        actionHelp->setMenuRole(QAction::MenuRole::NoRole);
-        actionAdd = new QAction(AClient);
-        actionAdd->setObjectName("actionAdd");
-        actionAdd->setEnabled(false);
-        QIcon icon4;
-        icon4.addFile(QString::fromUtf8(":/transfer/res/transfer/addFile.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionAdd->setIcon(icon4);
-        actionAdd->setFont(font);
-        actionAdd->setMenuRole(QAction::MenuRole::NoRole);
-        actionRemove = new QAction(AClient);
-        actionRemove->setObjectName("actionRemove");
         QIcon icon5;
-        icon5.addFile(QString::fromUtf8(":/transfer/res/transfer/removeFileFromList.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionRemove->setIcon(icon5);
-        actionRemove->setMenuRole(QAction::MenuRole::NoRole);
+        icon5.addFile(QString::fromUtf8(":/transfer/res/transfer/help.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionHelp->setIcon(icon5);
+        actionRemoveFile = new QAction(AClient);
+        actionRemoveFile->setObjectName("actionRemoveFile");
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/transfer/res/transfer/removeFileFromList.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionRemoveFile->setIcon(icon6);
         actionClearList = new QAction(AClient);
         actionClearList->setObjectName("actionClearList");
-        QIcon icon6;
-        icon6.addFile(QString::fromUtf8(":/transfer/res/transfer/clearList.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionClearList->setIcon(icon6);
-        actionClearList->setMenuRole(QAction::MenuRole::NoRole);
-        actionConnect = new QAction(AClient);
-        actionConnect->setObjectName("actionConnect");
         QIcon icon7;
-        icon7.addFile(QString::fromUtf8(":/transfer/res/transfer/Connect.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionConnect->setIcon(icon7);
-        actionConnect->setFont(font);
-        actionConnect->setMenuRole(QAction::MenuRole::NoRole);
+        icon7.addFile(QString::fromUtf8(":/transfer/res/transfer/clearList.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionClearList->setIcon(icon7);
         centralwidget = new QWidget(AClient);
         centralwidget->setObjectName("centralwidget");
-        gridLayout = new QGridLayout(centralwidget);
-        gridLayout->setObjectName("gridLayout");
-        splitter = new QSplitter(centralwidget);
-        splitter->setObjectName("splitter");
-        splitter->setOrientation(Qt::Orientation::Horizontal);
-        layoutWidget = new QWidget(splitter);
-        layoutWidget->setObjectName("layoutWidget");
-        verticalLayout = new QVBoxLayout(layoutWidget);
-        verticalLayout->setSpacing(0);
+        verticalLayout_3 = new QVBoxLayout(centralwidget);
+        verticalLayout_3->setObjectName("verticalLayout_3");
+        mainSplitter = new QSplitter(centralwidget);
+        mainSplitter->setObjectName("mainSplitter");
+        mainSplitter->setOrientation(Qt::Horizontal);
+        fileListContainer = new QWidget(mainSplitter);
+        fileListContainer->setObjectName("fileListContainer");
+        verticalLayout = new QVBoxLayout(fileListContainer);
         verticalLayout->setObjectName("verticalLayout");
         verticalLayout->setContentsMargins(0, 0, 0, 0);
-        label = new QLabel(layoutWidget);
-        label->setObjectName("label");
-        label->setMaximumSize(QSize(16777215, 24));
-        QFont font1;
-        font1.setPointSize(11);
-        font1.setBold(true);
-        label->setFont(font1);
-        label->setStyleSheet(QString::fromUtf8(""));
-        label->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        fileListGroup = new QGroupBox(fileListContainer);
+        fileListGroup->setObjectName("fileListGroup");
+        verticalLayout_4 = new QVBoxLayout(fileListGroup);
+        verticalLayout_4->setObjectName("verticalLayout_4");
+        fileListWidget = new QListWidget(fileListGroup);
+        fileListWidget->setObjectName("fileListWidget");
+        fileListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+        fileListWidget->setDragEnabled(true);
+        fileListWidget->setDragDropMode(QAbstractItemView::DragDrop);
+        fileListWidget->setDefaultDropAction(Qt::CopyAction);
+        fileListWidget->setSelectionMode(QAbstractItemView::ExtendedSelection);
+        fileListWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
 
-        verticalLayout->addWidget(label);
+        verticalLayout_4->addWidget(fileListWidget);
 
-        FileListWidget = new QListWidget(layoutWidget);
-        FileListWidget->setObjectName("FileListWidget");
-        FileListWidget->setMaximumSize(QSize(350, 16777215));
-        FileListWidget->setContextMenuPolicy(Qt::ContextMenuPolicy::CustomContextMenu);
-        FileListWidget->setFrameShape(QFrame::Shape::NoFrame);
-        FileListWidget->setFrameShadow(QFrame::Shadow::Plain);
-        FileListWidget->setEditTriggers(QAbstractItemView::EditTrigger::NoEditTriggers);
-        FileListWidget->setDragEnabled(false);
-        FileListWidget->setDragDropMode(QAbstractItemView::DragDropMode::NoDragDrop);
-        FileListWidget->setDefaultDropAction(Qt::DropAction::IgnoreAction);
-        FileListWidget->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
-        FileListWidget->setSelectionBehavior(QAbstractItemView::SelectionBehavior::SelectRows);
-        FileListWidget->setProperty("isWrapping", QVariant(false));
 
-        verticalLayout->addWidget(FileListWidget);
+        verticalLayout->addWidget(fileListGroup);
 
-        splitter->addWidget(layoutWidget);
-        layoutWidget1 = new QWidget(splitter);
-        layoutWidget1->setObjectName("layoutWidget1");
-        verticalLayout_2 = new QVBoxLayout(layoutWidget1);
+        mainSplitter->addWidget(fileListContainer);
+        transferDetailsContainer = new QWidget(mainSplitter);
+        transferDetailsContainer->setObjectName("transferDetailsContainer");
+        verticalLayout_2 = new QVBoxLayout(transferDetailsContainer);
         verticalLayout_2->setObjectName("verticalLayout_2");
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);
-        label_2 = new QLabel(layoutWidget1);
-        label_2->setObjectName("label_2");
-        label_2->setMaximumSize(QSize(16777215, 24));
-        label_2->setFont(font1);
-        label_2->setStyleSheet(QString::fromUtf8(""));
-        label_2->setAlignment(Qt::AlignmentFlag::AlignCenter);
+        transferDetailsGroup = new QGroupBox(transferDetailsContainer);
+        transferDetailsGroup->setObjectName("transferDetailsGroup");
+        verticalLayout_5 = new QVBoxLayout(transferDetailsGroup);
+        verticalLayout_5->setObjectName("verticalLayout_5");
+        detailsWidget = new QWidget(transferDetailsGroup);
+        detailsWidget->setObjectName("detailsWidget");
+        gridLayout = new QGridLayout(detailsWidget);
+        gridLayout->setObjectName("gridLayout");
+        statusLabel = new QLabel(detailsWidget);
+        statusLabel->setObjectName("statusLabel");
 
-        verticalLayout_2->addWidget(label_2);
+        gridLayout->addWidget(statusLabel, 0, 0, 1, 1);
 
-        TransDetail = new QWidget(layoutWidget1);
-        TransDetail->setObjectName("TransDetail");
-        TransDetail->setMinimumSize(QSize(250, 0));
-        TransDetail->setStyleSheet(QString::fromUtf8("QWidget {\n"
-"    border: 1px solid;\n"
-"}\n"
-"\n"
-"QLabel {\n"
-"    border: none;  /* \347\241\256\344\277\235 QLabel \347\232\204\350\276\271\346\241\206\344\270\215\350\242\253\344\277\256\346\224\271 */\n"
-"}\n"
-""));
-        formLayout = new QFormLayout(TransDetail);
-        formLayout->setObjectName("formLayout");
-        formLayout->setSizeConstraint(QLayout::SizeConstraint::SetNoConstraint);
-        formLayout->setHorizontalSpacing(5);
-        formLayout->setVerticalSpacing(5);
-        formLayout->setContentsMargins(-1, -1, -1, 0);
-        lb1 = new QLabel(TransDetail);
-        lb1->setObjectName("lb1");
-        lb1->setFont(font);
+        statusValue = new QLabel(detailsWidget);
+        statusValue->setObjectName("statusValue");
 
-        formLayout->setWidget(0, QFormLayout::LabelRole, lb1);
+        gridLayout->addWidget(statusValue, 0, 1, 1, 1);
 
-        lbStatus = new QLabel(TransDetail);
-        lbStatus->setObjectName("lbStatus");
-        lbStatus->setFont(font);
+        currentFileLabel = new QLabel(detailsWidget);
+        currentFileLabel->setObjectName("currentFileLabel");
 
-        formLayout->setWidget(0, QFormLayout::FieldRole, lbStatus);
+        gridLayout->addWidget(currentFileLabel, 1, 0, 1, 1);
 
-        lb2 = new QLabel(TransDetail);
-        lb2->setObjectName("lb2");
-        lb2->setFont(font);
+        currentFileValue = new QLabel(detailsWidget);
+        currentFileValue->setObjectName("currentFileValue");
+        currentFileValue->setWordWrap(true);
 
-        formLayout->setWidget(1, QFormLayout::LabelRole, lb2);
+        gridLayout->addWidget(currentFileValue, 1, 1, 1, 1);
 
-        lbCurFile = new QLabel(TransDetail);
-        lbCurFile->setObjectName("lbCurFile");
-        lbCurFile->setFont(font);
+        sizeLabel = new QLabel(detailsWidget);
+        sizeLabel->setObjectName("sizeLabel");
 
-        formLayout->setWidget(1, QFormLayout::FieldRole, lbCurFile);
+        gridLayout->addWidget(sizeLabel, 2, 0, 1, 1);
 
-        lb3 = new QLabel(TransDetail);
-        lb3->setObjectName("lb3");
-        lb3->setFont(font);
+        sizeValue = new QLabel(detailsWidget);
+        sizeValue->setObjectName("sizeValue");
 
-        formLayout->setWidget(2, QFormLayout::LabelRole, lb3);
+        gridLayout->addWidget(sizeValue, 2, 1, 1, 1);
 
-        lbSize = new QLabel(TransDetail);
-        lbSize->setObjectName("lbSize");
-        lbSize->setFont(font);
+        speedLabel = new QLabel(detailsWidget);
+        speedLabel->setObjectName("speedLabel");
 
-        formLayout->setWidget(2, QFormLayout::FieldRole, lbSize);
+        gridLayout->addWidget(speedLabel, 3, 0, 1, 1);
 
-        lb4 = new QLabel(TransDetail);
-        lb4->setObjectName("lb4");
-        lb4->setFont(font);
+        speedValue = new QLabel(detailsWidget);
+        speedValue->setObjectName("speedValue");
 
-        formLayout->setWidget(3, QFormLayout::LabelRole, lb4);
+        gridLayout->addWidget(speedValue, 3, 1, 1, 1);
 
-        lbSpeed = new QLabel(TransDetail);
-        lbSpeed->setObjectName("lbSpeed");
-        lbSpeed->setFont(font);
+        remainingTimeLabel = new QLabel(detailsWidget);
+        remainingTimeLabel->setObjectName("remainingTimeLabel");
 
-        formLayout->setWidget(3, QFormLayout::FieldRole, lbSpeed);
+        gridLayout->addWidget(remainingTimeLabel, 4, 0, 1, 1);
 
-        lb5 = new QLabel(TransDetail);
-        lb5->setObjectName("lb5");
-        lb5->setFont(font);
+        remainingTimeValue = new QLabel(detailsWidget);
+        remainingTimeValue->setObjectName("remainingTimeValue");
 
-        formLayout->setWidget(4, QFormLayout::LabelRole, lb5);
+        gridLayout->addWidget(remainingTimeValue, 4, 1, 1, 1);
 
-        lbRemaingTime = new QLabel(TransDetail);
-        lbRemaingTime->setObjectName("lbRemaingTime");
-        lbRemaingTime->setFont(font);
+        progressBar = new QProgressBar(detailsWidget);
+        progressBar->setObjectName("progressBar");
+        progressBar->setValue(0);
 
-        formLayout->setWidget(4, QFormLayout::FieldRole, lbRemaingTime);
+        gridLayout->addWidget(progressBar, 5, 0, 1, 2);
 
 
-        verticalLayout_2->addWidget(TransDetail);
+        verticalLayout_5->addWidget(detailsWidget);
 
-        splitter->addWidget(layoutWidget1);
 
-        gridLayout->addWidget(splitter, 0, 0, 1, 1);
+        verticalLayout_2->addWidget(transferDetailsGroup);
+
+        mainSplitter->addWidget(transferDetailsContainer);
+
+        verticalLayout_3->addWidget(mainSplitter);
 
         AClient->setCentralWidget(centralwidget);
-        statusbar = new QStatusBar(AClient);
-        statusbar->setObjectName("statusbar");
-        AClient->setStatusBar(statusbar);
         toolBar = new QToolBar(AClient);
         toolBar->setObjectName("toolBar");
         toolBar->setMovable(false);
-        toolBar->setAllowedAreas(Qt::ToolBarArea::TopToolBarArea);
-        toolBar->setIconSize(QSize(25, 25));
-        toolBar->setToolButtonStyle(Qt::ToolButtonStyle::ToolButtonTextBesideIcon);
+        toolBar->setIconSize(QSize(24, 24));
+        toolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         AClient->addToolBar(Qt::TopToolBarArea, toolBar);
+        statusBar = new QStatusBar(AClient);
+        statusBar->setObjectName("statusBar");
+        AClient->setStatusBar(statusBar);
 
         toolBar->addAction(actionConnect);
-        toolBar->addAction(actionDisConnect);
-        toolBar->addAction(actionAdd);
+        toolBar->addAction(actionDisconnect);
+        toolBar->addSeparator();
+        toolBar->addAction(actionAddFiles);
         toolBar->addAction(actionSend);
+        toolBar->addSeparator();
         toolBar->addAction(actionHelp);
 
         retranslateUi(AClient);
@@ -292,42 +249,48 @@ public:
 
     void retranslateUi(QMainWindow *AClient)
     {
-        AClient->setWindowTitle(QCoreApplication::translate("AClient", "\345\217\221\351\200\201\346\226\271", nullptr));
+        AClient->setWindowTitle(QCoreApplication::translate("AClient", "\345\217\221\351\200\201\347\253\257", nullptr));
+        actionConnect->setText(QCoreApplication::translate("AClient", "\350\277\236\346\216\245", nullptr));
+#if QT_CONFIG(tooltip)
+        actionConnect->setToolTip(QCoreApplication::translate("AClient", "\350\277\236\346\216\245\345\210\260\346\216\245\346\224\266\346\226\271", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionDisconnect->setText(QCoreApplication::translate("AClient", "\346\226\255\345\274\200", nullptr));
+#if QT_CONFIG(tooltip)
+        actionDisconnect->setToolTip(QCoreApplication::translate("AClient", "\346\226\255\345\274\200\344\270\216\346\216\245\346\224\266\346\226\271\347\232\204\350\277\236\346\216\245", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionAddFiles->setText(QCoreApplication::translate("AClient", "\346\267\273\345\212\240\346\226\207\344\273\266", nullptr));
+#if QT_CONFIG(tooltip)
+        actionAddFiles->setToolTip(QCoreApplication::translate("AClient", "\346\267\273\345\212\240\346\226\207\344\273\266\345\210\260\345\217\221\351\200\201\345\210\227\350\241\250", nullptr));
+#endif // QT_CONFIG(tooltip)
         actionSend->setText(QCoreApplication::translate("AClient", "\345\217\221\351\200\201", nullptr));
 #if QT_CONFIG(tooltip)
-        actionSend->setToolTip(QCoreApplication::translate("AClient", "\345\274\200\345\247\213\345\217\221\351\200\201.", nullptr));
-#endif // QT_CONFIG(tooltip)
-        actionDisConnect->setText(QCoreApplication::translate("AClient", "\346\226\255\345\274\200", nullptr));
-#if QT_CONFIG(tooltip)
-        actionDisConnect->setToolTip(QCoreApplication::translate("AClient", "\346\226\255\345\274\200\344\270\216\346\216\245\346\224\266\346\226\271\347\232\204\350\277\236\346\216\245.", nullptr));
+        actionSend->setToolTip(QCoreApplication::translate("AClient", "\345\274\200\345\247\213\345\217\221\351\200\201\346\226\207\344\273\266", nullptr));
 #endif // QT_CONFIG(tooltip)
         actionHelp->setText(QCoreApplication::translate("AClient", "\345\270\256\345\212\251", nullptr));
 #if QT_CONFIG(tooltip)
-        actionHelp->setToolTip(QCoreApplication::translate("AClient", "\346\237\245\347\234\213\344\275\277\347\224\250\350\257\264\346\230\216.", nullptr));
+        actionHelp->setToolTip(QCoreApplication::translate("AClient", "\346\237\245\347\234\213\344\275\277\347\224\250\350\257\264\346\230\216", nullptr));
 #endif // QT_CONFIG(tooltip)
-        actionAdd->setText(QCoreApplication::translate("AClient", "\346\267\273\345\212\240\346\226\207\344\273\266", nullptr));
+        actionRemoveFile->setText(QCoreApplication::translate("AClient", "\347\247\273\351\231\244\346\226\207\344\273\266", nullptr));
 #if QT_CONFIG(tooltip)
-        actionAdd->setToolTip(QCoreApplication::translate("AClient", "\346\267\273\345\212\240\346\226\207\344\273\266\345\210\260\345\210\227\350\241\250.", nullptr));
+        actionRemoveFile->setToolTip(QCoreApplication::translate("AClient", "\344\273\216\345\210\227\350\241\250\344\270\255\347\247\273\351\231\244\351\200\211\344\270\255\347\232\204\346\226\207\344\273\266", nullptr));
 #endif // QT_CONFIG(tooltip)
-        actionRemove->setText(QCoreApplication::translate("AClient", "\347\247\273\351\231\244\350\277\231\346\235\241", nullptr));
         actionClearList->setText(QCoreApplication::translate("AClient", "\346\270\205\347\251\272\345\210\227\350\241\250", nullptr));
-        actionConnect->setText(QCoreApplication::translate("AClient", "\350\277\236\346\216\245", nullptr));
 #if QT_CONFIG(tooltip)
-        actionConnect->setToolTip(QCoreApplication::translate("AClient", "\350\277\236\346\216\245\345\210\260\346\216\245\346\224\266\346\226\271.", nullptr));
+        actionClearList->setToolTip(QCoreApplication::translate("AClient", "\346\270\205\347\251\272\346\226\207\344\273\266\345\210\227\350\241\250", nullptr));
 #endif // QT_CONFIG(tooltip)
-        label->setText(QCoreApplication::translate("AClient", "\346\226\207\344\273\266\345\210\227\350\241\250", nullptr));
-        label_2->setText(QCoreApplication::translate("AClient", "\344\274\240\350\276\223\350\257\246\346\203\205", nullptr));
-        lb1->setText(QCoreApplication::translate("AClient", "\347\212\266\346\200\201\357\274\232", nullptr));
-        lbStatus->setText(QCoreApplication::translate("AClient", "\347\255\211\345\276\205\344\270\255...", nullptr));
-        lb2->setText(QCoreApplication::translate("AClient", "\345\275\223\345\211\215\346\226\207\344\273\266\357\274\232", nullptr));
-        lbCurFile->setText(QCoreApplication::translate("AClient", "\347\255\211\345\276\205\344\270\255...", nullptr));
-        lb3->setText(QCoreApplication::translate("AClient", "\345\244\247\345\260\217\357\274\232", nullptr));
-        lbSize->setText(QCoreApplication::translate("AClient", "\347\255\211\345\276\205\344\270\255...", nullptr));
-        lb4->setText(QCoreApplication::translate("AClient", "\351\200\237\345\272\246\357\274\232", nullptr));
-        lbSpeed->setText(QCoreApplication::translate("AClient", "\347\255\211\345\276\205\344\270\255...", nullptr));
-        lb5->setText(QCoreApplication::translate("AClient", "\351\242\204\350\256\241\345\211\251\344\275\231\346\227\266\351\227\264\357\274\232", nullptr));
-        lbRemaingTime->setText(QCoreApplication::translate("AClient", "\347\255\211\345\276\205\344\270\255...", nullptr));
-        toolBar->setWindowTitle(QCoreApplication::translate("AClient", "toolBar", nullptr));
+        fileListGroup->setTitle(QCoreApplication::translate("AClient", "\346\226\207\344\273\266\345\210\227\350\241\250", nullptr));
+        transferDetailsGroup->setTitle(QCoreApplication::translate("AClient", "\344\274\240\350\276\223\350\257\246\346\203\205", nullptr));
+        statusLabel->setText(QCoreApplication::translate("AClient", "\347\212\266\346\200\201\357\274\232", nullptr));
+        statusValue->setText(QCoreApplication::translate("AClient", "\346\234\252\350\277\236\346\216\245", nullptr));
+        currentFileLabel->setText(QCoreApplication::translate("AClient", "\345\275\223\345\211\215\346\226\207\344\273\266\357\274\232", nullptr));
+        currentFileValue->setText(QCoreApplication::translate("AClient", "\346\227\240", nullptr));
+        sizeLabel->setText(QCoreApplication::translate("AClient", "\346\226\207\344\273\266\345\244\247\345\260\217\357\274\232", nullptr));
+        sizeValue->setText(QCoreApplication::translate("AClient", "0 B", nullptr));
+        speedLabel->setText(QCoreApplication::translate("AClient", "\344\274\240\350\276\223\351\200\237\345\272\246\357\274\232", nullptr));
+        speedValue->setText(QCoreApplication::translate("AClient", "0 B/s", nullptr));
+        remainingTimeLabel->setText(QCoreApplication::translate("AClient", "\345\211\251\344\275\231\346\227\266\351\227\264\357\274\232", nullptr));
+        remainingTimeValue->setText(QCoreApplication::translate("AClient", "--:--:--", nullptr));
+        toolBar->setWindowTitle(QCoreApplication::translate("AClient", "\345\267\245\345\205\267\346\240\217", nullptr));
     } // retranslateUi
 
 };

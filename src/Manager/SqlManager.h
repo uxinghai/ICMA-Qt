@@ -17,7 +17,10 @@
 #include <QMutex>
 #include <QSqlError>
 #include <QSqlQuery>
+#include <QThread>
 #include <QThreadStorage>
+
+#include "Config/iniManager.h"
 
 // 数据库文件路径亦即数据库名，在程序启动时调用的 initSqlConfig 中被赋值，后续全局可用
 inline QString dbFilePath; ///< 数据库文件路径

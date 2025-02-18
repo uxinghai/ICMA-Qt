@@ -22,8 +22,8 @@ class Ui_FileTrans
 {
 public:
     QHBoxLayout *horizontalLayout;
+    QPushButton *btnReceiver;
     QPushButton *btnSender;
-    QPushButton *btnReciver;
 
     void setupUi(QWidget *FileTrans)
     {
@@ -35,19 +35,32 @@ public:
         FileTrans->setWindowIcon(icon);
         horizontalLayout = new QHBoxLayout(FileTrans);
         horizontalLayout->setObjectName("horizontalLayout");
-        btnSender = new QPushButton(FileTrans);
-        btnSender->setObjectName("btnSender");
+        btnReceiver = new QPushButton(FileTrans);
+        btnReceiver->setObjectName("btnReceiver");
+        QSizePolicy sizePolicy(QSizePolicy::Policy::Fixed, QSizePolicy::Policy::Fixed);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(btnReceiver->sizePolicy().hasHeightForWidth());
+        btnReceiver->setSizePolicy(sizePolicy);
+        btnReceiver->setMinimumSize(QSize(130, 28));
+        btnReceiver->setMaximumSize(QSize(130, 28));
         QFont font;
         font.setPointSize(11);
+        btnReceiver->setFont(font);
+        btnReceiver->setStyleSheet(QString::fromUtf8(""));
+
+        horizontalLayout->addWidget(btnReceiver);
+
+        btnSender = new QPushButton(FileTrans);
+        btnSender->setObjectName("btnSender");
+        sizePolicy.setHeightForWidth(btnSender->sizePolicy().hasHeightForWidth());
+        btnSender->setSizePolicy(sizePolicy);
+        btnSender->setMinimumSize(QSize(130, 28));
+        btnSender->setMaximumSize(QSize(130, 28));
         btnSender->setFont(font);
+        btnSender->setStyleSheet(QString::fromUtf8(""));
 
         horizontalLayout->addWidget(btnSender);
-
-        btnReciver = new QPushButton(FileTrans);
-        btnReciver->setObjectName("btnReciver");
-        btnReciver->setFont(font);
-
-        horizontalLayout->addWidget(btnReciver);
 
 
         retranslateUi(FileTrans);
@@ -58,8 +71,8 @@ public:
     void retranslateUi(QWidget *FileTrans)
     {
         FileTrans->setWindowTitle(QCoreApplication::translate("FileTrans", "\344\274\240\350\276\223\345\212\251\346\211\213", nullptr));
+        btnReceiver->setText(QCoreApplication::translate("FileTrans", "\346\210\221\346\230\257\346\216\245\346\224\266\346\226\271", nullptr));
         btnSender->setText(QCoreApplication::translate("FileTrans", "\346\210\221\346\230\257\345\217\221\351\200\201\346\226\271", nullptr));
-        btnReciver->setText(QCoreApplication::translate("FileTrans", "\346\210\221\346\230\257\346\216\245\346\224\266\346\226\271", nullptr));
     } // retranslateUi
 
 };

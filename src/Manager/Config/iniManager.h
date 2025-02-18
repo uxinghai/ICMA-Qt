@@ -56,10 +56,11 @@ private:
                       QStringList{"Qt 6.0", "CMake 3.16"});
     settings.setValue("ICMA/contact", "uxinghaiwyi@163.com");
     // UI配置
+    settings.setValue("Settings/window-size", QStringList{});
     settings.setValue("Settings/theme-style",
                       ":/qss/res/QSS/MacOS.qss");
     settings.setValue("Settings/auto-run", false);
-    settings.setValue("Settings/close-method", "tray"); // directClose/tray
+    settings.setValue("Settings/close-method", "tray"); ///< directClose/tray
     settings.setValue("Settings/closeNoRequire", false);
     settings.setValue("Settings/enableFileLogging", true);
     settings.setValue("Settings/showHideFile", false);
@@ -77,6 +78,16 @@ private:
                       QStringList{"FilePath", "Asc"});
     settings.setValue("Settings/view-method", "DetailView");
     settings.setValue("Settings/lastBuildSqlTime", "");
+    // 详细的列表视图中显示的列
+    settings.setValue("Settings/actionShowNameCol", true);
+    settings.setValue("Settings/actionShowPathCol", true);
+    settings.setValue("Settings/actionShowSizeCol", true);
+    settings.setValue("Settings/actionShowTypeCol", false);
+    settings.setValue("Settings/actionShowCreateDateCol", false);
+    settings.setValue("Settings/actionShowModifyDateCol", true);
+    settings.setValue("Settings/actionShowLastModDateCol", true);
+    settings.setValue("Settings/actionShowHashCol", false);
+    settings.setValue("Settings/actionShowEncrCol", false);
     // 百度AI配置
     settings.setValue("BaiduAI/API_KEY", "AXpJSMWfCfUzd0omZJheU7QZ");
     settings.setValue("BaiduAI/SECRET_KEY", "TidB30gDa9QTdFIVqpjeN8ced15JMdmX");

@@ -31,163 +31,158 @@ class SystemTrayIcon final : public QObject {
 
 public:
   /**
-   * @brief 构造函数 - QWidget 版本
+   * @brief 构造函数
    * @param icon 托盘图标
    * @param widget 窗口指针
    * @param toolTip 鼠标悬停提示文本
    */
   explicit SystemTrayIcon(const QIcon& icon, QWidget* widget,
-                          const QString& toolTip);
+                          const QString& toolTip)
+    : trayIcon(new QSystemTrayIcon(icon, this))
+      , contextMenu(std::make_unique<QMenu>())
+  {
+    trayIcon->setToolTip(toolTip);
+    initializeActions();
+    createContextMenu();
+    setupConnections(widget);
+    trayIcon->setContextMenu(contextMenu.get());
+    trayIcon->show();
+  }
 
   /**
    * @brief 析构函数
    * @details 清理所有动态分配的资源
    */
-  ~SystemTrayIcon() override;
+  ~SystemTrayIcon() override
+  {
+    for (const auto& action : actions) {
+      // 测试是否被正确清理(退出系统时会正常清理)
+      // qDebug() << "清理动作:" << action->text();
+      // 测试完成
+      delete action;
+    }
+  }
 
-private:
+private
+:
   /**
    * @brief 初始化所有动作
    * @details 创建并存储所有菜单动作
    */
-  void initializeActions();
+  void initializeActions()
+  {
+    // 此处可以新增动作
+    const auto mainWindow = new QAction(QObject::tr("主窗口"));
+    const auto minimize = new QAction(QObject::tr("最小化"));
+    const auto restore = new QAction(QObject::tr("还原"));
+    const auto maximize = new QAction(QObject::tr("最大化"));
+    const auto about = new QAction(QObject::tr("关于"));
+    const auto update = new QAction(QObject::tr("检查更新"));
+    const auto settings = new QAction(QObject::tr("设置"));
+    const auto exit = new QAction(QObject::tr("退出"));
+
+    // 此处设置动作可视化
+    actionMap.insert(mainWindow, true);
+    actionMap.insert(minimize, false);
+    actionMap.insert(restore, false);
+    actionMap.insert(maximize, false);
+    actionMap.insert(about, true);
+    actionMap.insert(update, true);
+    actionMap.insert(settings, false);
+    actionMap.insert(exit, true);
+
+    // 转移所有权到 actions 容器 方便创建信号槽连接及清理
+    // 动作如果可视化被设置为 false 后续不会加入到 Menu，也就是说不会被 Menu管理内存
+    // 因此用一个容器保留它们，最后一起清理
+    actions.push_back(mainWindow);
+    actions.push_back(minimize);
+    actions.push_back(restore);
+    actions.push_back(maximize);
+    actions.push_back(about);
+    actions.push_back(update);
+    actions.push_back(settings);
+    actions.push_back(exit);
+  }
 
   /**
    * @brief 创建托盘的上下文菜单
    * @details 根据 actionMap 中的配置添加可见的菜单项
    */
-  void createContextMenu();
+  void createContextMenu()
+  {
+    for (const auto& action : actions) {
+      if (actionMap.value(action, false)) { contextMenu->addAction(action); }
+    }
+  }
 
   /**
-   * @brief 设置连接 - QWidget 版本
+   * @brief 设置连接
    * @details 连接托盘图标的信号和槽函数
    */
-  void setupConnections(QWidget* widget);
+  void setupConnections(QWidget* widget)
+  {
+    connect(trayIcon, &QSystemTrayIcon::activated,
+            [widget](const QSystemTrayIcon::ActivationReason reason) {
+              switch (reason) {
+              // 监听图标是否被单击或者双击
+              case QSystemTrayIcon::Trigger:
+              case QSystemTrayIcon::DoubleClick: if (widget->isHidden()) {
+                  widget->show();
+                }
+                if (widget->isMinimized()) { widget->showNormal(); }
+                break;
+              default: break;
+              }
+            });
+
+    // 为每个动作连接相应的槽函数
+    for (const auto& action : actions) {
+      if (action == actions[0]) { ///< mainWindowAction
+        connect(action, &QAction::triggered,
+                [widget] {
+                  if (widget->isHidden()) { widget->show(); }
+                  if (widget->isMinimized()) { widget->showNormal(); }
+                });
+      }
+      else if (action == actions[1]) { ///< minimizeAction
+        connect(action, &QAction::triggered,
+                [widget] { widget->showMinimized(); });
+      }
+      else if (action == actions[2]) { ///< restoreAction
+        connect(action, &QAction::triggered,
+                [widget] { widget->showNormal(); });
+      }
+      else if (action == actions[3]) { ///< maximizeAction
+        connect(action, &QAction::triggered,
+                [widget] { widget->showMaximized(); });
+      }
+
+      /*
+      // 以下两个方法需要根据系统不同而自定义(没有通用标准)
+       else if (action == actions[4]) { // aboutAction
+         connect(action, &QAction::triggered,
+                 [widget]() { widget->showAboutDialog(); });
+       }
+       else if (action == actions[5]) { // updateAction
+         connect(action, &QAction::triggered,
+                 [widget]() { widget->showUpdateDialog(); });
+       }
+       else if (action == actions[6]) { // settingsAction
+         connect(action, &QAction::triggered,
+                 [widget]() { widget->showSettingsDialog(); });
+       }*/
+      else if (action == actions[7]) { // exitAction
+        connect(action, &QAction::triggered, [] { qApp->exit(); });
+      }
+    }
+
+    // 托盘气泡提示被点击
+    connect(trayIcon, &QSystemTrayIcon::messageClicked,
+            [widget] { widget->show(); });
+  }
 
   QSystemTrayIcon* trayIcon;          ///< 托盘图标对象指针
   std::unique_ptr<QMenu> contextMenu; ///< 托盘菜单指针
   std::vector<QAction*> actions;      ///< 存储所有动作的容器
   QHash<QAction*, bool> actionMap;    ///< 动作可视性映射
 };
-
-//                        *********
-//                         *******
-//                          *****
-//                           ***
-//                            *
-//                        方法实现
-inline SystemTrayIcon::SystemTrayIcon(const QIcon& icon,
-                                      QWidget* widget,
-                                      const QString& toolTip = "")
-  : trayIcon(new QSystemTrayIcon(icon, this))
-    , contextMenu(std::make_unique<QMenu>())
-{
-  trayIcon->setToolTip(toolTip);
-  initializeActions();
-  createContextMenu();
-  setupConnections(widget);
-  trayIcon->setContextMenu(contextMenu.get());
-  trayIcon->show();
-}
-
-inline void SystemTrayIcon::initializeActions()
-{
-  // 此处可以新增动作
-  const auto mainWindow = new QAction(QObject::tr("主窗口"));
-  const auto minimize = new QAction(QObject::tr("最小化"));
-  const auto restore = new QAction(QObject::tr("还原"));
-  const auto maximize = new QAction(QObject::tr("最大化"));
-  const auto about = new QAction(QObject::tr("关于"));
-  const auto update = new QAction(QObject::tr("检查更新"));
-  const auto settings = new QAction(QObject::tr("设置"));
-  const auto exit = new QAction(QObject::tr("退出"));
-
-  // 此处设置动作可视化
-  actionMap.insert(mainWindow, true);
-  actionMap.insert(minimize, false);
-  actionMap.insert(restore, false);
-  actionMap.insert(maximize, false);
-  actionMap.insert(about, true);
-  actionMap.insert(update, true);
-  actionMap.insert(settings, false);
-  actionMap.insert(exit, true);
-
-  // 转移所有权到 actions 容器 方便创建信号槽连接及清理
-  // 动作如果可视化被设置为 false 后续不会加入到 Menu，也就是说不会被 Menu管理内存
-  // 因此用一个容器保留它们，最后一起清理
-  actions.push_back(mainWindow);
-  actions.push_back(minimize);
-  actions.push_back(restore);
-  actions.push_back(maximize);
-  actions.push_back(about);
-  actions.push_back(update);
-  actions.push_back(settings);
-  actions.push_back(exit);
-}
-
-inline void SystemTrayIcon::createContextMenu()
-{
-  for (const auto& action : actions) {
-    if (actionMap.value(action, false)) { contextMenu->addAction(action); }
-  }
-}
-
-inline void SystemTrayIcon::setupConnections(QWidget* widget)
-{
-  // Widget 版本的连接实现，类似于 QMainWindow 版本
-  connect(trayIcon, &QSystemTrayIcon::activated,
-          [widget](const QSystemTrayIcon::ActivationReason reason) {
-            switch (reason) {
-            case QSystemTrayIcon::Trigger:
-            case QSystemTrayIcon::DoubleClick: widget->show();
-              break;
-            default: break;
-            }
-          });
-
-  // 为每个动作连接相应的槽函数
-  for (const auto& action : actions) {
-    if (action == actions[0]) { // mainWindowAction
-      connect(action, &QAction::triggered,
-              [widget]() { widget->show(); });
-    }
-    else if (action == actions[1]) { // minimizeAction
-      connect(action, &QAction::triggered,
-              [widget]() { widget->showMinimized(); });
-    }
-    else if (action == actions[2]) { // restoreAction
-      connect(action, &QAction::triggered,
-              [widget]() { widget->showNormal(); });
-    }
-    else if (action == actions[3]) { // maximizeAction
-      connect(action, &QAction::triggered,
-              [widget]() { widget->showMaximized(); });
-    }
-    // 以下两个方法需要根据系统不同而自定义(没有通用标准)
-    // else if (action == actions[4]) { // aboutAction
-    //   connect(action, &QAction::triggered,
-    //           [widget]() { widget->showAboutDialog(); });
-    // }
-    // else if (action == actions[5]) { // updateAction
-    //   connect(action, &QAction::triggered,
-    //           [widget]() { widget->showUpdateDialog(); });
-    // }
-    // else if (action == actions[6]) { // settingsAction
-    //   connect(action, &QAction::triggered,
-    //           [widget]() { widget->showSettingsDialog(); });
-    // }
-    else if (action == actions[7]) { // exitAction
-      connect(action, &QAction::triggered, []() { qApp->exit(); });
-    }
-  }
-}
-
-inline SystemTrayIcon::~SystemTrayIcon()
-{
-  for (const auto& action : actions) {
-    // 测试是否被正确清理(退出系统时会正常清理)
-    // qDebug() << "清理动作:" << action->text();
-    // 测试完成
-    delete action;
-  }
-}
