@@ -24,6 +24,7 @@
 #include "../../Utils/ThreadWorkers/File/FilesDBWorker.h"
 #include "../../Utils/Tools/CustomQueryModel.h"
 #include "../../Utils/Tools/DataUnitCalc.h"
+#include "../../Utils/Tools/IconTextDelegate.h"
 #include "Directory.h"
 
 struct FileInfo {
@@ -322,16 +323,30 @@ public:
     }
 
     QSqlQuery query(*db);
+    QString normalizedPath = QDir::fromNativeSeparators(directoryPath);
 
-    // 找出在指定目录下有重复的哈希值
+    // 确保路径以 / 结尾
+    if (!normalizedPath.endsWith('/')) { normalizedPath += '/'; }
+
+    // 构建SQL查询
     QString sql =
       "WITH DirectoryFiles AS ("
       "    SELECT md5_hash "
       "    FROM Files "
-      "    WHERE file_path LIKE ? ";
+      "    WHERE ";
 
-    // 处理是否包含子目录
-    if (!recursive) { sql += "    AND file_path NOT LIKE ? "; }
+    if (recursive) {
+      // 递归模式：匹配目录本身和所有子目录
+      sql += "file_path LIKE ? OR file_path = ? ";
+    }
+    else {
+      // 非递归模式：只匹配当前目录，不包括子目录
+      sql += "(file_path LIKE ? AND "
+        "file_path NOT LIKE ? AND "
+        "LENGTH(REPLACE(file_path, ?, '')) - LENGTH(REPLACE(file_path, '/', '')) = "
+        "LENGTH(REPLACE(?, ?, '')) - LENGTH(REPLACE(?, '/', '')) + 1) "
+        "OR file_path = ? ";
+    }
 
     sql +=
       "    GROUP BY md5_hash "
@@ -347,14 +362,25 @@ public:
     query.prepare(sql);
 
     // 绑定参数
-    query.addBindValue(directoryPath + "/%"); ///< LIKE 匹配当前目录下的文件
-    if (!recursive) {
-      query.addBindValue(directoryPath + "/%/%"); ///< NOT LIKE 排除子目录
+    if (recursive) {
+      query.addBindValue(normalizedPath + "%");      // 匹配所有子目录
+      query.addBindValue(normalizedPath.chopped(1)); // 匹配目录本身
+    }
+    else {
+      query.addBindValue(normalizedPath + "%");   // LIKE 匹配当前目录下的文件
+      query.addBindValue(normalizedPath + "%/%"); // NOT LIKE 排除子目录
+      query.addBindValue("/");                    // 用于计算路径深度
+      query.addBindValue(normalizedPath);
+      query.addBindValue("/");
+      query.addBindValue(normalizedPath);
+      query.addBindValue(normalizedPath.chopped(1)); // 匹配目录本身
     }
 
     if (!query.exec()) {
       qWarning() << "Failed to get files with same hash:"
-        << query.lastError().text();
+        << query.lastError().text()
+        << "\nQuery:" << query.lastQuery()
+        << "\nPath:" << normalizedPath;
       return {};
     }
 
@@ -443,6 +469,9 @@ public:
     // 设置新模型
     auto* queryModel = getAllFilesInDir(dirPath);
     view->setModel(queryModel);
+
+    // 给第0列自定义委托用于绘制图标
+    view->setItemDelegateForColumn(0, new IconTextDelegate(view));
   }
 
   static void getAllFilesShowView(const QString& dirPath, QListView* view,
@@ -486,25 +515,6 @@ public:
     view->setModel(queryModel);
   }
 
-private:
-  static FileInfo createFileInfo(const QString& fileAbsPath)
-  {
-    const QFileInfo fileInfo(fileAbsPath);
-    return FileInfo{
-      fileInfo.fileName(),
-      fileInfo.absolutePath(),
-      fileAbsPath,
-      fileInfo.size(),
-      fileInfo.suffix(),
-      fileInfo.birthTime().toString("yyyy/MM/dd hh:mm"),
-      fileInfo.lastModified().toString("yyyy/MM/dd hh:mm"),
-      fileInfo.lastRead().toString("yyyy/MM/dd hh:mm"),
-      getHashByAbsPath(fileAbsPath),
-      false,
-      ":/suffixes/res/suffix/" + fileInfo.suffix().toLower() + ".png"
-    };
-  }
-
   /**
    * @brief 获取所有文件信息
    * @param dirPath 目录路径
@@ -536,7 +546,8 @@ private:
       "creation_date     AS '创建时间', "
       "modification_date AS '修改时间', "
       "last_access_date  AS '最近修改时间', "
-      "md5_hash          AS 'MD5值', "
+      "md5_hash          AS '哈希值', "
+      "icon_path          AS '图标路径', "
       "CASE "
       "    WHEN is_encrypted = 0 THEN '否' "
       "    ELSE '是' "
@@ -553,5 +564,24 @@ private:
 
     queryModel->setQuery(std::move(query));
     return queryModel;
+  }
+
+private:
+  static FileInfo createFileInfo(const QString& fileAbsPath)
+  {
+    const QFileInfo fileInfo(fileAbsPath);
+    return FileInfo{
+      fileInfo.fileName(),
+      fileInfo.absolutePath(),
+      fileAbsPath,
+      fileInfo.size(),
+      fileInfo.suffix(),
+      fileInfo.birthTime().toString("yyyy/MM/dd hh:mm"),
+      fileInfo.lastModified().toString("yyyy/MM/dd hh:mm"),
+      fileInfo.lastRead().toString("yyyy/MM/dd hh:mm"),
+      getHashByAbsPath(fileAbsPath),
+      false,
+      ":/suffixes/res/suffix/" + fileInfo.suffix().toLower() + ".png"
+    };
   }
 };

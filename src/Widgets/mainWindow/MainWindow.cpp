@@ -3,6 +3,7 @@
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QStandardItemModel>
 
 #include "../../../UI/ui_MainWindow.h"
 #include "../../DataBase/SqlQuery/Files.h"
@@ -369,7 +370,10 @@ void MainWindow::doDaoRu()
 
 void MainWindow::showFileContextMenu()
 {
-  auto menu = std::make_unique<QMenu>();
+  const auto menu = std::make_unique<QMenu>();
+  // TODO: 加入更多动作项并监听信号
+  menu->addAction(ui->actionRefresh);
+  menu->exec(QCursor::pos());
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

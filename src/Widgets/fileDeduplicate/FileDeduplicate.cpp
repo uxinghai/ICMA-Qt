@@ -6,7 +6,6 @@
 
 #include "../../../UI/ui_FileDeduplication.h"
 #include "../../DataBase/SqlQuery/Files.h"
-#include "../../Utils/ThreadWorkers/File/FilesDBWorker.h"
 #include "../../Utils/Tools/DataUnitCalc.h"
 
 FileDeduplicate::FileDeduplicate(QWidget* parent)
@@ -14,11 +13,7 @@ FileDeduplicate::FileDeduplicate(QWidget* parent)
 {
   ui->setupUi(this);
   setupConnections();
-  init();
-}
 
-void FileDeduplicate::init()
-{
   ui->progressBar->setValue(0);
   ui->btnDelete->setEnabled(false);
   setHandCkStateChange(false);
@@ -61,7 +56,19 @@ void FileDeduplicate::setupConnections()
       selectionModel->select(
         index, QItemSelectionModel::Toggle | QItemSelectionModel::Rows);
     }
-  });  
+  });
+
+  // 关于项
+  connect(ui->actionAbout, &QAction::triggered, this,
+          [] {
+            QMessageBox::about(nullptr, tr("关于"),
+                               tr(
+                                 "文件去重工具\n版本：1.0.0\n作者：uxinghai\n"
+                                 "邮箱：chenmingyang@qq.com\n"));
+          });
+
+  // 退出项
+  connect(ui->actionExit, &QAction::triggered, this, &QWidget::close);
 }
 
 void FileDeduplicate::updateProgressBar(const int current,
@@ -90,12 +97,9 @@ FileDeduplicate::DeleteResult FileDeduplicate::executeFileDeletion(
 
 void FileDeduplicate::showDeleteResult(const DeleteResult& result)
 {
-  QMessageBox::information(
-    this,
-    tr("删除完成"),
-    tr("成功删除 %1 个文件，失败 %2 个文件。")
-    .arg(result.successCount)
-    .arg(result.totalFiles - result.successCount)
+  QMessageBox::information(this, tr("删除完成"),
+                           tr("成功删除 %1 个文件，失败 %2 个文件。").arg(result.successCount)
+                           .arg(result.totalFiles - result.successCount)
   );
 }
 
@@ -145,12 +149,10 @@ bool FileDeduplicate::confirmDeletion(const int fileCount)
                             ? tr("确定要删除选中的文件吗？此操作不可恢复！")
                             : tr("确定要删除 %1 个重复文件吗？此操作不可恢复！").arg(fileCount);
 
-  return QMessageBox::question(
-    this,
-    tr("确认删除"),
-    message,
-    QMessageBox::Yes | QMessageBox::No
-  ) == QMessageBox::Yes;
+  return QMessageBox::question(this, tr("确认删除"),
+                               message,
+                               QMessageBox::Yes | QMessageBox::No) ==
+    QMessageBox::Yes;
 }
 
 void FileDeduplicate::doBrowseDirectory()
@@ -172,20 +174,19 @@ void FileDeduplicate::doScanDirectory()
   }
 
   setUIEnabled(false);
-  ui->progressBar->setValue(30);
 
   const bool recursive = ui->subfolderCheck->isChecked();
   QCoreApplication::processEvents();
 
+  // 不使用 FilesDBWorker 来扫描即不在此处操作数据库了
   // 使用QtConcurrent进行异步扫描
-  QFuture<void> future = QtConcurrent::run([this, recursive]() {
-    FilesDBWorker::doScanDirectory(directoryPath, recursive);
-  });
+  // QFuture<void> future = QtConcurrent::run([this, recursive]() {
+  //   FilesDBWorker::doScanDirectory(directoryPath, recursive);
+  // });
 
   // 等待扫描完成
-  future.waitForFinished();
+  //future.waitForFinished();
 
-  ui->progressBar->setValue(90);
   getDeduplicationFiles(directoryPath, recursive);
   setUIEnabled(true);
 }
@@ -274,8 +275,10 @@ void FileDeduplicate::getDeduplicationFiles(const QString& directoryPath,
   ui->resultTable->setRowCount(0);
   ui->resultTable->setRowCount(files.size());
   ui->resultTable->horizontalHeader()->setStretchLastSection(true);
+
+  ui->progressBar->setRange(0, 100);
   for (int i = 0; i < files.size(); ++i) {
-    ui->progressBar->setValue(i % 10 + 90);
+    ui->progressBar->setValue(i % 100);
 
     QList items = {
       new QTableWidgetItem(files[i].fileName),
@@ -285,6 +288,7 @@ void FileDeduplicate::getDeduplicationFiles(const QString& directoryPath,
       new QTableWidgetItem(files[i].md5Value)
     };
 
+    // 所有项不可被编辑
     for (int j = 0; j < items.size(); ++j) {
       items[j]->setFlags(items[j]->flags() & ~Qt::ItemIsEditable); ///< 设置不可编辑
       ui->resultTable->setItem(i, j, items[j]);

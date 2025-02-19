@@ -8,7 +8,6 @@
 #include <QMediaDevices>
 #include <QPainter>
 #include <QThreadPool>
-#include <QTimer>
 
 #include "../../../../UI/ui_FaceTest.h"
 #include "../../../Network/AIDoFaceDetect.h"

@@ -116,6 +116,7 @@ set(PROJECT_SOURCES
         src/Utils/Tools/DataUnitCalc.h
         src/Utils/Tools/CustomQueryModel.h
         src/Utils/BoostClass/MyTableView.h
+        src/Utils/Tools/IconTextDelegate.h
 )
 
 #                                            *********

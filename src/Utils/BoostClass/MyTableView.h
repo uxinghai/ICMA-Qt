@@ -101,7 +101,7 @@ public:
         hash, 7, settings.value("Settings/" + hash->objectName()).toBool(), true
       },
       {
-        isEncrypt, 8,
+        isEncrypt, 9,
         settings.value("Settings/" + isEncrypt->objectName()).toBool(), true
       }
     };
@@ -119,6 +119,7 @@ public:
         });
       }
     }
+    this->setColumnHidden(8, true); ///< 图标路径永久隐藏
 
     // 表头右键菜单
     connect(this->horizontalHeader(), &QHeaderView::customContextMenuRequested,
@@ -164,12 +165,12 @@ public:
     };
 
     // 连接自适应动作
-    connect(fit, &QAction::triggered,
-            [handleResizeMode] {
-              handleResizeMode(QHeaderView::ResizeToContents);
-            });
-    connect(fitCol, &QAction::triggered,
-            [handleResizeMode] { handleResizeMode(QHeaderView::Stretch); });
+    connect(fit, &QAction::triggered, [handleResizeMode] {
+      handleResizeMode(QHeaderView::ResizeToContents);
+    });
+    connect(fitCol, &QAction::triggered, [handleResizeMode] {
+      handleResizeMode(QHeaderView::Stretch);
+    });
   }
 
   ~MyTableView() override = default;

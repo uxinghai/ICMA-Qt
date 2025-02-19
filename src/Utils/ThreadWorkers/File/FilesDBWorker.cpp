@@ -50,10 +50,7 @@ namespace
 
 bool FilesDBWorker::doFullScan(SplashScreen* splash_pram) const
 {
-  if (!splash_pram) {
-    qWarning() << "启动画面指针为空";
-    return false;
-  }
+  if (!splash_pram) { return false; }
 
   splash_pram->showMessage(QObject::tr("首次加载需要较长时间"));
 
@@ -125,7 +122,7 @@ void FilesDBWorker::doDirectory(const QString& dirPath)
   try {
     for (auto filePath : QDir(dirPath).entryList(
            QDir::Files | QDir::NoDotAndDotDot)) {
-      filesBatch << QDir(dirPath).filePath(filePath);///< 是绝对完整路径
+      filesBatch << QDir(dirPath).filePath(filePath); ///< 是绝对完整路径
       if (filesBatch.size() >= BATCH_SIZE) {
         processBatch(filesBatch, FilesDB::autoInsert);
       }
@@ -246,7 +243,7 @@ void FilesDBWorker::doScanDirectory(const QString& directoryPath,
 {
   // 收集要处理的目录列表
   QStringList pendingDirs = {directoryPath};
-  if (recursive) {
+  if (recursive) { ///< 如果想要递归扫描子目录
     QDirIterator it(directoryPath, QDir::Dirs | QDir::NoDotAndDotDot,
                     QDirIterator::Subdirectories);
     while (it.hasNext()) {
@@ -260,7 +257,7 @@ void FilesDBWorker::doScanDirectory(const QString& directoryPath,
 
   // 并行处理目录
   QList<QFuture<void>> futures;
-  const int threadCount = QThread::idealThreadCount() - 1; // 保留一个线程给UI
+  const int threadCount = QThread::idealThreadCount() - 1; ///< 保留一个线程给UI
 
   for (int i = 0; i < pendingDirs.size(); i += DIRS_PER_THREAD) {
     auto batch = pendingDirs.mid(i, DIRS_PER_THREAD);
