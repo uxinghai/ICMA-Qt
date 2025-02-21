@@ -15,7 +15,7 @@
 #include <QDir>
 #include <QSettings>
 
-extern QString icmaRootDirPath; ///< 别删！
+extern QString icmaRootDirPath;
 inline QString staticIniFilePath;
 
 class iniManager final : public QObject {
@@ -45,6 +45,8 @@ private:
     if (QFile::exists(iniFilePath)) { return; }
     QSettings settings(iniFilePath, QSettings::IniFormat); ///< 如果路径下没有文件会自动生成
     // 系统信息
+    settings.setValue("ICMA/applicationName", QString());
+    settings.setValue("ICMA/applicationPath", QString());
     settings.setValue("ICMA/version", "1.0.1011");
     settings.setValue("ICMA/author", "uxinghai");
     settings.setValue("ICMA/description",
@@ -77,7 +79,7 @@ private:
     settings.setValue("Settings/sort-method",
                       QStringList{"FilePath", "Asc"});
     settings.setValue("Settings/view-method", "DetailView");
-    settings.setValue("Settings/lastBuildSqlTime", "");
+    settings.setValue("Settings/lastBuildSqlTime", QDate());
     // 详细的列表视图中显示的列
     settings.setValue("Settings/actionShowNameCol", true);
     settings.setValue("Settings/actionShowPathCol", true);
@@ -91,7 +93,7 @@ private:
     // 百度AI配置
     settings.setValue("BaiduAI/API_KEY", "AXpJSMWfCfUzd0omZJheU7QZ");
     settings.setValue("BaiduAI/SECRET_KEY", "TidB30gDa9QTdFIVqpjeN8ced15JMdmX");
-    settings.setValue("BaiduAI/TOKEN", "");
+    settings.setValue("BaiduAI/TOKEN", QString());
     settings.setValue("BaiduAI/LastGetTokenTime", QDate());
   }
 

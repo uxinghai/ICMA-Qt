@@ -246,7 +246,7 @@ public:
         QIcon icon3;
         icon3.addFile(QString::fromUtf8(":/ps/res/ps/CloseEye.png"), QSize(), QIcon::Normal, QIcon::Off);
         btnComparison->setIcon(icon3);
-        btnComparison->setCheckable(true);
+        btnComparison->setCheckable(false);
         btnComparison->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
         btnComparison->setAutoRaise(true);
 
@@ -470,7 +470,7 @@ public:
         toolBox->setFrameShadow(QFrame::Plain);
         crop = new QWidget();
         crop->setObjectName("crop");
-        crop->setGeometry(QRect(0, 0, 301, 220));
+        crop->setGeometry(QRect(0, 0, 207, 195));
         gridLayout_3 = new QGridLayout(crop);
         gridLayout_3->setObjectName("gridLayout_3");
         gridLayout_3->setHorizontalSpacing(0);
@@ -544,7 +544,7 @@ public:
         toolBox->addItem(crop, icon7, QString::fromUtf8("\350\243\201\345\211\252"));
         size = new QWidget();
         size->setObjectName("size");
-        size->setGeometry(QRect(0, 0, 301, 233));
+        size->setGeometry(QRect(0, 0, 147, 225));
         gridLayout_10 = new QGridLayout(size);
         gridLayout_10->setObjectName("gridLayout_10");
         gridLayout_10->setHorizontalSpacing(0);
@@ -621,7 +621,7 @@ public:
         toolBox->addItem(size, icon8, QString::fromUtf8("\346\224\271\345\260\272\345\257\270"));
         adjust = new QWidget();
         adjust->setObjectName("adjust");
-        adjust->setGeometry(QRect(0, 0, 301, 204));
+        adjust->setGeometry(QRect(0, 0, 147, 204));
         adjust->setStyleSheet(QString::fromUtf8(""));
         gridLayout_17 = new QGridLayout(adjust);
         gridLayout_17->setSpacing(0);
@@ -801,7 +801,7 @@ public:
         toolBox->addItem(adjust, icon9, QString::fromUtf8("\350\260\203\346\225\264"));
         rota = new QWidget();
         rota->setObjectName("rota");
-        rota->setGeometry(QRect(0, 0, 301, 82));
+        rota->setGeometry(QRect(0, 0, 176, 82));
         gridLayout = new QGridLayout(rota);
         gridLayout->setObjectName("gridLayout");
         gridLayout->setHorizontalSpacing(0);
@@ -903,7 +903,7 @@ public:
         toolBox->addItem(rota, icon14, QString::fromUtf8("\346\227\213\350\275\254\345\217\230\346\215\242"));
         Filter = new QWidget();
         Filter->setObjectName("Filter");
-        Filter->setGeometry(QRect(0, 0, 301, 192));
+        Filter->setGeometry(QRect(0, 0, 158, 175));
         gridLayout_5 = new QGridLayout(Filter);
         gridLayout_5->setSpacing(0);
         gridLayout_5->setObjectName("gridLayout_5");
@@ -945,7 +945,7 @@ public:
         toolBox->addItem(Filter, icon15, QString::fromUtf8("\347\211\271\346\225\210\346\273\244\351\225\234"));
         algorithm = new QWidget();
         algorithm->setObjectName("algorithm");
-        algorithm->setGeometry(QRect(0, 0, 301, 83));
+        algorithm->setGeometry(QRect(0, 0, 164, 83));
         gridLayout_4 = new QGridLayout(algorithm);
         gridLayout_4->setObjectName("gridLayout_4");
         gridLayout_4->setHorizontalSpacing(0);
@@ -1008,7 +1008,7 @@ public:
         toolBox->addItem(algorithm, icon16, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
         AITool = new QWidget();
         AITool->setObjectName("AITool");
-        AITool->setGeometry(QRect(0, 0, 301, 192));
+        AITool->setGeometry(QRect(0, 0, 147, 192));
         gridLayout_8 = new QGridLayout(AITool);
         gridLayout_8->setSpacing(0);
         gridLayout_8->setObjectName("gridLayout_8");
@@ -1030,7 +1030,7 @@ public:
         toolBox->addItem(AITool, icon17, QString::fromUtf8("AI\345\267\245\345\205\267"));
         otherTool = new QWidget();
         otherTool->setObjectName("otherTool");
-        otherTool->setGeometry(QRect(0, 0, 301, 192));
+        otherTool->setGeometry(QRect(0, 0, 147, 192));
         gridLayout_11 = new QGridLayout(otherTool);
         gridLayout_11->setSpacing(0);
         gridLayout_11->setObjectName("gridLayout_11");

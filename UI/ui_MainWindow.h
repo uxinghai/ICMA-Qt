@@ -499,6 +499,7 @@ public:
         tableView->setFont(font);
         tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
         tableView->setShowGrid(false);
+        tableView->setSortingEnabled(true);
         tableView->horizontalHeader()->setStretchLastSection(true);
         tableView->verticalHeader()->setVisible(false);
 

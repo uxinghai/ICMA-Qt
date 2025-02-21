@@ -3,6 +3,7 @@
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProgressBar>
 #include <QStandardItemModel>
 
 #include "../../../UI/ui_MainWindow.h"
@@ -24,10 +25,16 @@ MainWindow::MainWindow(QWidget* parent)
   : QMainWindow(parent), ui(new Ui::MainWindow),
     lbStatus(new QLabel(this)),
     icmaTrayIcon(std::make_unique<SystemTrayIcon>(
-      QIcon(":/icons/res/icons/logo/logo64.ico"), this, "ICMA"))
+      QIcon(":/icons/res/icons/logo/logo64.ico"), this, "ICMA")),
+    progress(new QProgressBar(this))
 {
   ui->setupUi(this);
-
+  ui->statusbar->addWidget(lbStatus);
+  ui->statusbar->addWidget(progress);
+  progress->setRange(0, 100);
+  progress->setMaximumHeight(25);
+  progress->setMaximumWidth(this->width());
+  progress->setVisible(false);
   setupConnections();
 }
 
@@ -133,6 +140,62 @@ void MainWindow::setupConnections()
               showFileContextMenu(); ///< 显示名称列上下文菜单
             }
           });
+
+  // 自定义的信号
+  connect(ui->tableView, &MyTableView::lbStatusModify,
+          [this](const QString& modText) {
+            if (modText == "NULL") {
+              lbStatus->setText(tr("%1 个对象").arg(filesCountResult));
+            }
+            else { lbStatus->setText(modText); }
+          });
+
+  connect(ui->actionAutoRun, &QAction::triggered, this,
+          &MainWindow::autoRunSystem);
+
+  connect(&watcher, &QFutureWatcher<qint32>::progressRangeChanged,
+          progress, &QProgressBar::setRange); ///< 范围更新
+  connect(&watcher, &QFutureWatcher<qint32>::progressValueChanged,
+          progress, &QProgressBar::setValue); ///< 进度值更新
+  connect(&watcher, &QFutureWatcher<qint32>::finished, [this] {
+    filesCountResult = future.result();
+    lbStatus->setText(tr("%1 个对象").arg(filesCountResult));
+    progress->setVisible(false);
+
+    // 检查界面当前的视图模式
+    if (const int index = ui->stackedWidgetView->currentIndex();
+      index == 0) {
+      FilesDB::getAllFilesShowView(daoRuDirectoryFile, ui->tableView);
+      qDebug() << "导入路径:" << daoRuDirectoryFile;
+      ui->tableView->setColumnWidth(0, 500); ///< 让名称列显示的更宽一些
+      ui->tableView->setTheSelectionModel(
+        ui->tableView->selectionModel()); ///< 自定义存储到selectionModel用于监听
+      ui->tableView->initHeaderCustomMenu(ui->actionAutoFit,
+                                          ui->actionAutoFitColWidth,
+                                          ui->actionShowNameCol,
+                                          ui->actionShowPathCol,
+                                          ui->actionShowSizeCol,
+                                          ui->actionShowTypeCol,
+                                          ui->actionShowCreateDateCol,
+                                          ui->actionShowModifyDateCol,
+                                          ui->actionShowLastModDateCol,
+                                          ui->actionShowHashCol,
+                                          ui->actionShowEncrCol);
+    }
+    else if (index == 1) {
+      FilesDB::getAllFilesShowView(daoRuDirectoryFile, ui->listView);
+    }
+    else {
+      FilesDB::getAllFilesShowView(daoRuDirectoryFile, ui->IconView,
+                                   true);
+    }
+
+    this->setEnabled(true);
+  });
+
+
+  // 搜索文件
+  connect(ui->lineEdit, &QLineEdit::textChanged,this,&MainWindow::doSearchFile);
 }
 
 // 初始化界面
@@ -195,11 +258,23 @@ void MainWindow::doChangeTheme() const
   setting.setValue("Settings/theme-style", qssPath);
 }
 
+void MainWindow::doSearchFile(const QString& term)
+{
+  // TODO: 搜索数据库 返回对应词条内容,支持正则表达式输入
+}
+
 void MainWindow::readIniConfig()
 {
+  QSettings Settings = iniManager::getIniSetting();
+
+  // 程序启动时写入两个系统信息
+  Settings.setValue("ICMA/applicationName",
+                    QCoreApplication::applicationName());
+  Settings.setValue("ICMA/applicationPath",
+                    QCoreApplication::applicationFilePath());
+
+  // 以下是读取 ini， 修改UI及Action的选中情况
   const QString settingsPrefix = "Settings/";
-  // 修改UI及Action的选中情况
-  const auto Settings = iniManager::getIniSetting();
   QStringList pos = Settings.value(
     settingsPrefix + "window-size").toStringList();
   if (pos.length() == 2) { this->resize(pos[0].toInt(), pos[1].toInt()); }
@@ -326,8 +401,8 @@ void MainWindow::doShowICMABrief()
   auto* okButton = new QPushButton(tr("OK"));
   connect(okButton, &QPushButton::clicked, &aboutBox, &QDialog::accept);
 
-  buttonLayout->addStretch();        // 左侧留空
-  buttonLayout->addWidget(okButton); // 按钮靠右
+  buttonLayout->addStretch();        ///< 左侧留空
+  buttonLayout->addWidget(okButton); ///< 按钮靠右
   subLayout->addLayout(buttonLayout);
   mainLayout->addLayout(subLayout);
   // 设置对话框的主布局
@@ -341,31 +416,47 @@ void MainWindow::doEnableLogOut(const bool& checked)
   else { qInstallMessageHandler(nullptr); }
 }
 
+qint32 MainWindow::doFilesInDirectory(const QString& path) const
+{
+  QDir::Filters filter = QDir::Files;
+  if (ui->actionShowHideFile->isChecked()) { filter |= QDir::NoDotAndDotDot; }
+
+  qsizetype count = 0; ///< 记录当前目录下的文件数
+  QDirIterator it(path, filter, QDirIterator::Subdirectories);
+
+  static QMutex mutex;
+  QMutexLocker locker(&mutex); ///< 线程安全保护
+  QStringList directoryFilesPath;
+  while (it.hasNext()) {
+    it.next();
+    // 写入数据库
+    directoryFilesPath << it.fileInfo().absoluteFilePath();
+    ++count;
+  }
+  FilesDB::autoInsert(directoryFilesPath);
+  return count;
+}
+
 void MainWindow::doDaoRu()
 {
-  const QString directoryPath = QFileDialog::getExistingDirectory(
+  daoRuDirectoryFile = QFileDialog::getExistingDirectory(
     this, tr("选择文件夹"));
-  // 检查界面当前的视图模式
-  if (const int index = ui->stackedWidgetView->currentIndex(); index == 0) {
-    FilesDB::getAllFilesShowView(directoryPath, ui->tableView);
-    ui->tableView->setColumnWidth(0, 500); ///< 让名称列显示的更宽一些
-    ui->tableView->setTheSelectionModel(ui->tableView->selectionModel());
-    ui->tableView->initHeaderCustomMenu(ui->actionAutoFit,
-                                        ui->actionAutoFitColWidth,
-                                        ui->actionShowNameCol,
-                                        ui->actionShowPathCol,
-                                        ui->actionShowSizeCol,
-                                        ui->actionShowTypeCol,
-                                        ui->actionShowCreateDateCol,
-                                        ui->actionShowModifyDateCol,
-                                        ui->actionShowLastModDateCol,
-                                        ui->actionShowHashCol,
-                                        ui->actionShowEncrCol);
-  }
-  else if (index == 1) {
-    FilesDB::getAllFilesShowView(directoryPath, ui->listView);
-  }
-  else { FilesDB::getAllFilesShowView(directoryPath, ui->IconView, true); }
+  if (daoRuDirectoryFile.isEmpty()) return;
+
+  QStringList tempListPath{daoRuDirectoryFile}; ///< 只有1个 用于 mappedReduced 首个参数
+  future = mappedReduced(
+    tempListPath,
+    [this](const QString& path) { return this->doFilesInDirectory(path); },
+    // 绑定 this
+    [](qint32& result, const qint32& intermediateResult) {
+      result += intermediateResult;
+    },
+    QtConcurrent::UnorderedReduce | QtConcurrent::SequentialReduce
+  );
+
+  progress->setVisible(true);
+  watcher.setFuture(future);
+  this->setEnabled(false); ///< 冻结窗口不可用
 }
 
 void MainWindow::showFileContextMenu()

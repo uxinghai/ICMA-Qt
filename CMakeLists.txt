@@ -114,7 +114,7 @@ set(PROJECT_SOURCES
         src/Widgets/fileDeduplicate/FileDeduplicate.h
         src/Widgets/fileDeduplicate/FileDeduplicate.cpp
         src/Utils/Tools/DataUnitCalc.h
-        src/Utils/Tools/CustomQueryModel.h
+        src/Utils/Tools/MyQueryModel.h
         src/Utils/BoostClass/MyTableView.h
         src/Utils/Tools/IconTextDelegate.h
 )

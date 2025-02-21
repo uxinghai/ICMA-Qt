@@ -239,7 +239,7 @@
          <normaloff>:/ps/res/ps/CloseEye.png</normaloff>:/ps/res/ps/CloseEye.png</iconset>
        </property>
        <property name="checkable">
-        <bool>true</bool>
+        <bool>false</bool>
        </property>
        <property name="toolButtonStyle">
         <enum>Qt::ToolButtonTextBesideIcon</enum>
@@ -619,8 +619,8 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
-            <height>220</height>
+            <width>207</width>
+            <height>195</height>
            </rect>
           </property>
           <attribute name="icon">
@@ -818,8 +818,8 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
-            <height>233</height>
+            <width>147</width>
+            <height>225</height>
            </rect>
           </property>
           <attribute name="icon">
@@ -1025,7 +1025,7 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
+            <width>147</width>
             <height>204</height>
            </rect>
           </property>
@@ -1471,7 +1471,7 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
+            <width>176</width>
             <height>82</height>
            </rect>
           </property>
@@ -1727,8 +1727,8 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
-            <height>192</height>
+            <width>158</width>
+            <height>175</height>
            </rect>
           </property>
           <attribute name="icon">
@@ -1861,7 +1861,7 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
+            <width>164</width>
             <height>83</height>
            </rect>
           </property>
@@ -1995,7 +1995,7 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
+            <width>147</width>
             <height>192</height>
            </rect>
           </property>
@@ -2062,7 +2062,7 @@ QRadioButton::indicator:checked {
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>301</width>
+            <width>147</width>
             <height>192</height>
            </rect>
           </property>

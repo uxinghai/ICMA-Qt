@@ -13,19 +13,15 @@
 #include <QDateTime>
 #include <QFileInfo>
 #include <QListView>
+#include <QHeaderView>
 #include <QMap>
-#include <QSqlError>
-#include <QSqlQuery>
-#include <QSqlQueryModel>
 #include <QTableView>
-#include <QListView>
-#include <QTabWidget>
 
-#include "../../Utils/ThreadWorkers/File/FilesDBWorker.h"
-#include "../../Utils/Tools/CustomQueryModel.h"
-#include "../../Utils/Tools/DataUnitCalc.h"
+#include "../../Utils/Tools/MyQueryModel.h"
 #include "../../Utils/Tools/IconTextDelegate.h"
 #include "Directory.h"
+
+class MyQueryModel;
 
 struct FileInfo {
   QString fileName;
@@ -467,9 +463,12 @@ public:
     }
 
     // 设置新模型
-    auto* queryModel = getAllFilesInDir(dirPath);
+    MyQueryModel* queryModel = getAllFilesInDir(dirPath);
     view->setModel(queryModel);
-
+    // 表头右键菜单
+    QObject::connect(view->horizontalHeader(),
+                     &QHeaderView::sortIndicatorChanged,
+                     queryModel, &MyQueryModel::sort);
     // 给第0列自定义委托用于绘制图标
     view->setItemDelegateForColumn(0, new IconTextDelegate(view));
   }
@@ -519,20 +518,23 @@ public:
    * @brief 获取所有文件信息
    * @param dirPath 目录路径
    */
-  static QSqlQueryModel* getAllFilesInDir(const QString& dirPath)
+  static MyQueryModel* getAllFilesInDir(const QString& dirPath)
   {
-    auto* queryModel = new CustomQueryModel();
+    auto* myQueryModel = new MyQueryModel();
 
     if (dirPath.isEmpty()) {
       qWarning() << "Directory path is empty";
-      return queryModel;
+      return myQueryModel;
     }
 
     // 获取数据库连接
-    const auto db = SqlManager::instance().getDatabase();
-    if (!db) {
-      qWarning() << "Failed to get database connection";
-      return queryModel;
+    const QSqlDatabase* db = SqlManager::instance().getDatabase().get();
+    if (!db->isValid() || !db->isOpen()) {
+      qWarning() << "Database is not open. Trying to reconnect...";
+      if (!db->isOpen()) { // 重新尝试打开数据库
+        qWarning() << "Failed to reopen database!";
+        return myQueryModel;
+      }
     }
 
     // 构造查询
@@ -559,11 +561,11 @@ public:
     if (!query.exec()) {
       qWarning() << "Failed to get files in directory:"
         << dirPath << "Error:" << query.lastError().text();
-      return queryModel;
+      return myQueryModel;
     }
 
-    queryModel->setQuery(std::move(query));
-    return queryModel;
+    myQueryModel->setQuery(std::move(query));
+    return myQueryModel;
   }
 
 private:

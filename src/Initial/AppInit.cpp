@@ -44,15 +44,15 @@ bool AppInit::sysFileDBInit() const
   // 以下多线程版本系统文件写入数据库还有些问题。数据库作为共享资源出现了被争抢
   // const auto* fileDbWorker = new FilesDBWorker();
   // const auto ICMA = iniManager::getIniSetting();
+  //
+  // // 检查是否为首次加载
   // const auto lastBuildSqlTime =
   //   ICMA.value("Settings/lastBuildSqlTime").toString();
   // if (!lastBuildSqlTime.isEmpty()) {
-  //   // 非首次加载则进行增量扫描
   //   return fileDbWorker->doIncrementalScan(splash.get());
   // }
-  // // 首次加载进行全盘扫描
   // return fileDbWorker->doFullScan(splash.get());
-  //
+
   return true;
 }
 

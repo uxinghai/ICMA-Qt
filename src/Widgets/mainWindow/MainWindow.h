@@ -14,11 +14,14 @@
  */
 #pragma once
 
+#include <QFutureWatcher>
 #include <QLabel>
 #include <QMainWindow>
 #include <QMenu>
-#include <QSettings>
 
+#include "../../Manager/Config/iniManager.h"
+
+class QProgressBar;
 QT_BEGIN_NAMESPACE
 class SystemTrayIcon;
 
@@ -63,6 +66,27 @@ private slots:
   void doDaoRu();
   void showFileContextMenu();
 
+  qint32 doFilesInDirectory(const QString& path) const;
+
+  /**
+  * @brief 设置系统自启动功能
+  * @param isAutoRun 是否启用自启动
+  */
+  static void autoRunSystem(const bool isAutoRun)
+  {
+    QSettings regedit(
+      "HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Run",
+      QSettings::NativeFormat);
+    QSettings settings = iniManager::getIniSetting();
+    const QString appName = settings.value("ICMA/applicationName").toString();
+    const QString appPath = settings.value("ICMA/applicationPath").toString();
+    settings.setValue("ICMA/applicationPath", QString());
+    if (isAutoRun) { regedit.setValue(appName, appPath); }
+    else { regedit.remove(appName); }
+  }
+
+  void doSearchFile(const QString& term);
+
 private:
   // 配置文件操作
   void readIniConfig(); ///< 程序启动时读取文件配置界面
@@ -71,26 +95,14 @@ private:
 
   void setupConnections();
 
-  /**
-   * @brief 设置系统自启动功能
-   * @param isAutoRun 是否启用自启动
-   * @param ApplicationName 应用程序名称
-   * @param ApplicationPath 应用程序路径
-   */
-  static void autoRunSystem(const bool isAutoRun,
-                            const QString& ApplicationName,
-                            const QString& ApplicationPath)
-  {
-    QSettings regedit(R"(HKEY_CURRENT_USER\Software\
-                            Microsoft\Windows\CurrentVersion\Run)",
-                      QSettings::NativeFormat);
-    if (isAutoRun) { regedit.setValue(ApplicationName, ApplicationPath); }
-    else { regedit.remove(ApplicationName); }
-  }
-
   Ui::MainWindow* ui;
   QLabel* lbStatus; ///< 状态栏显示的标签
   QString filePath; ///< 保存文件路径，用于 Windows 右键菜单操作时动态更新
-
+  QString daoRuDirectoryFile; ///< 使用导入功能需要显示的目录
   std::unique_ptr<SystemTrayIcon> icmaTrayIcon; ///< 系统托盘图标
+
+  QFutureWatcher<qint32> watcher;
+  qint32 filesCountResult;
+  QFuture<qint32> future;
+  QProgressBar* progress;
 };

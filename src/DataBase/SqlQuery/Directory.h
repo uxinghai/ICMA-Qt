@@ -12,7 +12,6 @@
 
 #include <QFileInfo>
 #include <QVariant>
-#include <QCryptographicHash>
 
 #include "../../Manager/SqlManager.h"
 
@@ -54,10 +53,7 @@ public:
     const QFileInfo dirInfo(dirPath);
 
     // 如果文件记录已经存在直接返回
-    if (getDirectoryId(dirInfo.absolutePath()) != -1) {
-      //qDebug() << "信息记录已经存在！" << dirInfo.absolutePath();
-      return true;
-    }
+    if (getDirectoryId(dirInfo.absolutePath()) != -1) { return true; }
 
     // 处理根目录和普通目录
     const QString name =
@@ -118,10 +114,7 @@ public:
       "icon_path = excluded.icon_path;"
     );
 
-    if (!db->transaction()) {
-      qWarning() << "Failed to begin transaction";
-      return false;
-    }
+    if (!db->transaction()) { return false; } ///< 无法开启事务直接返回
 
     bool success = true;
     try {

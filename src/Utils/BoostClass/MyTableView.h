@@ -22,6 +22,7 @@
 #include <QWidget>
 
 #include "../../Manager/Config/iniManager.h"
+#include "../Tools/MyQueryModel.h"
 
 class MyTableView final : public QTableView {
   Q_OBJECT
@@ -48,8 +49,16 @@ public:
     connect(selectModel, &QItemSelectionModel::selectionChanged,
             [this](const QItemSelection& selected,
                    const QItemSelection&) {
+              // 清除除了第0列的选中
               for (const QModelIndex& index : selected.indexes()) {
-                if (index.column() != 0) { selectModel->clear(); }
+                if (index.column() != 0) {
+                  selectModel->clear();
+                  emit lbStatusModify("NULL");
+                }
+                else {
+                  emit lbStatusModify(index.sibling(index.row(), 1)
+                                           .data().toString());
+                }
               }
             });
   }
@@ -121,7 +130,6 @@ public:
     }
     this->setColumnHidden(8, true); ///< 图标路径永久隐藏
 
-    // 表头右键菜单
     connect(this->horizontalHeader(), &QHeaderView::customContextMenuRequested,
             [this, fit, fitCol, columnActions] { ///< columnActions不能引用捕获
               const auto menu = std::make_unique<QMenu>();
@@ -174,6 +182,9 @@ public:
   }
 
   ~MyTableView() override = default;
+
+signals:
+  void lbStatusModify(const QString& modText);
 
 protected:
   /**

@@ -33,13 +33,16 @@ public:
   // 增量扫描
   bool doIncrementalScan(SplashScreen* splash_pram) const;
 
-  // 提供外部访问
-  static void doScanDirectory(const QString& directoryPath, bool recursive = false);
+  // 扫描并调用doDirectory处理目录下的所有文件
+  static void doScanDirectory(const QString& directoryPath,
+                              bool recursive = false);
+  // 获取文件的哈希值
   static QVariant getFileHashValue(const QString& filePath);
 
 private:
   static void updateLastBuildSqlTime();
 
+  // 处理单个目录下的所有文件
   static void doDirectory(const QString& dirPath);
 
   static void doIncrementalBatch(const QStringList& dirs,

@@ -332,7 +332,7 @@ void PS::doImageOpen()
   pixFilePath = QFileDialog::getOpenFileName(this, tr("打开图片"), "../", filter);
   if (pixFilePath.isEmpty()) { return; }
 
-  // 加载图像并检查
+  // 加载图像
   cv::Mat mat = cv::imread(pixFilePath.toLocal8Bit().toStdString(), 1);
   if (mat.empty()) {
     QMessageBox::warning(this, tr("错误"), tr("无法加载图片文件！"));
@@ -352,6 +352,7 @@ void PS::doImageOpen()
 
   // 显示图像到 UI，并更新状态
   showImgToUi(srcMat);
+  historyPixmap.clear();
   pushToHistory(srcMat);         ///< 存入历史记录
   updateUIState(true);           ///< 更新按钮状态
   ui->toolBox->setEnabled(true); ///< 启用工具栏
@@ -402,7 +403,9 @@ void PS::dropEvent(QDropEvent* event)
     updateUIFromInfo(srcMat.second);
 
     // 更新历史记录和工具栏状态
+    historyPixmap.clear();
     pushToHistory(srcMat);
+    updateUIState(true);
     ui->toolBox->setEnabled(true);
 
     // 更新文件路径
@@ -434,6 +437,11 @@ void PS::doUndo()
 
 void PS::doReset()
 {
+  if (historyPixmap.size() == 1) {
+    QMessageBox::information(this, tr("提示"),
+                             tr("还原失败，因为您还没有进行任何修改！"));
+    return;
+  }
   if (const auto button = QMessageBox::warning(this, tr("警告"),
                                                tr("确定要还原所有修改吗？"),
                                                QMessageBox::Yes |
@@ -480,8 +488,8 @@ void PS::doResizeChange(const int row)
 void PS::doAdjust()
 {
   // 有时候真不是想额外添加代码，但真找不到内在错误，只能解决表象上的错误了...
-  if (processedMat.empty()) { processedMat = srcMat.first; }
-  // 以上方法不想用
+  //if (processedMat.empty()) { processedMat = srcMat.first; }
+
   const cv::Mat mat = Adjust::adjustMat(processedMat,
                                         ui->spinBoxBrightness->value(),
                                         ui->spinBoxContrast->value(),
@@ -555,7 +563,7 @@ void PS::setupFilterConnections()
     ](QListWidget* list, auto filterFunc, bool isFilter1) {
     connect(list, &QListWidget::currentRowChanged,
             [this, filterFunc, isFilter1](const int row) {
-              if (processedMat.empty()) { processedMat = srcMat.first; }
+              //if (processedMat.empty()) { processedMat = srcMat.first; }
               // 使对应的列表项被选中
               if (isFilter1) {
                 curMatInfo.filter.filter1 = row;
@@ -586,9 +594,10 @@ void PS::doToolBoxChanged(const int index)
 void PS::showImgToUi(const QPair<cv::Mat, MatInfo>& showPixmap,
                      const bool& noUpdateUi)
 {
-  scene->clear();
+  scene->clear(); ///< 清除场景，以便重绘
   const cv::Mat mat = showPixmap.first;
 
+  // 转换为 QPixmap 格式并显示到场景
   const auto pixmap = matToPixmap(mat);
   scene->addItem(new QGraphicsPixmapItem(pixmap));
   scene->setSceneRect(pixmap.rect());
@@ -631,7 +640,8 @@ void PS::pushToHistory(const QPair<cv::Mat, MatInfo>& pixmap)
 
 void PS::updateUIFromInfo(const MatInfo& matInfo)
 {
-  isProgrammaticChange = true;
+  isProgrammaticChange = true; ///< 避免以下修改触发信号
+
   ui->brightnessSlider->setValue(
     static_cast<int>(matInfo.adjustValue.brightness));
   ui->saturationSlider->setValue(
@@ -648,7 +658,8 @@ void PS::updateUIFromInfo(const MatInfo& matInfo)
   ui->cropList->setCurrentRow(matInfo.crop.cropValue);
   ui->FilterList->setCurrentRow(matInfo.filter.filter1);
   ui->FilterList2->setCurrentRow(matInfo.filter.filter2);
-  isProgrammaticChange = false;
+
+  isProgrammaticChange = false; ///< 恢复
 }
 
 PS::~PS()

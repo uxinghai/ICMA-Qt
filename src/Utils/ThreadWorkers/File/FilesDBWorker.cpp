@@ -50,8 +50,8 @@ namespace
 
 bool FilesDBWorker::doFullScan(SplashScreen* splash_pram) const
 {
+  qDebug() << "正在执行首次加载";
   if (!splash_pram) { return false; }
-
   splash_pram->showMessage(QObject::tr("首次加载需要较长时间"));
 
   try {
@@ -59,13 +59,12 @@ bool FilesDBWorker::doFullScan(SplashScreen* splash_pram) const
     QStringList pendingDirs;
     for (const auto& drive : QDir::drives()) {
       if (!drive.isReadable()) {
-        qWarning() << "驱动器不可读:" << drive.absolutePath();
+        qWarning() << "磁盘不可读:" << drive.absolutePath();
         continue;
       }
 
-      QDirIterator it(drive.absolutePath(),
-                      QDir::Dirs | QDir::Hidden,
-                      QDirIterator::NoIteratorFlags); ///< 确保不会递归
+      // 获取磁盘下直接子目录(不递归目录)，加入待处理目录
+      QDirIterator it(drive.absolutePath(), QDir::Dirs | QDir::Hidden);
       while (it.hasNext()) {
         QString dir = it.next();
         if (dir == "." || dir == "..") continue;
@@ -280,8 +279,7 @@ void FilesDBWorker::doScanDirectory(const QString& directoryPath,
 void FilesDBWorker::updateLastBuildSqlTime()
 {
   iniManager::getIniSetting().setValue(
-    "Settings/lastBuildSqlTime",
-    QDateTime::currentDateTime().toString("yyyy/MM/dd hh:mm")
+    "Settings/lastBuildSqlTime", QDateTime::currentDateTime()
   );
 }
 
