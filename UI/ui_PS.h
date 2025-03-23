@@ -37,9 +37,12 @@ QT_BEGIN_NAMESPACE
 class Ui_PS
 {
 public:
-    QGridLayout *gridLayout_9;
+    QGridLayout *gridLayout_6;
+    QWidget *widget;
+    QGridLayout *gridLayout_7;
     QHBoxLayout *horizontalLayout_3;
-    QSpacerItem *horizontalSpacer;
+    QLabel *lbImgFilePath;
+    QSpacerItem *horizontalSpacer_3;
     QToolButton *btnUndo;
     QToolButton *btnReset;
     QToolButton *btnComparison;
@@ -200,19 +203,30 @@ public:
 "        padding: 0 3px 0 3px;\n"
 "        }\n"
 "      "));
-        gridLayout_9 = new QGridLayout(PS);
-        gridLayout_9->setObjectName("gridLayout_9");
-        gridLayout_9->setHorizontalSpacing(5);
-        gridLayout_9->setVerticalSpacing(4);
-        gridLayout_9->setContentsMargins(0, 0, 5, 0);
+        gridLayout_6 = new QGridLayout(PS);
+        gridLayout_6->setObjectName("gridLayout_6");
+        widget = new QWidget(PS);
+        widget->setObjectName("widget");
+        widget->setMaximumSize(QSize(16777215, 40));
+        widget->setContextMenuPolicy(Qt::CustomContextMenu);
+        gridLayout_7 = new QGridLayout(widget);
+        gridLayout_7->setSpacing(0);
+        gridLayout_7->setObjectName("gridLayout_7");
+        gridLayout_7->setContentsMargins(0, 0, 0, 0);
         horizontalLayout_3 = new QHBoxLayout();
         horizontalLayout_3->setSpacing(6);
         horizontalLayout_3->setObjectName("horizontalLayout_3");
-        horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+        lbImgFilePath = new QLabel(widget);
+        lbImgFilePath->setObjectName("lbImgFilePath");
+        lbImgFilePath->setContextMenuPolicy(Qt::NoContextMenu);
 
-        horizontalLayout_3->addItem(horizontalSpacer);
+        horizontalLayout_3->addWidget(lbImgFilePath);
 
-        btnUndo = new QToolButton(PS);
+        horizontalSpacer_3 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_3->addItem(horizontalSpacer_3);
+
+        btnUndo = new QToolButton(widget);
         btnUndo->setObjectName("btnUndo");
         btnUndo->setEnabled(false);
         btnUndo->setMaximumSize(QSize(16777215, 33));
@@ -225,7 +239,7 @@ public:
 
         horizontalLayout_3->addWidget(btnUndo);
 
-        btnReset = new QToolButton(PS);
+        btnReset = new QToolButton(widget);
         btnReset->setObjectName("btnReset");
         btnReset->setEnabled(false);
         btnReset->setMaximumSize(QSize(16777215, 33));
@@ -238,7 +252,7 @@ public:
 
         horizontalLayout_3->addWidget(btnReset);
 
-        btnComparison = new QToolButton(PS);
+        btnComparison = new QToolButton(widget);
         btnComparison->setObjectName("btnComparison");
         btnComparison->setEnabled(false);
         btnComparison->setMaximumSize(QSize(16777215, 33));
@@ -256,7 +270,7 @@ public:
 
         horizontalLayout_3->addItem(horizontalSpacer_2);
 
-        btnOpenImg = new QPushButton(PS);
+        btnOpenImg = new QPushButton(widget);
         btnOpenImg->setObjectName("btnOpenImg");
         btnOpenImg->setMinimumSize(QSize(0, 0));
         btnOpenImg->setMaximumSize(QSize(16777215, 35));
@@ -268,7 +282,7 @@ public:
 
         horizontalLayout_3->addWidget(btnOpenImg);
 
-        btnDireSave = new QPushButton(PS);
+        btnDireSave = new QPushButton(widget);
         btnDireSave->setObjectName("btnDireSave");
         btnDireSave->setEnabled(false);
         btnDireSave->setMaximumSize(QSize(16777215, 35));
@@ -280,7 +294,7 @@ public:
 
         horizontalLayout_3->addWidget(btnDireSave);
 
-        btnSaveAs = new QPushButton(PS);
+        btnSaveAs = new QPushButton(widget);
         btnSaveAs->setObjectName("btnSaveAs");
         btnSaveAs->setEnabled(false);
         btnSaveAs->setMaximumSize(QSize(16777215, 35));
@@ -293,7 +307,10 @@ public:
         horizontalLayout_3->addWidget(btnSaveAs);
 
 
-        gridLayout_9->addLayout(horizontalLayout_3, 0, 0, 1, 1);
+        gridLayout_7->addLayout(horizontalLayout_3, 0, 0, 1, 1);
+
+
+        gridLayout_6->addWidget(widget, 0, 0, 1, 1);
 
         splitter = new QSplitter(PS);
         splitter->setObjectName("splitter");
@@ -470,7 +487,7 @@ public:
         toolBox->setFrameShadow(QFrame::Plain);
         crop = new QWidget();
         crop->setObjectName("crop");
-        crop->setGeometry(QRect(0, 0, 207, 195));
+        crop->setGeometry(QRect(0, 0, 207, 203));
         gridLayout_3 = new QGridLayout(crop);
         gridLayout_3->setObjectName("gridLayout_3");
         gridLayout_3->setHorizontalSpacing(0);
@@ -544,7 +561,7 @@ public:
         toolBox->addItem(crop, icon7, QString::fromUtf8("\350\243\201\345\211\252"));
         size = new QWidget();
         size->setObjectName("size");
-        size->setGeometry(QRect(0, 0, 147, 225));
+        size->setGeometry(QRect(0, 0, 146, 229));
         gridLayout_10 = new QGridLayout(size);
         gridLayout_10->setObjectName("gridLayout_10");
         gridLayout_10->setHorizontalSpacing(0);
@@ -621,7 +638,7 @@ public:
         toolBox->addItem(size, icon8, QString::fromUtf8("\346\224\271\345\260\272\345\257\270"));
         adjust = new QWidget();
         adjust->setObjectName("adjust");
-        adjust->setGeometry(QRect(0, 0, 147, 204));
+        adjust->setGeometry(QRect(0, 0, 145, 204));
         adjust->setStyleSheet(QString::fromUtf8(""));
         gridLayout_17 = new QGridLayout(adjust);
         gridLayout_17->setSpacing(0);
@@ -1008,7 +1025,7 @@ public:
         toolBox->addItem(algorithm, icon16, QString::fromUtf8("\350\277\207\346\273\244\347\256\227\346\263\225"));
         AITool = new QWidget();
         AITool->setObjectName("AITool");
-        AITool->setGeometry(QRect(0, 0, 147, 192));
+        AITool->setGeometry(QRect(0, 0, 145, 192));
         gridLayout_8 = new QGridLayout(AITool);
         gridLayout_8->setSpacing(0);
         gridLayout_8->setObjectName("gridLayout_8");
@@ -1030,7 +1047,7 @@ public:
         toolBox->addItem(AITool, icon17, QString::fromUtf8("AI\345\267\245\345\205\267"));
         otherTool = new QWidget();
         otherTool->setObjectName("otherTool");
-        otherTool->setGeometry(QRect(0, 0, 147, 192));
+        otherTool->setGeometry(QRect(0, 0, 145, 192));
         gridLayout_11 = new QGridLayout(otherTool);
         gridLayout_11->setSpacing(0);
         gridLayout_11->setObjectName("gridLayout_11");
@@ -1053,7 +1070,7 @@ public:
 
         splitter->addWidget(widget_4);
 
-        gridLayout_9->addWidget(splitter, 1, 0, 1, 1);
+        gridLayout_6->addWidget(splitter, 1, 0, 1, 1);
 
 
         retranslateUi(PS);
@@ -1068,6 +1085,7 @@ public:
     void retranslateUi(QWidget *PS)
     {
         PS->setWindowTitle(QCoreApplication::translate("PS", "\347\256\200\346\230\223\345\233\276\345\203\217\347\274\226\350\276\221\345\231\250", nullptr));
+        lbImgFilePath->setText(QCoreApplication::translate("PS", "\345\233\276\345\203\217\357\274\232", nullptr));
 #if QT_CONFIG(tooltip)
         btnUndo->setToolTip(QCoreApplication::translate("PS", "\346\222\244\351\224\200\344\270\212\344\270\200\346\255\245\346\223\215\344\275\234", nullptr));
 #endif // QT_CONFIG(tooltip)

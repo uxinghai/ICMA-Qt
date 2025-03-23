@@ -62,7 +62,7 @@ public:
     return psInstance;
   }
 
-  // 禁用一切构造方法，以免意外构建
+  // 禁用一切构造方法，以免意外构造
   explicit PS(PS* ps) = delete;
   PS(const PS&) = delete;
   PS& operator=(const PS&) = delete;
@@ -75,6 +75,12 @@ public:
    * 清理资源，关闭窗口时销毁图像处理模块。
    */
   ~PS() override;
+
+  /**
+   * @brief 打开图像加载
+   * @param imgPath 图像路径
+   */
+  void OpenImage(const QString& imgPath);
 
 signals:
   /**
@@ -339,4 +345,6 @@ private:
   cv::Mat processedMat;              ///< 图像处理后的数据
   MatInfo curMatInfo;                ///< 当前图像的相关信息
   bool isProgrammaticChange = false; ///< 标记某些信号是由程序触发的
+
+  QAction* showHidePath; ///< 显示或者隐藏文件路径的动作
 };

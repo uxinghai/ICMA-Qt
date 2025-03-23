@@ -45,6 +45,8 @@ public slots:
   */
   void doInit();
 
+
+
 protected:
   /**
    * @brief 重写关闭事件，用于窗口关闭时的处理
@@ -64,9 +66,9 @@ private slots:
   void doShowICMABrief();
   static void doEnableLogOut(const bool& checked);
   void doDaoRu();
-  void showFileContextMenu();
+  void showFileContextMenu() const;
 
-  qint32 doFilesInDirectory(const QString& path) const;
+  qint32 doFilesFormDirectory(const QString& dirPath) const;
 
   /**
   * @brief 设置系统自启动功能
@@ -85,7 +87,8 @@ private slots:
     else { regedit.remove(appName); }
   }
 
-  void doSearchFile(const QString& term);
+  void doSearchFile(const QString& term, const quint8& filterMode = 0);
+  void doRecFileByHash(const QString& hashValue);
 
 private:
   // 配置文件操作

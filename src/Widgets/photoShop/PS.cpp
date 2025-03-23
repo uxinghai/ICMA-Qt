@@ -24,7 +24,8 @@
 
 PS::PS(QWidget* parent)
   : QWidget(parent), ui(new Ui::PS),
-    scene(new QGraphicsScene(this))
+    scene(new QGraphicsScene(this)),
+    showHidePath(new QAction(tr("显示/隐藏路径")))
 {
   ui->setupUi(this);
   init();
@@ -160,6 +161,16 @@ void PS::setupConnections()
   // 人脸检测
   connect(ui->otherToolListWidget, &QListWidget::itemClicked, this,
           &PS::doShowFaceTest);
+
+  // 显示或隐藏文件路径
+  connect(ui->widget, &QLabel::customContextMenuRequested, [this] {
+    const auto menu = std::make_unique<QMenu>();
+    menu->addAction(showHidePath);
+    menu->exec(QCursor::pos());
+  });
+  connect(showHidePath, &QAction::triggered, [this] {
+    ui->lbImgFilePath->setVisible(!ui->lbImgFilePath->isVisible());
+  });
 }
 
 // 通用滑动条连接处理
@@ -552,8 +563,8 @@ void PS::doImageSave(const bool isSaveAs)
 void PS::showInformationMessage(const QString& message, const bool isSuccess)
 {
   auto* information = new MyInformationBox(this);
-  if (isSuccess) { information->setText(message); }
-  else { information->setText(tr("保存失败")); }
+  if (isSuccess) { information->setInfoText(message); }
+  else { information->setInfoText(tr("保存失败")); }
   information->show();
 }
 
@@ -607,6 +618,7 @@ void PS::showImgToUi(const QPair<cv::Mat, MatInfo>& showPixmap,
 
   showImgSize(pixmap);
   if (!noUpdateUi) { updateUIFromInfo(showPixmap.second); }
+  ui->lbImgFilePath->setText(tr("图像：%1").arg(pixFilePath));
 }
 
 void PS::updateUIState(const bool enable) const
@@ -662,9 +674,46 @@ void PS::updateUIFromInfo(const MatInfo& matInfo)
   isProgrammaticChange = false; ///< 恢复
 }
 
+void PS::OpenImage(const QString& imgPath)
+{
+  pixFilePath = imgPath;
+  if (pixFilePath.isEmpty()) {
+    QMessageBox::critical(this, tr("错误"), tr("图像打开失败，返回主窗口."));
+    this->close();
+    return;
+  }
+
+  // 加载图像
+  cv::Mat mat = cv::imread(pixFilePath.toLocal8Bit().toStdString(), 1);
+  if (mat.empty()) {
+    QMessageBox::critical(this, tr("错误"), tr("图像打开失败，返回主窗口."));
+    this->close();
+    return;
+  }
+
+  // 转换到 RGB 格式并备份
+  cvtColor(mat, mat, cv::COLOR_BGR2RGB);
+  processedMat = mat.clone();
+
+  // 更新 srcMat
+  srcMat.first = mat;
+  srcMat.second = curMatInfo;
+
+  // 备份到 curMat 以便修改
+  curMat.first = srcMat.first;
+
+  // 显示图像到 UI，并更新状态
+  showImgToUi(srcMat);
+  historyPixmap.clear();
+  pushToHistory(srcMat);         ///< 存入历史记录
+  updateUIState(true);           ///< 更新按钮状态
+  ui->toolBox->setEnabled(true); ///< 启用工具栏
+}
+
 PS::~PS()
 {
   qDebug() << "图像处理被正常析构";
   psInstance = nullptr;
+  if (showHidePath) { showHidePath->deleteLater(); }
   delete ui;
 }

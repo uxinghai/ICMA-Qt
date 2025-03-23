@@ -40,295 +40,238 @@
      <number>0</number>
     </property>
     <property name="rightMargin">
-     <number>0</number>
+     <number>3</number>
     </property>
     <property name="bottomMargin">
      <number>0</number>
     </property>
-    <property name="verticalSpacing">
-     <number>1</number>
+    <property name="spacing">
+     <number>0</number>
     </property>
-    <item row="0" column="0">
-     <widget class="QSplitter" name="splitter_2">
+    <item row="1" column="1">
+     <widget class="QLabel" name="lbPreview">
+      <property name="font">
+       <font>
+        <family>Microsoft YaHei UI</family>
+        <pointsize>10</pointsize>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>预览图</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QSplitter" name="splitter_3">
       <property name="orientation">
        <enum>Qt::Horizontal</enum>
       </property>
-      <widget class="QWidget" name="layoutWidget">
-       <layout class="QVBoxLayout" name="verticalLayout">
-        <property name="spacing">
-         <number>3</number>
+      <widget class="MyTableView" name="tableView">
+       <property name="font">
+        <font>
+         <family>Microsoft YaHei UI</family>
+         <pointsize>10</pointsize>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="selectionBehavior">
+        <enum>QAbstractItemView::SelectItems</enum>
+       </property>
+       <property name="showGrid">
+        <bool>false</bool>
+       </property>
+       <property name="sortingEnabled">
+        <bool>true</bool>
+       </property>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+      </widget>
+      <widget class="QGroupBox" name="groupBox">
+       <property name="maximumSize">
+        <size>
+         <width>440</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="title">
+        <string>推荐文件</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>0</number>
         </property>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <property name="spacing">
-           <number>2</number>
-          </property>
-          <property name="leftMargin">
-           <number>3</number>
-          </property>
-          <property name="topMargin">
-           <number>1</number>
-          </property>
-          <property name="rightMargin">
-           <number>3</number>
-          </property>
-          <property name="bottomMargin">
-           <number>0</number>
-          </property>
-          <item>
-           <widget class="QLineEdit" name="lineEdit">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>26</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>26</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI</family>
-              <pointsize>10</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="styleSheet">
-             <string notr="true"/>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <property name="placeholderText">
-             <string>搜点什么...</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QComboBox" name="comBoxFilter">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>26</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>26</height>
-             </size>
-            </property>
-            <property name="font">
-             <font>
-              <family>Microsoft YaHei UI</family>
-              <pointsize>10</pointsize>
-              <italic>false</italic>
-              <bold>false</bold>
-             </font>
-            </property>
-            <property name="frame">
-             <bool>true</bool>
-            </property>
-            <item>
-             <property name="text">
-              <string>所有</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>音频</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>压缩文件</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>文档</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>可执行文件</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>文件夹</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>图片</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>视频</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <widget class="QSplitter" name="splitter">
-          <property name="orientation">
-           <enum>Qt::Horizontal</enum>
-          </property>
-          <widget class="QStackedWidget" name="stackedWidgetView">
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <widget class="QWidget" name="TableViewPage">
-            <layout class="QGridLayout" name="gridLayout_2">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="MyTableView" name="tableView">
-               <property name="font">
-                <font>
-                 <family>Microsoft YaHei UI</family>
-                 <pointsize>10</pointsize>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="selectionBehavior">
-                <enum>QAbstractItemView::SelectItems</enum>
-               </property>
-               <property name="showGrid">
-                <bool>false</bool>
-               </property>
-               <property name="sortingEnabled">
-                <bool>true</bool>
-               </property>
-               <attribute name="horizontalHeaderStretchLastSection">
-                <bool>true</bool>
-               </attribute>
-               <attribute name="verticalHeaderVisible">
-                <bool>false</bool>
-               </attribute>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="ListViewPage">
-            <layout class="QGridLayout" name="gridLayout_3">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QListView" name="listView">
-               <property name="font">
-                <font>
-                 <family>Microsoft YaHei UI</family>
-                 <pointsize>10</pointsize>
-                 <italic>false</italic>
-                 <bold>false</bold>
-                </font>
-               </property>
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ExtendedSelection</enum>
-               </property>
-               <property name="selectionBehavior">
-                <enum>QAbstractItemView::SelectRows</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-           <widget class="QWidget" name="IconViewPage">
-            <layout class="QGridLayout" name="gridLayout_4">
-             <property name="leftMargin">
-              <number>0</number>
-             </property>
-             <property name="topMargin">
-              <number>0</number>
-             </property>
-             <property name="rightMargin">
-              <number>0</number>
-             </property>
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <widget class="QListView" name="IconView">
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ExtendedSelection</enum>
-               </property>
-               <property name="selectionBehavior">
-                <enum>QAbstractItemView::SelectRows</enum>
-               </property>
-               <property name="viewMode">
-                <enum>QListView::IconMode</enum>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </widget>
-          </widget>
-          <widget class="QLabel" name="lbPreview">
-           <property name="font">
-            <font>
-             <family>Microsoft YaHei UI</family>
-             <pointsize>10</pointsize>
-             <italic>false</italic>
-             <bold>false</bold>
-            </font>
-           </property>
-           <property name="text">
-            <string>预览图</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="tableWidget">
+          <attribute name="horizontalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="horizontalHeaderStretchLastSection">
+           <bool>true</bool>
+          </attribute>
+          <attribute name="verticalHeaderVisible">
+           <bool>false</bool>
+          </attribute>
+          <attribute name="verticalHeaderHighlightSections">
+           <bool>false</bool>
+          </attribute>
          </widget>
         </item>
        </layout>
       </widget>
      </widget>
+    </item>
+    <item row="0" column="0" colspan="2">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>3</number>
+      </property>
+      <property name="topMargin">
+       <number>1</number>
+      </property>
+      <property name="rightMargin">
+       <number>6</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QLineEdit" name="lineEdit">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>26</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>26</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI</family>
+          <pointsize>10</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <property name="placeholderText">
+         <string>搜点什么...</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comBoxFilter">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>26</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>26</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Microsoft YaHei UI</family>
+          <pointsize>10</pointsize>
+          <italic>false</italic>
+          <bold>false</bold>
+         </font>
+        </property>
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <item>
+         <property name="text">
+          <string>所有</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>音频</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>压缩文件</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>文档</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>可执行文件</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>文件夹</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>图片</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>视频</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -356,6 +299,9 @@
    </property>
    <property name="cursor">
     <cursorShape>ArrowCursor</cursorShape>
+   </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::NoContextMenu</enum>
    </property>
    <property name="defaultUp">
     <bool>false</bool>
@@ -431,11 +377,8 @@
      <addaction name="actionManjaroMix"/>
      <addaction name="actionMaterialDark"/>
     </widget>
-    <addaction name="actionCopy"/>
-    <addaction name="actionCut"/>
-    <addaction name="actionPast"/>
-    <addaction name="actionReName"/>
-    <addaction name="actionDelete"/>
+    <addaction name="actionFileRename"/>
+    <addaction name="actionFileDelete"/>
     <addaction name="separator"/>
     <addaction name="actionSelectAll"/>
     <addaction name="actionDeselect"/>
@@ -502,10 +445,8 @@
     <addaction name="actionFilter"/>
     <addaction name="actionPreview"/>
     <addaction name="actionStatusBar"/>
-    <addaction name="separator"/>
-    <addaction name="actionListView"/>
-    <addaction name="actionIconView"/>
-    <addaction name="actionDetailView"/>
+    <addaction name="actionToolBar"/>
+    <addaction name="actionteStimonial"/>
     <addaction name="separator"/>
     <addaction name="menu_7"/>
     <addaction name="separator"/>
@@ -525,14 +466,8 @@
     <property name="title">
      <string>工具(&amp;T)</string>
     </property>
-    <addaction name="actionAdvancedSearch"/>
-    <addaction name="separator"/>
-    <addaction name="actionFileSynchronization"/>
     <addaction name="actionBatchRename"/>
     <addaction name="actionFileDuplication"/>
-    <addaction name="separator"/>
-    <addaction name="actionDiskspaceAnalysis"/>
-    <addaction name="actionDocumentComparison"/>
     <addaction name="separator"/>
     <addaction name="actionTransmission"/>
     <addaction name="actionPS"/>
@@ -567,7 +502,6 @@
      <string>智能功能(&amp;A)</string>
     </property>
     <addaction name="actionCategorization"/>
-    <addaction name="actionteStimonial"/>
     <addaction name="separator"/>
     <addaction name="actionStatisticalAnalysis"/>
     <addaction name="separator"/>
@@ -589,8 +523,14 @@
      <bold>false</bold>
     </font>
    </property>
+   <property name="contextMenuPolicy">
+    <enum>Qt::CustomContextMenu</enum>
+   </property>
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="toolButtonStyle">
+    <enum>Qt::ToolButtonTextUnderIcon</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -601,6 +541,9 @@
    <addaction name="actionDaori"/>
    <addaction name="actionTransmission"/>
    <addaction name="actionPS"/>
+   <addaction name="actionBatchRename"/>
+   <addaction name="actionFileDuplication"/>
+   <addaction name="actionQuickStartGuide"/>
   </widget>
   <action name="actionAbout">
    <property name="text">
@@ -619,6 +562,10 @@
    </property>
   </action>
   <action name="actionDaori">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/icons/res/DaoRu.png</normaloff>:/icons/res/DaoRu.png</iconset>
+   </property>
    <property name="text">
     <string>导入文件</string>
    </property>
@@ -762,7 +709,7 @@
     <string>Ctrl+V</string>
    </property>
   </action>
-  <action name="actionReName">
+  <action name="actionFileRename">
    <property name="text">
     <string>重命名(&amp;M)</string>
    </property>
@@ -778,7 +725,7 @@
     </font>
    </property>
   </action>
-  <action name="actionDelete">
+  <action name="actionFileDelete">
    <property name="text">
     <string>删除(&amp;D)</string>
    </property>
@@ -1312,6 +1259,10 @@
    </property>
   </action>
   <action name="actionBatchRename">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/icons/res/ReName.png</normaloff>:/icons/res/ReName.png</iconset>
+   </property>
    <property name="text">
     <string>批量重命名</string>
    </property>
@@ -1320,6 +1271,10 @@
    </property>
   </action>
   <action name="actionFileDuplication">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/icons/res/deduplicate.png</normaloff>:/icons/res/deduplicate.png</iconset>
+   </property>
    <property name="text">
     <string>文件去重</string>
    </property>
@@ -1349,6 +1304,10 @@
    </property>
   </action>
   <action name="actionQuickStartGuide">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/icons/res/ShouCe.png</normaloff>:/icons/res/ShouCe.png</iconset>
+   </property>
    <property name="text">
     <string>快速入门指导</string>
    </property>
@@ -1382,7 +1341,7 @@
   </action>
   <action name="actionteStimonial">
    <property name="text">
-    <string>智能推荐</string>
+    <string>推荐窗</string>
    </property>
    <property name="toolTip">
     <string>推荐内容</string>
@@ -1447,6 +1406,10 @@
    </property>
   </action>
   <action name="actionTransmission">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/transfer/res/transfer/fileTrans.png</normaloff>:/transfer/res/transfer/fileTrans.png</iconset>
+   </property>
    <property name="text">
     <string>文件传输工具</string>
    </property>
@@ -1480,6 +1443,10 @@
    </property>
   </action>
   <action name="actionPS">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/ps/res/ps/ICMAPS_128x128.ico</normaloff>:/ps/res/ps/ICMAPS_128x128.ico</iconset>
+   </property>
    <property name="text">
     <string>图像处理</string>
    </property>
@@ -1764,6 +1731,119 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Shift+\</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFileTransFile">
+   <property name="text">
+    <string>传输文件</string>
+   </property>
+   <property name="toolTip">
+    <string>传输选中的文件.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionImgEditorPix">
+   <property name="text">
+    <string>编辑图像</string>
+   </property>
+   <property name="toolTip">
+    <string>编辑图像.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionToolBar">
+   <property name="text">
+    <string>工具栏(&amp;T)</string>
+   </property>
+   <property name="toolTip">
+    <string>显示/隐藏工具栏.</string>
+   </property>
+   <property name="statusTip">
+    <string>显示/隐藏工具栏.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFileOpen">
+   <property name="text">
+    <string>打开(&amp;O)</string>
+   </property>
+   <property name="toolTip">
+    <string>打开该资源.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFileOpenExplore">
+   <property name="text">
+    <string>打开所在文件夹</string>
+   </property>
+   <property name="toolTip">
+    <string>打开资源所在文件夹路径.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFileCopyName">
+   <property name="text">
+    <string>复制文件名</string>
+   </property>
+   <property name="toolTip">
+    <string>复制文件的名称.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFileCopyPath">
+   <property name="text">
+    <string>复制文件路径</string>
+   </property>
+   <property name="toolTip">
+    <string>复制文件路径(不包含文件名).</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFileCopyAbsPath">
+   <property name="text">
+    <string>复制文件绝对路径</string>
+   </property>
+   <property name="toolTip">
+    <string>复制文件绝对路径(包含文件名).</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionEditText">
+   <property name="text">
+    <string>使用文本编辑器编辑</string>
+   </property>
+   <property name="toolTip">
+    <string>使用文本文件格式编辑文件.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionFileCompress">
+   <property name="text">
+    <string>对比文件</string>
+   </property>
+   <property name="toolTip">
+    <string>对比其他文件.</string>
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>

@@ -148,3 +148,15 @@ struct MatInfo {
 
 	
 
+#### 2025/3/23
+解决难题：我现在有一个QTableView，模型来自sqlite3数据库。然后再我导入数据库内容时，有10万条数据。
+因为sqlite3 不支持多线程写操作。所以写入非常慢。导致我QTableView一直没有模型更新界面。
+解决方法：分批次提交事务后发出信号更新界面。
+SQLite3 加速写入语句：
+query.exec("PRAGMA journal_mode=WAL");
+query.exec("PRAGMA synchronous=NORMAL");
+query.exec("PRAGMA cache_size=10000");
+query.exec("PRAGMA temp_store=MEMORY");
+
+
+暂且遗留问题：有些文件md5值计算非常慢。可以先放在后台吗?或者不计算它。因为可能不关注！

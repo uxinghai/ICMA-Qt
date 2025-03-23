@@ -15,15 +15,17 @@ if (WIN32)
     set(APP_ICON_RESOURCE_WINDOWS "${CMAKE_CURRENT_SOURCE_DIR}/logo128.ico")
 endif ()
 
+# find_package(SQLite3 REQUIRED) # 配置 sqlite3
+
 # 尝试查找 Qt6 或 Qt5
 find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets
         Multimedia MultimediaWidgets Sql Concurrent Network)
+
 # 提取实际找到的 Qt 版本
 set(QT_VERSION_MAJOR ${QT_VERSION_MAJOR})
 # 根据找到的 Qt 版本配置组件
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets
         Multimedia MultimediaWidgets Sql Concurrent Network)
-
 
 # 配置 OpenCV
 set(OpenCV_DIR "D:/A-Develop/ToolLibrary/OpenCV/opencv-build/install")
@@ -117,6 +119,10 @@ set(PROJECT_SOURCES
         src/Utils/Tools/MyQueryModel.h
         src/Utils/BoostClass/MyTableView.h
         src/Utils/Tools/IconTextDelegate.h
+        src/Utils/Tools/CalculateHash.h
+        src/Connections/SetupConnections.h
+        src/DataBase/SqlQuery/FileActions.h
+        "src/Utils/ThreadWorkers/File/ImportWorker .h"
 )
 
 #                                            *********

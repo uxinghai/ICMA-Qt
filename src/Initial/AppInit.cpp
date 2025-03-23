@@ -42,7 +42,7 @@ bool AppInit::configInit()
 bool AppInit::sysFileDBInit() const
 {
   // 以下多线程版本系统文件写入数据库还有些问题。数据库作为共享资源出现了被争抢
-  // const auto* fileDbWorker = new FilesDBWorker();
+  const auto* fileDbWorker = new FilesDBWorker();
   // const auto ICMA = iniManager::getIniSetting();
   //
   // // 检查是否为首次加载
@@ -51,9 +51,9 @@ bool AppInit::sysFileDBInit() const
   // if (!lastBuildSqlTime.isEmpty()) {
   //   return fileDbWorker->doIncrementalScan(splash.get());
   // }
-  // return fileDbWorker->doFullScan(splash.get());
+  return fileDbWorker->doFullScan(splash.get());
 
-  return true;
+  //return true;
 }
 
 void AppInit::initMainwindow()

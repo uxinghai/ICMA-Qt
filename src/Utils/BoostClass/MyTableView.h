@@ -35,6 +35,17 @@ public:
 
     this->setMouseTracking(true);
     this->setToolTipDuration(-1); ///< -1表示提示将一直显示直到鼠标移开
+
+    // 连接模型信号 没有发出!
+    connect(this->model(), &QAbstractItemModel::rowsInserted, [this] {
+      emit updateRowCount(this->model()->rowCount());
+    });
+    connect(this->model(), &QAbstractItemModel::rowsRemoved, [this] {
+      emit updateRowCount(this->model()->rowCount());
+    });
+    connect(this->model(), &QAbstractItemModel::modelReset, [this] {
+      emit updateRowCount(this->model()->rowCount());
+    });
   }
 
   /**
@@ -53,11 +64,13 @@ public:
               for (const QModelIndex& index : selected.indexes()) {
                 if (index.column() != 0) {
                   selectModel->clear();
-                  emit lbStatusModify("NULL");
+                  emit lbStatusModify("NULL","NULL");
                 }
                 else {
-                  emit lbStatusModify(index.sibling(index.row(), 1)
-                                           .data().toString());
+                  emit lbStatusModify(
+                    index.sibling(index.row(), 1).data().toString(),
+                    index.sibling(index.row(), 7).data().toString()
+                    );
                 }
               }
             });
@@ -130,6 +143,7 @@ public:
     }
     this->setColumnHidden(8, true); ///< 图标路径永久隐藏
 
+    // 右键表格表头 显示或隐藏列
     connect(this->horizontalHeader(), &QHeaderView::customContextMenuRequested,
             [this, fit, fitCol, columnActions] { ///< columnActions不能引用捕获
               const auto menu = std::make_unique<QMenu>();
@@ -184,7 +198,8 @@ public:
   ~MyTableView() override = default;
 
 signals:
-  void lbStatusModify(const QString& modText);
+  void lbStatusModify(const QString& filePath, const QString& hashValue);
+  void updateRowCount(const qint32& rowCount);
 
 protected:
   /**

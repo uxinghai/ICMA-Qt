@@ -19,10 +19,19 @@
 #include <QWidget>
 #include <utility>
 
+class MyInformationBox;
+static MyInformationBox* informationInstance = nullptr;
+
 class MyInformationBox final : public QWidget {
   Q_OBJECT
 
 public:
+  static MyInformationBox* getInstance()
+  {
+    if (informationInstance == nullptr) { informationInstance = new MyInformationBox(); }
+    return informationInstance;
+  }
+
   /**
    * @brief 构造函数
    * @param parent 父窗口
@@ -30,8 +39,8 @@ public:
    * @param displayDuration 显示持续时间(毫秒)，默认3000ms
    * @param fadeTime 动画从初始状态到终止状态的时长，默认300ms
    */
-  explicit MyInformationBox(QWidget* parent,
-                            QString text = QString(),
+  explicit MyInformationBox(QWidget* parent = nullptr,
+                            const QString& text = QString(),
                             const int displayDuration = 3000,
                             const int fadeTime = 300)
     : QWidget(parent),
@@ -39,7 +48,7 @@ public:
       anim(new QPropertyAnimation(this)),
       displayDuration(displayDuration),
       parent(parent),
-      text(std::move(text))
+      text(text)
   {
     // 设置无边框窗口
     this->setWindowFlags(
@@ -93,7 +102,7 @@ public:
 
     // 设置动画属性
     anim->setTargetObject(this);
-    anim->setPropertyName("pos");///< 位置变换
+    anim->setPropertyName("pos"); ///< 位置变换
 
     // 设置动画的起始和结束位置
     this->move(parentWidget()->mapToGlobal(startPos));
@@ -117,12 +126,19 @@ public:
     });
   }
 
-  void setText(const QString& text)
+  void setInfoText(const QString& text)
   {
     this->text = text;
     label->setText(text);
     label->adjustSize();
     this->resize(label->size());
+  }
+
+  void quickShow(QWidget* parent, const QString& text)
+  {
+    this->setParent(parent);
+    this->setInfoText(text);
+    this->show();
   }
 
 private:
@@ -133,3 +149,5 @@ private:
 
   QString text;
 };
+
+#define quickInformation MyInformationBox::getInstance()

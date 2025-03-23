@@ -1,5 +1,5 @@
 /**
- * @file CustomQueryModel.h
+ * @file MyQueryModel.h
  *
  * @Breife None
  *

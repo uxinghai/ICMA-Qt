@@ -51,8 +51,9 @@ namespace
 bool FilesDBWorker::doFullScan(SplashScreen* splash_pram) const
 {
   qDebug() << "正在执行首次加载";
-  if (!splash_pram) { return false; }
-  splash_pram->showMessage(QObject::tr("首次加载需要较长时间"));
+  // 暂时不显示
+  // if (!splash_pram) { return false; }
+  // splash_pram->showMessage(QObject::tr("首次加载需要较长时间"));
 
   try {
     // 收集根目录及其直接子目录
@@ -72,7 +73,7 @@ bool FilesDBWorker::doFullScan(SplashScreen* splash_pram) const
       }
     }
 
-    // 初始化目录扫描
+    // 向数据库写入所有目录信息
     if (!DirectoryDB::autoInsert(pendingDirs)) {
       qWarning() << "向数据库插入目录失败";
       return false;
@@ -123,7 +124,7 @@ void FilesDBWorker::doDirectory(const QString& dirPath)
            QDir::Files | QDir::NoDotAndDotDot)) {
       filesBatch << QDir(dirPath).filePath(filePath); ///< 是绝对完整路径
       if (filesBatch.size() >= BATCH_SIZE) {
-        processBatch(filesBatch, FilesDB::autoInsert);
+       // processBatch(filesBatch, sFileDB.autoInsert(filesBatch));
       }
     }
   } catch (const std::exception& e) {
@@ -131,7 +132,7 @@ void FilesDBWorker::doDirectory(const QString& dirPath)
   }
 
   // 处理剩余未处理的文件
-  if (!filesBatch.isEmpty()) { processBatch(filesBatch, FilesDB::autoInsert); }
+//  if (!filesBatch.isEmpty()) { processBatch(filesBatch, sFileDB.autoInsert); }
 }
 
 bool FilesDBWorker::doIncrementalScan(SplashScreen* splash_pram) const
@@ -172,7 +173,7 @@ bool FilesDBWorker::doIncrementalScan(SplashScreen* splash_pram) const
     }
 
     // 处理文件
-    auto dbFiles = FilesDB::getAllFilesWithModTime();
+    auto dbFiles = sFileDB.getAllFilesWithModTime();
     const int threadCount = QThread::idealThreadCount() - 1;
     QList<QFuture<void>> futures;
 
@@ -219,8 +220,8 @@ void FilesDBWorker::doIncrementalBatch(
       if (!dbFiles.contains(path)) { newFiles << path; }
       else if (info.lastModified() > dbFiles[path]) { updatedFiles << path; }
 
-      processBatch(newFiles, FilesDB::autoInsert);
-      processBatch(updatedFiles, FilesDB::updateFile);
+      //processBatch(newFiles, sFileDB.autoInsert);
+      //processBatch(updatedFiles, sFileDB.updateFile);
     }
 
     // 查找已删除的文件
@@ -232,9 +233,9 @@ void FilesDBWorker::doIncrementalBatch(
   }
 
   // 处理剩余的批次
-  processBatch(newFiles, FilesDB::autoInsert);
-  processBatch(updatedFiles, FilesDB::updateFile);
-  if (!removedFiles.isEmpty()) { FilesDB::removeFile(removedFiles); }
+  //processBatch(newFiles, sFileDB.autoInsert);
+  //processBatch(updatedFiles, sFileDB.updateFile);
+  if (!removedFiles.isEmpty()) { sFileDB.removeFile(removedFiles); }
 }
 
 void FilesDBWorker::doScanDirectory(const QString& directoryPath,

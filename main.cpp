@@ -10,8 +10,8 @@
 
 #include "../src/Initial/AppInit.h"
 #include "../src/Manager/Config/iniManager.h"
+#include "../src/Utils/Tools/LogOut.h"
 #include "../src/Widgets/mainWindow/MainWindow.h"
-#include "src/Utils/Tools/LogOut.h"
 
 QtMessageHandler IcmaMessageHandler; ///< 安装自定义的日志处理器时返回这个指针
 QTranslator tran;                    ///< 全局翻译器
@@ -20,13 +20,20 @@ int main(int argc, char* argv[])
   QApplication app(argc, argv);
 
   // 建立系统日志
-  LogOut::initializeLog();
+  sLog.init();
+  sLog.log("ICMA被启动，日志功能正常...");
   IcmaMessageHandler = qInstallMessageHandler(LogOut::messageOutput);
 
   const auto appInit = new AppInit(); ///< 系统初始化
   // 配置信息初始化 以及 读取系统文件写入数据库（耗时操作）
-  if (!appInit->configInit()
-    || !appInit->sysFileDBInit()) {
+  // if (!appInit->configInit()
+  //   || !appInit->sysFileDBInit()) {
+  //   QMessageBox::critical(nullptr, QObject::tr("Error"),
+  //                         QObject::tr("Failed to initialize the application."
+  //                           " The application will now exit."));
+  //   exit(-1);
+  // }
+  if (!appInit->configInit()) {
     QMessageBox::critical(nullptr, QObject::tr("Error"),
                           QObject::tr("Failed to initialize the application."
                             " The application will now exit."));
@@ -53,6 +60,6 @@ int main(int argc, char* argv[])
 
   w.show();
 
-  // 全局桌面下 ctrl+shift+f 弹出搜索
+  // TODO 全局桌面下 ctrl+shift+f 弹出搜索
   return QApplication::exec();
 }

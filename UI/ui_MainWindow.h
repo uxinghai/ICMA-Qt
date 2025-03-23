@@ -15,19 +15,18 @@
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QComboBox>
 #include <QtWidgets/QGridLayout>
+#include <QtWidgets/QGroupBox>
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QListView>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QSplitter>
-#include <QtWidgets/QStackedWidget>
 #include <QtWidgets/QStatusBar>
+#include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
-#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 #include "../src/Utils/BoostClass/MyTableView.h"
 
@@ -46,8 +45,8 @@ public:
     QAction *actionCopy;
     QAction *actionCut;
     QAction *actionPast;
-    QAction *actionReName;
-    QAction *actionDelete;
+    QAction *actionFileRename;
+    QAction *actionFileDelete;
     QAction *actionSelectAll;
     QAction *actionDeselect;
     QAction *actionAddTag;
@@ -116,26 +115,27 @@ public:
     QAction *actionShowEncrCol;
     QAction *actionAutoFit;
     QAction *actionAutoFitColWidth;
+    QAction *actionFileTransFile;
+    QAction *actionImgEditorPix;
+    QAction *actionToolBar;
+    QAction *actionFileOpen;
+    QAction *actionFileOpenExplore;
+    QAction *actionFileCopyName;
+    QAction *actionFileCopyPath;
+    QAction *actionFileCopyAbsPath;
+    QAction *actionEditText;
+    QAction *actionFileCompress;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QSplitter *splitter_2;
-    QWidget *layoutWidget;
-    QVBoxLayout *verticalLayout;
+    QLabel *lbPreview;
+    QSplitter *splitter_3;
+    MyTableView *tableView;
+    QGroupBox *groupBox;
+    QGridLayout *gridLayout_2;
+    QTableWidget *tableWidget;
     QHBoxLayout *horizontalLayout;
     QLineEdit *lineEdit;
     QComboBox *comBoxFilter;
-    QSplitter *splitter;
-    QStackedWidget *stackedWidgetView;
-    QWidget *TableViewPage;
-    QGridLayout *gridLayout_2;
-    MyTableView *tableView;
-    QWidget *ListViewPage;
-    QGridLayout *gridLayout_3;
-    QListView *listView;
-    QWidget *IconViewPage;
-    QGridLayout *gridLayout_4;
-    QListView *IconView;
-    QLabel *lbPreview;
     QStatusBar *statusbar;
     QMenuBar *menubar;
     QMenu *menu;
@@ -172,6 +172,9 @@ public:
         actionAbout->setFont(font1);
         actionDaori = new QAction(MainWindow);
         actionDaori->setObjectName("actionDaori");
+        QIcon icon1;
+        icon1.addFile(QString::fromUtf8(":/icons/res/DaoRu.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionDaori->setIcon(icon1);
         actionDaori->setFont(font1);
         actionDaochu1 = new QAction(MainWindow);
         actionDaochu1->setObjectName("actionDaochu1");
@@ -199,12 +202,12 @@ public:
         actionPast = new QAction(MainWindow);
         actionPast->setObjectName("actionPast");
         actionPast->setFont(font2);
-        actionReName = new QAction(MainWindow);
-        actionReName->setObjectName("actionReName");
-        actionReName->setFont(font2);
-        actionDelete = new QAction(MainWindow);
-        actionDelete->setObjectName("actionDelete");
-        actionDelete->setFont(font2);
+        actionFileRename = new QAction(MainWindow);
+        actionFileRename->setObjectName("actionFileRename");
+        actionFileRename->setFont(font2);
+        actionFileDelete = new QAction(MainWindow);
+        actionFileDelete->setObjectName("actionFileDelete");
+        actionFileDelete->setFont(font2);
         actionSelectAll = new QAction(MainWindow);
         actionSelectAll->setObjectName("actionSelectAll");
         actionSelectAll->setFont(font2);
@@ -314,8 +317,14 @@ public:
         actionFileSynchronization->setObjectName("actionFileSynchronization");
         actionBatchRename = new QAction(MainWindow);
         actionBatchRename->setObjectName("actionBatchRename");
+        QIcon icon2;
+        icon2.addFile(QString::fromUtf8(":/icons/res/ReName.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionBatchRename->setIcon(icon2);
         actionFileDuplication = new QAction(MainWindow);
         actionFileDuplication->setObjectName("actionFileDuplication");
+        QIcon icon3;
+        icon3.addFile(QString::fromUtf8(":/icons/res/deduplicate.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionFileDuplication->setIcon(icon3);
         actionDiskspaceAnalysis = new QAction(MainWindow);
         actionDiskspaceAnalysis->setObjectName("actionDiskspaceAnalysis");
         actionDocumentComparison = new QAction(MainWindow);
@@ -324,6 +333,9 @@ public:
         actionUserManual->setObjectName("actionUserManual");
         actionQuickStartGuide = new QAction(MainWindow);
         actionQuickStartGuide->setObjectName("actionQuickStartGuide");
+        QIcon icon4;
+        icon4.addFile(QString::fromUtf8(":/icons/res/ShouCe.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionQuickStartGuide->setIcon(icon4);
         actionUpdateSys = new QAction(MainWindow);
         actionUpdateSys->setObjectName("actionUpdateSys");
         actionFeedback = new QAction(MainWindow);
@@ -348,6 +360,9 @@ public:
         actionConsoleStyle->setCheckable(true);
         actionTransmission = new QAction(MainWindow);
         actionTransmission->setObjectName("actionTransmission");
+        QIcon icon5;
+        icon5.addFile(QString::fromUtf8(":/transfer/res/transfer/fileTrans.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionTransmission->setIcon(icon5);
         actionJP = new QAction(MainWindow);
         actionJP->setObjectName("actionJP");
         actionJP->setCheckable(true);
@@ -356,6 +371,9 @@ public:
         actionAutoRun->setCheckable(true);
         actionPS = new QAction(MainWindow);
         actionPS->setObjectName("actionPS");
+        QIcon icon6;
+        icon6.addFile(QString::fromUtf8(":/ps/res/ps/ICMAPS_128x128.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        actionPS->setIcon(icon6);
         actionEnableFileLog = new QAction(MainWindow);
         actionEnableFileLog->setObjectName("actionEnableFileLog");
         actionEnableFileLog->setCheckable(true);
@@ -381,15 +399,15 @@ public:
         actionDark = new QAction(MainWindow);
         actionDark->setObjectName("actionDark");
         actionDark->setEnabled(false);
-        QIcon icon1;
-        icon1.addFile(QString::fromUtf8(":/qss/res/QSS/QSS_IMG/DarkTheme.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionDark->setIcon(icon1);
+        QIcon icon7;
+        icon7.addFile(QString::fromUtf8(":/qss/res/QSS/QSS_IMG/DarkTheme.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionDark->setIcon(icon7);
         actionLight = new QAction(MainWindow);
         actionLight->setObjectName("actionLight");
         actionLight->setEnabled(false);
-        QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/qss/res/QSS/QSS_IMG/LightTheme.png"), QSize(), QIcon::Normal, QIcon::Off);
-        actionLight->setIcon(icon2);
+        QIcon icon8;
+        icon8.addFile(QString::fromUtf8(":/qss/res/QSS/QSS_IMG/LightTheme.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionLight->setIcon(icon8);
         actionShowNameCol = new QAction(MainWindow);
         actionShowNameCol->setObjectName("actionShowNameCol");
         actionShowNameCol->setCheckable(true);
@@ -432,27 +450,90 @@ public:
         actionAutoFitColWidth = new QAction(MainWindow);
         actionAutoFitColWidth->setObjectName("actionAutoFitColWidth");
         actionAutoFitColWidth->setMenuRole(QAction::NoRole);
+        actionFileTransFile = new QAction(MainWindow);
+        actionFileTransFile->setObjectName("actionFileTransFile");
+        actionFileTransFile->setMenuRole(QAction::NoRole);
+        actionImgEditorPix = new QAction(MainWindow);
+        actionImgEditorPix->setObjectName("actionImgEditorPix");
+        actionImgEditorPix->setMenuRole(QAction::NoRole);
+        actionToolBar = new QAction(MainWindow);
+        actionToolBar->setObjectName("actionToolBar");
+        actionToolBar->setMenuRole(QAction::NoRole);
+        actionFileOpen = new QAction(MainWindow);
+        actionFileOpen->setObjectName("actionFileOpen");
+        actionFileOpen->setMenuRole(QAction::NoRole);
+        actionFileOpenExplore = new QAction(MainWindow);
+        actionFileOpenExplore->setObjectName("actionFileOpenExplore");
+        actionFileOpenExplore->setMenuRole(QAction::NoRole);
+        actionFileCopyName = new QAction(MainWindow);
+        actionFileCopyName->setObjectName("actionFileCopyName");
+        actionFileCopyName->setMenuRole(QAction::NoRole);
+        actionFileCopyPath = new QAction(MainWindow);
+        actionFileCopyPath->setObjectName("actionFileCopyPath");
+        actionFileCopyPath->setMenuRole(QAction::NoRole);
+        actionFileCopyAbsPath = new QAction(MainWindow);
+        actionFileCopyAbsPath->setObjectName("actionFileCopyAbsPath");
+        actionFileCopyAbsPath->setMenuRole(QAction::NoRole);
+        actionEditText = new QAction(MainWindow);
+        actionEditText->setObjectName("actionEditText");
+        actionEditText->setMenuRole(QAction::NoRole);
+        actionFileCompress = new QAction(MainWindow);
+        actionFileCompress->setObjectName("actionFileCompress");
+        actionFileCompress->setMenuRole(QAction::NoRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setStyleSheet(QString::fromUtf8(""));
         gridLayout = new QGridLayout(centralwidget);
+        gridLayout->setSpacing(0);
         gridLayout->setObjectName("gridLayout");
-        gridLayout->setVerticalSpacing(1);
-        gridLayout->setContentsMargins(0, 0, 0, 0);
-        splitter_2 = new QSplitter(centralwidget);
-        splitter_2->setObjectName("splitter_2");
-        splitter_2->setOrientation(Qt::Horizontal);
-        layoutWidget = new QWidget(splitter_2);
-        layoutWidget->setObjectName("layoutWidget");
-        verticalLayout = new QVBoxLayout(layoutWidget);
-        verticalLayout->setSpacing(3);
-        verticalLayout->setObjectName("verticalLayout");
-        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        gridLayout->setContentsMargins(0, 0, 3, 0);
+        lbPreview = new QLabel(centralwidget);
+        lbPreview->setObjectName("lbPreview");
+        lbPreview->setFont(font);
+        lbPreview->setAlignment(Qt::AlignCenter);
+        lbPreview->setWordWrap(true);
+
+        gridLayout->addWidget(lbPreview, 1, 1, 1, 1);
+
+        splitter_3 = new QSplitter(centralwidget);
+        splitter_3->setObjectName("splitter_3");
+        splitter_3->setOrientation(Qt::Horizontal);
+        tableView = new MyTableView(splitter_3);
+        tableView->setObjectName("tableView");
+        tableView->setFont(font);
+        tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
+        tableView->setShowGrid(false);
+        tableView->setSortingEnabled(true);
+        splitter_3->addWidget(tableView);
+        tableView->horizontalHeader()->setStretchLastSection(true);
+        tableView->verticalHeader()->setVisible(false);
+        groupBox = new QGroupBox(splitter_3);
+        groupBox->setObjectName("groupBox");
+        groupBox->setMaximumSize(QSize(440, 16777215));
+        groupBox->setAlignment(Qt::AlignCenter);
+        gridLayout_2 = new QGridLayout(groupBox);
+        gridLayout_2->setSpacing(0);
+        gridLayout_2->setObjectName("gridLayout_2");
+        gridLayout_2->setContentsMargins(0, 0, 0, 0);
+        tableWidget = new QTableWidget(groupBox);
+        tableWidget->setObjectName("tableWidget");
+        tableWidget->horizontalHeader()->setVisible(false);
+        tableWidget->horizontalHeader()->setHighlightSections(false);
+        tableWidget->horizontalHeader()->setStretchLastSection(true);
+        tableWidget->verticalHeader()->setVisible(false);
+        tableWidget->verticalHeader()->setHighlightSections(false);
+
+        gridLayout_2->addWidget(tableWidget, 0, 0, 1, 1);
+
+        splitter_3->addWidget(groupBox);
+
+        gridLayout->addWidget(splitter_3, 1, 0, 1, 1);
+
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(2);
         horizontalLayout->setObjectName("horizontalLayout");
-        horizontalLayout->setContentsMargins(3, 1, 3, 0);
-        lineEdit = new QLineEdit(layoutWidget);
+        horizontalLayout->setContentsMargins(3, 1, 6, 0);
+        lineEdit = new QLineEdit(centralwidget);
         lineEdit->setObjectName("lineEdit");
         lineEdit->setMinimumSize(QSize(0, 26));
         lineEdit->setMaximumSize(QSize(16777215, 26));
@@ -462,7 +543,7 @@ public:
 
         horizontalLayout->addWidget(lineEdit);
 
-        comBoxFilter = new QComboBox(layoutWidget);
+        comBoxFilter = new QComboBox(centralwidget);
         comBoxFilter->addItem(QString());
         comBoxFilter->addItem(QString());
         comBoxFilter->addItem(QString());
@@ -481,74 +562,7 @@ public:
         horizontalLayout->addWidget(comBoxFilter);
 
 
-        verticalLayout->addLayout(horizontalLayout);
-
-        splitter = new QSplitter(layoutWidget);
-        splitter->setObjectName("splitter");
-        splitter->setOrientation(Qt::Horizontal);
-        stackedWidgetView = new QStackedWidget(splitter);
-        stackedWidgetView->setObjectName("stackedWidgetView");
-        TableViewPage = new QWidget();
-        TableViewPage->setObjectName("TableViewPage");
-        gridLayout_2 = new QGridLayout(TableViewPage);
-        gridLayout_2->setSpacing(0);
-        gridLayout_2->setObjectName("gridLayout_2");
-        gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        tableView = new MyTableView(TableViewPage);
-        tableView->setObjectName("tableView");
-        tableView->setFont(font);
-        tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
-        tableView->setShowGrid(false);
-        tableView->setSortingEnabled(true);
-        tableView->horizontalHeader()->setStretchLastSection(true);
-        tableView->verticalHeader()->setVisible(false);
-
-        gridLayout_2->addWidget(tableView, 0, 0, 1, 1);
-
-        stackedWidgetView->addWidget(TableViewPage);
-        ListViewPage = new QWidget();
-        ListViewPage->setObjectName("ListViewPage");
-        gridLayout_3 = new QGridLayout(ListViewPage);
-        gridLayout_3->setSpacing(0);
-        gridLayout_3->setObjectName("gridLayout_3");
-        gridLayout_3->setContentsMargins(0, 0, 0, 0);
-        listView = new QListView(ListViewPage);
-        listView->setObjectName("listView");
-        listView->setFont(font);
-        listView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        listView->setSelectionBehavior(QAbstractItemView::SelectRows);
-
-        gridLayout_3->addWidget(listView, 0, 0, 1, 1);
-
-        stackedWidgetView->addWidget(ListViewPage);
-        IconViewPage = new QWidget();
-        IconViewPage->setObjectName("IconViewPage");
-        gridLayout_4 = new QGridLayout(IconViewPage);
-        gridLayout_4->setSpacing(0);
-        gridLayout_4->setObjectName("gridLayout_4");
-        gridLayout_4->setContentsMargins(0, 0, 0, 0);
-        IconView = new QListView(IconViewPage);
-        IconView->setObjectName("IconView");
-        IconView->setSelectionMode(QAbstractItemView::ExtendedSelection);
-        IconView->setSelectionBehavior(QAbstractItemView::SelectRows);
-        IconView->setViewMode(QListView::IconMode);
-
-        gridLayout_4->addWidget(IconView, 0, 0, 1, 1);
-
-        stackedWidgetView->addWidget(IconViewPage);
-        splitter->addWidget(stackedWidgetView);
-        lbPreview = new QLabel(splitter);
-        lbPreview->setObjectName("lbPreview");
-        lbPreview->setFont(font);
-        lbPreview->setAlignment(Qt::AlignCenter);
-        lbPreview->setWordWrap(true);
-        splitter->addWidget(lbPreview);
-
-        verticalLayout->addWidget(splitter);
-
-        splitter_2->addWidget(layoutWidget);
-
-        gridLayout->addWidget(splitter_2, 0, 0, 1, 1);
+        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 2);
 
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
@@ -560,6 +574,7 @@ public:
         menubar->setEnabled(true);
         menubar->setGeometry(QRect(0, 0, 852, 23));
         menubar->setCursor(QCursor(Qt::ArrowCursor));
+        menubar->setContextMenuPolicy(Qt::NoContextMenu);
         menubar->setDefaultUp(false);
         menubar->setNativeMenuBar(true);
         menu = new QMenu(menubar);
@@ -594,6 +609,8 @@ public:
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName("toolBar");
         toolBar->setFont(font);
+        toolBar->setContextMenuPolicy(Qt::CustomContextMenu);
+        toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
         MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 
         menubar->addAction(menu->menuAction());
@@ -611,11 +628,8 @@ public:
         menu->addAction(actionWenJianBaoGao);
         menu->addSeparator();
         menu->addAction(actionExit);
-        menu_2->addAction(actionCopy);
-        menu_2->addAction(actionCut);
-        menu_2->addAction(actionPast);
-        menu_2->addAction(actionReName);
-        menu_2->addAction(actionDelete);
+        menu_2->addAction(actionFileRename);
+        menu_2->addAction(actionFileDelete);
         menu_2->addSeparator();
         menu_2->addAction(actionSelectAll);
         menu_2->addAction(actionDeselect);
@@ -644,10 +658,8 @@ public:
         menu_3->addAction(actionFilter);
         menu_3->addAction(actionPreview);
         menu_3->addAction(actionStatusBar);
-        menu_3->addSeparator();
-        menu_3->addAction(actionListView);
-        menu_3->addAction(actionIconView);
-        menu_3->addAction(actionDetailView);
+        menu_3->addAction(actionToolBar);
+        menu_3->addAction(actionteStimonial);
         menu_3->addSeparator();
         menu_3->addAction(menu_7->menuAction());
         menu_3->addSeparator();
@@ -669,14 +681,8 @@ public:
         menu_S->addSeparator();
         menu_S->addAction(actionAsc);
         menu_S->addAction(actionDesc);
-        menu_4->addAction(actionAdvancedSearch);
-        menu_4->addSeparator();
-        menu_4->addAction(actionFileSynchronization);
         menu_4->addAction(actionBatchRename);
         menu_4->addAction(actionFileDuplication);
-        menu_4->addSeparator();
-        menu_4->addAction(actionDiskspaceAnalysis);
-        menu_4->addAction(actionDocumentComparison);
         menu_4->addSeparator();
         menu_4->addAction(actionTransmission);
         menu_4->addAction(actionPS);
@@ -693,7 +699,6 @@ public:
         menu_5->addAction(actionFeedback);
         menu_5->addSeparator();
         menu_A->addAction(actionCategorization);
-        menu_A->addAction(actionteStimonial);
         menu_A->addSeparator();
         menu_A->addAction(actionStatisticalAnalysis);
         menu_A->addSeparator();
@@ -701,11 +706,11 @@ public:
         toolBar->addAction(actionDaori);
         toolBar->addAction(actionTransmission);
         toolBar->addAction(actionPS);
+        toolBar->addAction(actionBatchRename);
+        toolBar->addAction(actionFileDuplication);
+        toolBar->addAction(actionQuickStartGuide);
 
         retranslateUi(MainWindow);
-
-        stackedWidgetView->setCurrentIndex(0);
-
 
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
@@ -783,19 +788,19 @@ public:
 #if QT_CONFIG(shortcut)
         actionPast->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+V", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionReName->setText(QCoreApplication::translate("MainWindow", "\351\207\215\345\221\275\345\220\215(&M)", nullptr));
+        actionFileRename->setText(QCoreApplication::translate("MainWindow", "\351\207\215\345\221\275\345\220\215(&M)", nullptr));
 #if QT_CONFIG(tooltip)
-        actionReName->setToolTip(QCoreApplication::translate("MainWindow", "\351\207\215\345\221\275\345\220\215\346\226\207\344\273\266", nullptr));
+        actionFileRename->setToolTip(QCoreApplication::translate("MainWindow", "\351\207\215\345\221\275\345\220\215\346\226\207\344\273\266", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionReName->setStatusTip(QCoreApplication::translate("MainWindow", "\351\207\215\345\221\275\345\220\215\351\200\211\344\270\255\347\232\204\351\241\271\347\233\256.", nullptr));
+        actionFileRename->setStatusTip(QCoreApplication::translate("MainWindow", "\351\207\215\345\221\275\345\220\215\351\200\211\344\270\255\347\232\204\351\241\271\347\233\256.", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionDelete->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244(&D)", nullptr));
+        actionFileDelete->setText(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244(&D)", nullptr));
 #if QT_CONFIG(tooltip)
-        actionDelete->setToolTip(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244", nullptr));
+        actionFileDelete->setToolTip(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244", nullptr));
 #endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionDelete->setStatusTip(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\346\211\200\351\200\211\351\241\271\347\233\256.", nullptr));
+        actionFileDelete->setStatusTip(QCoreApplication::translate("MainWindow", "\345\210\240\351\231\244\346\211\200\351\200\211\351\241\271\347\233\256.", nullptr));
 #endif // QT_CONFIG(statustip)
         actionSelectAll->setText(QCoreApplication::translate("MainWindow", "\345\205\250\351\200\211(&A)", nullptr));
 #if QT_CONFIG(tooltip)
@@ -1036,7 +1041,7 @@ public:
 #if QT_CONFIG(tooltip)
         actionCategorization->setToolTip(QCoreApplication::translate("MainWindow", "\346\231\272\350\203\275\345\210\206\347\261\273", nullptr));
 #endif // QT_CONFIG(tooltip)
-        actionteStimonial->setText(QCoreApplication::translate("MainWindow", "\346\231\272\350\203\275\346\216\250\350\215\220", nullptr));
+        actionteStimonial->setText(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\347\252\227", nullptr));
 #if QT_CONFIG(tooltip)
         actionteStimonial->setToolTip(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\345\206\205\345\256\271", nullptr));
 #endif // QT_CONFIG(tooltip)
@@ -1189,6 +1194,51 @@ public:
 #if QT_CONFIG(shortcut)
         actionAutoFitColWidth->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+Shift+\\", nullptr));
 #endif // QT_CONFIG(shortcut)
+        actionFileTransFile->setText(QCoreApplication::translate("MainWindow", "\344\274\240\350\276\223\346\226\207\344\273\266", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileTransFile->setToolTip(QCoreApplication::translate("MainWindow", "\344\274\240\350\276\223\351\200\211\344\270\255\347\232\204\346\226\207\344\273\266.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionImgEditorPix->setText(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221\345\233\276\345\203\217", nullptr));
+#if QT_CONFIG(tooltip)
+        actionImgEditorPix->setToolTip(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221\345\233\276\345\203\217.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionToolBar->setText(QCoreApplication::translate("MainWindow", "\345\267\245\345\205\267\346\240\217(&T)", nullptr));
+#if QT_CONFIG(tooltip)
+        actionToolBar->setToolTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272/\351\232\220\350\227\217\345\267\245\345\205\267\346\240\217.", nullptr));
+#endif // QT_CONFIG(tooltip)
+#if QT_CONFIG(statustip)
+        actionToolBar->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272/\351\232\220\350\227\217\345\267\245\345\205\267\346\240\217.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionFileOpen->setText(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200(&O)", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileOpen->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\350\257\245\350\265\204\346\272\220.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionFileOpenExplore->setText(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\346\211\200\345\234\250\346\226\207\344\273\266\345\244\271", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileOpenExplore->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\350\265\204\346\272\220\346\211\200\345\234\250\346\226\207\344\273\266\345\244\271\350\267\257\345\276\204.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionFileCopyName->setText(QCoreApplication::translate("MainWindow", "\345\244\215\345\210\266\346\226\207\344\273\266\345\220\215", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileCopyName->setToolTip(QCoreApplication::translate("MainWindow", "\345\244\215\345\210\266\346\226\207\344\273\266\347\232\204\345\220\215\347\247\260.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionFileCopyPath->setText(QCoreApplication::translate("MainWindow", "\345\244\215\345\210\266\346\226\207\344\273\266\350\267\257\345\276\204", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileCopyPath->setToolTip(QCoreApplication::translate("MainWindow", "\345\244\215\345\210\266\346\226\207\344\273\266\350\267\257\345\276\204(\344\270\215\345\214\205\345\220\253\346\226\207\344\273\266\345\220\215).", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionFileCopyAbsPath->setText(QCoreApplication::translate("MainWindow", "\345\244\215\345\210\266\346\226\207\344\273\266\347\273\235\345\257\271\350\267\257\345\276\204", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileCopyAbsPath->setToolTip(QCoreApplication::translate("MainWindow", "\345\244\215\345\210\266\346\226\207\344\273\266\347\273\235\345\257\271\350\267\257\345\276\204(\345\214\205\345\220\253\346\226\207\344\273\266\345\220\215).", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionEditText->setText(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250\346\226\207\346\234\254\347\274\226\350\276\221\345\231\250\347\274\226\350\276\221", nullptr));
+#if QT_CONFIG(tooltip)
+        actionEditText->setToolTip(QCoreApplication::translate("MainWindow", "\344\275\277\347\224\250\346\226\207\346\234\254\346\226\207\344\273\266\346\240\274\345\274\217\347\274\226\350\276\221\346\226\207\344\273\266.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionFileCompress->setText(QCoreApplication::translate("MainWindow", "\345\257\271\346\257\224\346\226\207\344\273\266", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileCompress->setToolTip(QCoreApplication::translate("MainWindow", "\345\257\271\346\257\224\345\205\266\344\273\226\346\226\207\344\273\266.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        lbPreview->setText(QCoreApplication::translate("MainWindow", "\351\242\204\350\247\210\345\233\276", nullptr));
+        groupBox->setTitle(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\346\226\207\344\273\266", nullptr));
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));
         comBoxFilter->setItemText(1, QCoreApplication::translate("MainWindow", "\351\237\263\351\242\221", nullptr));
@@ -1199,7 +1249,6 @@ public:
         comBoxFilter->setItemText(6, QCoreApplication::translate("MainWindow", "\345\233\276\347\211\207", nullptr));
         comBoxFilter->setItemText(7, QCoreApplication::translate("MainWindow", "\350\247\206\351\242\221", nullptr));
 
-        lbPreview->setText(QCoreApplication::translate("MainWindow", "\351\242\204\350\247\210\345\233\276", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266(&F)", nullptr));
         menu_2->setTitle(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221(&E)", nullptr));
         menu_6->setTitle(QCoreApplication::translate("MainWindow", "\350\257\255\350\250\200", nullptr));

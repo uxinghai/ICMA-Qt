@@ -39,7 +39,9 @@ public:
 
     if (!query.exec() || !query.next()) { return -1; }
 
-    return query.value(0).toInt();
+    const int res = query.value(0).toInt();
+    query.clear();
+    return res;
   }
 
   /**
@@ -59,18 +61,20 @@ public:
     const QString name =
       dirInfo.isRoot() ? dirPath.left(2) : dirInfo.fileName();
     query.addBindValue(name);
+
     const QString path = dirInfo.isRoot() ? "" : dirInfo.absolutePath();
     query.addBindValue(path);
     query.addBindValue(dirInfo.absoluteFilePath());
+
     const int parentId = getDirectoryId(path);
     query.addBindValue(parentId == -1 ? QVariant() : parentId); ///< 父目录ID
     query.addBindValue(dirInfo.birthTime().toString("yyyy/MM/dd hh:mm"));
     query.addBindValue(dirInfo.lastModified().toString("yyyy/MM/dd hh:mm"));
     query.addBindValue(dirInfo.lastRead().toString("yyyy/MM/dd hh:mm"));
+
     const QString iconPath = dirInfo.isRoot()
                                ? ":/icons/res/icons/disk.png"
                                : ":/icons/res/icons/directory.png";
-
     query.addBindValue(iconPath);
 
     if (!query.exec()) {
@@ -104,14 +108,6 @@ public:
       "parent_directory_id, creation_date, "
       "modification_date, last_access_date, icon_path"
       ") VALUES (?, ?, ?, ?, ?, ?, ?, ?) "
-      "ON CONFLICT(directory_absFilePath) DO UPDATE SET "
-      "directory_name = excluded.directory_name, "
-      "directory_absFilePath = excluded.directory_absFilePath, "
-      "parent_directory_id = excluded.parent_directory_id, "
-      "creation_date = excluded.creation_date, "
-      "modification_date = excluded.modification_date, "
-      "last_access_date = excluded.last_access_date, "
-      "icon_path = excluded.icon_path;"
     );
 
     if (!db->transaction()) { return false; } ///< 无法开启事务直接返回

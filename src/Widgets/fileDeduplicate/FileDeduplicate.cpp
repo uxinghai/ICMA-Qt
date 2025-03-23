@@ -87,7 +87,7 @@ FileDeduplicate::DeleteResult FileDeduplicate::executeFileDeletion(
     const QString& filePath = filesToDelete[i];
     if (QFile file(filePath); file.remove()) {
       result.successCount++;
-      FilesDB::removeFile(filePath);
+      sFileDB.removeFile(filePath);
     }
     updateProgressBar(i + 1, result.totalFiles);
   }
@@ -255,7 +255,7 @@ void FileDeduplicate::getDeduplicationFiles(const QString& directoryPath,
 {
   // 获取哈希值一致的文件路径（绝对路径）
   QVector<FileInfo> files =
-    FilesDB::getAllFilesWithSameHash(directoryPath, recursive);
+    sFileDB.getAllFilesWithSameHash(directoryPath, recursive);
   if (files.empty()) {
     ui->btnDelete->setEnabled(false);
     ui->progressBar->setValue(100);
