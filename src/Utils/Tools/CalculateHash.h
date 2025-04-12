@@ -18,14 +18,14 @@
 
 /**
  * @brief   计算文件的哈希值
- * @param filePath  文件路径
+ * @param fileAbsPath  文件路径
  * @param algorithm  哈希算法
  * @return
  */
-inline QString calculateHash(const QString& filePath,
+inline QString calculateHash(const QString& fileAbsPath,
                              const QCryptographicHash::Algorithm algorithm)
 {
-  QFile file(filePath);
+  QFile file(fileAbsPath);
   if (!file.open(QIODevice::ReadOnly)) { return {}; }
 
   QCryptographicHash hash(algorithm);

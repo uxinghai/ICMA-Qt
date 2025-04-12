@@ -20,6 +20,7 @@
 #include "../../Utils/Tools/IconTextDelegate.h"
 #include "../../Utils/Tools/LogOut.h"
 #include "../../Utils/Tools/MyQueryModel.h"
+#include "../../Widgets/mainWindow/RegexHelper.h"
 #include "Directory.h"
 
 class MyQueryModel;
@@ -51,10 +52,12 @@ struct FileInfo {
       md5Value(md5Value), isEncrypted(isEncrypted), iconPath(iconPath) {}
 };
 
-class FilesDB final: public  QObject{
+class FilesDB final : public QObject {
   Q_OBJECT
+
 public:
-  static FilesDB& getInstance() {
+  static FilesDB& getInstance()
+  {
     static FilesDB instance;
     return instance;
   }
@@ -65,7 +68,7 @@ public:
    * @param fileInfo 文件信息
    * @return 是否成功
    */
-   bool insertFile(QSqlQuery& query, const FileInfo& fileInfo)
+  bool insertFile(QSqlQuery& query, const FileInfo& fileInfo)
   {
     query.addBindValue(fileInfo.fileName);
     query.addBindValue(fileInfo.filePath);
@@ -96,8 +99,10 @@ public:
    * @return 是否成功
    * @thread-safety 线程安全
    */
-   bool autoInsert(const QVariant& filesPath)
+  bool autoInsert(const QVariant& filesPath)
   {
+    clearDBContext("TempFiles"); ///< 删除旧数据库内容
+
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
       qWarning() << "Failed to get database connection";
@@ -105,33 +110,18 @@ public:
       return false;
     }
 
-    // 准备三种语句
+    // 准备插入语句
     QSqlQuery insertQuery(*db);
-    QSqlQuery findQuery(*db);
-    QSqlQuery updateQuery(*db);
 
     // 优化SQLite配置提高写入性能
     insertQuery.exec("PRAGMA journal_mode=WAL");
     insertQuery.exec("PRAGMA synchronous=NORMAL");
-    insertQuery.exec("PRAGMA cache_size=10000"); // 可以自己配置大小
+    insertQuery.exec("PRAGMA cache_size=10000"); ///< 可以自己配置大小
     insertQuery.exec("PRAGMA temp_store=MEMORY");
-
-    // 准备查找语句（通过MD5和文件大小查找）
-    findQuery.prepare(
-      "SELECT file_absFilePath, file_name FROM Files WHERE md5_hash = ? AND file_size = ?");
-
-    // 准备更新语句
-    updateQuery.prepare(
-      "UPDATE Files SET "
-      "file_name = ?, file_path = ?, file_absFilePath = ?, directory_id = ?, "
-      "file_type = ?, modification_date = ?, last_access_date = ?, "
-      "icon_path = ?, op_time = ? "
-      "WHERE md5_hash = ? AND file_size = ?"
-    );
 
     // 准备插入语句
     insertQuery.prepare(
-      "INSERT INTO Files ("
+      "INSERT INTO TempFiles ("
       "file_name, file_path, file_absFilePath, directory_id, file_size, "
       "file_type, creation_date, modification_date, last_access_date, "
       "md5_hash, icon_path, op_time) "
@@ -151,40 +141,12 @@ public:
         QStringList pathLists = filesPath.toStringList();
         int totalRecords = pathLists.size();
         for (const QString& filePath : pathLists) {
-          //sLog.logf("处理文件：%s",filePath.toStdString().c_str());
-          FileInfo info = createFileInfo(filePath);
+          // sLog.logf("处理文件：%s",filePath.toStdString().c_str());
 
-          // 通过MD5和文件大小检查文件是否已存在
-          findQuery.bindValue(0, info.md5Value);
-          findQuery.bindValue(1, info.fileSize);
-
-          if (findQuery.exec() && findQuery.next()) {
-            // 文件内容已存在，但路径可能不同，更新记录
-            QString existingPath = findQuery.value(0).toString();
-            QString existingName = findQuery.value(1).toString();
-
-            // 更新现有记录
-            updateQuery.bindValue(0, info.fileName);
-            updateQuery.bindValue(1, info.filePath);
-            updateQuery.bindValue(2, info.fileAbsFilePath);
-            updateQuery.bindValue(3, -1);
-            updateQuery.bindValue(4, info.fileType);
-            updateQuery.bindValue(5, info.modificationDate);
-            updateQuery.bindValue(6, info.lastAccessDate);
-            updateQuery.bindValue(7, info.iconPath);
-            updateQuery.bindValue(8, QDateTime::currentDateTime());
-            updateQuery.bindValue(9, info.md5Value);
-            updateQuery.bindValue(10, info.fileSize);
-
-            if (!updateQuery.exec()) {
-              throw std::runtime_error("Failed to update file");
-            }
-          }
-          else {
-            // 文件不存在，插入新记录
-            if (!insertFile(insertQuery, info)) {
-              throw std::runtime_error("Failed to insert file");
-            }
+          // 直接插入新记录，不检查是否存在
+          if (FileInfo info = createFileInfo(filePath);
+            !insertFile(insertQuery, info)) {
+            throw std::runtime_error("Failed to insert file");
           }
 
           processedRecords++;
@@ -201,37 +163,10 @@ public:
         }
       }
       else if (filesPath.typeId() == QVariant::String) {
-        FileInfo info = createFileInfo(filesPath.toString());
-
-        // 通过MD5和文件大小检查文件是否已存在
-        findQuery.bindValue(0, info.md5Value);
-        findQuery.bindValue(1, info.fileSize);
-
-        if (findQuery.exec() && findQuery.next()) {
-          // 文件内容已存在，但路径可能不同，更新记录
-          QString existingPath = findQuery.value(0).toString();
-          QString existingName = findQuery.value(1).toString();
-
-          // 更新现有记录
-          updateQuery.bindValue(0, info.fileName);
-          updateQuery.bindValue(1, info.filePath);
-          updateQuery.bindValue(2, info.fileAbsFilePath);
-          updateQuery.bindValue(3, -1);
-          updateQuery.bindValue(4, info.fileType);
-          updateQuery.bindValue(5, info.modificationDate);
-          updateQuery.bindValue(6, info.lastAccessDate);
-          updateQuery.bindValue(7, info.iconPath);
-          updateQuery.bindValue(8, QDateTime::currentDateTime());
-          updateQuery.bindValue(9, info.md5Value);
-          updateQuery.bindValue(10, info.fileSize);
-
-          if (!updateQuery.exec()) { throw std::runtime_error("Failed to update file"); }
-        }
-        else {
-          // 文件不存在，插入新记录
-          if (!insertFile(insertQuery, info)) {
-            throw std::runtime_error("Failed to insert file");
-          }
+        // 直接插入新记录，不检查是否存在
+        if (FileInfo info = createFileInfo(filesPath.toString());
+          !insertFile(insertQuery, info)) {
+          throw std::runtime_error("Failed to insert file");
         }
       }
       else { throw std::runtime_error("Unsupported input type"); }
@@ -247,11 +182,30 @@ public:
   }
 
   /**
+   * @brief 删除数据库内容
+   * @param dbName 数据库名称
+   */
+  void clearDBContext(const QString& dbName)
+  {
+    const auto db = SqlManager::instance().getDatabase();
+    if (!db) {
+      qWarning() << "Failed to get database connection";
+      return;
+    }
+    if (!db->transaction()) {
+      qWarning() << "Failed to begin transaction";
+      return;
+    }
+    QSqlQuery query(*db);
+    if (query.exec(QString("DELETE FROM %1 WHERE 1=1").arg(dbName))) { db->commit(); }
+  }
+
+  /**
    * @brief 获取所有文件路径及其修改时间
    * @return 文件路径到修改时间的映射
    * @thread-safety 线程安全
    */
-   QMap<QString, QDateTime> getAllFilesWithModTime()
+  QMap<QString, QDateTime> getAllFilesWithModTime()
   {
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
@@ -283,7 +237,7 @@ public:
    * @return 是否成功
    * @thread-safety 线程安全
    */
-   bool updateFile(const QVariant& path)
+  bool updateFile(const QVariant& path)
   {
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
@@ -346,7 +300,7 @@ public:
    * @return 是否成功
    * @thread-safety 线程安全
    */
-   bool removeFile(const QVariant& path)
+  bool removeFile(const QVariant& path)
   {
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
@@ -396,8 +350,8 @@ public:
    * @param recursive 是否递归子目录
    * @return
    */
-   QVector<FileInfo> getAllFilesWithSameHash(const QString& directoryPath,
-                                                   const bool recursive)
+  QVector<FileInfo> getAllFilesWithSameHash(const QString& directoryPath,
+                                            const bool recursive)
   {
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
@@ -492,7 +446,7 @@ public:
    * @param fileAbsPath 文件绝对路径
    * @return 文件哈希值
    */
-   QString getHashByAbsPath(const QString& fileAbsPath)
+  QString getHashByAbsPath(const QString& fileAbsPath)
   {
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
@@ -516,7 +470,7 @@ public:
    * @param fileAbsPath 文件绝对路径
    * @return 是否存在
    */
-   bool fileIsExistByAbsFile(const QString& fileAbsPath)
+  bool fileIsExistByAbsFile(const QString& fileAbsPath)
   {
     if (fileAbsPath.isEmpty()) { return false; }
     const auto db = SqlManager::instance().getDatabase();
@@ -537,134 +491,9 @@ public:
     return true;
   }
 
-   qint32 getAllFilesShowView(const QString& dirPath, QTableView* view,
-                                    const quint8& filterMode)
-  {
-    if (!view) {
-      qWarning() << "Invalid view pointer";
-      return 0;
-    }
-
-    if (auto* oldModel = view->model()) {
-      view->setModel(nullptr);
-      oldModel->deleteLater();
-    }
-
-    // 设置新模型
-    MyQueryModel* queryModel = getAllFilesInDir(dirPath, filterMode);
-    view->setModel(queryModel);
-    // 表头右键菜单
-    QObject::connect(view->horizontalHeader(),
-                     &QHeaderView::sortIndicatorChanged,
-                     queryModel, &MyQueryModel::sort);
-    // 给第0列自定义委托用于绘制图标
-    view->setItemDelegateForColumn(0, new IconTextDelegate(view));
-
-    // 假设第9列是计数列，需要获取第一行的第9列的值
-    // 检查是否有数据
-    if (queryModel->rowCount() > 0) {
-      // 创建第一行第9列的模型索引
-      const QModelIndex countIndex = queryModel->index(0, 9);
-      // 获取该单元格的数据并转换为整数
-      return queryModel->data(countIndex).toInt();
-    }
-
-    // 如果没有数据，返回0
-    return 0;
-  }
-
-  /**
-   * @brief 获取所有文件信息
-   * @param dirPath 目录路径
-   * @param filterMode 文件过滤
-   */
-   MyQueryModel* getAllFilesInDir(const QString& dirPath,
-                                        const quint8 filterMode)
-  {
-    const auto myQueryModel = new MyQueryModel();
-
-    // 检查路径是否为空
-    if (dirPath.isEmpty()) {
-      qWarning() << "Directory path is empty";
-      return myQueryModel;
-    }
-
-    // 获取数据库连接
-    const auto db = SqlManager::instance().getDatabase().data();
-    if (!db->isValid() || !db->isOpen()) {
-      qWarning() << "Database is not open. Trying to reconnect...";
-      if (!db->open()) {
-        qWarning() << "Failed to reopen database!";
-        return myQueryModel;
-      }
-    }
-
-    // 构造 SQL 查询
-    QString queryString =
-      "SELECT file_name AS '名称', file_path AS '路径', file_size AS '大小', "
-      "file_type AS '类型', creation_date AS '创建时间', modification_date AS '修改时间', "
-      "last_access_date AS '最近修改时间', md5_hash AS '哈希值', icon_path AS '图标路径', "
-      "CASE WHEN is_encrypted = 0 THEN '否' ELSE '是' END AS '是否加密'"
-      "FROM Files WHERE file_path LIKE :path";
-
-    // 只有当filterMode不为0时，才添加文件类型过滤条件
-    if (filterMode > 0) {
-      QString filterCondition;
-      switch (filterMode) {
-      case 1: ///< 音频
-        filterCondition = "file_type IN ('mp3', 'wav', 'flac', 'aac', 'ogg')";
-        break;
-      case 2: ///< 压缩文件
-        filterCondition = "file_type IN ('zip', 'rar', '7z', 'tar', 'gz')";
-        break;
-      case 3: ///< 文档
-        filterCondition =
-          "file_type IN ('pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt')";
-        break;
-      case 4: ///< 可执行文件
-        filterCondition = "file_type IN ('exe', 'dll', 'bin', 'sh')";
-        break;
-      case 5: ///< 文件夹
-        filterCondition = "file_type = 'folder'";
-        break;
-      case 6: ///< 图片
-        filterCondition =
-          "file_type IN ('jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg')";
-        break;
-      case 7: ///< 视频
-        filterCondition = "file_type IN ('mp4', 'avi', 'mkv', 'mov', 'flv')";
-        break;
-      default:
-        // 如果不是已知的filterMode，就不添加过滤条件
-        break;
-      }
-
-      if (!filterCondition.isEmpty()) { queryString += " AND (" + filterCondition + ")"; }
-    }
-
-    // 打印调试信息，帮助排查问题
-    // qDebug() << "SQL Query: " << queryString;
-    // qDebug() << "Filter Mode: " << filterMode;
-
-    QSqlQuery query(*db);
-    query.prepare(queryString);
-    query.bindValue(":path", dirPath + "%");
-
-    if (!query.exec()) {
-      qWarning() << "Failed to get files in directory: " << dirPath <<
-        " Error: "
-        << query.lastError().text();
-      return myQueryModel;
-    }
-
-    myQueryModel->setQuery(std::move(query));
-
-    return myQueryModel;
-  }
-
-   QSqlQueryModel* getAllTermFilesInDir(const QString& term,
-                                              const QString& dirPath,
-                                              const bool isRegex = false)
+  QSqlQueryModel* getAllTermFilesInDir(const QString& term,
+                                       const QString& dirPath,
+                                       const bool isRegex = false)
   {
     auto* model = new QSqlQueryModel();
 
@@ -729,105 +558,8 @@ public:
     return model;
   }
 
-  // 创建新方法，支持将搜索和过滤模式结合使用 isRegexSearch其实用不到...
-   qint32 searchFilesShowView(const QString& searchTerm,
-                                    const QString& dirPath,
-                                    QTableView* view, const bool isRegexSearch,
-                                    const quint8& filterMode)
-  {
-    if (!view) {
-      qWarning() << "Invalid view pointer";
-      return 0;
-    }
-
-    if (auto* oldModel = view->model()) {
-      view->setModel(nullptr);
-      oldModel->deleteLater();
-    }
-
-    // 获取数据库连接
-    const auto db = SqlManager::instance().getDatabase().data();
-    if (!db->isValid() || !db->isOpen()) {
-      qWarning() << "Database is not open. Trying to reconnect...";
-      if (!db->open()) {
-        qWarning() << "Failed to reopen database!";
-        return 0;
-      }
-    }
-
-    // 文件类型筛选
-    QString filterCondition;
-    if (filterMode > 0) {
-      switch (filterMode) {
-      case 1: // 音频
-        filterCondition = "file_type IN ('mp3', 'wav', 'flac', 'aac', 'ogg')";
-        break;
-      case 2: // 压缩文件
-        filterCondition = "file_type IN ('zip', 'rar', '7z', 'tar', 'gz')";
-        break;
-      case 3: // 文档
-        filterCondition =
-          "file_type IN ('pdf', 'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx', 'txt')";
-        break;
-      case 4: // 可执行文件
-        filterCondition = "file_type IN ('exe', 'dll', 'bin', 'sh')";
-        break;
-      case 5: // 文件夹
-        filterCondition = "file_type = 'folder'";
-        break;
-      case 6: // 图片
-        filterCondition =
-          "file_type IN ('jpg', 'jpeg', 'png', 'gif', 'bmp', 'svg')";
-        break;
-      case 7: // 视频
-        filterCondition = "file_type IN ('mp4', 'avi', 'mkv', 'mov', 'flv')";
-        break;
-      default: ;
-      // 分支0会跳过这个switch，不添加任何筛选条件
-      }
-    }
-
-    // 构造 SQL 查询
-    QString queryString =
-      "SELECT file_name AS '名称', file_path AS '路径', file_size AS '大小', "
-      "file_type AS '类型', creation_date AS '创建时间', modification_date AS '修改时间', "
-      "last_access_date AS '最近修改时间', md5_hash AS '哈希值', icon_path AS '图标路径', "
-      "CASE WHEN is_encrypted = 0 THEN '否' ELSE '是' END AS '是否加密' "
-      "FROM Files WHERE file_path LIKE :path";
-
-    // 使用LIKE进行普通搜索
-    queryString += " AND file_name LIKE :search";
-
-    // 添加文件类型过滤条件
-    if (!filterCondition.isEmpty()) { queryString += " AND (" + filterCondition + ")"; }
-
-    QSqlQuery query(*db);
-    query.prepare(queryString);
-    query.bindValue(":path", dirPath + "%");
-
-    // if (isRegexSearch) { query.bindValue(":search", searchTerm); }
-    query.bindValue(":search", "%" + searchTerm + "%");
-
-    if (!query.exec()) {
-      qWarning() << "Failed to search files: " << query.lastError().text();
-      return 0;
-    }
-
-    auto* queryModel = new MyQueryModel();
-    queryModel->setQuery(std::move(query));
-    view->setModel(queryModel);
-
-    // 表头右键菜单
-    QObject::connect(view->horizontalHeader(),
-                     &QHeaderView::sortIndicatorChanged,
-                     queryModel, &MyQueryModel::sort);
-    // 给第0列自定义委托用于绘制图标
-    view->setItemDelegateForColumn(0, new IconTextDelegate(view));
-
-    return queryModel->rowCount();
-  }
-
-   qint32 getFileCount(const QString& dirPath)
+  // 获取指定目录下的文件条数
+  qint32 getFileCount(const QString& dirPath)
   {
     if (dirPath.isEmpty()) { return 0; }
 
@@ -853,99 +585,19 @@ public:
     return 0;
   }
 
-  //////////////////////////////////////////////////////////////////////////////
-  /////////////////////////         推荐算法         ////////////////////////////
-  //////////////////////////////////////////////////////////////////////////////
-  // 用于推荐相关文件依据哈希值  使用汉明距离（适用于二进制哈希） similarityThreshold相似度阈值
-   QMap<QString, QString> RecFileByHash(const QString& hashValue,
-                                              const int similarityThreshold =
-                                                68)
-  {
-    QMap<QString, QString> recommendedFiles;
-
-    if (hashValue.isEmpty()) { return recommendedFiles; }
-
-    if (auto* db = SqlManager::instance().getDatabase().data()) {
-      if (!db->isValid() || !db->isOpen()) {
-        qWarning() << "Database is not open.";
-        if (!db->open()) {
-          qWarning() << "Failed to reopen database!";
-          return recommendedFiles;
-        }
-      }
-
-      QSqlQuery query(*db);
-
-      // 先查找完全匹配的文件
-      query.prepare(
-        "SELECT file_name, file_absFilePath FROM Files WHERE md5_hash = :hash");
-      query.bindValue(":hash", hashValue);
-      if (query.exec()) {
-        while (query.next()) {
-          recommendedFiles.insert(query.value(0).toString(),
-                                  query.value(1).toString());
-        }
-      }
-      else {
-        qWarning() << "Failed to query files by hash: " << query.lastError().
-          text();
-      }
-
-      // 查找所有哈希值
-      query.prepare("SELECT file_name, md5_hash, file_absFilePath FROM Files");
-      if (!query.exec()) {
-        qWarning() << "Failed to query all hashes: " << query.lastError().
-          text();
-        return recommendedFiles;
-      }
-
-      while (query.next()) {
-        QString filePath = query.value(0).toString();
-        QString dbHash = query.value(1).toString();
-
-        const int distance = CalculateHammingDistance(hashValue, dbHash);
-        const int similarity = 100 - (distance * 100 / 128); ///< MD5 是 128-bit
-
-        if (similarity >= similarityThreshold) {
-          recommendedFiles.insert(filePath, query.value(2).toString());
-        }
-      }
-    }
-
-    return recommendedFiles;
-  }
-
-   void deleteFileFormAbsPath(const QString& absFilePath)
-  {
-    if (auto* db = SqlManager::instance().getDatabase().data()) {
-      if (!db->isValid() || !db->isOpen()) {
-        qWarning() << "Database is not open.";
-        if (!db->open()) {
-          qWarning() << "Failed to reopen database!";
-          return;
-        }
-      }
-
-      QSqlQuery query(*db);
-      query.prepare("DELETE FROM Files WHERE file_absFilePath = :filePath");
-      query.bindValue(":filePath", absFilePath);
-
-      if (!query.exec()) {
-        qWarning() << "Failed to delete file: " << query.lastError().text();
-      }
-    }
-  }
-
-private:
   // 解析文件信息并返回 FileInfo 结构体
-   FileInfo createFileInfo(const QString& fileAbsPath)
+  FileInfo createFileInfo(const QString& fileAbsPath, const bool& getHash = false)
   {
     const QFileInfo fileInfo(fileAbsPath);
-    QString hashValue = getHashByAbsPath(fileAbsPath);
-    if (hashValue.isEmpty()) {
-      // 计算文件哈希值
-      hashValue = calculateHash(fileAbsPath, QCryptographicHash::Md5);
+    QString hashValue = "-1";
+    if (getHash) {
+      hashValue = getHashByAbsPath(fileAbsPath);
+      if (hashValue.isEmpty()) {
+        // 计算文件哈希值 不计算了，在用户点击具体文件时后台计算然后返回推荐以及文件信息
+        hashValue = calculateHash(fileAbsPath, QCryptographicHash::Md5);
+      }
     }
+
     return FileInfo{
       fileInfo.fileName(),
       fileInfo.absolutePath(),
@@ -961,8 +613,480 @@ private:
     };
   }
 
-   int CalculateHammingDistance(const QString& hash1,
-                                      const QString& hash2)
+  // 获取数据库内容的数量 即数据空中所有条数
+  quint32 getDBContextNumber(const QString& dbName)
+  {
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return 0;
+        }
+      }
+
+      // 使用指定的数据库连接创建查询对象
+      QSqlQuery query(*db);
+      if (!query.exec(QString("SELECT COUNT(*) FROM %1").arg(dbName))) {
+        qWarning() << "Failed to count files: " << query.lastError().text();
+        return 0;
+      }
+
+      if (query.next()) { return query.value(0).toInt(); }
+    }
+    return 0;
+  }
+
+  /**
+ * @brief 搜索数据库文件，支持全部搜索和条件搜索
+ * @param view 表格视图指针
+ * @param filterMode 文件类型筛选模式
+ * @param dbName 数据库名称
+ * @param searchTerm 搜索词（可选，为空时搜索全部）
+ * @return 搜索结果的行数
+ */
+  quint32 searchFilesFromDB(QTableView* view, const quint8& filterMode,
+                            const QString& dbName, const QString& searchTerm = QString())
+  {
+    if (!view) {
+      qWarning() << "Invalid view pointer";
+      return 0;
+    }
+
+    if (auto* oldModel = view->model()) {
+      view->setModel(nullptr);
+      oldModel->deleteLater();
+    }
+
+    // 获取数据库连接
+    const auto db = SqlManager::instance().getDatabase().data();
+    if (!db->isValid() || !db->isOpen()) {
+      qWarning() << "Database is not open. Trying to reconnect...";
+      if (!db->open()) {
+        qWarning() << "Failed to reopen database!";
+        return 0;
+      }
+    }
+
+    // 文件类型筛选
+    QString filterCondition;
+    if (RegexHelper::filterTypeMap.contains(filterMode)) {
+      QString fileExtensions = RegexHelper::filterTypeMap[filterMode];
+
+      if (filterMode == 5) { // 文件夹特殊处理
+        filterCondition = "file_type = " + fileExtensions;
+      }
+      else {
+        QStringList extensions = fileExtensions.replace("'", "").split(", ");
+        QStringList conditions;
+        for (const QString& ext : extensions) {
+          conditions.append("file_name LIKE '%." + ext + "'");
+        }
+        filterCondition = conditions.join(" OR ");
+      }
+    }
+
+    // 构造基本SQL查询
+    QString queryString =
+      "SELECT file_name AS '名称', file_path AS '路径', file_size AS '大小', "
+      "file_type AS '类型', creation_date AS '创建时间', modification_date AS '修改时间', "
+      "last_access_date AS '最近修改时间', md5_hash AS '哈希值', icon_path AS '图标路径', "
+      "CASE WHEN is_encrypted = 0 THEN '否' ELSE '是' END AS '是否加密' "
+      "FROM " + dbName;
+
+    // 构建 WHERE 子句
+    QStringList whereConditions;
+
+    // 添加文件类型过滤条件
+    if (!filterCondition.isEmpty()) {
+      whereConditions.append("(" + filterCondition + ")");
+    }
+
+    // 仅搜索文件名
+    if (!searchTerm.isEmpty()) { whereConditions.append("file_name LIKE :searchTerm"); }
+
+    // 组合所有 WHERE 条件
+    if (!whereConditions.isEmpty()) {
+      queryString += " WHERE " + whereConditions.join(" AND ");
+    }
+
+    // 创建查询对象并执行
+    QSqlQuery query(*db);
+    query.prepare(queryString);
+
+    if (!searchTerm.isEmpty()) { query.bindValue(":searchTerm", "%" + searchTerm + "%"); }
+
+    if (!query.exec()) {
+      qWarning() << "Failed to search files:" << query.lastError().text();
+      sLog.logf("查询文件错误：%s--Files:762", query.lastError().text());
+      return 0;
+    }
+
+    auto* queryModel = new MyQueryModel();
+    queryModel->setQuery(std::move(query));
+    view->setModel(queryModel);
+
+    // 表头右键菜单
+    connect(view->horizontalHeader(),
+            &QHeaderView::sortIndicatorChanged,
+            queryModel, &MyQueryModel::sort);
+
+    // 给第0列自定义委托用于绘制图标
+    view->setItemDelegateForColumn(0, new IconTextDelegate(view));
+
+    return queryModel->rowCount();
+  }
+
+  QStringList getDBDisticntCol(const QString& dbName, const QString& col)
+  {
+    QStringList res;
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return {};
+        }
+      }
+
+      QSqlQuery query(*db);
+      if (!query.exec(QString("SELECT DISTINCT %1 FROM %2").arg(col).arg(dbName))) {
+        qWarning() << "Failed to count files: " << query.lastError().text();
+        return {};
+      }
+
+      while (query.next()) {
+        if (QString value = query.value(0).toString(); !value.isEmpty()) {
+          res.append(value);
+        }
+      }
+    }
+
+    return res;
+  }
+
+  /**
+   * @brief 根据文件路径删除数据库中的行
+   * @param file_path  文件路径
+   */
+  void delectRowByFilePath(const QString& file_path, const QString& dbName)
+  {
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return;
+        }
+      }
+
+      QSqlQuery query(*db);
+      query.prepare("Delete from :Table where file_path = :file_path");
+      query.bindValue(":file_path", file_path);
+      query.bindValue(":Table", dbName);
+
+      if (!query.exec()) {
+        qWarning() << "Failed to delete row: " << query.lastError().text();
+        sLog.logf("删除文件错误：%s--Files:851", query.lastError().text());
+      }
+    }
+  }
+
+  void delectRowByFileAbsPath(const QString& file_Abspath, const QString& dbName)
+  {
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return;
+        }
+      }
+
+      QSqlQuery query(*db);
+      query.prepare("Delete from :Table where file_absFilePath = :file_absFilePath");
+      query.bindValue(":file_absFilePath", file_Abspath);
+      query.bindValue(":Table", dbName);
+
+      if (!query.exec()) {
+        qWarning() << "Failed to delete row: " << query.lastError().text();
+        sLog.logf("删除文件错误：%s--Files:874", query.lastError().text());
+      }
+    }
+  }
+
+  /**
+   * @brief 获取所有文件的绝对路径
+   * @param dbName
+   */
+  QStringList getAllFileAbsPath(const QString& dbName)
+  {
+    QStringList res;
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return {};
+        }
+      }
+
+      QSqlQuery query(*db);
+      if (!query.exec(QString("SELECT file_absFilePath FROM %1").arg(dbName))) {
+        qWarning() << "Failed to count files: " << query.lastError().text();
+        return {};
+      }
+
+      while (query.next()) {
+        if (QString value = query.value(0).toString(); !value.isEmpty()) {
+          res.append(value);
+        }
+      }
+    }
+    return res;
+  }
+
+  /**
+   * @brief  插入文件信息
+   * @param dbName
+   * @param info
+   */
+  void insertFileInto(const QString& dbName, const FileInfo& info)
+  {
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return;
+        }
+      }
+
+      // 准备插入语句
+      QSqlQuery insertQuery(*db);
+
+      // 优化SQLite配置提高写入性能
+      insertQuery.exec("PRAGMA journal_mode=WAL");
+      insertQuery.exec("PRAGMA synchronous=NORMAL");
+      insertQuery.exec("PRAGMA cache_size=10000"); ///< 可以自己配置大小
+      insertQuery.exec("PRAGMA temp_store=MEMORY");
+
+      // 准备插入语句
+      QString queryStr = QString(
+        "INSERT INTO %1 ("
+        "file_name, file_path, file_absFilePath, directory_id, file_size, "
+        "file_type, creation_date, modification_date, last_access_date, "
+        "md5_hash, icon_path, op_time) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
+      ).arg(dbName);
+
+      insertQuery.prepare(queryStr);
+
+      insertQuery.addBindValue(info.fileName);
+      insertQuery.addBindValue(info.filePath);
+      insertQuery.addBindValue(info.fileAbsFilePath);
+      insertQuery.addBindValue(QVariant());
+      insertQuery.addBindValue(info.fileSize);
+      insertQuery.addBindValue(info.fileType);
+      insertQuery.addBindValue(info.creationDate);
+      insertQuery.addBindValue(info.modificationDate);
+      insertQuery.addBindValue(info.lastAccessDate);
+      insertQuery.addBindValue(info.md5Value);
+      insertQuery.addBindValue(info.iconPath);
+      insertQuery.addBindValue(
+        QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+      if (!insertQuery.exec()) {
+        qWarning() << "Failed to insert file into database: "
+          << insertQuery.lastError().text();
+      }
+    }
+  }
+
+  quint32 getFileIdByFileAbsPath(const QString& file_absPath, const QString& dbName)
+  {
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return 0;
+        }
+      }
+
+      QSqlQuery query(*db);
+      if (!query.exec(
+        QString("SELECT file_id FROM '%1' WHERE file_absFilePath = '%2'").
+        arg(dbName, file_absPath))) {
+        qWarning() << "Failed to count files: " << query.lastError().text();
+        return 0;
+      }
+      while (query.next()) {
+        if (QString value = query.value(0).toString(); !value.isEmpty()) {
+          return value.toUInt();
+        }
+      }
+    }
+    return 0;
+  }
+
+  //////////////////////////////////////////////////////////////////////////////
+ /////////////////////////         推荐算法         ////////////////////////////
+ //////////////////////////////////////////////////////////////////////////////
+  // 用于推荐相关文件依据哈希值  使用汉明距离（适用于二进制哈希） similarityThreshold相似度阈值
+  struct FileRecommendation {
+    QString filePath;             // 文件路径
+    QStringList recommendReasons; // 推荐原因列表
+  };
+
+  // 用于排序的文件信息结构
+  struct RecFileInfo {
+    QString fileName;
+    QString filePath;
+    int openCount;
+    QDateTime lastModified;
+    int similarity;
+  };
+
+  QMap<QString, FileRecommendation> RecFileByHash(const QString& hashValue,
+                                                  const int similarityThreshold = 68)
+  {
+    // 结果列表
+    QList<RecFileInfo> fileInfoList;
+    QMap<QString, FileRecommendation> recommendedFiles;
+
+    if (hashValue.isEmpty()) { return recommendedFiles; }
+
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return recommendedFiles;
+        }
+      }
+
+      QSqlQuery query(*db);
+
+      // 先查找完全匹配的文件（相似度设为100）
+      query.prepare(
+        "SELECT f.file_name, f.file_absFilePath, "
+        "COALESCE(o.open_count, 0) as open_count, "
+        "f.last_modified "
+        "FROM Files f "
+        "LEFT JOIN (SELECT file_id, COUNT(*) as open_count FROM FileOpenHistory GROUP BY file_id) o "
+        "ON f.file_id = o.file_id "
+        "WHERE f.md5_hash = :hash");
+      query.bindValue(":hash", hashValue);
+      if (query.exec()) {
+        while (query.next()) {
+          RecFileInfo info;
+          info.fileName = query.value(0).toString();
+          info.filePath = query.value(1).toString();
+          info.openCount = query.value(2).toInt();
+          info.lastModified = query.value(3).toDateTime();
+          info.similarity = 100; // 完全匹配
+
+          fileInfoList.append(info);
+        }
+      }
+      else {
+        qWarning() << "Failed to query files by hash: " << query.lastError().text();
+      }
+
+      // 查找相似文件
+      query.prepare(
+        "SELECT f.file_name, f.md5_hash, f.file_absFilePath, "
+        "COALESCE(o.open_count, 0) as open_count, "
+        "f.last_modified "
+        "FROM Files f "
+        "LEFT JOIN (SELECT file_id, COUNT(*) as open_count FROM FileOpenHistory GROUP BY file_id) o "
+        "ON f.file_id = o.file_id");
+
+      if (!query.exec()) {
+        qWarning() << "Failed to query all hashes: " << query.lastError().text();
+
+        // 即使查询失败，也处理已获取的完全匹配结果
+        processRecommendations(fileInfoList, recommendedFiles);
+        return recommendedFiles;
+      }
+
+      while (query.next()) {
+        const QString fileName = query.value(0).toString();
+        QString dbHash = query.value(1).toString();
+        const QString filePath = query.value(2).toString();
+
+        // 跳过完全匹配的，因为已经在前面查询中处理过了
+        if (dbHash == hashValue) { continue; }
+
+        const int distance = CalculateHammingDistance(hashValue, dbHash);
+
+        if (const int similarity = 100 - (distance * 100 / 128);
+          similarity >= similarityThreshold) {
+          RecFileInfo info;
+          info.fileName = fileName;
+          info.filePath = filePath;
+          info.openCount = query.value(3).toInt();
+          info.lastModified = query.value(4).toDateTime();
+          info.similarity = similarity;
+
+          fileInfoList.append(info);
+        }
+      }
+    }
+
+    // 按优先级排序: 打开次数（降序） > 最近修改时间（降序）> 相似度（降序）
+    std::sort(fileInfoList.begin(), fileInfoList.end(),
+              [](const RecFileInfo& a, const RecFileInfo& b) {
+                if (a.openCount != b.openCount) {
+                  return a.openCount > b.openCount; // 打开次数降序
+                }
+                if (a.lastModified != b.lastModified) {
+                  return a.lastModified > b.lastModified; // 修改时间降序
+                }
+                return a.similarity > b.similarity; // 相似度降序
+              });
+
+    // 处理排序后的结果，添加推荐原因
+    processRecommendations(fileInfoList, recommendedFiles);
+    return recommendedFiles;
+  }
+
+  // 处理排序后的结果，添加推荐原因
+  void processRecommendations(const QList<RecFileInfo>& fileInfoList,
+                              QMap<QString, FileRecommendation>& recommendedFiles)
+  {
+    const QDateTime now = QDateTime::currentDateTime();
+
+    for (const auto& [fileName, filePath, openCount, lastModified, similarity] :
+         fileInfoList) {
+      FileRecommendation rec;
+      rec.filePath = filePath;
+
+      // 添加推荐原因
+      if (constexpr int HIGH_USAGE_THRESHOLD = 5;
+        openCount >= HIGH_USAGE_THRESHOLD) { rec.recommendReasons.append("常使用"); }
+
+      if (constexpr int RECENT_DAYS_THRESHOLD = 7;
+        lastModified.daysTo(now) <= RECENT_DAYS_THRESHOLD) {
+        rec.recommendReasons.append("最近修改");
+      }
+
+      if (constexpr int HIGH_SIMILARITY_THRESHOLD = 90;
+        similarity >= HIGH_SIMILARITY_THRESHOLD) { rec.recommendReasons.append("相似"); }
+      else if (similarity < 100) {
+        // 相似度较低但仍在阈值之上
+        rec.recommendReasons.append(QString("部分相似(%1%)").arg(similarity));
+      }
+
+      // 如果没有特定原因，但文件匹配，添加一个默认原因
+      if (rec.recommendReasons.isEmpty()) { rec.recommendReasons.append("匹配"); }
+
+      recommendedFiles.insert(fileName, rec);
+    }
+  }
+
+private:
+  int CalculateHammingDistance(const QString& hash1, const QString& hash2)
   {
     if (hash1.size() != hash2.size()) { return 128; } ///< MD5 是 128-bit
 
@@ -991,6 +1115,5 @@ private:
 signals:
   void progressUpdated(int progress);
 };
-
 
 #define sFileDB FilesDB::getInstance()

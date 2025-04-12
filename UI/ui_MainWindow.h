@@ -23,6 +23,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
+#include <QtWidgets/QScrollArea>
 #include <QtWidgets/QSplitter>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QTableWidget>
@@ -127,15 +128,36 @@ public:
     QAction *actionFileCompress;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
-    QLabel *lbPreview;
-    QSplitter *splitter_3;
-    MyTableView *tableView;
-    QGroupBox *groupBox;
-    QGridLayout *gridLayout_2;
-    QTableWidget *tableWidget;
     QHBoxLayout *horizontalLayout;
     QLineEdit *lineEdit;
     QComboBox *comBoxFilter;
+    QSplitter *splitter_3;
+    MyTableView *tableView;
+    QSplitter *splitter;
+    QWidget *widget;
+    QGridLayout *gridLayout_2;
+    QScrollArea *scrollArea;
+    QWidget *scrollAreaWidgetContents;
+    QGridLayout *gridLayout_3;
+    QGroupBox *groupBox;
+    QGridLayout *gridLayout_4;
+    QLabel *label_4;
+    QLabel *lbFileInfoFileModTime;
+    QLabel *lbFileInfoFileName;
+    QLabel *label_5;
+    QLabel *label;
+    QLabel *label_6;
+    QLabel *lbFileInfoFileHash;
+    QLabel *lbFileInfoFileOpenCount;
+    QGroupBox *groupBox_2;
+    QGridLayout *gridLayout_5;
+    QTableWidget *tableWidget;
+    QGroupBox *TagsGroup;
+    QHBoxLayout *horizontalLayout_2;
+    QLabel *lbTag1;
+    QLabel *lbTag2;
+    QLabel *lbTag3;
+    QLabel *lbPreview;
     QStatusBar *statusbar;
     QMenuBar *menubar;
     QMenu *menu;
@@ -486,49 +508,7 @@ public:
         gridLayout = new QGridLayout(centralwidget);
         gridLayout->setSpacing(0);
         gridLayout->setObjectName("gridLayout");
-        gridLayout->setContentsMargins(0, 0, 3, 0);
-        lbPreview = new QLabel(centralwidget);
-        lbPreview->setObjectName("lbPreview");
-        lbPreview->setFont(font);
-        lbPreview->setAlignment(Qt::AlignCenter);
-        lbPreview->setWordWrap(true);
-
-        gridLayout->addWidget(lbPreview, 1, 1, 1, 1);
-
-        splitter_3 = new QSplitter(centralwidget);
-        splitter_3->setObjectName("splitter_3");
-        splitter_3->setOrientation(Qt::Horizontal);
-        tableView = new MyTableView(splitter_3);
-        tableView->setObjectName("tableView");
-        tableView->setFont(font);
-        tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
-        tableView->setShowGrid(false);
-        tableView->setSortingEnabled(true);
-        splitter_3->addWidget(tableView);
-        tableView->horizontalHeader()->setStretchLastSection(true);
-        tableView->verticalHeader()->setVisible(false);
-        groupBox = new QGroupBox(splitter_3);
-        groupBox->setObjectName("groupBox");
-        groupBox->setMaximumSize(QSize(440, 16777215));
-        groupBox->setAlignment(Qt::AlignCenter);
-        gridLayout_2 = new QGridLayout(groupBox);
-        gridLayout_2->setSpacing(0);
-        gridLayout_2->setObjectName("gridLayout_2");
-        gridLayout_2->setContentsMargins(0, 0, 0, 0);
-        tableWidget = new QTableWidget(groupBox);
-        tableWidget->setObjectName("tableWidget");
-        tableWidget->horizontalHeader()->setVisible(false);
-        tableWidget->horizontalHeader()->setHighlightSections(false);
-        tableWidget->horizontalHeader()->setStretchLastSection(true);
-        tableWidget->verticalHeader()->setVisible(false);
-        tableWidget->verticalHeader()->setHighlightSections(false);
-
-        gridLayout_2->addWidget(tableWidget, 0, 0, 1, 1);
-
-        splitter_3->addWidget(groupBox);
-
-        gridLayout->addWidget(splitter_3, 1, 0, 1, 1);
-
+        gridLayout->setContentsMargins(0, 0, 0, 0);
         horizontalLayout = new QHBoxLayout();
         horizontalLayout->setSpacing(2);
         horizontalLayout->setObjectName("horizontalLayout");
@@ -562,7 +542,166 @@ public:
         horizontalLayout->addWidget(comBoxFilter);
 
 
-        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 2);
+        gridLayout->addLayout(horizontalLayout, 0, 0, 1, 1);
+
+        splitter_3 = new QSplitter(centralwidget);
+        splitter_3->setObjectName("splitter_3");
+        splitter_3->setOrientation(Qt::Horizontal);
+        tableView = new MyTableView(splitter_3);
+        tableView->setObjectName("tableView");
+        tableView->setFont(font);
+        tableView->setSelectionBehavior(QAbstractItemView::SelectItems);
+        tableView->setShowGrid(false);
+        tableView->setSortingEnabled(true);
+        splitter_3->addWidget(tableView);
+        tableView->horizontalHeader()->setStretchLastSection(true);
+        tableView->verticalHeader()->setVisible(false);
+        splitter = new QSplitter(splitter_3);
+        splitter->setObjectName("splitter");
+        splitter->setOrientation(Qt::Horizontal);
+        widget = new QWidget(splitter);
+        widget->setObjectName("widget");
+        widget->setMinimumSize(QSize(300, 0));
+        gridLayout_2 = new QGridLayout(widget);
+        gridLayout_2->setSpacing(0);
+        gridLayout_2->setObjectName("gridLayout_2");
+        gridLayout_2->setContentsMargins(0, 0, 0, 0);
+        scrollArea = new QScrollArea(widget);
+        scrollArea->setObjectName("scrollArea");
+        scrollArea->setWidgetResizable(true);
+        scrollAreaWidgetContents = new QWidget();
+        scrollAreaWidgetContents->setObjectName("scrollAreaWidgetContents");
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 390, 382));
+        gridLayout_3 = new QGridLayout(scrollAreaWidgetContents);
+        gridLayout_3->setObjectName("gridLayout_3");
+        gridLayout_3->setHorizontalSpacing(0);
+        gridLayout_3->setVerticalSpacing(3);
+        gridLayout_3->setContentsMargins(0, 0, 0, 0);
+        groupBox = new QGroupBox(scrollAreaWidgetContents);
+        groupBox->setObjectName("groupBox");
+        gridLayout_4 = new QGridLayout(groupBox);
+        gridLayout_4->setObjectName("gridLayout_4");
+        label_4 = new QLabel(groupBox);
+        label_4->setObjectName("label_4");
+        label_4->setMinimumSize(QSize(0, 0));
+        label_4->setMaximumSize(QSize(82, 16777215));
+
+        gridLayout_4->addWidget(label_4, 1, 0, 1, 1);
+
+        lbFileInfoFileModTime = new QLabel(groupBox);
+        lbFileInfoFileModTime->setObjectName("lbFileInfoFileModTime");
+        lbFileInfoFileModTime->setMinimumSize(QSize(82, 0));
+        lbFileInfoFileModTime->setMaximumSize(QSize(16777215, 16777215));
+
+        gridLayout_4->addWidget(lbFileInfoFileModTime, 1, 1, 1, 1);
+
+        lbFileInfoFileName = new QLabel(groupBox);
+        lbFileInfoFileName->setObjectName("lbFileInfoFileName");
+        lbFileInfoFileName->setMinimumSize(QSize(82, 0));
+        lbFileInfoFileName->setMaximumSize(QSize(16777215, 16777215));
+
+        gridLayout_4->addWidget(lbFileInfoFileName, 0, 1, 1, 1);
+
+        label_5 = new QLabel(groupBox);
+        label_5->setObjectName("label_5");
+        label_5->setMinimumSize(QSize(0, 0));
+        label_5->setMaximumSize(QSize(82, 16777215));
+
+        gridLayout_4->addWidget(label_5, 3, 0, 1, 1);
+
+        label = new QLabel(groupBox);
+        label->setObjectName("label");
+        label->setMinimumSize(QSize(0, 0));
+        label->setMaximumSize(QSize(82, 16777215));
+
+        gridLayout_4->addWidget(label, 0, 0, 1, 1);
+
+        label_6 = new QLabel(groupBox);
+        label_6->setObjectName("label_6");
+        label_6->setMinimumSize(QSize(0, 0));
+        label_6->setMaximumSize(QSize(82, 16777215));
+
+        gridLayout_4->addWidget(label_6, 2, 0, 1, 1);
+
+        lbFileInfoFileHash = new QLabel(groupBox);
+        lbFileInfoFileHash->setObjectName("lbFileInfoFileHash");
+        lbFileInfoFileHash->setMinimumSize(QSize(82, 0));
+        lbFileInfoFileHash->setMaximumSize(QSize(16777215, 16777215));
+
+        gridLayout_4->addWidget(lbFileInfoFileHash, 2, 1, 1, 1);
+
+        lbFileInfoFileOpenCount = new QLabel(groupBox);
+        lbFileInfoFileOpenCount->setObjectName("lbFileInfoFileOpenCount");
+        lbFileInfoFileOpenCount->setMinimumSize(QSize(82, 0));
+        lbFileInfoFileOpenCount->setMaximumSize(QSize(16777215, 16777215));
+
+        gridLayout_4->addWidget(lbFileInfoFileOpenCount, 3, 1, 1, 1);
+
+
+        gridLayout_3->addWidget(groupBox, 1, 0, 1, 1);
+
+        groupBox_2 = new QGroupBox(scrollAreaWidgetContents);
+        groupBox_2->setObjectName("groupBox_2");
+        gridLayout_5 = new QGridLayout(groupBox_2);
+        gridLayout_5->setSpacing(0);
+        gridLayout_5->setObjectName("gridLayout_5");
+        gridLayout_5->setContentsMargins(0, 0, 0, 0);
+        tableWidget = new QTableWidget(groupBox_2);
+        if (tableWidget->columnCount() < 2)
+            tableWidget->setColumnCount(2);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        tableWidget->setObjectName("tableWidget");
+        tableWidget->setStyleSheet(QString::fromUtf8(""));
+        tableWidget->setAlternatingRowColors(true);
+        tableWidget->horizontalHeader()->setVisible(true);
+        tableWidget->horizontalHeader()->setStretchLastSection(true);
+        tableWidget->verticalHeader()->setVisible(true);
+
+        gridLayout_5->addWidget(tableWidget, 0, 0, 1, 1);
+
+
+        gridLayout_3->addWidget(groupBox_2, 2, 0, 1, 1);
+
+        TagsGroup = new QGroupBox(scrollAreaWidgetContents);
+        TagsGroup->setObjectName("TagsGroup");
+        TagsGroup->setMaximumSize(QSize(16777215, 16777215));
+        horizontalLayout_2 = new QHBoxLayout(TagsGroup);
+        horizontalLayout_2->setObjectName("horizontalLayout_2");
+        lbTag1 = new QLabel(TagsGroup);
+        lbTag1->setObjectName("lbTag1");
+
+        horizontalLayout_2->addWidget(lbTag1);
+
+        lbTag2 = new QLabel(TagsGroup);
+        lbTag2->setObjectName("lbTag2");
+
+        horizontalLayout_2->addWidget(lbTag2);
+
+        lbTag3 = new QLabel(TagsGroup);
+        lbTag3->setObjectName("lbTag3");
+
+        horizontalLayout_2->addWidget(lbTag3);
+
+
+        gridLayout_3->addWidget(TagsGroup, 0, 0, 1, 1);
+
+        scrollArea->setWidget(scrollAreaWidgetContents);
+
+        gridLayout_2->addWidget(scrollArea, 0, 0, 1, 1);
+
+        splitter->addWidget(widget);
+        lbPreview = new QLabel(splitter);
+        lbPreview->setObjectName("lbPreview");
+        lbPreview->setFont(font);
+        lbPreview->setAlignment(Qt::AlignCenter);
+        lbPreview->setWordWrap(true);
+        splitter->addWidget(lbPreview);
+        splitter_3->addWidget(splitter);
+
+        gridLayout->addWidget(splitter_3, 1, 0, 1, 1);
 
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
@@ -717,7 +856,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "ICMA\342\200\224\342\200\224\346\231\272\350\203\275\345\206\205\345\256\271\347\256\241\347\220\206\345\212\251\346\211\213", nullptr));
+        MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "ICMA\342\200\224\342\200\224\345\206\205\345\256\271\347\256\241\347\220\206\346\231\272\350\203\275\345\212\251\346\211\213", nullptr));
         actionAbout->setText(QCoreApplication::translate("MainWindow", "\345\205\263\344\272\216ICMA", nullptr));
 #if QT_CONFIG(tooltip)
         actionAbout->setToolTip(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213ICMA\347\233\270\345\205\263\344\277\241\346\201\257.", nullptr));
@@ -1237,8 +1376,6 @@ public:
 #if QT_CONFIG(tooltip)
         actionFileCompress->setToolTip(QCoreApplication::translate("MainWindow", "\345\257\271\346\257\224\345\205\266\344\273\226\346\226\207\344\273\266.", nullptr));
 #endif // QT_CONFIG(tooltip)
-        lbPreview->setText(QCoreApplication::translate("MainWindow", "\351\242\204\350\247\210\345\233\276", nullptr));
-        groupBox->setTitle(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\346\226\207\344\273\266", nullptr));
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));
         comBoxFilter->setItemText(1, QCoreApplication::translate("MainWindow", "\351\237\263\351\242\221", nullptr));
@@ -1249,6 +1386,25 @@ public:
         comBoxFilter->setItemText(6, QCoreApplication::translate("MainWindow", "\345\233\276\347\211\207", nullptr));
         comBoxFilter->setItemText(7, QCoreApplication::translate("MainWindow", "\350\247\206\351\242\221", nullptr));
 
+        groupBox->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266\344\277\241\346\201\257", nullptr));
+        label_4->setText(QCoreApplication::translate("MainWindow", "\360\237\225\222\345\210\233\345\273\272\346\227\266\351\227\264: ", nullptr));
+        lbFileInfoFileModTime->setText(QString());
+        lbFileInfoFileName->setText(QString());
+        label_5->setText(QCoreApplication::translate("MainWindow", "\360\237\221\201\357\270\217\342\200\215\360\237\227\250\357\270\217\346\211\223\345\274\200\346\254\241\346\225\260:", nullptr));
+        label->setText(QCoreApplication::translate("MainWindow", "\360\237\223\204 \346\226\207\344\273\266\345\220\215: ", nullptr));
+        label_6->setText(QCoreApplication::translate("MainWindow", "\360\237\233\241\357\270\217\345\223\210\345\270\214\345\200\274:", nullptr));
+        lbFileInfoFileHash->setText(QString());
+        lbFileInfoFileOpenCount->setText(QString());
+        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220", nullptr));
+        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\346\226\207\344\273\266", nullptr));
+        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\345\216\237\345\233\240", nullptr));
+        TagsGroup->setTitle(QCoreApplication::translate("MainWindow", "\346\240\207\347\255\276", nullptr));
+        lbTag1->setText(QCoreApplication::translate("MainWindow", "tag1", nullptr));
+        lbTag2->setText(QCoreApplication::translate("MainWindow", "tag2", nullptr));
+        lbTag3->setText(QCoreApplication::translate("MainWindow", "tag3", nullptr));
+        lbPreview->setText(QCoreApplication::translate("MainWindow", "\351\242\204\350\247\210\345\233\276", nullptr));
         menu->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266(&F)", nullptr));
         menu_2->setTitle(QCoreApplication::translate("MainWindow", "\347\274\226\350\276\221(&E)", nullptr));
         menu_6->setTitle(QCoreApplication::translate("MainWindow", "\350\257\255\350\250\200", nullptr));

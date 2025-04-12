@@ -1,8 +1,5 @@
 # ICMA-Qt
 
-This software uses the Qt framework, licensed under the GNU Lesser General Public License (LGPL) version 2.1 (or later).
-You can obtain a copy of the LGPL license at https://www.gnu.org/licenses/lgpl.html.
-
 2025届个人毕业设计
 
 
@@ -146,9 +143,19 @@ struct MatInfo {
    | 首次打卡图像无法被正常处理 | 直接拖拽滑块处理，会显示一张空白图像 | ![image-20250126010211633](../AppData/Roaming/Typora/typora-user-images/image-20250126010211633.png) |
    | Kernel 控制异常            | 滑块无法被拖动                       | ![image-20250126011346932](../AppData/Roaming/Typora/typora-user-images/image-20250126011346932.png) |
 
-	
+
+
+
+#### 2025/2/15
+
+完成主界面的搜索功能，可以基本的字段搜索，可以按类型搜索。后续考虑加入正则表达式搜索…
+
+#### 2025/3/1
+
+监听导入文件夹的变化，随时更新数据库以及界面显示。
 
 #### 2025/3/23
+
 解决难题：我现在有一个QTableView，模型来自sqlite3数据库。然后再我导入数据库内容时，有10万条数据。
 因为sqlite3 不支持多线程写操作。所以写入非常慢。导致我QTableView一直没有模型更新界面。
 解决方法：分批次提交事务后发出信号更新界面。

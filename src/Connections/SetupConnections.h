@@ -46,7 +46,7 @@ public:
 
       // 获取第 0 项的第 1 列完整文件路径
       const QString fileAbsPath = indexes.first().siblingAtColumn(1).data().toString() +
-        "\\" +
+        "/" +
         indexes.first().siblingAtColumn(0).data().toString();
       sLog.logf("打开文件: %s", fileAbsPath.toStdString().c_str());
 
@@ -55,7 +55,7 @@ public:
         quickInformation->quickShow(widget, "打开成功");
 
         // 更新数据库 文件被打开次数
-        FileActionsDB::updateFileAction(fileAbsPath, "打开");
+        sFileActionsDB.updateFileAction(fileAbsPath, "打开");
       }
     });
 
@@ -137,7 +137,7 @@ public:
           sLog.logf("删除文件: %s", fileAbsPath.toStdString().c_str());
           quickInformation->quickShow(widget, "删除成功");
           // 更新数据库
-          sFileDB.deleteFileFormAbsPath(fileAbsPath);
+          sFileDB.delectRowByFileAbsPath(fileAbsPath, "Files");
           ui->tableView->update();
         }
         else { quickInformation->quickShow(widget, "删除失败"); }

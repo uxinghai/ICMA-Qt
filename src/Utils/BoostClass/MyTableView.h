@@ -21,6 +21,7 @@
 #include <QTimer>
 #include <QWidget>
 
+#include "../../DataBase/SqlQuery/Files.h"
 #include "../../Manager/Config/iniManager.h"
 #include "../Tools/MyQueryModel.h"
 
@@ -64,13 +65,18 @@ public:
               for (const QModelIndex& index : selected.indexes()) {
                 if (index.column() != 0) {
                   selectModel->clear();
-                  emit lbStatusModify("NULL","NULL");
+                  emit lbStatusModify("NULL", "NULL");
                 }
                 else {
-                  emit lbStatusModify(
-                    index.sibling(index.row(), 1).data().toString(),
-                    index.sibling(index.row(), 7).data().toString()
-                    );
+                  QString file_absPath = index.sibling(index.row(), 1).data().toString()
+                    + "/" + index.sibling(index.row(), 0).data().toString();
+                  QString hashValue = sFileDB.getHashByAbsPath(file_absPath);
+                  if (hashValue.isEmpty()) {
+                    // 数据库中没有则计算出
+                    hashValue = calculateHash(file_absPath, QCryptographicHash::Md5);
+                    qDebug() << "计算文件:" << file_absPath << "值" << hashValue;
+                  }
+                  emit lbStatusModify(file_absPath, hashValue);
                 }
               }
             });
@@ -181,9 +187,7 @@ public:
       // 恢复为交互模式并应用保存的宽度
       header->setSectionResizeMode(QHeaderView::Interactive);
 
-      for (int i = 0; i < columnCount; ++i) {
-        header->resizeSection(i, columnWidths[i]);
-      }
+      for (int i = 0; i < columnCount; ++i) { header->resizeSection(i, columnWidths[i]); }
     };
 
     // 连接自适应动作
@@ -218,9 +222,7 @@ protected:
 
       // 只有在有效的目标列时才启动定时器
       if (curIndex.isValid() &&
-        (curIndex.column() == 0 || curIndex.column() == 1)) {
-        hoverTimer->start(500);
-      }
+        (curIndex.column() == 0 || curIndex.column() == 1)) { hoverTimer->start(500); }
     }
 
     QTableView::mouseMoveEvent(event);

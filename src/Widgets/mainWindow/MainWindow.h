@@ -45,8 +45,6 @@ public slots:
   */
   void doInit();
 
-
-
 protected:
   /**
    * @brief 重写关闭事件，用于窗口关闭时的处理
@@ -87,8 +85,9 @@ private slots:
     else { regedit.remove(appName); }
   }
 
-  void doSearchFile(const QString& term, const quint8& filterMode = 0);
-  void doRecFileByHash(const QString& hashValue);
+  void doSearchFile(QString term, const quint8& filterMode = 0);
+  // void doSearchFileByType(QString term, const quint8& filterMode);
+  void doRecFileByHash(const QString& hashValue) const;
 
 private:
   // 配置文件操作
@@ -99,9 +98,9 @@ private:
   void setupConnections();
 
   Ui::MainWindow* ui;
-  QLabel* lbStatus; ///< 状态栏显示的标签
-  QString filePath; ///< 保存文件路径，用于 Windows 右键菜单操作时动态更新
-  QString daoRuDirectoryFile; ///< 使用导入功能需要显示的目录
+  QLabel* lbStatus;                             ///< 状态栏显示的标签
+  QString filePath;                             ///< 保存文件路径，用于 Windows 右键菜单操作时动态更新
+  QString daoRuDirectoryFile;                   ///< 使用导入功能需要显示的目录
   std::unique_ptr<SystemTrayIcon> icmaTrayIcon; ///< 系统托盘图标
 
   QFutureWatcher<qint32> watcher;

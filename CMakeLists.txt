@@ -54,8 +54,6 @@ set(PROJECT_SOURCES
         src/Widgets/fileTransfer/client/AClient.cpp
         src/Widgets/fileTransfer/server/AServer.h
         src/Widgets/fileTransfer/server/AServer.cpp
-        src/Widgets/mainWindow/FileManage/FileManage.cpp
-        src/Widgets/mainWindow/FileManage/FileManage.h
         src/Widgets/photoShop/ShareSrc.h
         src/Utils/BoostClass/MyGraphicsView.h
         src/Widgets/photoShop/faceTest/ToGetToken.h
@@ -71,6 +69,11 @@ set(PROJECT_SOURCES
         src/Widgets/photoShop/PSTools/Resize.h
         src/Widgets/photoShop/PSTools/Adjust.h
         src/Widgets/photoShop/PSTools/Crop.h
+        src/Widgets/fileTransfer/ShareSrc.h
+        src/Widgets/fileDeduplicate/FileDeduplicate.h
+        src/Widgets/fileDeduplicate/FileDeduplicate.cpp
+        src/Widgets/mainWindow/RegexHelper.h
+        src/Widgets/mainWindow/RegexHelper.h
         # utils下所有文件
         src/Utils/Tools/closeWindowMsgBox.h
         src/Utils/Tools/MovableFramelessWindow.h
@@ -85,6 +88,11 @@ set(PROJECT_SOURCES
         src/Utils/Tools/MyInformationBox.h
         src/Utils/BoostClass/NoWheelSlider.h
         src/Utils/Tools/LogOut.h
+        src/Utils/Tools/DataUnitCalc.h
+        src/Utils/Tools/MyQueryModel.h
+        src/Utils/BoostClass/MyTableView.h
+        src/Utils/Tools/IconTextDelegate.h
+        src/Utils/Tools/CalculateHash.h
         # network下所有文件
         src/manager/JsonManager.h
         src/Network/GetBaiduToken.h
@@ -103,6 +111,8 @@ set(PROJECT_SOURCES
         src/DataBase/SqlQuery/Files.h
         src/DataBase/SqlQuery/SqlQueryHelper.h
         src/Network/AIDoFaceDetect.h
+        src/Connections/SetupConnections.h
+        src/DataBase/SqlQuery/FileActions.h
         # UI
         UI/MainWindow.ui
         UI/PS.ui
@@ -112,17 +122,12 @@ set(PROJECT_SOURCES
         UI/FaceTest.ui
         UI/SimpleCrop.ui
         UI/CustomCrop.ui
-        src/Widgets/fileTransfer/ShareSrc.h
-        src/Widgets/fileDeduplicate/FileDeduplicate.h
-        src/Widgets/fileDeduplicate/FileDeduplicate.cpp
-        src/Utils/Tools/DataUnitCalc.h
-        src/Utils/Tools/MyQueryModel.h
-        src/Utils/BoostClass/MyTableView.h
-        src/Utils/Tools/IconTextDelegate.h
-        src/Utils/Tools/CalculateHash.h
-        src/Connections/SetupConnections.h
-        src/DataBase/SqlQuery/FileActions.h
-        "src/Utils/ThreadWorkers/File/ImportWorker .h"
+        src/Widgets/mainWindow/RegexHelper.h
+        src/Widgets/mainWindow/RegexHelper.h
+        src/Utils/ThreadWorkers/FilesDatabaseUpdater.h
+        src/Widgets/mainWindow/FileTypeHelper.h
+        src/DataBase/SqlQuery/Tags.h
+
 )
 
 #                                            *********

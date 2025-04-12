@@ -19,11 +19,15 @@
 
 class FileActionsDB {
 public:
-  // 更新文件操作信息（最近操作类型）， 如果类型是打开则更新打开次数
-  static void updateFileAction(const QString& absFilePath, const QString& actionType)
+  static FileActionsDB& getInstance()
   {
-    const bool fileExists = searchFileByAbsFilePath(absFilePath);
+    static FileActionsDB instance;
+    return instance;
+  }
 
+  // 更新文件操作信息（最近操作类型）， 如果类型是打开则更新打开次数
+  void updateFileAction(const QString& absFilePath, const QString& actionType)
+  {
     if (auto* db = SqlManager::instance().getDatabase().data()) {
       if (!db->isValid() || !db->isOpen()) {
         qWarning() << "Database is not open.";
@@ -35,7 +39,7 @@ public:
 
       QSqlQuery query(*db);
 
-      if (fileExists) {
+      if (searchFileByAbsFilePath(absFilePath)) {
         // 更新现有记录
         query.prepare(
           "UPDATE FileActions SET action_type = :actionType, action_date = :actionDate "
@@ -46,7 +50,7 @@ public:
         query.prepare(
           "INSERT INTO FileActions (absFilePath, action_type, action_date, openCount) "
           "VALUES (:absFilePath, :actionType, :actionDate, :openCount)");
-        query.bindValue(":openCount", actionType == "打开" ? 1 : 0);
+        query.bindValue(":openCount", 0);
       }
 
       query.bindValue(":absFilePath", absFilePath);
@@ -77,7 +81,7 @@ public:
     }
   }
 
-  static bool searchFileByAbsFilePath(const QString& absFilePath)
+  bool searchFileByAbsFilePath(const QString& absFilePath)
   {
     if (auto* db = SqlManager::instance().getDatabase().data()) {
       if (!db->isValid() || !db->isOpen()) {
@@ -98,4 +102,27 @@ public:
     }
     return false;
   }
+
+  quint16 getFileOpenCntByAbsPath(const QString& fileAbsPath)
+  {
+    if (auto* db = SqlManager::instance().getDatabase().data()) {
+      if (!db->isValid() || !db->isOpen()) {
+        qWarning() << "Database is not open.";
+        if (!db->open()) {
+          qWarning() << "Failed to reopen database!";
+          return 0;
+        }
+      }
+
+      QSqlQuery query(*db);
+
+      query.prepare(
+        "select openCount from FileActions where absFilePath = ?");
+      query.addBindValue(fileAbsPath);
+      if (query.exec() && query.next()) { return query.value(0).toUInt(); }
+    }
+    return 0;
+  }
 };
+
+#define sFileActionsDB FileActionsDB::getInstance()
