@@ -107,4 +107,7 @@ private:
   qint32 filesCountResult;
   QFuture<qint32> future;
   QProgressBar* progress;
+
+signals:
+  void finishedPleaseUpdate();
 };

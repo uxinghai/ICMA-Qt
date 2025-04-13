@@ -64,14 +64,13 @@ public:
     // 检查当前线程内是否有数据库
     if (!threadLocalDb.hasLocalData()) {
       const auto db = QSharedPointer<QSqlDatabase>::create
-      (QSqlDatabase::addDatabase(
-        "QSQLITE",
-        QString("Connection-%1").arg(
-          reinterpret_cast<quintptr>(QThread::currentThread()))));
+      (QSqlDatabase::addDatabase("QSQLITE", QString("Connection-%1").
+                                 arg(reinterpret_cast<quintptr>(
+                                   QThread::currentThread()))));
       db->setDatabaseName(dbFilePath);
       if (!db->open()) {
-        qWarning() << "Failed to open database for thread:" <<
-          QThread::currentThread()
+        qWarning() << "Failed to open database for thread:"
+          << QThread::currentThread()
           << "Error:" << db->lastError().text();
         return nullptr;
       }

@@ -23,6 +23,9 @@
 #include "FileTypeHelper.h"
 #include "RegexHelper.h"
 
+//TODO 导入文件可能没有把上次的临时数据库删除，第二次导入还是之前的内容
+//TODO 推荐现在只推荐相似文件，常用最近修改都还没有！
+
 class FilesDatabaseUpdater;
 extern QTranslator tran;
 extern QtMessageHandler IcmaMessageHandler;
@@ -201,13 +204,21 @@ void MainWindow::setupConnections()
           &QProgressBar::setValue); ///< 进度值更新
   connect(&watcher, &QFutureWatcher<qint32>::finished, [this] {
     progress->setVisible(false);
-    doSearchFile(ui->lineEdit->text(), ui->comBoxFilter->currentIndex());
+
+    emit finishedPleaseUpdate();
 
     // 创建一个线程在后台更新 Files 表
     auto* worker = new FilesDatabaseUpdater();
     QThreadPool::globalInstance()->start(worker);
 
     this->setEnabled(true);
+  });
+
+  // TODO 没有解决TODO1!!!
+  connect(this, &MainWindow::finishedPleaseUpdate, [this] {
+    // 同步问题：数据库没有完全更新好就进入了这个槽
+    sFileDB.waitForCompletion(); // 增加了数据库方法！
+    doSearchFile(ui->lineEdit->text(), ui->comBoxFilter->currentIndex());
   });
 
   // 搜索框变化时搜索文件
@@ -281,6 +292,7 @@ void MainWindow::doChangeTheme() const
 
 void MainWindow::doSearchFile(QString term, const quint8& filterMode)
 {
+  qDebug() << "准备查询：" << sFileDB.getDBContextNumber("TempFiles");
   term = term.trimmed();
   // 搜索词条为空时 显示所有文件
   if (const QString searchTerm = term; searchTerm.isEmpty()) {
@@ -386,16 +398,14 @@ void MainWindow::doRecFileByHash(const QString& hashValue) const
   ui->tableWidget->setColumnCount(2);
   //ui->tableWidget->hideColumn(1);
 
-  // 插入
-  int i = 0;
+  // 插入推荐文件
   auto listMap = sFileDB.RecFileByHash(hashValue);
   for (auto it = listMap.begin(); it != listMap.end(); ++it) {
     ui->tableWidget->insertRow(ui->tableWidget->rowCount());
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 0,
-                             new QTableWidgetItem(it.key()[i]));
+                             new QTableWidgetItem(it.key()));
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1,
-                             new QTableWidgetItem(it.value().recommendReasons[i]));
-    ++i;
+                             new QTableWidgetItem(it.value().recommendReasons[0]));
   }
 }
 
@@ -566,9 +576,6 @@ qint32 MainWindow::doFilesFormDirectory(const QString& dirPath) const
     it.next();
     directoryFilesPath << it.fileInfo().absoluteFilePath();
 
-    // 直接显示在界面
-    //FileInfo info = sFileDB.createFileInfo(filePath);
-
     ++count;
   }
 
@@ -599,6 +606,7 @@ void MainWindow::doDaoRu()
 
   progress->setVisible(true);
   watcher.setFuture(future);
+
   this->setEnabled(false); ///< 冻结窗口不可用
 }
 

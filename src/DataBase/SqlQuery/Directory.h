@@ -102,6 +102,11 @@ public:
 
     // 插入的 SQL 语句，在 insertDirectory 中使用执行
     QSqlQuery query(*db);
+    // 优化SQLite配置提高写入性能
+    query.exec("PRAGMA journal_mode=WAL");
+    query.exec("PRAGMA synchronous=NORMAL");
+    query.exec("PRAGMA cache_size=10000"); ///< 可以自己配置大小
+    query.exec("PRAGMA temp_store=MEMORY");
     query.prepare(
       "INSERT INTO Directory ("
       "directory_name, directory_path, directory_absFilePath, "
