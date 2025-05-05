@@ -76,4 +76,12 @@ private:
   QString fileSavePath;
 
   qint64 transStartTime; ///< 记录每次传输开始时间以便更新进度
+
+
+  QByteArray dataBuffer;
+  bool processNextMessage();
+  bool processFileHeader();
+  bool processFileData();
+  bool processFileEnd();
+  bool startReceivingFile(const QString& fileName, const qint64 fileSize);
 };

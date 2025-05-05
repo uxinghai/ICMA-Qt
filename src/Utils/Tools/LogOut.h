@@ -22,10 +22,12 @@
 #include <QDir>
 #include <QMutex>
 
+#define ICMALogDir "ICMALogDir"
+
 extern QtMessageHandler IcmaMessageHandler;
 
 static QMutex mutex;
-static QString logDir;
+inline QString TodayDate;
 
 class LogOut final {
 public:
@@ -40,15 +42,18 @@ public:
   void init() const
   {
     // 创建存放日志的目录
-    const QDir dir;
-    if (logDir = QApplication::applicationDirPath() + "/ICMALogDir";
-      !dir.exists(logDir)) {
-      if (dir.mkdir(logDir)) { qDebug() << "created log dir in:" << logDir; }
+    if (const QDir dir; !dir.exists(ICMALogDir)) {
+      if (dir.mkdir(ICMALogDir)) { qDebug() << "创建日志文件:" << ICMALogDir; }
     }
+
+    const QString curDate = QDate::currentDate().toString("yyyy-MM-dd");
+    TodayDate = curDate;
+    if (QFile file(QString("%1/%2.txt").arg(ICMALogDir, TodayDate));
+      file.open(QIODeviceBase::Append)) { file.close(); }
 
     if (clearLog7DaysAgo) {
       // 清理超出7天的日志（应用每次重启时清理日志）
-      for (const auto& fileInfo : QDir(logDir).entryInfoList(
+      for (const auto& fileInfo : QDir(ICMALogDir).entryInfoList(
              QDir::Files | QDir::NoDotAndDotDot)) {
         if (QDate logFileDate = QDate::fromString(fileInfo.baseName(),
                                                   "yyyy-MM-dd");
@@ -69,12 +74,7 @@ public:
     QMutexLocker locker(&mutex); ///< 确保线程安全
     // 创建当天日志文件
     if (type != QtDebugMsg) {
-      const QString curDate = QDate::currentDate().toString("yyyy-MM-dd");
-      if (QFile file(logDir + "/" + curDate + ".txt");
-        file.open(QIODeviceBase::Append)) {
-        file.write(message.toUtf8());
-        file.close();
-      }
+      writeLog(message);
     }
     else {
       qInstallMessageHandler(nullptr); ///< qDebug()日志让系统处理
@@ -89,8 +89,8 @@ public:
   void logf(const char* format, const Args&... args) const
   {
     char buffer[8192];
-    if (const int result = snprintf(buffer, sizeof(buffer), format, args...); result >=
-      0) {
+    if (const int result = snprintf(buffer, sizeof(buffer), format, args...);
+      result >= 0) {
       if (result < static_cast<int>(sizeof(buffer))) { log(QString::fromUtf8(buffer)); }
       else {
         QByteArray largeBuffer(result + 1, '\0');
@@ -98,7 +98,7 @@ public:
         log(QString::fromUtf8(largeBuffer));
       }
     }
-    else { log(QString("Error formatting log message: ") + QString::fromUtf8(format)); }
+    else { log(QString("格式化日志消息错误: ") + QString::fromUtf8(format)); }
   }
 
   template <typename... Args>
@@ -107,6 +107,7 @@ public:
     logf(format.toUtf8().constData(), args...);
   }
 
+  // TODO: 这个时间可配置
   void setClear7DaysAgo(const bool& enable) { clearLog7DaysAgo = enable; }
 
   ~LogOut()
@@ -120,9 +121,7 @@ private:
     const QString timeStr = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss");
     const QString formattedMessage = QString("[%1]: %2\n").arg(timeStr, message);
 
-    const QString fileName = QString("%1/%2.txt")
-                             .arg(logDir)
-                             .arg(QDate::currentDate().toString("yyyy-MM-dd"));
+    const QString fileName = QString("./%1/%2.txt").arg(ICMALogDir, TodayDate);
 
     if (QFile file(fileName); file.open(QIODevice::Append | QIODevice::Text)) {
       file.write(formattedMessage.toUtf8());
@@ -136,7 +135,7 @@ private:
   Q_DISABLE_COPY_MOVE(LogOut);
 
   bool clearLog7DaysAgo = false; ///< 是否清理7天前的日志文件标志
-  quint8 days = 7; ///< 默认清理7天的日志文本(启动 clearLog7DaysAgo 的话)
+  quint8 days = 7;               ///< 默认清理7天的日志文本(启动 clearLog7DaysAgo 的话)
 };
 
 // 宏定义局部 方便外部直接调用创建单例

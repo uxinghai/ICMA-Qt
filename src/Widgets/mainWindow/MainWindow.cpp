@@ -2,7 +2,6 @@
 
 #include <QActionGroup>
 #include <QFileDialog>
-#include <QMessageBox>
 #include <QProgressBar>
 #include <QStandardItemModel>
 
@@ -17,6 +16,7 @@
 #include "../../Utils/ThreadWorkers/FilesDatabaseUpdater.h"
 #include "../../Utils/Tools/CloseWindowMsgBox.h"
 #include "../../Utils/Tools/SystemTrayIcon.h"
+#include "../DiskAnalyzer/DiskAnalyzer.h"
 #include "../fileDeduplicate/FileDeduplicate.h"
 #include "../fileTransfer/FileTransfer.h"
 #include "../photoShop/PS.h"
@@ -111,6 +111,19 @@ void MainWindow::setupConnections()
     fileTransWidget->show();
   });
 
+  connect(ui->actionOpenLogFile, &QAction::triggered, [this] {
+    const QString curDate = QDate::currentDate().toString("yyyy-MM-dd");
+    sLog.logf("打开日志文件: %s", curDate.toStdString().c_str());
+    QDesktopServices::openUrl(QUrl::fromLocalFile(
+      QString("./%1/%2.txt").arg(ICMALogDir, curDate)));
+  });
+
+  connect(ui->actionOpenLogFileDir, &QAction::triggered, [this] {
+    sLog.logf("打开日志文件目录: %s", ICMALogDir);
+    QDesktopServices::openUrl(QUrl::fromLocalFile(
+      QString("./%1").arg(ICMALogDir)));
+  });
+
   // 启动文件去重
   connect(ui->actionFileDuplication, &QAction::triggered, [this] {
     auto* fileDepWidget = new FileDeduplicate();
@@ -118,6 +131,14 @@ void MainWindow::setupConnections()
             this, &MainWindow::show);
     this->hide();
     fileDepWidget->show();
+  });
+
+  connect(ui->actionDiskAnalyzer, &QAction::triggered, [this] {
+    auto* diskAnalyzer = new DiskAnalyzer();
+    connect(diskAnalyzer, &DiskAnalyzer::WindowClose,
+            this, &MainWindow::show);
+    this->hide();
+    diskAnalyzer->show();
   });
 
   // 自定义的 TableView 右键菜单
@@ -205,10 +226,15 @@ void MainWindow::setupConnections()
   connect(&watcher, &QFutureWatcher<qint32>::finished, [this] {
     progress->setVisible(false);
 
-    emit finishedPleaseUpdate();
-
+    sFileDB.waitForCompletion();
+    // sFileDB.waitForCompletion();
+    QMetaObject::invokeMethod(this, "finishedPleaseUpdate");
     // 创建一个线程在后台更新 Files 表
-    auto* worker = new FilesDatabaseUpdater();
+    if (worker) {
+      worker->cancel();
+      worker = nullptr;
+    }
+    worker = new FilesDatabaseUpdater();
     QThreadPool::globalInstance()->start(worker);
 
     this->setEnabled(true);
@@ -217,7 +243,6 @@ void MainWindow::setupConnections()
   // TODO 没有解决TODO1!!!
   connect(this, &MainWindow::finishedPleaseUpdate, [this] {
     // 同步问题：数据库没有完全更新好就进入了这个槽
-    sFileDB.waitForCompletion(); // 增加了数据库方法！
     doSearchFile(ui->lineEdit->text(), ui->comBoxFilter->currentIndex());
   });
 
@@ -292,6 +317,7 @@ void MainWindow::doChangeTheme() const
 
 void MainWindow::doSearchFile(QString term, const quint8& filterMode)
 {
+  sFileDB.waitForCompletion(); // 增加了数据库方法！
   qDebug() << "准备查询：" << sFileDB.getDBContextNumber("TempFiles");
   term = term.trimmed();
   // 搜索词条为空时 显示所有文件
@@ -340,57 +366,6 @@ void MainWindow::doSearchFile(QString term, const quint8& filterMode)
                                       ui->actionShowEncrCol);
   ui->tableView->update();
 }
-
-// void MainWindow::doSearchFileByType(QString term, const quint8& filterMode)
-// {
-//   term = term.trimmed();
-//   // 搜索词条为空时 显示所有文件
-//   if (const QString searchTerm = term; searchTerm.isEmpty()) {
-//     filesCountResult = sFileDB.searchFilesFromDB(ui->tableView,
-//                                                  filterMode, "TempFiles");
-//   }
-//   else {
-//     // 从首个匹配到第一个英文的冒号
-//     QString regexType = term;
-//     if (const qint32 index = regexType.indexOf(":");
-//       index != -1) {
-//       regexType = regexType.left(index + 1).toUpper();
-//
-//       if (RegexHelper::keywordCategory.contains(regexType.toUpper())) {
-//         ui->comBoxFilter->setEnabled(false);
-//         ui->comBoxFilter->setCurrentIndex(RegexHelper::keywordCategory[regexType]);
-//         qDebug() << "a" << RegexHelper::keywordCategory[regexType];
-//       }
-//       else { QMessageBox::critical(this, "无效", "无效正则表达式前缀!"); }
-//     }
-//     else {
-//       // 普通搜索
-//       filesCountResult = sFileDB.searchFilesFromDB(ui->tableView,
-//                                                    filterMode, "TempFiles", term);
-//     }
-//   }
-//
-//   ///////////////////////////////////
-//   // 因为上一句没有正常返回行数，不要去修复了！
-//   filesCountResult = sFileDB.getDBContextNumber("TempFiles");
-//   lbStatus->setText(tr("%1 个对象").arg(filesCountResult));
-//
-//   ui->tableView->setColumnWidth(0, 500); ///< 让名称列显示的更宽一些
-//   ui->tableView->setTheSelectionModel(
-//     ui->tableView->selectionModel()); ///< 自定义存储到selectionModel用于监听
-//   ui->tableView->initHeaderCustomMenu(ui->actionAutoFit,
-//                                       ui->actionAutoFitColWidth,
-//                                       ui->actionShowNameCol,
-//                                       ui->actionShowPathCol,
-//                                       ui->actionShowSizeCol,
-//                                       ui->actionShowTypeCol,
-//                                       ui->actionShowCreateDateCol,
-//                                       ui->actionShowModifyDateCol,
-//                                       ui->actionShowLastModDateCol,
-//                                       ui->actionShowHashCol,
-//                                       ui->actionShowEncrCol);
-//   ui->tableView->update();
-// }
 
 void MainWindow::doRecFileByHash(const QString& hashValue) const
 {
@@ -579,10 +554,10 @@ qint32 MainWindow::doFilesFormDirectory(const QString& dirPath) const
     ++count;
   }
 
-  sLog.logf("将目录：%s 下的文件写入的数据库，共 %d 个文件。", dirPath.toStdString().c_str(), count);
   // 一次性把收集到的子文件写入数据库
-  sFileDB.autoInsert(directoryFilesPath);
-
+  if (sFileDB.autoInsert(directoryFilesPath)) {
+    sLog.logf("将目录：%s 下的文件写入的数据库，共 %d 个文件。", dirPath.toStdString().c_str(), count);
+  }
   return count;
 }
 
@@ -591,6 +566,8 @@ void MainWindow::doDaoRu()
 {
   daoRuDirectoryFile = QFileDialog::getExistingDirectory(this, tr("选择文件夹"));
   if (daoRuDirectoryFile.isEmpty()) return;
+
+  //connect(sFileDB, &FilesDB::progressUpdated, [this](){});
 
   // 并发处理
   QStringList tempListPath{daoRuDirectoryFile}; ///< 只有1个 用于 mappedReduced 首个参数
@@ -605,7 +582,7 @@ void MainWindow::doDaoRu()
   );
 
   progress->setVisible(true);
-  watcher.setFuture(future);
+  watcher.setFuture(future); ///< 监听并发处理完成后会发出信号
 
   this->setEnabled(false); ///< 冻结窗口不可用
 }
@@ -624,7 +601,8 @@ void MainWindow::showFileContextMenu() const
   menu->addAction(ui->actionFileCopyAbsPath);
 
   menu->addSeparator();
-
+  menu->addAction(ui->actionJiaMi);
+  menu->addAction(ui->actionJieMi);
   //menu->addAction(ui->actionFileRename);
   menu->addAction(ui->actionFileDelete);
   menu->addAction(ui->actionFileTransFile);

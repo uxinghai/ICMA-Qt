@@ -17,10 +17,13 @@
 #include <QItemDelegate>
 #include <QMessageBox>
 #include <qprocess.h>
+#include <QStandardPaths>
 
 #include "../../UI/ui_MainWindow.h"
 #include "../DataBase/SqlQuery/FileActions.h"
 #include "../DataBase/SqlQuery/Files.h"
+#include "../Manager/JsonManager.h"
+#include "../Utils/Tools/EncryptFile.h"
 #include "../Utils/Tools/LogOut.h"
 #include "../Utils/Tools/MyInformationBox.h"
 #include "../Widgets/mainWindow/MainWindow.h"
@@ -186,6 +189,80 @@ public:
 
       sLog.logf("打开编辑图像: %s", imgFilePath.toStdString().c_str());
     });
+
+    // 文件加密/解密
+    connect(ui->actionJiaMi, &QAction::triggered, [widget, ui] {
+      const auto indexes = ui->tableView->selectionModel()->selectedIndexes();
+      if (indexes.isEmpty()) { return; }
+
+      if (QMessageBox::warning(widget, tr("警告"), tr("该操作会加密所选文件，是否确定？"),
+                               QMessageBox::Yes | QMessageBox::No,
+                               QMessageBox::No) ==
+        QMessageBox::No) { return; }
+
+      for (const auto& index : indexes) {
+        const QString filePath = index.siblingAtColumn(1).data().toString();
+        const QString jsonFilePath = QStandardPaths::writableLocation(
+          QStandardPaths::ConfigLocation) + "/ICMA_EncryptFile.json";
+        if (aesEncryptFile(filePath + "/" +
+                           index.siblingAtColumn(0).data().toString(),
+                           filePath + "/" +
+                           index.siblingAtColumn(0).data().toString() + ".enc",
+                           sJsonManager.getConfig(jsonFilePath, "aesKey").
+                                        toLocal8Bit(),
+                           sJsonManager.getConfig(jsonFilePath, "aesIv").
+                                        toLocal8Bit())) {
+          sLog.logf("加密文件: %s", filePath.toStdString().c_str());
+          quickInformation->quickShow(widget, "加密成功");
+          // 更新数据库
+          sFileDB.delectRowByFileAbsPath(filePath + "/" +
+                                         index.siblingAtColumn(0).data().
+                                               toString(),
+                                         "Files");
+          sFileDB.insertFileInto("Files", sFileDB.createFileInfo(filePath + "/" +
+                                   index.siblingAtColumn(0).data().toString() +
+                                   ".enc",
+                                   true));
+          ui->tableView->update();
+        }
+        else { quickInformation->quickShow(widget, "加密失败"); }
+      }
+    });
+    connect(ui->actionJieMi, &QAction::triggered, [widget, ui] {
+      const auto indexes = ui->tableView->selectionModel()->selectedIndexes();
+      if (indexes.isEmpty()) { return; }
+
+      if (QMessageBox::warning(widget, tr("警告"), tr("该操作会解密所选文件，是否确定？"),
+                               QMessageBox::Yes | QMessageBox::No,
+                               QMessageBox::No) ==
+        QMessageBox::No) { return; }
+
+      for (const auto& index : indexes) {
+        const QString filePath = index.siblingAtColumn(1).data().toString();
+        const QString jsonFilePath = QStandardPaths::writableLocation(
+          QStandardPaths::ConfigLocation) + "/ICMA_EncryptFile.json";
+        if (aesDecryptFile(filePath + "/" +
+                           index.siblingAtColumn(0).data().toString() + ".enc",
+                           filePath + "/" +
+                           index.siblingAtColumn(0).data().toString(),
+                           sJsonManager.getConfig(jsonFilePath, "aesKey").
+                                        toLocal8Bit(),
+                           sJsonManager.getConfig(jsonFilePath, "aesIv").
+                                        toLocal8Bit())) {
+          sLog.logf("解密文件: %s", filePath.toStdString().c_str());
+          quickInformation->quickShow(widget, "解密成功");
+          // 更新数据库
+          sFileDB.delectRowByFileAbsPath(filePath + "/" +
+                                         index.siblingAtColumn(0).data().
+                                               toString() + ".enc",
+                                         "Files");
+          sFileDB.insertFileInto("Files", sFileDB.createFileInfo(filePath + "/" +
+                                   index.siblingAtColumn(0).data().toString(),
+                                   true));
+        }
+      }
+    });
+
     return true;
   }
 };

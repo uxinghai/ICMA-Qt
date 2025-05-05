@@ -1,5 +1,5 @@
 /**
- * AClient 发送完全正确，但是 AServer 接收端会多收一部分内容，导致异常
+ * 接收端代码 - 重写以解决多收一部分内容导致异常的问题
  */
 
 #include <QClipboard>       ///< 使用剪贴板
@@ -10,6 +10,7 @@
 #include <QTcpSocket>
 
 #include "../../../../UI/ui_AServer.h"
+#include "../../../Utils/Tools/LogOut.h"
 #include "../FileTransTool.h"
 #include "../ShareSrc.h"
 #include "aserver.h"
@@ -55,8 +56,6 @@ void AServer::setupConnections()
           &AServer::doSetSavePath);
   connect(ui->actionOpenSavePath, &QAction::triggered, this,
           &AServer::doOpenSavePath);
-  connect(FileTransTool::getInstance(), &FileTransTool::TRANSFER_COMPLETE,
-          [this] { finalizeFileReceiving(); });
 
   server = new QTcpServer(this);
   connect(server, &QTcpServer::newConnection, this, &AServer::doNewConnection);
@@ -65,10 +64,10 @@ void AServer::setupConnections()
 
 bool AServer::doListen()
 {
-  if (!server->listen(QHostAddress::Any, FileTransTool::default_port)) {
+  if (!server->listen(QHostAddress::Any, default_port)) {
     QMessageBox::critical(this, tr("监听错误"),
                           tr("无法在端口 %1 上启动服务器: %2").arg(
-                            FileTransTool::default_port).arg(
+                            default_port).arg(
                             server->errorString()));
     return false;
   }
@@ -92,7 +91,7 @@ void AServer::doDisConnect()
 
   if (curFile.isOpen()) { curFile.close(); }
 
-  buffer.clear();
+  dataBuffer.clear();
   statusLabel->setText(tr("就绪"));
   updateUI();
 }
@@ -132,88 +131,187 @@ void AServer::doNewConnection()
     clientSocket = nullptr;
   });
 
+  dataBuffer.clear();
   statusLabel->setText(tr("成功与发送方连接"));
 }
 
 // 处理接收到的数据
 void AServer::doSocketReadyRead()
 {
-  // 如果没有可用字节则返回
-  const qint64 bytesAvailable = clientSocket->bytesAvailable();
-  if (bytesAvailable <= 0) { return; }
+  if (!clientSocket) { return; }
 
-  // 设置最大缓冲区大小以防止内存溢出
-  static constexpr qint64 maxBufferSize = 100 * 1024 * 1024; ///< 100MB
-  if (buffer.size() + bytesAvailable > maxBufferSize) {
-    QMessageBox::critical(this, tr("缓冲区错误"), tr("接收缓冲区超出限制"));
-    doDisConnect();
-    return;
+  dataBuffer.append(clientSocket->readAll());
+
+  // 循环处理缓冲区中的所有完整消息
+  while (processNextMessage()) {
+    // 处理成功，继续处理下一个消息
   }
-
-  buffer += clientSocket->readAll();
-  doProcessBuffer();
 }
 
-void AServer::doProcessBuffer()
+bool AServer::processNextMessage()
 {
-  while (!buffer.isEmpty()) {
-    if (buffer.size() < sizeof(quint8)) { return; }
+  // 确保缓冲区至少有一个字节用于消息类型
+  if (dataBuffer.size() < 1) { return false; }
 
-    MessageType type;
-    mySizeType byteArraySize;
-    QDataStream in(&buffer, QIODevice::ReadOnly);
-    in >> type >> byteArraySize;
+  // 读取命令类型
+  switch (const quint8 commandType = static_cast<quint8>(dataBuffer.at(0))) {
+  case 1: // 文件头信息
+    return processFileHeader();
 
-    switch (type) {
-    case MessageType::Header:
-      {
-        const QByteArray headerInfo = buffer.left(byteArraySize);
-        buffer.remove(0, byteArraySize);
+  case 2: // 文件数据块
+    return processFileData();
 
-        auto [_,fileName, fileSize] =
-          FileTransTool::deserializeHeader(headerInfo);
+  case 3: // 文件结束标记
+    return processFileEnd();
 
-        if (fileName.isEmpty() || fileSize <= 0) {
-          doDisConnect();
-          return;
-        }
+  case 0xFF:                      // 特殊标记，所有文件传输完成
+    if (dataBuffer.size() >= 5) { // 标记类型(1) + 32位值(4)
+      QDataStream stream(dataBuffer);
+      quint8 type;
+      quint32 marker;
+      stream >> type >> marker;
 
-        if (!doHeader(fileName, fileSize, byteArraySize)) {
-          doDisConnect();
-          return;
-        }
-
-        break;
+      if (marker == 0xFFFFFFFF) {
+        // 所有文件传输完成
+        dataBuffer.remove(0, 5);
+        finalizeFileReceiving();
+        return true;
       }
-    case MessageType::Data:
-      {
-        if (buffer.size() < static_cast<int>(byteArraySize)) { return; }
-
-        const QByteArray fileData = buffer.left(byteArraySize);
-        buffer.remove(0, byteArraySize);
-
-        if (!curFile.isOpen()) { return; }
-
-        if (auto [dataSize, data, _]
-            = FileTransTool::deserializeFileData(fileData);
-          !doFileData(data, data.size(), byteArraySize)) {
-          doDisConnect();
-          return;
-        }
-        break;
-      }
-
-    default:
-      buffer.clear();
-      break;
     }
+    return false;
+
+  default:
+    // 未知命令类型，清空缓冲区避免死循环
+    qWarning() << "接收到未知命令类型:" << commandType;
+    dataBuffer.clear();
+    return false;
   }
 }
 
-bool AServer::doHeader(const QString& fileName, const qint64 fileSize,
-                       const qint32 headerSize)
+bool AServer::processFileHeader()
 {
-  Q_UNUSED(headerSize);
+  // 确保缓冲区中有足够的数据
+  QDataStream stream(dataBuffer);
+  stream.setVersion(QDataStream::Qt_5_15);
+
+  // 读取命令类型
+  quint8 commandType;
+  stream >> commandType;
+
+  // 尝试读取文件名
+  QString fileName;
+  stream >> fileName;
+
+  sLog.logf("接收方收到发送方传输的文件名称：%s", fileName);
+
+  // 检查数据流状态
+  if (stream.status() != QDataStream::Ok) {
+    return false; // 数据不完整，等待更多数据
+  }
+
+  // 尝试读取文件大小
+  quint64 fileSize;
+  stream >> fileSize;
+
+  sLog.logf("接收方收到发送方传输的文件名称：%s，大小：%d 字节", fileName.toLocal8Bit(), fileSize);
+
+  // 再次检查数据流状态
+  if (stream.status() != QDataStream::Ok) {
+    return false; // 数据不完整，等待更多数据
+  }
+
+  // 计算已读取的字节数
+  int bytesRead = stream.device()->pos();
+
+  // 从缓冲区删除已处理的数据
+  dataBuffer.remove(0, bytesRead);
+
+  // 处理文件头信息
+  return startReceivingFile(fileName, fileSize);
+}
+
+bool AServer::processFileData()
+{
+  if (!curFile.isOpen()) {
+    // 当前没有文件处理
+    dataBuffer.clear();
+    return false;
+  }
+
+  // 确保缓冲区中至少有命令类型和数据大小信息
+  if (dataBuffer.size() < 5) { // 1字节命令 + 4字节大小
+    return false;
+  }
+
+  QDataStream stream(dataBuffer);
+  stream.setVersion(QDataStream::Qt_5_15);
+
+  // 跳过命令类型
+  quint8 commandType;
+  stream >> commandType;
+
+  // 读取数据块大小
+  quint32 dataSize;
+  stream >> dataSize;
+
+  // 检查是否有完整的数据块
+  if (dataBuffer.size() < static_cast<int>(5 + dataSize)) {
+    return false; // 等待更多数据
+  }
+
+  // 提取文件数据
+  QByteArray fileData = dataBuffer.mid(5, dataSize);
+
+  // 从缓冲区删除已处理的数据
+  dataBuffer.remove(0, 5 + dataSize);
+
+  // 写入文件
+  if (!writeDataToFile(fileData)) { return false; }
+
+  // 更新接收进度
+  receivedBytes += dataSize;
+  updateProgress(receivedBytes, totalBytes,
+                 curFileName, transStartTime, false,
+                 {
+                   ui->statusValue, ui->currentFileValue,
+                   ui->sizeValue, ui->speedValue, ui->remainingTimeValue
+                 });
+
+  return true;
+}
+
+bool AServer::processFileEnd()
+{
+  // 确保缓冲区中有足够的数据
+  QDataStream stream(dataBuffer);
+  stream.setVersion(QDataStream::Qt_5_15);
+
+  // 读取命令类型
+  quint8 commandType;
+  stream >> commandType;
+
+  // 尝试读取文件名
+  QString fileName;
+  stream >> fileName;
+
+  // 检查数据流状态
+  if (stream.status() != QDataStream::Ok) {
+    return false; // 数据不完整，等待更多数据
+  }
+
+  // 计算已读取的字节数
+  int bytesRead = stream.device()->pos();
+
+  // 从缓冲区删除已处理的数据
+  dataBuffer.remove(0, bytesRead);
+
+  // 完成当前文件接收
+  finalizeFileReceiving();
+  return true;
+}
+
+bool AServer::startReceivingFile(const QString& fileName, const qint64 fileSize)
+{
   if (fileSize <= 0) {
     QMessageBox::critical(this, tr("文件错误"), tr("接收到无效的文件大小"));
     return false;
@@ -254,40 +352,7 @@ bool AServer::doHeader(const QString& fileName, const qint64 fileSize,
     return false;
   }
 
-  emit FileTransTool::getInstance()->HEADER_RECEIVED();
-  return true;
-}
-
-bool AServer::doFileData(const QByteArray& data,
-                         const quint32 dataSize,
-                         const quint32 filedataSize)
-{
-  Q_UNUSED(filedataSize);
-  if (!curFile.isOpen()) {
-    QMessageBox::critical(this, tr("文件错误"), tr("尝试写入到未打开的文件"));
-    return false;
-  }
-
-  if (dataSize > FileTransTool::perBytesToSend) {
-    QMessageBox::critical(this, tr("数据错误"), tr("接收到超出限制的数据包"));
-    return false;
-  }
-
-  if (!writeDataToFile(data)) { return false; }
-
-  receivedBytes += dataSize;
-  updateProgress(receivedBytes, totalBytes,
-                 curFileName, transStartTime, false,
-                 {
-                   ui->statusValue, ui->currentFileValue,
-                   ui->sizeValue, ui->speedValue, ui->remainingTimeValue
-                 });
-
-  if (receivedBytes >= totalBytes) {
-    finalizeFileReceiving();
-    emit FileTransTool::getInstance()->FILE_RECEIVED();
-  }
-
+  statusLabel->setText(tr("正在接收文件: %1").arg(fileName));
   return true;
 }
 
@@ -314,9 +379,8 @@ void AServer::finalizeFileReceiving()
   if (curFile.isOpen()) {
     curFile.flush();
     curFile.close();
-    buffer.clear(); // Clear any remaining data in buffer
 
-    statusLabel->setText(tr("传输完成"));
+    statusLabel->setText(tr("文件接收完成: %1").arg(curFileName));
     qDebug() << "传输完成 - 文件名:" << curFile.fileName()
       << "最终接收字节数:" << receivedBytes
       << "预期总字节数:" << totalBytes;
@@ -339,7 +403,6 @@ void AServer::doOpenSavePath() const
   QDesktopServices::openUrl(QUrl::fromLocalFile(fileSavePath));
 }
 
-// 错误后续都改为中文显示
 void AServer::doServerError()
 {
   QString errorMessage = tr("服务器错误: %1").arg(server->errorString());

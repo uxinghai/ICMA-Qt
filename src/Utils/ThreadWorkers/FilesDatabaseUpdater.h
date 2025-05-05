@@ -21,18 +21,31 @@ class FilesDatabaseUpdater final : public QObject, public QRunnable {
   Q_OBJECT
 
 public:
+  FilesDatabaseUpdater()
+  {
+    setAutoDelete(true); // 任务执行完后自己销毁
+  }
+
   // 启动后台更新进程
   void run() override
   {
-    // 获取所有唯一目录
+    // 删除 Files 中的旧数据
     for (auto path : sFileDB.getDBDisticntCol("TempFiles", "file_path")) {
+      if (m_cancelled.loadRelaxed()) { return; }
       sFileDB.delectRowByFilePath(path, "Files");
     }
 
     // 删除完成后 插入新的内容 并且计算 hash 值
     for (auto absPath : sFileDB.getAllFileAbsPath("TempFiles")) {
+      if (m_cancelled.loadRelaxed()) { return; }
       FileInfo info = sFileDB.createFileInfo(absPath, true);
       sFileDB.insertFileInto("Files", info);
     }
   }
+
+  void cancel() { m_cancelled.storeRelaxed(true); }
+signals:
+
+private:
+  QAtomicInt m_cancelled{false}; // 线程安全的布尔值
 };

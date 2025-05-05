@@ -587,12 +587,9 @@
      <string>文件(&amp;F)</string>
     </property>
     <addaction name="actionDaori"/>
-    <addaction name="actionDaochu1"/>
     <addaction name="separator"/>
     <addaction name="actionJiaMi"/>
     <addaction name="actionJieMi"/>
-    <addaction name="separator"/>
-    <addaction name="actionWenJianBaoGao"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
    </widget>
@@ -736,6 +733,7 @@
     <addaction name="separator"/>
     <addaction name="actionTransmission"/>
     <addaction name="actionPS"/>
+    <addaction name="actionDiskAnalyzer"/>
    </widget>
    <widget class="QMenu" name="menu_5">
     <property name="font">
@@ -754,6 +752,9 @@
     <addaction name="separator"/>
     <addaction name="actionAutoRun"/>
     <addaction name="actionEnableFileLog"/>
+    <addaction name="actionOpenLogFile"/>
+    <addaction name="actionOpenLogFileDir"/>
+    <addaction name="action"/>
     <addaction name="actionUpdateSys"/>
     <addaction name="separator"/>
     <addaction name="actionAboutQT"/>
@@ -808,6 +809,7 @@
    <addaction name="actionPS"/>
    <addaction name="actionBatchRename"/>
    <addaction name="actionFileDuplication"/>
+   <addaction name="actionDiskAnalyzer"/>
    <addaction name="actionQuickStartGuide"/>
   </widget>
   <action name="actionAbout">
@@ -867,7 +869,7 @@
     <string>加密选中文件</string>
    </property>
    <property name="toolTip">
-    <string>加密所选中的所有文件</string>
+    <string>加密所选中的文件(AES算法)</string>
    </property>
    <property name="font">
     <font>
@@ -877,10 +879,10 @@
   </action>
   <action name="actionJieMi">
    <property name="text">
-    <string>解密文件</string>
+    <string>解密选中文件</string>
    </property>
    <property name="toolTip">
-    <string>解密文件</string>
+    <string>解密选中的文件(AES算法)</string>
    </property>
    <property name="font">
     <font>
@@ -2109,6 +2111,51 @@
    </property>
    <property name="toolTip">
     <string>对比其他文件.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionOpenLogFileDir">
+   <property name="text">
+    <string>打开日志文件所在目录</string>
+   </property>
+   <property name="toolTip">
+    <string>打开日志文件所在的目录.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionOpenLogFile">
+   <property name="text">
+    <string>查看当天日志文件</string>
+   </property>
+   <property name="toolTip">
+    <string>打开并查看日志文件.</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>定期清理日志？(支持用户设置时间)</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionDiskAnalyzer">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/icons/res/disk.png</normaloff>:/icons/res/disk.png</iconset>
+   </property>
+   <property name="text">
+    <string>磁盘分析</string>
+   </property>
+   <property name="toolTip">
+    <string>打开磁盘分析工具.</string>
    </property>
    <property name="menuRole">
     <enum>QAction::NoRole</enum>

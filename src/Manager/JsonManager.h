@@ -20,8 +20,14 @@ static QString staticFilePath;
 
 class JsonManager final : public QObject {
 public:
+  static JsonManager& getInstance()
+  {
+    static JsonManager instance;
+    return instance;
+  }
+
   // 返回json Object 用于控制操作
-  static QJsonObject jsonObject(const QString& jsonFilePath)
+  QJsonObject jsonObject(const QString& jsonFilePath)
   {
     QFile jsonFile(jsonFilePath);
     if (!QFile::exists(jsonFilePath) || !jsonFile.open(QIODevice::ReadOnly)) {
@@ -46,4 +52,33 @@ public:
   }
 
   void writeIntoJson() {}
+
+  QString getConfig(const QString& jsonFilePath, const QString& key)
+  {
+    QFile jsonFile(jsonFilePath);
+    if (!QFile::exists(jsonFilePath) || !jsonFile.open(QIODevice::ReadOnly)) {
+      qWarning() << jsonFilePath << ":" << jsonFile.errorString();
+      return {};
+    }
+
+    const QByteArray jsonData = jsonFile.readAll();
+    jsonFile.close();
+    QJsonParseError jsonError;
+    const QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData, &jsonError);
+    if (jsonError.error != QJsonParseError::NoError) {
+      qWarning() << "Failed to parse JSON configuration file:"
+        << jsonError.errorString();
+      return {};
+    }
+
+    if (jsonDoc.isObject()) {
+      if (const QJsonObject jsonObj = jsonDoc.object(); jsonObj.contains(key)) {
+        return jsonObj.value(key).toString();
+      }
+    }
+
+    return {};
+  }
 };
+
+#define sJsonManager JsonManager::getInstance()

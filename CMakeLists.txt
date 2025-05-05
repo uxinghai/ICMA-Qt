@@ -25,11 +25,20 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets
 set(QT_VERSION_MAJOR ${QT_VERSION_MAJOR})
 # 根据找到的 Qt 版本配置组件
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets
-        Multimedia MultimediaWidgets Sql Concurrent Network)
+        Multimedia MultimediaWidgets Sql Concurrent Network Charts)
+
 
 # 配置 OpenCV
 set(OpenCV_DIR "D:/A-Develop/ToolLibrary/OpenCV/opencv-build/install")
 find_package(OpenCV REQUIRED)
+
+# 配置 OpenSSL
+set(opensslDir "D:/A-Develop/ToolLibrary/OpenSSL")
+set(INC_DIR ${opensslDir}/include)# 设置头文件位置和动态库位置
+set(LINK_DIR ${opensslDir}/lib)
+include_directories(${INC_DIR})# 使头文件可访问
+link_directories(${LINK_DIR}/MinGW/x86)# 指定动态库路径
+link_libraries(ssl crypto)# 添加需要链接的库
 
 #                                            *********
 #                                             *******
@@ -74,6 +83,14 @@ set(PROJECT_SOURCES
         src/Widgets/fileDeduplicate/FileDeduplicate.cpp
         src/Widgets/mainWindow/RegexHelper.h
         src/Widgets/mainWindow/RegexHelper.h
+        src/Widgets/mainWindow/FileTypeHelper.h
+        src/Widgets/mainWindow/RegexHelper.h
+        src/Widgets/DiskAnalyzer/DiskAnalyzer.cpp
+        src/Widgets/DiskAnalyzer/DiskAnalyzer.h
+        src/Widgets/DiskAnalyzer/FileScanner.cpp
+        src/Widgets/DiskAnalyzer/FileScanner.h
+        src/Widgets/DiskAnalyzer/ChartBuilder.cpp
+        src/Widgets/DiskAnalyzer/ChartBuilder.h
         # utils下所有文件
         src/Utils/Tools/closeWindowMsgBox.h
         src/Utils/Tools/MovableFramelessWindow.h
@@ -122,12 +139,10 @@ set(PROJECT_SOURCES
         UI/FaceTest.ui
         UI/SimpleCrop.ui
         UI/CustomCrop.ui
-        src/Widgets/mainWindow/RegexHelper.h
-        src/Widgets/mainWindow/RegexHelper.h
+        UI/DiskAnalyzer.ui
         src/Utils/ThreadWorkers/FilesDatabaseUpdater.h
-        src/Widgets/mainWindow/FileTypeHelper.h
         src/DataBase/SqlQuery/Tags.h
-
+        src/Utils/Tools/EncryptFile.h
 )
 
 #                                            *********
@@ -136,6 +151,8 @@ set(PROJECT_SOURCES
 #                                               ***
 #                                                *
 #                                       依据 QT 版本， 使用不同方式
+
+
 if (${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     qt_add_executable(ICMA
             MANUAL_FINALIZATION
@@ -168,6 +185,8 @@ target_link_libraries(ICMA PRIVATE ${OpenCV_LIBS} # 添加openCv lib库
         Qt${QT_VERSION_MAJOR}::MultimediaWidgets
         Qt${QT_VERSION_MAJOR}::Sql
         Qt${QT_VERSION_MAJOR}::Concurrent
+        ssl
+        Qt${QT_VERSION_MAJOR}::Charts
 )
 
 

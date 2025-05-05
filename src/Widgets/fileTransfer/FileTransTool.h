@@ -26,6 +26,9 @@
 
 using mySizeType = quint32;
 
+#define default_port 9811
+#define perBytesToSend 32 * 1024
+
 /**
  * @brief 消息类型枚举
  */
@@ -54,12 +57,9 @@ struct HeaderInfo {
  */
 struct FileData {
   mySizeType dataSize;   ///< 数据大小
-  QByteArray data;       ///< 数据块
+  QByteArray data;       ///< 数据块(真正的内容)
   mySizeType structSize; ///< 文件数据结构大小
 };
-
-class FileTransTool;
-static FileTransTool* instance = nullptr; ///< 共享的唯一实例
 
 class FileTransTool final : public QObject {
   Q_OBJECT
@@ -69,9 +69,9 @@ public:
    * @brief 获取 FileTransTool 单例实例
    * @return FileTransTool 实例
    */
-  static FileTransTool* getInstance()
+  static FileTransTool& getInstance()
   {
-    if (instance == nullptr) { instance = new FileTransTool(); }
+    static FileTransTool instance;
     return instance;
   }
 
@@ -84,9 +84,6 @@ public:
     QString curUnit, totalUnit;     ///< 当前数据单位，总数据单位
     qreal curDisplay, totalDisplay; ///< 当前显示的数据量，总数据量
   };
-
-  static constexpr quint16 default_port = 9811;        ///< 默认端口号
-  static constexpr quint32 perBytesToSend = 32 * 1024; ///< 每次发送 32KB 数据
 
   /**
    * @brief 序列化文件头信息
@@ -177,12 +174,6 @@ public:
     in.readRawData(fileContent.data(), info.dataSize);
     info.data = fileContent;
 
-    // 处理 `structSize`，确保读取完整
-    if (fileData.size() >=
-      static_cast<int>(sizeof(mySizeType) + in.device()->pos())) {
-      in >> info.structSize;
-    }
-    else { info.structSize = 0; }
     return info;
   }
 
@@ -253,3 +244,5 @@ private:
   FileTransTool(const FileTransTool&) = delete;
   FileTransTool& operator=(const FileTransTool&) = delete;
 };
+
+#define sFileTransTool FileTransTool::getInstance()

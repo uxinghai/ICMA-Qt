@@ -126,6 +126,10 @@ public:
     QAction *actionFileCopyAbsPath;
     QAction *actionEditText;
     QAction *actionFileCompress;
+    QAction *actionOpenLogFileDir;
+    QAction *actionOpenLogFile;
+    QAction *action;
+    QAction *actionDiskAnalyzer;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
@@ -502,6 +506,21 @@ public:
         actionFileCompress = new QAction(MainWindow);
         actionFileCompress->setObjectName("actionFileCompress");
         actionFileCompress->setMenuRole(QAction::NoRole);
+        actionOpenLogFileDir = new QAction(MainWindow);
+        actionOpenLogFileDir->setObjectName("actionOpenLogFileDir");
+        actionOpenLogFileDir->setMenuRole(QAction::NoRole);
+        actionOpenLogFile = new QAction(MainWindow);
+        actionOpenLogFile->setObjectName("actionOpenLogFile");
+        actionOpenLogFile->setMenuRole(QAction::NoRole);
+        action = new QAction(MainWindow);
+        action->setObjectName("action");
+        action->setMenuRole(QAction::NoRole);
+        actionDiskAnalyzer = new QAction(MainWindow);
+        actionDiskAnalyzer->setObjectName("actionDiskAnalyzer");
+        QIcon icon9;
+        icon9.addFile(QString::fromUtf8(":/icons/res/disk.png"), QSize(), QIcon::Normal, QIcon::Off);
+        actionDiskAnalyzer->setIcon(icon9);
+        actionDiskAnalyzer->setMenuRole(QAction::NoRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setStyleSheet(QString::fromUtf8(""));
@@ -759,12 +778,9 @@ public:
         menubar->addAction(menu_5->menuAction());
         menubar->addAction(menu_A->menuAction());
         menu->addAction(actionDaori);
-        menu->addAction(actionDaochu1);
         menu->addSeparator();
         menu->addAction(actionJiaMi);
         menu->addAction(actionJieMi);
-        menu->addSeparator();
-        menu->addAction(actionWenJianBaoGao);
         menu->addSeparator();
         menu->addAction(actionExit);
         menu_2->addAction(actionFileRename);
@@ -825,11 +841,15 @@ public:
         menu_4->addSeparator();
         menu_4->addAction(actionTransmission);
         menu_4->addAction(actionPS);
+        menu_4->addAction(actionDiskAnalyzer);
         menu_5->addAction(actionUserManual);
         menu_5->addAction(actionQuickStartGuide);
         menu_5->addSeparator();
         menu_5->addAction(actionAutoRun);
         menu_5->addAction(actionEnableFileLog);
+        menu_5->addAction(actionOpenLogFile);
+        menu_5->addAction(actionOpenLogFileDir);
+        menu_5->addAction(action);
         menu_5->addAction(actionUpdateSys);
         menu_5->addSeparator();
         menu_5->addAction(actionAboutQT);
@@ -847,6 +867,7 @@ public:
         toolBar->addAction(actionPS);
         toolBar->addAction(actionBatchRename);
         toolBar->addAction(actionFileDuplication);
+        toolBar->addAction(actionDiskAnalyzer);
         toolBar->addAction(actionQuickStartGuide);
 
         retranslateUi(MainWindow);
@@ -880,11 +901,11 @@ public:
 #endif // QT_CONFIG(statustip)
         actionJiaMi->setText(QCoreApplication::translate("MainWindow", "\345\212\240\345\257\206\351\200\211\344\270\255\346\226\207\344\273\266", nullptr));
 #if QT_CONFIG(tooltip)
-        actionJiaMi->setToolTip(QCoreApplication::translate("MainWindow", "\345\212\240\345\257\206\346\211\200\351\200\211\344\270\255\347\232\204\346\211\200\346\234\211\346\226\207\344\273\266", nullptr));
+        actionJiaMi->setToolTip(QCoreApplication::translate("MainWindow", "\345\212\240\345\257\206\346\211\200\351\200\211\344\270\255\347\232\204\346\226\207\344\273\266(AES\347\256\227\346\263\225)", nullptr));
 #endif // QT_CONFIG(tooltip)
-        actionJieMi->setText(QCoreApplication::translate("MainWindow", "\350\247\243\345\257\206\346\226\207\344\273\266", nullptr));
+        actionJieMi->setText(QCoreApplication::translate("MainWindow", "\350\247\243\345\257\206\351\200\211\344\270\255\346\226\207\344\273\266", nullptr));
 #if QT_CONFIG(tooltip)
-        actionJieMi->setToolTip(QCoreApplication::translate("MainWindow", "\350\247\243\345\257\206\346\226\207\344\273\266", nullptr));
+        actionJieMi->setToolTip(QCoreApplication::translate("MainWindow", "\350\247\243\345\257\206\351\200\211\344\270\255\347\232\204\346\226\207\344\273\266(AES\347\256\227\346\263\225)", nullptr));
 #endif // QT_CONFIG(tooltip)
         actionWenJianBaoGao->setText(QCoreApplication::translate("MainWindow", "\347\224\237\346\210\220\346\226\207\344\273\266\346\212\245\345\221\212", nullptr));
 #if QT_CONFIG(tooltip)
@@ -1375,6 +1396,19 @@ public:
         actionFileCompress->setText(QCoreApplication::translate("MainWindow", "\345\257\271\346\257\224\346\226\207\344\273\266", nullptr));
 #if QT_CONFIG(tooltip)
         actionFileCompress->setToolTip(QCoreApplication::translate("MainWindow", "\345\257\271\346\257\224\345\205\266\344\273\226\346\226\207\344\273\266.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionOpenLogFileDir->setText(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\346\227\245\345\277\227\346\226\207\344\273\266\346\211\200\345\234\250\347\233\256\345\275\225", nullptr));
+#if QT_CONFIG(tooltip)
+        actionOpenLogFileDir->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\346\227\245\345\277\227\346\226\207\344\273\266\346\211\200\345\234\250\347\232\204\347\233\256\345\275\225.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        actionOpenLogFile->setText(QCoreApplication::translate("MainWindow", "\346\237\245\347\234\213\345\275\223\345\244\251\346\227\245\345\277\227\346\226\207\344\273\266", nullptr));
+#if QT_CONFIG(tooltip)
+        actionOpenLogFile->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\345\271\266\346\237\245\347\234\213\346\227\245\345\277\227\346\226\207\344\273\266.", nullptr));
+#endif // QT_CONFIG(tooltip)
+        action->setText(QCoreApplication::translate("MainWindow", "\345\256\232\346\234\237\346\270\205\347\220\206\346\227\245\345\277\227\357\274\237(\346\224\257\346\214\201\347\224\250\346\210\267\350\256\276\347\275\256\346\227\266\351\227\264)", nullptr));
+        actionDiskAnalyzer->setText(QCoreApplication::translate("MainWindow", "\347\243\201\347\233\230\345\210\206\346\236\220", nullptr));
+#if QT_CONFIG(tooltip)
+        actionDiskAnalyzer->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\347\243\201\347\233\230\345\210\206\346\236\220\345\267\245\345\205\267.", nullptr));
 #endif // QT_CONFIG(tooltip)
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));

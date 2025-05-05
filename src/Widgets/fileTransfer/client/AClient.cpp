@@ -5,13 +5,13 @@
 #include <synchapi.h>
 
 #include "../../../../UI/ui_AClient.h"
+#include "../../../Utils/Tools/LogOut.h"
 #include "../FileTransTool.h"
 #include "../ShareSrc.h"
 #include "aclient.h"
 
 AClient::AClient(QWidget* parent)
-  : QMainWindow(parent),
-    ui(new Ui::AClient)
+  : QMainWindow(parent), ui(new Ui::AClient)
 {
   ui->setupUi(this);
   initUI();
@@ -55,16 +55,10 @@ void AClient::setupConnections()
           &AClient::doSocketConnected);
   connect(serverSocket, &QTcpSocket::errorOccurred, this,
           &AClient::doSocketError);
+  connect(serverSocket, &QTcpSocket::bytesWritten, this, &AClient::onBytesWritten);
 
-  connect(FileTransTool::getInstance(), &FileTransTool::HEADER_RECEIVED,
-          [this] {
-            sendTimer.start(30); ///< 间隔30ms发送一段 一般20ms~50ms
-          });
-  // 计时器30ms触发一次 (作用：流量控制 避免拥塞堵塞) 确保了每一次Write之后能正常写入并被接收
-  connect(&sendTimer, &QTimer::timeout, this, &AClient::sendData);
-
-  connect(FileTransTool::getInstance(), &FileTransTool::FILE_RECEIVED,
-          [this] { sendNextFile(); });
+  // 传输控制
+  connect(&transferTimer, &QTimer::timeout, this, &AClient::continueTransfer);
 }
 
 void AClient::doAddFiles()
@@ -85,7 +79,7 @@ void AClient::doConnect()
     return;
   }
 
-  serverSocket->connectToHost(QHostAddress(ip), FileTransTool::default_port);
+  serverSocket->connectToHost(QHostAddress(ip), default_port);
   if (!serverSocket->waitForConnected(300)) { return; }
   updateUIStatus(true);
 }
@@ -100,34 +94,42 @@ void AClient::doSend()
 {
   // 无待传输文件
   if (filePaths.isEmpty()) {
+    sLog.log("没有添加待发送的文件");
     QMessageBox::information(this, tr("提示"), tr("请先添加文件。"));
     return;
   }
 
   ui->statusValue->setText(tr("准备传输"));
-  sendNextFile();
+  isTransferring = false;
+  transferNextFile();
 }
 
-void AClient::sendNextFile()
+// 新的文件传输实现
+void AClient::transferNextFile()
 {
-  if (filePaths.isEmpty()) { ///< 全部发送完成
+  if (filePaths.isEmpty()) { // 全部发送完成
     statusLabel->setText(tr("传输完成"));
     ui->statusValue->setText(tr("传输完成"));
     fileCntLabel->setText(tr("待传输文件个数: 0"));
-    // 最后发出一个传输完成的信号
-    emit FileTransTool::getInstance()->TRANSFER_COMPLETE();
 
-    // 整个文件数据全部发送
-    if (curBytes == totalBytes) {
-      serverSocket->flush();
-      curFile.close();
-      sendTimer.stop();
-    }
+    if (curFile.isOpen()) { curFile.close(); }
+
+    transferTimer.stop();
+    isTransferring = false;
+
+    // 发送传输完成标记
+    QByteArray endMarker;
+    QDataStream endStream(&endMarker, QIODevice::WriteOnly);
+    endStream << 0xFFFFFFFF; // 特殊标记，表示所有文件传输完成
+    serverSocket->write(endMarker);
+
     return;
   }
 
   // 从文件列表中获取一个待传输文件
   const QString curFilePath = *filePaths.begin();
+  sLog.logf("传输文件:%s", curFilePath);
+
   filePaths.erase(filePaths.constBegin());
   sendFile(curFilePath);
 }
@@ -138,91 +140,141 @@ void AClient::sendFile(const QString& filePath)
   if (curFile.isOpen()) { curFile.close(); }
   curFile.setFileName(filePath);
   if (!curFile.open(QIODevice::ReadOnly)) {
-    qWarning() << "无法打开文件:" << filePath;
-    sendNextFile();
+    sLog.logf("无法打开文件: %s，尝试发出下一个", filePath);
+    transferNextFile();
     return;
   }
 
   // 获取文件元数据
   const QFileInfo info(filePath);
-  const quint32 byteArraySize = sizeof(quint8) + ///< MessageType
-    sizeof(quint32) +                            ///< byteArraySize
-    sizeof(quint32) +                            ///< QString length
-    info.fileName().size() * sizeof(QChar) +     ///< QString content
-    sizeof(quint32);                             ///< fileSize
+  curFileName = info.fileName();
+  curBytes = 0;
+  totalBytes = info.size();
+  transStartTime = QDateTime::currentMSecsSinceEpoch();
 
-  const auto data = FileTransTool::serializeHeader({
-    byteArraySize, info.fileName(), static_cast<quint32>(info.size())
-  });
-  if (const qint64 written = serverSocket->write(data);
-    written > 0) {
-    curFileName = info.fileName();
-    curBytes = 0;
-    totalBytes = info.size();
-    transStartTime = QDateTime::currentMSecsSinceEpoch();
+  // 发送文件头信息
+  QByteArray headerData;
+  QDataStream headerStream(&headerData, QIODevice::WriteOnly);
+  headerStream.setVersion(QDataStream::Qt_5_15);
+
+  // 命令标识 (1: 新文件)
+  headerStream << static_cast<quint8>(1);
+  // 文件名长度和内容
+  headerStream << curFileName;
+  // 文件大小
+  headerStream << static_cast<quint64>(totalBytes);
+
+  sLog.logf("发送方正在发出文件：%s, 大小：%d 字节", curFileName.toLocal8Bit(), totalBytes);
+  // 发送头信息
+  serverSocket->write(headerData);
+  // 等待头信息写入完成后再开始传输文件内容
+  isTransferring = false;
+  waitingForHeader = true;
+}
+
+void AClient::onBytesWritten(qint64 bytes)
+{
+  Q_UNUSED(bytes);
+
+  // 如果正在等待头信息写入完成
+  if (waitingForHeader) {
+    waitingForHeader = false;
+    // 开始文件传输
+    isTransferring = true;
+    transferTimer.start(10); // 10ms间隔控制传输速度
     return;
   }
 
-  // 没有正常发出文件，尝试下一个文件
-  sendNextFile();
-}
-
-void AClient::sendData()
-{
-  QCoreApplication::processEvents();
-  // 这个 while 控制整个文件的所有数据发送
-  while (curBytes < totalBytes) {
-    // 尝试从文件中读取数据
-    QByteArray chunk = curFile.read(FileTransTool::perBytesToSend);
-    if (chunk.isEmpty()) { break; }
-
-    qint64 bytesWritten = 0;                  ///< 已经写入数据量
-    const qint64 bytesToWrite = chunk.size(); ///< 应写入的总数据量
-    // 这个 while 控制当前数据块所有数据的发送
-    while (bytesWritten < bytesToWrite) {
-      QByteArray chunkData = chunk.data() + bytesWritten;
-      auto data = FileTransTool::serializeFileData(
-        {
-          static_cast<quint32>(chunkData.size() + sizeof(quint8) + sizeof
-            (quint32) +
-            sizeof
-            (quint32)),
-          chunkData
-        });
-      const qint64 written = serverSocket->write(data);
-      if (written < 0) {
-        qDebug() << "写入 socket 错误:" << serverSocket->errorString();
-        sendNextFile(); ///< 尝试发送下一个文件
-        return;
-      }
-      bytesWritten += written;
-    }
-
-    curBytes += bytesToWrite;
-    updateProgress(curBytes, totalBytes,
-                   curFileName, transStartTime, true,
-                   {
-                     ui->statusValue, ui->currentFileValue,
-                     ui->sizeValue, ui->speedValue, ui->remainingTimeValue
-                   });
-    for (int i = 0; i < ui->fileListWidget->count(); ++i) {
-      if (QListWidgetItem* item = ui->fileListWidget->item(i);
-        item->text() == curFileName) {
-        item->setBackground(Qt::green);
-        item->setForeground(Qt::black);
-        break;
-      }
-    }
+  // 普通数据块写入完成，可以继续传输
+  if (isWaitingForWrite) {
+    isWaitingForWrite = false;
+    if (isTransferring) { continueTransfer(); }
   }
 }
 
-// 成功建立连接
-void AClient::doSocketConnected() const
+void AClient::continueTransfer()
 {
-  statusLabel->setText(tr("成功与接收方连接."));
+  if (!isTransferring || isWaitingForWrite) { return; }
+
+  // 如果当前文件已经传输完毕
+  if (curBytes >= totalBytes) {
+    completeCurrentFile();
+    return;
+  }
+
+  // 读取下一块数据
+  QByteArray dataBlock;
+  QDataStream dataStream(&dataBlock, QIODevice::WriteOnly);
+  dataStream.setVersion(QDataStream::Qt_5_15);
+
+  // 命令标识 (2: 文件数据)
+  dataStream << (quint8)2;
+
+  // 读取文件数据
+  QByteArray fileData = curFile.read(qMin((qint64)perBytesToSend, totalBytes - curBytes));
+
+  // 写入数据大小和内容
+  dataStream << (quint32)fileData.size();
+  dataBlock.append(fileData);
+
+  // 发送数据
+  qint64 written = serverSocket->write(dataBlock);
+  if (written <= 0) {
+    QMessageBox::critical(this, tr("传输错误"), tr("无法发送数据块"));
+    transferTimer.stop();
+    isTransferring = false;
+    return;
+  }
+
+  // 更新进度
+  curBytes += fileData.size();
+  updateProgress(curBytes, totalBytes,
+                 curFileName, transStartTime, true,
+                 {
+                   ui->statusValue, ui->currentFileValue,
+                   ui->sizeValue, ui->speedValue, ui->remainingTimeValue
+                 });
+
+  // 更新文件列表中的显示
+  for (int i = 0; i < ui->fileListWidget->count(); ++i) {
+    QListWidgetItem* item = ui->fileListWidget->item(i);
+    if (item && item->text() == curFileName) {
+      item->setBackground(Qt::green);
+      item->setForeground(Qt::black);
+      break;
+    }
+  }
+
+  // 流量控制 - 等待写入完成
+  isWaitingForWrite = true;
 }
 
-// 后期改成使用中文提示
+void AClient::completeCurrentFile()
+{
+  if (curFile.isOpen()) { curFile.close(); }
+
+  // 发送文件结束标记
+  QByteArray endFileMarker;
+  QDataStream endStream(&endFileMarker, QIODevice::WriteOnly);
+  endStream.setVersion(QDataStream::Qt_5_15);
+
+  // 命令标识 (3: 文件结束)
+  endStream << (quint8)3;
+  endStream << curFileName;
+
+  serverSocket->write(endFileMarker);
+
+  // 停止当前文件传输
+  isTransferring = false;
+  transferTimer.stop();
+
+  // 等待一小段时间后继续传输下一个文件
+  QTimer::singleShot(200, this, &AClient::transferNextFile);
+}
+
+// 成功建立连接
+void AClient::doSocketConnected() const { statusLabel->setText(tr("成功与接收方连接.")); }
+
 void AClient::doSocketError()
 {
   QMessageBox::critical(this, tr("错误"),

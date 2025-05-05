@@ -142,13 +142,15 @@ public:
   {
     startOperation();
     // 删除旧数据库内容
-    if (!clearDBContext("TempFiles")) { return false; }
-
+    if (!clearDBContext("TempFiles")) {
+      sLog.log("系统自动删除了数据库[TempFiles]中的所有内容，为了添加新内容。");
+      return false;
+    }
+    waitForCompletion();
     // 删除成功插入新数据
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
-      qWarning() << "Failed to get database connection";
-      sLog.log("无法打开数据库-Files.h");
+      sLog.log("无法打开数据库，并插入新内容。 -Files.h");
       return false;
     }
 
@@ -219,6 +221,7 @@ public:
       success = false;
     }
     qDebug() << "删除成功,新插入,FileTmpNum:" << getDBContextNumber("TempFiles");
+    waitForCompletion();
     markOperationComplete();
     return success;
   }
@@ -1119,16 +1122,12 @@ public:
       else {
         qWarning() << "Failed to query files by hash: " << query.lastError().text();
       }
-      ////////////////////////到这里了
+
       // 查找相似文件 首先获取文件信息以及被打开次数
       query.prepare(
-        "SELECT f.file_name, f.md5_hash, f.file_absFilePath, "
-        "COALESCE(o.open_count, 0) as open_count, "
-        "f.modification_date "
-        "FROM Files f "
-        "LEFT JOIN (SELECT absFilePath, COUNT(*) as open_count "
-        "FROM FileActions GROUP BY absFilePath) o "
-        "ON f.file_absFilePath = o.absFilePath");
+        "SELECT f.file_name,f.md5_hash,f.file_absFilePath,COALESCE(o.openCount,0) "
+        "as openCount,f.modification_date FROM Files f LEFT JOIN ("
+        "SELECT absFilePath,openCount from FileActions) o ON f.file_absFilePath=o.absFilePath");
 
       if (!query.exec()) {
         qWarning() << "Failed to query all hashes: " << query.lastError().text();
@@ -1138,25 +1137,37 @@ public:
         return recommendedFiles;
       }
 
+      // 当前日期，用于计算是否是最近3天修改的文件
+      QDateTime currentDate = QDateTime::currentDateTime();
+
       while (query.next()) {
         const QString fileName = query.value(0).toString();
         QString dbHash = query.value(1).toString();
         const QString filePath = query.value(2).toString();
+        const int openCount = query.value(3).toInt();
+        const QDateTime modifiedDate = query.value(4).toDateTime();
 
         // 跳过完全匹配的，因为已经在前面查询中处理过了
         if (dbHash == hashValue) { continue; }
 
+        RecFileInfo info;
+        info.fileName = fileName;
+        info.filePath = filePath;
+        info.openCount = openCount;
+        info.lastModified = modifiedDate;
+
         const int distance = CalculateHammingDistance(hashValue, dbHash);
-
-        if (const int similarity = 100 - (distance * 100 / 128);
+        if (const int similarity = 100 - (distance * 100 / 128); // 相似文件
           similarity >= similarityThreshold) {
-          RecFileInfo info;
-          info.fileName = fileName;
-          info.filePath = filePath;
-          info.openCount = query.value(3).toInt();
-          info.lastModified = query.value(4).toDateTime();
           info.similarity = similarity;
-
+          fileInfoList.append(info);
+        }
+        else if (openCount >= 5) { // 常打开文件（超过5次）
+          info.similarity = 0;     // 不是因相似度推荐
+          fileInfoList.append(info);
+        }
+        else if (currentDate.daysTo(modifiedDate) >= -3) { // 最近3天修改的文件
+          info.similarity = 0;                             // 不是因相似度推荐
           fileInfoList.append(info);
         }
       }
@@ -1197,7 +1208,7 @@ public:
       if (constexpr int HIGH_USAGE_THRESHOLD = 5;
         openCount >= HIGH_USAGE_THRESHOLD) { rec.recommendReasons.append("常使用"); }
 
-      if (constexpr int RECENT_DAYS_THRESHOLD = 7;
+      if (constexpr int RECENT_DAYS_THRESHOLD = 3;
         lastModified.daysTo(now) <= RECENT_DAYS_THRESHOLD) {
         rec.recommendReasons.append("最近修改");
       }

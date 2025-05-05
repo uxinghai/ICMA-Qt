@@ -15,6 +15,7 @@
     <file>res/ReName.png</file>
     <file>res/DaoRu.png</file>
     <file>res/ShouCe.png</file>
+    <file>res/disk.png</file>
   </qresource>
   <qresource prefix="/ps">
     <file>res/ps/AITool.png</file>

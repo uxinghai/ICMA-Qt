@@ -21,6 +21,7 @@
 
 #include "../../Manager/Config/iniManager.h"
 
+class FilesDatabaseUpdater;
 class QProgressBar;
 QT_BEGIN_NAMESPACE
 class SystemTrayIcon;
@@ -108,6 +109,7 @@ private:
   QFuture<qint32> future;
   QProgressBar* progress;
 
+  FilesDatabaseUpdater* worker; ///< 任务类
 signals:
   void finishedPleaseUpdate();
 };

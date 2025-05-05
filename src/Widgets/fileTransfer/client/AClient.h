@@ -66,4 +66,13 @@ private:
   QString curFileName;
   qint64 curBytes, totalBytes;
   qint64 transStartTime;
+
+  void onBytesWritten(qint64 bytes);
+  void transferNextFile();
+  void continueTransfer();
+  void completeCurrentFile();
+  bool waitingForHeader;
+  bool isWaitingForWrite;
+  bool isTransferring;
+  QTimer transferTimer;
 };
