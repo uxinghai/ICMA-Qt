@@ -784,7 +784,7 @@
    <property name="font">
     <font>
      <family>Microsoft YaHei UI</family>
-     <pointsize>10</pointsize>
+     <pointsize>9</pointsize>
      <italic>false</italic>
      <bold>false</bold>
     </font>
@@ -794,6 +794,12 @@
    </property>
    <property name="windowTitle">
     <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>20</height>
+    </size>
    </property>
    <property name="toolButtonStyle">
     <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -1528,7 +1534,7 @@
   <action name="actionBatchRename">
    <property name="icon">
     <iconset resource="../Resource.qrc">
-     <normaloff>:/icons/res/ReName.png</normaloff>:/icons/res/ReName.png</iconset>
+     <normaloff>:/icons/res/Renamer/SomRename.png</normaloff>:/icons/res/Renamer/SomRename.png</iconset>
    </property>
    <property name="text">
     <string>批量重命名</string>

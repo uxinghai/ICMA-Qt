@@ -1,0 +1,1694 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Renamer</class>
+ <widget class="QMainWindow" name="Renamer">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>779</width>
+    <height>593</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>批量重命名工具</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../Resource.qrc">
+    <normaloff>:/icons/res/Renamer/SomRename.png</normaloff>:/icons/res/Renamer/SomRename.png</iconset>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QSplitter" name="splitter">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <widget class="QTabWidget" name="tabWidget">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>170</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>16777215</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="currentIndex">
+        <number>0</number>
+       </property>
+       <widget class="QWidget" name="tab">
+        <attribute name="title">
+         <string>整体</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout">
+         <property name="leftMargin">
+          <number>6</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>19</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="1" column="0">
+          <widget class="QGroupBox" name="groupBox">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>79</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>文件名</string>
+           </property>
+           <widget class="QRadioButton" name="radioButtonAllCase">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>26</y>
+              <width>107</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>全部大写</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButtonRan">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>48</y>
+              <width>62</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>随机数</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButtonNumUp">
+            <property name="geometry">
+             <rect>
+              <x>123</x>
+              <y>48</y>
+              <width>75</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>数字递增</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButtonNoCase">
+            <property name="geometry">
+             <rect>
+              <x>123</x>
+              <y>26</y>
+              <width>107</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>全部小写</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButtonNo">
+            <property name="geometry">
+             <rect>
+              <x>236</x>
+              <y>48</y>
+              <width>75</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>保持不变</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButtonFirstCase">
+            <property name="geometry">
+             <rect>
+              <x>236</x>
+              <y>26</y>
+              <width>107</width>
+              <height>17</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>首字母大写</string>
+            </property>
+           </widget>
+           <widget class="QWidget" name="layoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>350</x>
+              <y>20</y>
+              <width>237</width>
+              <height>24</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>      转换：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox">
+               <property name="minimumSize">
+                <size>
+                 <width>166</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>207</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="currentIndex">
+                <number>0</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>不选择</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>简体转繁体</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>繁体转简体</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>一二三转123</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>123转一二三</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="layoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>330</x>
+              <y>50</y>
+              <width>252</width>
+              <height>24</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>文件名改为：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBox_2">
+               <property name="minimumSize">
+                <size>
+                 <width>166</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>207</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QGroupBox" name="groupBox_2">
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="title">
+            <string>拓展名</string>
+           </property>
+           <widget class="QRadioButton" name="radioButtonSuffAllCase">
+            <property name="geometry">
+             <rect>
+              <x>10</x>
+              <y>20</y>
+              <width>101</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>全部大写</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButtonSuffNoCase">
+            <property name="geometry">
+             <rect>
+              <x>120</x>
+              <y>20</y>
+              <width>101</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>全部小写</string>
+            </property>
+           </widget>
+           <widget class="QRadioButton" name="radioButtonSuffNo">
+            <property name="geometry">
+             <rect>
+              <x>230</x>
+              <y>20</y>
+              <width>101</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>保持不变</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+           <widget class="QWidget" name="layoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>330</x>
+              <y>20</y>
+              <width>226</width>
+              <height>24</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>拓展名改为：</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QComboBox" name="comboBoxSuffix">
+               <property name="minimumSize">
+                <size>
+                 <width>140</width>
+                 <height>22</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>140</width>
+                 <height>22</height>
+                </size>
+               </property>
+               <property name="editable">
+                <bool>true</bool>
+               </property>
+               <property name="currentText">
+                <string/>
+               </property>
+               <property name="currentIndex">
+                <number>-1</number>
+               </property>
+               <item>
+                <property name="text">
+                 <string>mkv</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>mp4</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>pdf</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>txt</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>jpg</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>png</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>zip</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>uvz</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tab_2">
+        <attribute name="title">
+         <string>替换</string>
+        </attribute>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>492</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QComboBox" name="comboBoxSouce">
+            <property name="minimumSize">
+             <size>
+              <width>166</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>166</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="insertPolicy">
+             <enum>QComboBox::InsertAtBottom</enum>
+            </property>
+            <property name="duplicatesEnabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>替换为：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxDest">
+            <property name="minimumSize">
+             <size>
+              <width>166</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>166</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBoxCase">
+            <property name="text">
+             <string>区分大小写</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_3">
+        <attribute name="title">
+         <string>添加</string>
+        </attribute>
+        <widget class="QLabel" name="label_5">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>58</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>前缀:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_6">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>58</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>位置:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_7">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>110</y>
+           <width>58</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>文本:</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBoxPreFix">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>20</y>
+           <width>166</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="currentText">
+          <string>&lt;#&gt;</string>
+         </property>
+         <item>
+          <property name="text">
+           <string>&lt;#&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;r&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;dir&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;date&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;time&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;cdate&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;ctime&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;mdata&gt;</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>&lt;mtime&gt;</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QComboBox" name="comboBoxTxt">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>110</y>
+           <width>101</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="currentText">
+          <string/>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_11">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>110</y>
+           <width>55</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>55</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>55</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <item>
+          <property name="text">
+           <string>前面</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>后面</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QCheckBox" name="checkBox_4">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>70</y>
+           <width>84</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>从右往左</string>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="spinBox">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>70</y>
+           <width>71</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>20</y>
+           <width>204</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>后缀:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBoxSuffix_2">
+            <property name="minimumSize">
+             <size>
+              <width>166</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>166</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="currentText">
+             <string>&lt;#&gt;</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>&lt;#&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;r&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;dir&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;date&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;time&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;cdate&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;ctime&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;mdate&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;mtime&gt;</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>70</y>
+           <width>204</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_7">
+          <item>
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>添加 </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_8">
+            <property name="minimumSize">
+             <size>
+              <width>166</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>166</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="currentText">
+             <string>&lt;#&gt;</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>&lt;#&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;r&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;dir&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;date&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;time&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;cdate&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;ctime&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;mdate&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;mtime&gt;</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>110</y>
+           <width>204</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_8">
+          <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>添加 </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_9">
+            <property name="minimumSize">
+             <size>
+              <width>166</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>166</width>
+              <height>16777215</height>
+             </size>
+            </property>
+            <property name="editable">
+             <bool>true</bool>
+            </property>
+            <property name="currentText">
+             <string>&lt;#&gt;</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>&lt;#&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;r&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;dir&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;date&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;time&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;cdate&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;ctime&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;mdate&gt;</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>&lt;mtime&gt;</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_4">
+        <attribute name="title">
+         <string>删除</string>
+        </attribute>
+        <widget class="QCheckBox" name="checkBox_5">
+         <property name="geometry">
+          <rect>
+           <x>130</x>
+           <y>70</y>
+           <width>84</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>从右往左</string>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_12">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>20</y>
+           <width>166</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_11">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>20</y>
+           <width>58</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>前缀:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_12">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>110</y>
+           <width>58</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>文本:</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_13">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>58</width>
+           <height>17</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>位置:</string>
+         </property>
+        </widget>
+        <widget class="QSpinBox" name="spinBox_2">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>70</y>
+           <width>71</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_13">
+         <property name="geometry">
+          <rect>
+           <x>50</x>
+           <y>110</y>
+           <width>101</width>
+           <height>22</height>
+          </rect>
+         </property>
+        </widget>
+        <widget class="QComboBox" name="comboBox_14">
+         <property name="geometry">
+          <rect>
+           <x>150</x>
+           <y>110</y>
+           <width>71</width>
+           <height>22</height>
+          </rect>
+         </property>
+         <item>
+          <property name="text">
+           <string>往→</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>往←</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>往→到底</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>往←到底</string>
+          </property>
+         </item>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>20</y>
+           <width>381</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_9">
+          <item>
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>删除</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_6">
+            <property name="text">
+             <string>空格</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_7">
+            <property name="text">
+             <string>数字</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_8">
+            <property name="text">
+             <string>小写字母</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_9">
+            <property name="text">
+             <string>大写字母</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_10">
+            <property name="text">
+             <string>特殊字符</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>250</x>
+           <y>70</y>
+           <width>169</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_10">
+          <item>
+           <widget class="QLabel" name="label_15">
+            <property name="text">
+             <string>   删除</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_3">
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_17">
+            <property name="text">
+             <string>个字符</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>250</x>
+           <y>110</y>
+           <width>290</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
+          <item>
+           <widget class="QLabel" name="label_16">
+            <property name="text">
+             <string>   删除  </string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_4">
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>0</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>个字符</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_11">
+            <property name="text">
+             <string>包含关键词本身</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_5">
+        <attribute name="title">
+         <string>序号</string>
+        </attribute>
+        <widget class="QCheckBox" name="checkBox_12">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>84</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>序号</string>
+         </property>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>60</y>
+           <width>131</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_12">
+          <item>
+           <widget class="QLabel" name="label_19">
+            <property name="text">
+             <string>起始值：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_5">
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>220</x>
+           <y>60</y>
+           <width>109</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_13">
+          <item>
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>增量:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_6">
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>410</x>
+           <y>60</y>
+           <width>118</width>
+           <height>23</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_14">
+          <item>
+           <widget class="QLabel" name="label_21">
+            <property name="text">
+             <string>位数：</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="spinBox_7">
+            <property name="minimumSize">
+             <size>
+              <width>71</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="value">
+             <number>1</number>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_6">
+        <attribute name="title">
+         <string>模板</string>
+        </attribute>
+        <widget class="QWidget" name="layoutWidget">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>30</y>
+           <width>432</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_15">
+          <item>
+           <widget class="QComboBox" name="comboBox_15">
+            <property name="minimumSize">
+             <size>
+              <width>171</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>171</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_22">
+            <property name="font">
+             <font>
+              <underline>false</underline>
+             </font>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
+            </property>
+            <property name="toolTip">
+             <string>将左边文本框中的模板添加到预设模板</string>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">color: rgb(85, 0, 255);</string>
+            </property>
+            <property name="text">
+             <string>   添加到→   </string>
+            </property>
+            <property name="textInteractionFlags">
+             <set>Qt::LinksAccessibleByMouse</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="comboBox_16">
+            <property name="minimumSize">
+             <size>
+              <width>171</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>171</width>
+              <height>16777215</height>
+             </size>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_7">
+        <attribute name="title">
+         <string>文本模式</string>
+        </attribute>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_16">
+           <item>
+            <widget class="QComboBox" name="comboBox_17">
+             <property name="minimumSize">
+              <size>
+               <width>171</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>171</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_23">
+             <property name="font">
+              <font>
+               <pointsize>14</pointsize>
+              </font>
+             </property>
+             <property name="text">
+              <string>▶</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comboBox_18">
+             <property name="minimumSize">
+              <size>
+               <width>171</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>171</width>
+               <height>16777215</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton">
+             <property name="toolTip">
+              <string>替换</string>
+             </property>
+             <property name="statusTip">
+              <string>确认替换.</string>
+             </property>
+             <property name="text">
+              <string>替换</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resource.qrc">
+               <normaloff>:/icons/res/Renamer/Change.png</normaloff>:/icons/res/Renamer/Change.png</iconset>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextBesideIcon</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_2">
+             <property name="toolTip">
+              <string>撤销替换</string>
+             </property>
+             <property name="statusTip">
+              <string>撤销上一步的替换.</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resource.qrc">
+               <normaloff>:/icons/res/Renamer/undo.png</normaloff>:/icons/res/Renamer/undo.png</iconset>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_3">
+             <property name="toolTip">
+              <string>区分大小写</string>
+             </property>
+             <property name="statusTip">
+              <string>使用区分大小写.</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resource.qrc">
+               <normaloff>:/icons/res/Renamer/BigSmallUN.png</normaloff>:/icons/res/Renamer/BigSmallUN.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="toolButton_4">
+             <property name="toolTip">
+              <string>正则表达式</string>
+             </property>
+             <property name="statusTip">
+              <string>使用正则表达式.</string>
+             </property>
+             <property name="text">
+              <string>...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../Resource.qrc">
+               <normaloff>:/icons/res/Renamer/RE.png</normaloff>:/icons/res/Renamer/RE.png</iconset>
+             </property>
+             <property name="checkable">
+              <bool>true</bool>
+             </property>
+             <property name="checked">
+              <bool>false</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0">
+          <widget class="QListWidget" name="listWidget">
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Plain</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QTableWidget" name="fileTableWidget">
+       <property name="font">
+        <font>
+         <pointsize>9</pointsize>
+        </font>
+       </property>
+       <property name="rowCount">
+        <number>0</number>
+       </property>
+       <attribute name="horizontalHeaderVisible">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="horizontalHeaderStretchLastSection">
+        <bool>true</bool>
+       </attribute>
+       <attribute name="verticalHeaderVisible">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderCascadingSectionResizes">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderHighlightSections">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderShowSortIndicator" stdset="0">
+        <bool>false</bool>
+       </attribute>
+       <attribute name="verticalHeaderStretchLastSection">
+        <bool>false</bool>
+       </attribute>
+       <column>
+        <property name="text">
+         <string>序号</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>文件名</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>新文件名</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>状态</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>拓展名</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>大小</string>
+        </property>
+       </column>
+       <column>
+        <property name="text">
+         <string>路径</string>
+        </property>
+       </column>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>20</width>
+     <height>15</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionAddFile"/>
+   <addaction name="actionAddFileFormDir"/>
+   <addaction name="actionClearFileList"/>
+   <addaction name="actionUndoCheck"/>
+   <addaction name="actionUndoRename"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionAddFile">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/transfer/res/transfer/addFile.png</normaloff>:/transfer/res/transfer/addFile.png</iconset>
+   </property>
+   <property name="text">
+    <string>添加文件</string>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>10</pointsize>
+    </font>
+   </property>
+   <property name="visible">
+    <bool>true</bool>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionAddFileFormDir">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/transfer/res/transfer/selectFile.png</normaloff>:/transfer/res/transfer/selectFile.png</iconset>
+   </property>
+   <property name="text">
+    <string>从文件夹添加</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionClearFileList">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/transfer/res/transfer/clearList.png</normaloff>:/transfer/res/transfer/clearList.png</iconset>
+   </property>
+   <property name="text">
+    <string>清空文件列表</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionUndoCheck">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/ps/res/ps/rota.png</normaloff>:/ps/res/ps/rota.png</iconset>
+   </property>
+   <property name="text">
+    <string>重置选项</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+  <action name="actionUndoRename">
+   <property name="icon">
+    <iconset resource="../Resource.qrc">
+     <normaloff>:/icons/res/Renamer/undo.png</normaloff>:/icons/res/Renamer/undo.png</iconset>
+   </property>
+   <property name="text">
+    <string>撤销改名</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::NoRole</enum>
+   </property>
+  </action>
+ </widget>
+ <resources>
+  <include location="../Resource.qrc"/>
+ </resources>
+ <connections/>
+</ui>

@@ -25,7 +25,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets
 set(QT_VERSION_MAJOR ${QT_VERSION_MAJOR})
 # 根据找到的 Qt 版本配置组件
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets
-        Multimedia MultimediaWidgets Sql Concurrent Network Charts)
+        Multimedia MultimediaWidgets Sql Concurrent Network Charts Core5Compat)
 
 
 # 配置 OpenCV
@@ -39,6 +39,19 @@ set(LINK_DIR ${opensslDir}/lib)
 include_directories(${INC_DIR})# 使头文件可访问
 link_directories(${LINK_DIR}/MinGW/x86)# 指定动态库路径
 link_libraries(ssl crypto)# 添加需要链接的库
+
+
+
+# 设置 OpenCC 安装路径
+#list(APPEND CMAKE_PREFIX_PATH "D:/A-Develop/ToolLibrary/OpenCC/build")
+#include_directories("D:/A-Develop/ToolLibrary/OpenCC/include")
+#link_directories("D:/A-Develop/ToolLibrary/OpenCC/build/src/Release/opencc.lib")
+# 使用 find_package
+#find_package(OpenCC REQUIRED)
+#target_link_libraries(${PROJECT_NAME} PRIVATE opencc)
+# 链接
+#target_link_libraries(${PROJECT_NAME} PRIVATE OpenCC::OpenCC)
+
 
 #                                            *********
 #                                             *******
@@ -143,6 +156,8 @@ set(PROJECT_SOURCES
         src/Utils/ThreadWorkers/FilesDatabaseUpdater.h
         src/DataBase/SqlQuery/Tags.h
         src/Utils/Tools/EncryptFile.h
+        src/Widgets/Renamer/Renamer.cpp
+        src/Widgets/Renamer/Renamer.h
 )
 
 #                                            *********
@@ -187,6 +202,7 @@ target_link_libraries(ICMA PRIVATE ${OpenCV_LIBS} # 添加openCv lib库
         Qt${QT_VERSION_MAJOR}::Concurrent
         ssl
         Qt${QT_VERSION_MAJOR}::Charts
+        Qt${QT_VERSION_MAJOR}::Core5Compat
 )
 
 

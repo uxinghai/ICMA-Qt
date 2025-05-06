@@ -20,6 +20,7 @@
 #include "../fileDeduplicate/FileDeduplicate.h"
 #include "../fileTransfer/FileTransfer.h"
 #include "../photoShop/PS.h"
+#include "../Renamer/Renamer.h"
 #include "FileTypeHelper.h"
 #include "RegexHelper.h"
 
@@ -122,6 +123,15 @@ void MainWindow::setupConnections()
     sLog.logf("打开日志文件目录: %s", ICMALogDir);
     QDesktopServices::openUrl(QUrl::fromLocalFile(
       QString("./%1").arg(ICMALogDir)));
+  });
+
+  // 启动文件批量重命名
+  connect(ui->actionBatchRename, &QAction::triggered, [this] {
+    auto* renameWidget = new Renamer();
+    connect(renameWidget, &Renamer::WindowClose,
+            this, &MainWindow::show);
+    this->hide();
+    renameWidget->show();
   });
 
   // 启动文件去重

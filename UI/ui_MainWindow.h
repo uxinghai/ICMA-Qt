@@ -344,7 +344,7 @@ public:
         actionBatchRename = new QAction(MainWindow);
         actionBatchRename->setObjectName("actionBatchRename");
         QIcon icon2;
-        icon2.addFile(QString::fromUtf8(":/icons/res/ReName.png"), QSize(), QIcon::Normal, QIcon::Off);
+        icon2.addFile(QString::fromUtf8(":/icons/res/Renamer/SomRename.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionBatchRename->setIcon(icon2);
         actionFileDuplication = new QAction(MainWindow);
         actionFileDuplication->setObjectName("actionFileDuplication");
@@ -766,8 +766,14 @@ public:
         MainWindow->setMenuBar(menubar);
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName("toolBar");
-        toolBar->setFont(font);
+        QFont font3;
+        font3.setFamilies({QString::fromUtf8("Microsoft YaHei UI")});
+        font3.setPointSize(9);
+        font3.setBold(false);
+        font3.setItalic(false);
+        toolBar->setFont(font3);
         toolBar->setContextMenuPolicy(Qt::CustomContextMenu);
+        toolBar->setIconSize(QSize(20, 20));
         toolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
         MainWindow->addToolBar(Qt::TopToolBarArea, toolBar);
 

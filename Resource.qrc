@@ -16,6 +16,12 @@
     <file>res/DaoRu.png</file>
     <file>res/ShouCe.png</file>
     <file>res/disk.png</file>
+    <file>res/Renamer/BigSmall.png</file>
+    <file>res/Renamer/BigSmallUN.png</file>
+    <file>res/Renamer/Change.png</file>
+    <file>res/Renamer/RE.png</file>
+    <file>res/Renamer/undo.png</file>
+    <file>res/Renamer/SomRename.png</file>
   </qresource>
   <qresource prefix="/ps">
     <file>res/ps/AITool.png</file>
@@ -46,7 +52,6 @@
     <file>res/ps/changeImg.png</file>
     <file>res/ps/ICMAPS_128x128.ico</file>
     <file>res/ps/ICMATRAN_128x128.ico</file>
-
   </qresource>
   <qresource prefix="/suffixes">
     <file>res/suffix/aa.png</file>

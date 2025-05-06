@@ -19,6 +19,12 @@
 
 class DataUnitCalc final {
 public:
+  static DataUnitCalc& getInstance()
+  {
+    static DataUnitCalc instance;
+    return instance;
+  }
+
   /**
    * @brief 返回传入数据的合适单位
    * @param data 传入的数据量 (qsizetype 类型)
@@ -55,9 +61,7 @@ public:
     if (strData.toLongLong() < 1024.0) { return "B"; }
     if (strData.toLongLong() < 1024.0 * 1024.0) { return "KB"; }
     if (strData.toLongLong() < 1024.0 * 1024.0 * 1024.0) { return "MB"; }
-    if (strData.toLongLong() < 1024.0 * 1024.0 * 1024.0 * 1024.0) {
-      return "GB";
-    }
+    if (strData.toLongLong() < 1024.0 * 1024.0 * 1024.0 * 1024.0) { return "GB"; }
     return "TB";
   }
 
@@ -76,3 +80,5 @@ public:
     return 0;
   }
 };
+
+#define sDataUnitCalc DataUnitCalc::getInstance()
