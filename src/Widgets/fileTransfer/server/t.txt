@@ -1,0 +1,100 @@
+void AServer::doProcessBuffer()
+{
+    while (!buffer.isEmpty()) {
+        // 检查buffer是否至少包含消息类型和大小信息
+        if (buffer.size() < static_cast<int>(sizeof(quint8) + sizeof(mySizeType))) {
+            return; // 等待更多数据
+        }
+
+        // 创建临时读取流，不改变原始buffer
+        QDataStream peek(&buffer, QIODevice::ReadOnly);
+        
+        // 读取消息类型
+        quint8 rawType;
+        peek >> rawType;
+        
+        // 验证消息类型有效性
+        if (rawType > static_cast<quint8>(MessageType::Message)) {
+            qWarning() << "收到无效的消息类型:" << rawType;
+            buffer.clear(); // 清空可能已损坏的buffer
+            return;
+        }
+        
+        MessageType type = static_cast<MessageType>(rawType);
+        
+        // 读取消息大小
+        mySizeType byteArraySize;
+        peek >> byteArraySize;
+        
+        // 计算已读取的字节数(类型+大小)
+        int headerBytesRead = sizeof(quint8) + sizeof(mySizeType);
+        
+        // 确保buffer包含完整消息
+        if (buffer.size() < static_cast<int>(headerBytesRead + byteArraySize)) {
+            return; // 等待更多数据
+        }
+        
+        // 从buffer中移除消息类型和大小字段
+        buffer.remove(0, headerBytesRead);
+        
+        switch (type) {
+        case MessageType::Header:
+            {
+                // 提取Header数据(不包括已移除的类型和大小字段)
+                QByteArray headerData = buffer.left(byteArraySize);
+                buffer.remove(0, byteArraySize);
+                
+                // 重新构建完整Header数据以便反序列化
+                QByteArray completeHeaderData;
+                QDataStream headerStream(&completeHeaderData, QIODevice::WriteOnly);
+                headerStream << static_cast<quint8>(MessageType::Header) << byteArraySize;
+                completeHeaderData.append(headerData);
+                
+                // 反序列化
+                HeaderInfo headerInfo = sFileTransTool.deserializeHeader(completeHeaderData);
+                
+                if (headerInfo.fileName.isEmpty() || headerInfo.fileSize <= 0) {
+                    doDisConnect();
+                    return;
+                }
+                
+                if (!doHeader(headerInfo.fileName, headerInfo.fileSize, byteArraySize)) {
+                    doDisConnect();
+                    return;
+                }
+                
+                break;
+            }
+        case MessageType::Data:
+            {
+                // 提取文件数据(不包括已移除的类型和大小字段)
+                QByteArray fileData = buffer.left(byteArraySize);
+                buffer.remove(0, byteArraySize);
+                
+                // 重新构建完整的文件数据以便反序列化
+                QByteArray completeFileData;
+                QDataStream fileStream(&completeFileData, QIODevice::WriteOnly);
+                fileStream << static_cast<quint8>(MessageType::Data) << byteArraySize;
+                completeFileData.append(fileData);
+                
+                if (!curFile.isOpen()) {
+                    qWarning() << "尝试处理文件数据，但文件未打开";
+                    return;
+                }
+                
+                FileData parsedData = sFileTransTool.deserializeFileData(completeFileData);
+                
+                if (!doFileData(parsedData.data, parsedData.dataSize, byteArraySize)) {
+                    doDisConnect();
+                    return;
+                }
+                break;
+            }
+            
+        default:
+            qWarning() << "未知的消息类型:" << static_cast<int>(type);
+            buffer.clear();
+            break;
+        }
+    }
+}

@@ -1,0 +1,59 @@
+void AServer::doProcessBuffer()
+{
+  while (!buffer.isEmpty()) {
+    if (buffer.size() < sizeof(quint8)) { return; }
+
+    MessageType type;
+    mySizeType byteArraySize;
+    QDataStream in(&buffer, QIODevice::ReadOnly);
+    in >> type >> byteArraySize;
+
+    int headerBytesRead = sizeof(quint8) + sizeof(mySizeType);
+
+    switch (type) {
+    case MessageType::Header:
+      {
+        const QByteArray headerInfo = buffer.left(byteArraySize);
+        buffer.remove(0, byteArraySize);
+
+        auto [_,fileName, fileSize] =
+          sFileTransTool.deserializeHeader(headerInfo);
+
+        if (fileName.isEmpty() || fileSize <= 0) {
+          doDisConnect();
+          return;
+        }
+
+        if (!doHeader(fileName, fileSize, byteArraySize)) {
+          doDisConnect();
+          return;
+        }
+
+        break;
+      }
+    case MessageType::Data:
+      {
+        if (buffer.size() < static_cast<int>(byteArraySize)) { return; }
+
+        const QByteArray fileData = buffer.left(byteArraySize);
+        buffer.remove(0, byteArraySize);
+
+        if (!curFile.isOpen()) { return; }
+
+        if (auto [dataSize, data, _]
+            = sFileTransTool.deserializeFileData(fileData);
+          !doFileData(data, data.size(), byteArraySize)) {
+          doDisConnect();
+          return;
+        }
+        break;
+      }
+
+    default:
+      buffer.clear();
+      break;
+
+     // buffer.remove(headerBytesRead);
+    }
+  }
+}
