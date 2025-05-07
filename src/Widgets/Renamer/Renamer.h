@@ -60,6 +60,16 @@ private slots:
   void doNo();
 
   // 替换
+  void doReplace();
+
+  // 添加
+  void doAddSuffixPreFix();
+  void doAddToIndex();
+  void doAddTextTo();
+
+  // 删除
+  void doDeleteText(const QString& text);
+  void doDelete();
 
 private:
   void initUI();
@@ -84,6 +94,8 @@ private:
   Ui::Renamer* ui;
   QStringList filesList;
   QLabel* statusLabel;
+
+  std::map<std::string, std::function<std::string()>> map;
 };
 
 inline QString Renamer::generateRandomString(const int length)

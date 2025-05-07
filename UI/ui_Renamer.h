@@ -110,6 +110,18 @@ public:
     QComboBox *comboBox_13;
     QComboBox *comboBox_14;
     QWidget *layoutWidget7;
+    QHBoxLayout *horizontalLayout_10;
+    QLabel *label_15;
+    QSpinBox *spinBox_3;
+    QLabel *label_17;
+    QWidget *layoutWidget8;
+    QHBoxLayout *horizontalLayout_11;
+    QLabel *label_16;
+    QSpinBox *spinBox_4;
+    QLabel *label_18;
+    QCheckBox *checkBox_11;
+    QWidget *widget;
+    QGridLayout *gridLayout_4;
     QHBoxLayout *horizontalLayout_9;
     QLabel *label_14;
     QCheckBox *checkBox_6;
@@ -117,33 +129,23 @@ public:
     QCheckBox *checkBox_8;
     QCheckBox *checkBox_9;
     QCheckBox *checkBox_10;
-    QWidget *layoutWidget8;
-    QHBoxLayout *horizontalLayout_10;
-    QLabel *label_15;
-    QSpinBox *spinBox_3;
-    QLabel *label_17;
-    QWidget *layoutWidget9;
-    QHBoxLayout *horizontalLayout_11;
-    QLabel *label_16;
-    QSpinBox *spinBox_4;
-    QLabel *label_18;
-    QCheckBox *checkBox_11;
+    QSpacerItem *horizontalSpacer_2;
     QWidget *tab_5;
     QCheckBox *checkBox_12;
-    QWidget *layoutWidget10;
+    QWidget *layoutWidget9;
     QHBoxLayout *horizontalLayout_12;
     QLabel *label_19;
     QSpinBox *spinBox_5;
-    QWidget *layoutWidget11;
+    QWidget *layoutWidget10;
     QHBoxLayout *horizontalLayout_13;
     QLabel *label_20;
     QSpinBox *spinBox_6;
-    QWidget *layoutWidget12;
+    QWidget *layoutWidget11;
     QHBoxLayout *horizontalLayout_14;
     QLabel *label_21;
     QSpinBox *spinBox_7;
     QWidget *tab_6;
-    QWidget *layoutWidget13;
+    QWidget *layoutWidget12;
     QHBoxLayout *horizontalLayout_15;
     QComboBox *comboBox_15;
     QLabel *label_22;
@@ -168,7 +170,7 @@ public:
     {
         if (Renamer->objectName().isEmpty())
             Renamer->setObjectName("Renamer");
-        Renamer->resize(779, 593);
+        Renamer->resize(794, 605);
         QIcon icon;
         icon.addFile(QString::fromUtf8(":/icons/res/Renamer/SomRename.png"), QSize(), QIcon::Normal, QIcon::Off);
         Renamer->setWindowIcon(icon);
@@ -217,8 +219,8 @@ public:
         splitter->setOrientation(Qt::Vertical);
         tabWidget = new QTabWidget(splitter);
         tabWidget->setObjectName("tabWidget");
-        tabWidget->setMinimumSize(QSize(0, 170));
-        tabWidget->setMaximumSize(QSize(16777215, 16777215));
+        tabWidget->setMinimumSize(QSize(0, 180));
+        tabWidget->setMaximumSize(QSize(16777215, 180));
         tab = new QWidget();
         tab->setObjectName("tab");
         gridLayout = new QGridLayout(tab);
@@ -392,9 +394,6 @@ public:
         comboBoxPreFix->addItem(QString());
         comboBoxPreFix->addItem(QString());
         comboBoxPreFix->addItem(QString());
-        comboBoxPreFix->addItem(QString());
-        comboBoxPreFix->addItem(QString());
-        comboBoxPreFix->addItem(QString());
         comboBoxPreFix->setObjectName("comboBoxPreFix");
         comboBoxPreFix->setGeometry(QRect(50, 20, 166, 22));
         comboBoxPreFix->setEditable(true);
@@ -433,9 +432,6 @@ public:
         comboBoxSuffix_2->addItem(QString());
         comboBoxSuffix_2->addItem(QString());
         comboBoxSuffix_2->addItem(QString());
-        comboBoxSuffix_2->addItem(QString());
-        comboBoxSuffix_2->addItem(QString());
-        comboBoxSuffix_2->addItem(QString());
         comboBoxSuffix_2->setObjectName("comboBoxSuffix_2");
         comboBoxSuffix_2->setMinimumSize(QSize(166, 0));
         comboBoxSuffix_2->setMaximumSize(QSize(166, 16777215));
@@ -455,9 +451,6 @@ public:
         horizontalLayout_7->addWidget(label_9);
 
         comboBox_8 = new QComboBox(layoutWidget5);
-        comboBox_8->addItem(QString());
-        comboBox_8->addItem(QString());
-        comboBox_8->addItem(QString());
         comboBox_8->addItem(QString());
         comboBox_8->addItem(QString());
         comboBox_8->addItem(QString());
@@ -489,9 +482,6 @@ public:
         comboBox_9->addItem(QString());
         comboBox_9->addItem(QString());
         comboBox_9->addItem(QString());
-        comboBox_9->addItem(QString());
-        comboBox_9->addItem(QString());
-        comboBox_9->addItem(QString());
         comboBox_9->setObjectName("comboBox_9");
         comboBox_9->setMinimumSize(QSize(166, 0));
         comboBox_9->setMaximumSize(QSize(166, 16777215));
@@ -508,6 +498,7 @@ public:
         comboBox_12 = new QComboBox(tab_4);
         comboBox_12->setObjectName("comboBox_12");
         comboBox_12->setGeometry(QRect(50, 20, 166, 22));
+        comboBox_12->setEditable(true);
         label_11 = new QLabel(tab_4);
         label_11->setObjectName("label_11");
         label_11->setGeometry(QRect(10, 20, 58, 17));
@@ -523,6 +514,7 @@ public:
         comboBox_13 = new QComboBox(tab_4);
         comboBox_13->setObjectName("comboBox_13");
         comboBox_13->setGeometry(QRect(50, 110, 101, 22));
+        comboBox_13->setEditable(true);
         comboBox_14 = new QComboBox(tab_4);
         comboBox_14->addItem(QString());
         comboBox_14->addItem(QString());
@@ -532,88 +524,98 @@ public:
         comboBox_14->setGeometry(QRect(150, 110, 71, 22));
         layoutWidget7 = new QWidget(tab_4);
         layoutWidget7->setObjectName("layoutWidget7");
-        layoutWidget7->setGeometry(QRect(260, 20, 381, 23));
-        horizontalLayout_9 = new QHBoxLayout(layoutWidget7);
-        horizontalLayout_9->setObjectName("horizontalLayout_9");
-        horizontalLayout_9->setContentsMargins(0, 0, 0, 0);
-        label_14 = new QLabel(layoutWidget7);
-        label_14->setObjectName("label_14");
-
-        horizontalLayout_9->addWidget(label_14);
-
-        checkBox_6 = new QCheckBox(layoutWidget7);
-        checkBox_6->setObjectName("checkBox_6");
-
-        horizontalLayout_9->addWidget(checkBox_6);
-
-        checkBox_7 = new QCheckBox(layoutWidget7);
-        checkBox_7->setObjectName("checkBox_7");
-
-        horizontalLayout_9->addWidget(checkBox_7);
-
-        checkBox_8 = new QCheckBox(layoutWidget7);
-        checkBox_8->setObjectName("checkBox_8");
-
-        horizontalLayout_9->addWidget(checkBox_8);
-
-        checkBox_9 = new QCheckBox(layoutWidget7);
-        checkBox_9->setObjectName("checkBox_9");
-
-        horizontalLayout_9->addWidget(checkBox_9);
-
-        checkBox_10 = new QCheckBox(layoutWidget7);
-        checkBox_10->setObjectName("checkBox_10");
-
-        horizontalLayout_9->addWidget(checkBox_10);
-
-        layoutWidget8 = new QWidget(tab_4);
-        layoutWidget8->setObjectName("layoutWidget8");
-        layoutWidget8->setGeometry(QRect(250, 70, 169, 23));
-        horizontalLayout_10 = new QHBoxLayout(layoutWidget8);
+        layoutWidget7->setGeometry(QRect(250, 70, 169, 23));
+        horizontalLayout_10 = new QHBoxLayout(layoutWidget7);
         horizontalLayout_10->setObjectName("horizontalLayout_10");
         horizontalLayout_10->setContentsMargins(0, 0, 0, 0);
-        label_15 = new QLabel(layoutWidget8);
+        label_15 = new QLabel(layoutWidget7);
         label_15->setObjectName("label_15");
 
         horizontalLayout_10->addWidget(label_15);
 
-        spinBox_3 = new QSpinBox(layoutWidget8);
+        spinBox_3 = new QSpinBox(layoutWidget7);
         spinBox_3->setObjectName("spinBox_3");
         spinBox_3->setMinimumSize(QSize(71, 0));
 
         horizontalLayout_10->addWidget(spinBox_3);
 
-        label_17 = new QLabel(layoutWidget8);
+        label_17 = new QLabel(layoutWidget7);
         label_17->setObjectName("label_17");
 
         horizontalLayout_10->addWidget(label_17);
 
-        layoutWidget9 = new QWidget(tab_4);
-        layoutWidget9->setObjectName("layoutWidget9");
-        layoutWidget9->setGeometry(QRect(250, 110, 290, 23));
-        horizontalLayout_11 = new QHBoxLayout(layoutWidget9);
+        layoutWidget8 = new QWidget(tab_4);
+        layoutWidget8->setObjectName("layoutWidget8");
+        layoutWidget8->setGeometry(QRect(250, 110, 290, 23));
+        horizontalLayout_11 = new QHBoxLayout(layoutWidget8);
         horizontalLayout_11->setObjectName("horizontalLayout_11");
         horizontalLayout_11->setContentsMargins(0, 0, 0, 0);
-        label_16 = new QLabel(layoutWidget9);
+        label_16 = new QLabel(layoutWidget8);
         label_16->setObjectName("label_16");
 
         horizontalLayout_11->addWidget(label_16);
 
-        spinBox_4 = new QSpinBox(layoutWidget9);
+        spinBox_4 = new QSpinBox(layoutWidget8);
         spinBox_4->setObjectName("spinBox_4");
         spinBox_4->setMinimumSize(QSize(71, 0));
 
         horizontalLayout_11->addWidget(spinBox_4);
 
-        label_18 = new QLabel(layoutWidget9);
+        label_18 = new QLabel(layoutWidget8);
         label_18->setObjectName("label_18");
 
         horizontalLayout_11->addWidget(label_18);
 
-        checkBox_11 = new QCheckBox(layoutWidget9);
+        checkBox_11 = new QCheckBox(layoutWidget8);
         checkBox_11->setObjectName("checkBox_11");
 
         horizontalLayout_11->addWidget(checkBox_11);
+
+        widget = new QWidget(tab_4);
+        widget->setObjectName("widget");
+        widget->setGeometry(QRect(250, 10, 399, 41));
+        gridLayout_4 = new QGridLayout(widget);
+        gridLayout_4->setSpacing(0);
+        gridLayout_4->setObjectName("gridLayout_4");
+        gridLayout_4->setContentsMargins(0, 0, 0, 0);
+        horizontalLayout_9 = new QHBoxLayout();
+        horizontalLayout_9->setObjectName("horizontalLayout_9");
+        label_14 = new QLabel(widget);
+        label_14->setObjectName("label_14");
+
+        horizontalLayout_9->addWidget(label_14);
+
+        checkBox_6 = new QCheckBox(widget);
+        checkBox_6->setObjectName("checkBox_6");
+
+        horizontalLayout_9->addWidget(checkBox_6);
+
+        checkBox_7 = new QCheckBox(widget);
+        checkBox_7->setObjectName("checkBox_7");
+
+        horizontalLayout_9->addWidget(checkBox_7);
+
+        checkBox_8 = new QCheckBox(widget);
+        checkBox_8->setObjectName("checkBox_8");
+
+        horizontalLayout_9->addWidget(checkBox_8);
+
+        checkBox_9 = new QCheckBox(widget);
+        checkBox_9->setObjectName("checkBox_9");
+
+        horizontalLayout_9->addWidget(checkBox_9);
+
+        checkBox_10 = new QCheckBox(widget);
+        checkBox_10->setObjectName("checkBox_10");
+
+        horizontalLayout_9->addWidget(checkBox_10);
+
+        horizontalSpacer_2 = new QSpacerItem(40, 20, QSizePolicy::Policy::Expanding, QSizePolicy::Policy::Minimum);
+
+        horizontalLayout_9->addItem(horizontalSpacer_2);
+
+
+        gridLayout_4->addLayout(horizontalLayout_9, 0, 0, 1, 1);
 
         tabWidget->addTab(tab_4, QString());
         tab_5 = new QWidget();
@@ -621,54 +623,54 @@ public:
         checkBox_12 = new QCheckBox(tab_5);
         checkBox_12->setObjectName("checkBox_12");
         checkBox_12->setGeometry(QRect(20, 20, 84, 21));
-        layoutWidget10 = new QWidget(tab_5);
-        layoutWidget10->setObjectName("layoutWidget10");
-        layoutWidget10->setGeometry(QRect(20, 60, 131, 23));
-        horizontalLayout_12 = new QHBoxLayout(layoutWidget10);
+        layoutWidget9 = new QWidget(tab_5);
+        layoutWidget9->setObjectName("layoutWidget9");
+        layoutWidget9->setGeometry(QRect(20, 60, 131, 23));
+        horizontalLayout_12 = new QHBoxLayout(layoutWidget9);
         horizontalLayout_12->setObjectName("horizontalLayout_12");
         horizontalLayout_12->setContentsMargins(0, 0, 0, 0);
-        label_19 = new QLabel(layoutWidget10);
+        label_19 = new QLabel(layoutWidget9);
         label_19->setObjectName("label_19");
 
         horizontalLayout_12->addWidget(label_19);
 
-        spinBox_5 = new QSpinBox(layoutWidget10);
+        spinBox_5 = new QSpinBox(layoutWidget9);
         spinBox_5->setObjectName("spinBox_5");
         spinBox_5->setMinimumSize(QSize(71, 0));
         spinBox_5->setValue(1);
 
         horizontalLayout_12->addWidget(spinBox_5);
 
-        layoutWidget11 = new QWidget(tab_5);
-        layoutWidget11->setObjectName("layoutWidget11");
-        layoutWidget11->setGeometry(QRect(220, 60, 109, 23));
-        horizontalLayout_13 = new QHBoxLayout(layoutWidget11);
+        layoutWidget10 = new QWidget(tab_5);
+        layoutWidget10->setObjectName("layoutWidget10");
+        layoutWidget10->setGeometry(QRect(220, 60, 109, 23));
+        horizontalLayout_13 = new QHBoxLayout(layoutWidget10);
         horizontalLayout_13->setObjectName("horizontalLayout_13");
         horizontalLayout_13->setContentsMargins(0, 0, 0, 0);
-        label_20 = new QLabel(layoutWidget11);
+        label_20 = new QLabel(layoutWidget10);
         label_20->setObjectName("label_20");
 
         horizontalLayout_13->addWidget(label_20);
 
-        spinBox_6 = new QSpinBox(layoutWidget11);
+        spinBox_6 = new QSpinBox(layoutWidget10);
         spinBox_6->setObjectName("spinBox_6");
         spinBox_6->setMinimumSize(QSize(71, 0));
         spinBox_6->setValue(1);
 
         horizontalLayout_13->addWidget(spinBox_6);
 
-        layoutWidget12 = new QWidget(tab_5);
-        layoutWidget12->setObjectName("layoutWidget12");
-        layoutWidget12->setGeometry(QRect(410, 60, 118, 23));
-        horizontalLayout_14 = new QHBoxLayout(layoutWidget12);
+        layoutWidget11 = new QWidget(tab_5);
+        layoutWidget11->setObjectName("layoutWidget11");
+        layoutWidget11->setGeometry(QRect(410, 60, 118, 23));
+        horizontalLayout_14 = new QHBoxLayout(layoutWidget11);
         horizontalLayout_14->setObjectName("horizontalLayout_14");
         horizontalLayout_14->setContentsMargins(0, 0, 0, 0);
-        label_21 = new QLabel(layoutWidget12);
+        label_21 = new QLabel(layoutWidget11);
         label_21->setObjectName("label_21");
 
         horizontalLayout_14->addWidget(label_21);
 
-        spinBox_7 = new QSpinBox(layoutWidget12);
+        spinBox_7 = new QSpinBox(layoutWidget11);
         spinBox_7->setObjectName("spinBox_7");
         spinBox_7->setMinimumSize(QSize(71, 0));
         spinBox_7->setValue(1);
@@ -678,20 +680,20 @@ public:
         tabWidget->addTab(tab_5, QString());
         tab_6 = new QWidget();
         tab_6->setObjectName("tab_6");
-        layoutWidget13 = new QWidget(tab_6);
-        layoutWidget13->setObjectName("layoutWidget13");
-        layoutWidget13->setGeometry(QRect(20, 30, 432, 24));
-        horizontalLayout_15 = new QHBoxLayout(layoutWidget13);
+        layoutWidget12 = new QWidget(tab_6);
+        layoutWidget12->setObjectName("layoutWidget12");
+        layoutWidget12->setGeometry(QRect(20, 30, 432, 24));
+        horizontalLayout_15 = new QHBoxLayout(layoutWidget12);
         horizontalLayout_15->setObjectName("horizontalLayout_15");
         horizontalLayout_15->setContentsMargins(0, 0, 0, 0);
-        comboBox_15 = new QComboBox(layoutWidget13);
+        comboBox_15 = new QComboBox(layoutWidget12);
         comboBox_15->setObjectName("comboBox_15");
         comboBox_15->setMinimumSize(QSize(171, 0));
         comboBox_15->setMaximumSize(QSize(171, 16777215));
 
         horizontalLayout_15->addWidget(comboBox_15);
 
-        label_22 = new QLabel(layoutWidget13);
+        label_22 = new QLabel(layoutWidget12);
         label_22->setObjectName("label_22");
         QFont font1;
         font1.setUnderline(false);
@@ -702,7 +704,7 @@ public:
 
         horizontalLayout_15->addWidget(label_22);
 
-        comboBox_16 = new QComboBox(layoutWidget13);
+        comboBox_16 = new QComboBox(layoutWidget12);
         comboBox_16->setObjectName("comboBox_16");
         comboBox_16->setMinimumSize(QSize(171, 0));
         comboBox_16->setMaximumSize(QSize(171, 16777215));
@@ -793,26 +795,35 @@ public:
         if (fileTableWidget->columnCount() < 7)
             fileTableWidget->setColumnCount(7);
         QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        __qtablewidgetitem->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
         fileTableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
         QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        __qtablewidgetitem1->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
         fileTableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
         QTableWidgetItem *__qtablewidgetitem2 = new QTableWidgetItem();
+        __qtablewidgetitem2->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
         fileTableWidget->setHorizontalHeaderItem(2, __qtablewidgetitem2);
         QTableWidgetItem *__qtablewidgetitem3 = new QTableWidgetItem();
+        __qtablewidgetitem3->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
         fileTableWidget->setHorizontalHeaderItem(3, __qtablewidgetitem3);
         QTableWidgetItem *__qtablewidgetitem4 = new QTableWidgetItem();
+        __qtablewidgetitem4->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
         fileTableWidget->setHorizontalHeaderItem(4, __qtablewidgetitem4);
         QTableWidgetItem *__qtablewidgetitem5 = new QTableWidgetItem();
+        __qtablewidgetitem5->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
         fileTableWidget->setHorizontalHeaderItem(5, __qtablewidgetitem5);
         QTableWidgetItem *__qtablewidgetitem6 = new QTableWidgetItem();
+        __qtablewidgetitem6->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
         fileTableWidget->setHorizontalHeaderItem(6, __qtablewidgetitem6);
         fileTableWidget->setObjectName("fileTableWidget");
         QFont font3;
         font3.setPointSize(9);
         fileTableWidget->setFont(font3);
+        fileTableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
         fileTableWidget->setRowCount(0);
         splitter->addWidget(fileTableWidget);
         fileTableWidget->horizontalHeader()->setVisible(true);
+        fileTableWidget->horizontalHeader()->setDefaultSectionSize(90);
         fileTableWidget->horizontalHeader()->setProperty("showSortIndicator", QVariant(false));
         fileTableWidget->horizontalHeader()->setStretchLastSection(true);
         fileTableWidget->verticalHeader()->setVisible(false);
@@ -843,6 +854,10 @@ public:
         tabWidget->setCurrentIndex(0);
         comboBox->setCurrentIndex(0);
         comboBoxSuffix->setCurrentIndex(-1);
+        comboBoxPreFix->setCurrentIndex(-1);
+        comboBoxSuffix_2->setCurrentIndex(-1);
+        comboBox_8->setCurrentIndex(-1);
+        comboBox_9->setCurrentIndex(-1);
 
 
         QMetaObject::connectSlotsByName(Renamer);
@@ -893,61 +908,49 @@ public:
         label_5->setText(QCoreApplication::translate("Renamer", "\345\211\215\347\274\200:", nullptr));
         label_6->setText(QCoreApplication::translate("Renamer", "\344\275\215\347\275\256:", nullptr));
         label_7->setText(QCoreApplication::translate("Renamer", "\346\226\207\346\234\254:", nullptr));
-        comboBoxPreFix->setItemText(0, QCoreApplication::translate("Renamer", "<#>", nullptr));
-        comboBoxPreFix->setItemText(1, QCoreApplication::translate("Renamer", "<r>", nullptr));
-        comboBoxPreFix->setItemText(2, QCoreApplication::translate("Renamer", "<dir>", nullptr));
-        comboBoxPreFix->setItemText(3, QCoreApplication::translate("Renamer", "<date>", nullptr));
-        comboBoxPreFix->setItemText(4, QCoreApplication::translate("Renamer", "<time>", nullptr));
-        comboBoxPreFix->setItemText(5, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
-        comboBoxPreFix->setItemText(6, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
-        comboBoxPreFix->setItemText(7, QCoreApplication::translate("Renamer", "<mdata>", nullptr));
-        comboBoxPreFix->setItemText(8, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
+        comboBoxPreFix->setItemText(0, QCoreApplication::translate("Renamer", "<date>", nullptr));
+        comboBoxPreFix->setItemText(1, QCoreApplication::translate("Renamer", "<time>", nullptr));
+        comboBoxPreFix->setItemText(2, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
+        comboBoxPreFix->setItemText(3, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
+        comboBoxPreFix->setItemText(4, QCoreApplication::translate("Renamer", "<mdate>", nullptr));
+        comboBoxPreFix->setItemText(5, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
 
-        comboBoxPreFix->setCurrentText(QCoreApplication::translate("Renamer", "<#>", nullptr));
+        comboBoxPreFix->setCurrentText(QString());
         comboBoxTxt->setCurrentText(QString());
         comboBox_11->setItemText(0, QCoreApplication::translate("Renamer", "\345\211\215\351\235\242", nullptr));
         comboBox_11->setItemText(1, QCoreApplication::translate("Renamer", "\345\220\216\351\235\242", nullptr));
 
         checkBox_4->setText(QCoreApplication::translate("Renamer", "\344\273\216\345\217\263\345\276\200\345\267\246", nullptr));
         label_8->setText(QCoreApplication::translate("Renamer", "\345\220\216\347\274\200:", nullptr));
-        comboBoxSuffix_2->setItemText(0, QCoreApplication::translate("Renamer", "<#>", nullptr));
-        comboBoxSuffix_2->setItemText(1, QCoreApplication::translate("Renamer", "<r>", nullptr));
-        comboBoxSuffix_2->setItemText(2, QCoreApplication::translate("Renamer", "<dir>", nullptr));
-        comboBoxSuffix_2->setItemText(3, QCoreApplication::translate("Renamer", "<date>", nullptr));
-        comboBoxSuffix_2->setItemText(4, QCoreApplication::translate("Renamer", "<time>", nullptr));
-        comboBoxSuffix_2->setItemText(5, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
-        comboBoxSuffix_2->setItemText(6, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
-        comboBoxSuffix_2->setItemText(7, QCoreApplication::translate("Renamer", "<mdate>", nullptr));
-        comboBoxSuffix_2->setItemText(8, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
+        comboBoxSuffix_2->setItemText(0, QCoreApplication::translate("Renamer", "<date>", nullptr));
+        comboBoxSuffix_2->setItemText(1, QCoreApplication::translate("Renamer", "<time>", nullptr));
+        comboBoxSuffix_2->setItemText(2, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
+        comboBoxSuffix_2->setItemText(3, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
+        comboBoxSuffix_2->setItemText(4, QCoreApplication::translate("Renamer", "<mdate>", nullptr));
+        comboBoxSuffix_2->setItemText(5, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
 
-        comboBoxSuffix_2->setCurrentText(QCoreApplication::translate("Renamer", "<#>", nullptr));
+        comboBoxSuffix_2->setCurrentText(QString());
         label_9->setText(QCoreApplication::translate("Renamer", "\346\267\273\345\212\240 ", nullptr));
-        comboBox_8->setItemText(0, QCoreApplication::translate("Renamer", "<#>", nullptr));
-        comboBox_8->setItemText(1, QCoreApplication::translate("Renamer", "<r>", nullptr));
-        comboBox_8->setItemText(2, QCoreApplication::translate("Renamer", "<dir>", nullptr));
-        comboBox_8->setItemText(3, QCoreApplication::translate("Renamer", "<date>", nullptr));
-        comboBox_8->setItemText(4, QCoreApplication::translate("Renamer", "<time>", nullptr));
-        comboBox_8->setItemText(5, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
-        comboBox_8->setItemText(6, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
-        comboBox_8->setItemText(7, QCoreApplication::translate("Renamer", "<mdate>", nullptr));
-        comboBox_8->setItemText(8, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
+        comboBox_8->setItemText(0, QCoreApplication::translate("Renamer", "<date>", nullptr));
+        comboBox_8->setItemText(1, QCoreApplication::translate("Renamer", "<time>", nullptr));
+        comboBox_8->setItemText(2, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
+        comboBox_8->setItemText(3, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
+        comboBox_8->setItemText(4, QCoreApplication::translate("Renamer", "<mdate>", nullptr));
+        comboBox_8->setItemText(5, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
 
-        comboBox_8->setCurrentText(QCoreApplication::translate("Renamer", "<#>", nullptr));
+        comboBox_8->setCurrentText(QString());
         label_10->setText(QCoreApplication::translate("Renamer", "\346\267\273\345\212\240 ", nullptr));
-        comboBox_9->setItemText(0, QCoreApplication::translate("Renamer", "<#>", nullptr));
-        comboBox_9->setItemText(1, QCoreApplication::translate("Renamer", "<r>", nullptr));
-        comboBox_9->setItemText(2, QCoreApplication::translate("Renamer", "<dir>", nullptr));
-        comboBox_9->setItemText(3, QCoreApplication::translate("Renamer", "<date>", nullptr));
-        comboBox_9->setItemText(4, QCoreApplication::translate("Renamer", "<time>", nullptr));
-        comboBox_9->setItemText(5, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
-        comboBox_9->setItemText(6, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
-        comboBox_9->setItemText(7, QCoreApplication::translate("Renamer", "<mdate>", nullptr));
-        comboBox_9->setItemText(8, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
+        comboBox_9->setItemText(0, QCoreApplication::translate("Renamer", "<date>", nullptr));
+        comboBox_9->setItemText(1, QCoreApplication::translate("Renamer", "<time>", nullptr));
+        comboBox_9->setItemText(2, QCoreApplication::translate("Renamer", "<cdate>", nullptr));
+        comboBox_9->setItemText(3, QCoreApplication::translate("Renamer", "<ctime>", nullptr));
+        comboBox_9->setItemText(4, QCoreApplication::translate("Renamer", "<mdate>", nullptr));
+        comboBox_9->setItemText(5, QCoreApplication::translate("Renamer", "<mtime>", nullptr));
 
-        comboBox_9->setCurrentText(QCoreApplication::translate("Renamer", "<#>", nullptr));
+        comboBox_9->setCurrentText(QString());
         tabWidget->setTabText(tabWidget->indexOf(tab_3), QCoreApplication::translate("Renamer", "\346\267\273\345\212\240", nullptr));
         checkBox_5->setText(QCoreApplication::translate("Renamer", "\344\273\216\345\217\263\345\276\200\345\267\246", nullptr));
-        label_11->setText(QCoreApplication::translate("Renamer", "\345\211\215\347\274\200:", nullptr));
+        label_11->setText(QCoreApplication::translate("Renamer", "\346\226\207\346\234\254\357\274\232", nullptr));
         label_12->setText(QCoreApplication::translate("Renamer", "\346\226\207\346\234\254:", nullptr));
         label_13->setText(QCoreApplication::translate("Renamer", "\344\275\215\347\275\256:", nullptr));
         comboBox_14->setItemText(0, QCoreApplication::translate("Renamer", "\345\276\200\342\206\222", nullptr));
@@ -955,17 +958,17 @@ public:
         comboBox_14->setItemText(2, QCoreApplication::translate("Renamer", "\345\276\200\342\206\222\345\210\260\345\272\225", nullptr));
         comboBox_14->setItemText(3, QCoreApplication::translate("Renamer", "\345\276\200\342\206\220\345\210\260\345\272\225", nullptr));
 
+        label_15->setText(QCoreApplication::translate("Renamer", "   \345\210\240\351\231\244", nullptr));
+        label_17->setText(QCoreApplication::translate("Renamer", "\344\270\252\345\255\227\347\254\246", nullptr));
+        label_16->setText(QCoreApplication::translate("Renamer", "   \345\210\240\351\231\244  ", nullptr));
+        label_18->setText(QCoreApplication::translate("Renamer", "\344\270\252\345\255\227\347\254\246", nullptr));
+        checkBox_11->setText(QCoreApplication::translate("Renamer", "\345\214\205\345\220\253\345\205\263\351\224\256\350\257\215\346\234\254\350\272\253", nullptr));
         label_14->setText(QCoreApplication::translate("Renamer", "\345\210\240\351\231\244", nullptr));
         checkBox_6->setText(QCoreApplication::translate("Renamer", "\347\251\272\346\240\274", nullptr));
         checkBox_7->setText(QCoreApplication::translate("Renamer", "\346\225\260\345\255\227", nullptr));
         checkBox_8->setText(QCoreApplication::translate("Renamer", "\345\260\217\345\206\231\345\255\227\346\257\215", nullptr));
         checkBox_9->setText(QCoreApplication::translate("Renamer", "\345\244\247\345\206\231\345\255\227\346\257\215", nullptr));
         checkBox_10->setText(QCoreApplication::translate("Renamer", "\347\211\271\346\256\212\345\255\227\347\254\246", nullptr));
-        label_15->setText(QCoreApplication::translate("Renamer", "   \345\210\240\351\231\244", nullptr));
-        label_17->setText(QCoreApplication::translate("Renamer", "\344\270\252\345\255\227\347\254\246", nullptr));
-        label_16->setText(QCoreApplication::translate("Renamer", "   \345\210\240\351\231\244  ", nullptr));
-        label_18->setText(QCoreApplication::translate("Renamer", "\344\270\252\345\255\227\347\254\246", nullptr));
-        checkBox_11->setText(QCoreApplication::translate("Renamer", "\345\214\205\345\220\253\345\205\263\351\224\256\350\257\215\346\234\254\350\272\253", nullptr));
         tabWidget->setTabText(tabWidget->indexOf(tab_4), QCoreApplication::translate("Renamer", "\345\210\240\351\231\244", nullptr));
         checkBox_12->setText(QCoreApplication::translate("Renamer", "\345\272\217\345\217\267", nullptr));
         label_19->setText(QCoreApplication::translate("Renamer", "\350\265\267\345\247\213\345\200\274\357\274\232", nullptr));

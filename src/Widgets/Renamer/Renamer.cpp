@@ -15,8 +15,44 @@ Renamer::Renamer(QWidget* parent)
 {
   ui->setupUi(this);
 
+  sLog.log("文件批量去重工具打开成功.");
+
   initUI();
   setupConnections();
+
+  // 构建映射函数
+  std::function doMapDate = [this] {
+    const QString curDate = QDate::currentDate().toString("yyyyMMdd");
+    return curDate.toStdString();
+  };
+  std::function doMapTime = [this] {
+    const QString curTime = QTime::currentTime().toString("hhmmss");
+    return curTime.toStdString();
+  };
+  std::function doMapcDate = [this] {
+    const QString curDate = QDate::currentDate().toString("yyyy-MM-dd");
+    return curDate.toStdString();
+  };
+  std::function doMapcTime = [this] {
+    const QString curTime = QTime::currentTime().toString("hh:mm:ss");
+    return curTime.toStdString();
+  };
+  std::function doMapmDate = [this] {
+    const QString curDateTime = QDateTime::currentDateTime().toString("yyyyMMdd hhmmss");
+    return curDateTime.toStdString();
+  };
+  std::function doMapmTime = [this] {
+    const QString curDateTime = QDateTime::currentDateTime().toString(
+      "yyyy-MM-dd hh:mm:ss");
+    return curDateTime.toStdString();
+  };
+
+  map.insert({"<date>", doMapDate});
+  map.insert({"<time>", doMapTime});
+  map.insert({"<cdate>", doMapcDate});
+  map.insert({"<ctime>", doMapcTime});
+  map.insert({"<mdate>", doMapmDate});
+  map.insert({"<mtime>", doMapmTime});
 }
 
 void Renamer::initUI()
@@ -138,9 +174,56 @@ void Renamer::setupConnectionsAll()
           });
 }
 
-void Renamer::setupConnectionsReplace() {}
-void Renamer::setupConnectionsAdd() {}
-void Renamer::setupConnectionsDelete() {}
+void Renamer::setupConnectionsReplace()
+{
+  connect(ui->comboBoxSouce, &QComboBox::editTextChanged, [this](const QString&) {
+    doReplace();
+  });
+
+  connect(ui->comboBoxDest, &QComboBox::editTextChanged, [this](const QString&) {
+    doReplace();
+  });
+
+  connect(ui->checkBoxCase, &QCheckBox::clicked, [this](const bool&) { doReplace(); });
+}
+
+void Renamer::setupConnectionsAdd()
+{
+  connect(ui->comboBoxSuffix_2, &QComboBox::editTextChanged,
+          [this](const QString&) { doAddSuffixPreFix(); });
+  connect(ui->comboBoxPreFix, &QComboBox::editTextChanged,
+          [this](const QString&) { doAddSuffixPreFix(); });
+
+  connect(ui->comboBox_8, &QComboBox::editTextChanged, [this](const QString&) {
+    doAddToIndex();
+  });
+  connect(ui->spinBox, &QSpinBox::valueChanged, [this](const int&) { doAddToIndex(); });
+  connect(ui->checkBox_4, &QCheckBox::clicked, [this](const bool&) { doAddToIndex(); });
+
+  connect(ui->comboBox_9, &QComboBox::editTextChanged, [this](const QString&) {
+    doAddTextTo();
+  });
+  connect(ui->comboBoxTxt, &QComboBox::editTextChanged, [this](const QString&) {
+    doAddTextTo();
+  });
+  connect(ui->comboBox_11, &QComboBox::currentIndexChanged, [this](const int&) {
+    doAddTextTo();
+  });
+}
+
+void Renamer::setupConnectionsDelete()
+{
+  connect(ui->comboBox_12, &QComboBox::editTextChanged, [this](const QString& text) {
+    doDeleteText(text);
+  });
+
+  for (const auto chk : ui->widget->findChildren<QCheckBox*>()) {
+    connect(chk, &QCheckBox::stateChanged, this, [this](const int state) {
+      if (state == Qt::Checked) { doDelete(); }
+    });
+  }
+}
+
 void Renamer::setupConnectionsNumber() {}
 void Renamer::setupConnectionsTemplate() {}
 void Renamer::setupConnectionsTextMode() {}
@@ -198,6 +281,10 @@ void Renamer::doItemChanged(QTableWidgetItem* item)
 
 void Renamer::doTextConversion(int conversionType)
 {
+  if (conversionType == 0) {
+    doNo();
+    return;
+  }
   // 获取输入文本
   for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
     if (const auto item = ui->fileTableWidget->item(i, 2)) {
@@ -351,36 +438,180 @@ void Renamer::doNoCase()
 
 void Renamer::doAllCase()
 {
+  ui->comboBox->setCurrentIndex(0);
   ui->comboBox_2->setCurrentText("");
+
   // 全部字母大写
+  QStringList addToHistory;
   for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
-    // 后缀不变，其他字母变为大写
-    if (const auto item = ui->fileTableWidget->item(i, 2);
-      item->text().contains(".")) {
-      const auto itemOld = ui->fileTableWidget->item(i, 1);
-      const auto index = itemOld->text().lastIndexOf(".");
-      item->setText(itemOld->text().left(index).toUpper() +
-        itemOld->text().right(itemOld->text().size() - index));
-    }
-    else { item->setText(item->text().toUpper()); }
+    const auto lastText = ui->fileTableWidget->item(i, 1)->text();
+    const auto item = ui->fileTableWidget->item(i, 2);
+    const auto index = lastText.lastIndexOf(".");
+    addToHistory << lastText.left(index).toUpper() + lastText.right(
+      lastText.size() - index);
+    item->setText(addToHistory.last());
   }
+
 }
 
 void Renamer::doNo()
 {
+  ui->comboBox->setCurrentIndex(0);
   ui->comboBox_2->setCurrentText("");
-  // 改回为第1列的文件名
+
+
   for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
-    // 第二列文本变成第一列的文本
-    if (const auto item = ui->fileTableWidget->item(i, 2);
-      item->text() != ui->fileTableWidget->item(i, 1)->text()) {
+    const auto item = ui->fileTableWidget->item(i, 2);
       item->setText(ui->fileTableWidget->item(i, 1)->text());
+
+  }
+}
+
+void Renamer::doReplace()
+{
+  const QString srcStr = ui->comboBoxSouce->currentText();
+  const QString destStr = ui->comboBoxDest->currentText();
+
+  if (srcStr.isEmpty() || destStr.isEmpty()) {
+    doNo();
+    return;
+  }
+
+  const bool isCase = ui->checkBoxCase->isChecked();
+
+  for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
+    const auto oldItem = ui->fileTableWidget->item(i, 1);
+    if (!oldItem) continue;
+
+    QString oldItemStr = oldItem->text().left(oldItem->text().lastIndexOf("."));
+
+    if (const auto item = ui->fileTableWidget->item(i, 2)) {
+      QString replacedStr = oldItemStr.replace(srcStr, destStr,
+                                               isCase
+                                                 ? Qt::CaseSensitive
+                                                 : Qt::CaseInsensitive);
+      item->setText(replacedStr + ui->fileTableWidget->item(i, 4)->text());
     }
   }
 }
 
+void Renamer::doAddSuffixPreFix()
+{
+  QString prefix = ui->comboBoxPreFix->currentText();
+  QString suffix = ui->comboBoxSuffix_2->currentText();
+
+  if (prefix.isEmpty() && suffix.isEmpty()) {
+    doNo();
+    return;
+  }
+
+  // 把<#> 与 std::function映射
+  const std::string key = prefix.toStdString();
+  if (const auto it = map.find(key); it != map.end()) {
+    prefix = QString::fromStdString(it->second());
+  }
+
+  const std::string key2 = suffix.toStdString();
+  if (const auto it = map.find(key2); it != map.end()) {
+    suffix = QString::fromStdString(it->second());
+  }
+
+  for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
+    const auto oldItem = ui->fileTableWidget->item(i, 1);
+    QString oldItemStr = oldItem->text().left(oldItem->text().lastIndexOf("."));
+    if (const auto item = ui->fileTableWidget->item(i, 2)) {
+      item->setText(
+        prefix + oldItemStr + suffix + ui->fileTableWidget->item(i, 4)->text());
+    }
+  }
+}
+
+void Renamer::doAddToIndex()
+{
+  const auto index = ui->spinBox->value();
+  const bool rightToLeft = ui->checkBox_4->isChecked(); // 是否从右往左数
+  QString text = ui->comboBox_8->currentText();
+
+  // 把<#> 与 std::function映射
+  const std::string key = text.toStdString();
+  if (const auto it = map.find(key); it != map.end()) {
+    text = QString::fromStdString(it->second());
+  }
+
+  for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
+    const auto oldItem = ui->fileTableWidget->item(i, 1);
+    QString oldItemStr = oldItem->text().left(oldItem->text().lastIndexOf("."));
+    if (index > oldItemStr.size()) { continue; }
+    if (const auto item = ui->fileTableWidget->item(i, 2)) {
+      if (rightToLeft) {
+        item->setText(oldItemStr.right(oldItemStr.size() - index) + text +
+          oldItemStr.left(index) + ui->fileTableWidget->item(i, 4)->text());
+      }
+      else {
+        item->setText(oldItemStr.left(index) + text +
+          oldItemStr.right(oldItemStr.size() - index) +
+          ui->fileTableWidget->item(i, 4)->text());
+      }
+    }
+  }
+}
+
+void Renamer::doAddTextTo()
+{
+  const QString findText = ui->comboBoxTxt->currentText();
+  const bool isFront = ui->comboBox_11->currentIndex() == 0; ///< 前面添加或者后面添加
+  QString addText = ui->comboBox_9->currentText();
+
+  // 把<#> 与 std::function映射
+  const std::string key = addText.toStdString();
+  if (const auto it = map.find(key); it != map.end()) {
+    addText = QString::fromStdString(it->second());
+  }
+
+  if (findText.isEmpty() || addText.isEmpty()) {
+    doNo();
+    return;
+  }
+
+  for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
+    const auto oldItem = ui->fileTableWidget->item(i, 1);
+    QString oldItemStr = oldItem->text().left(oldItem->text().lastIndexOf("."));
+    if (const auto item = ui->fileTableWidget->item(i, 2)) {
+      if (isFront) {
+        item->setText(oldItemStr.replace(oldItemStr.indexOf(findText),
+                                         findText.size(), addText + findText) +
+          ui->fileTableWidget->item(i, 4)->text());
+      }
+      else {
+        item->setText(oldItemStr.replace(oldItemStr.indexOf(findText),
+                                         findText.size(), findText + addText) +
+          ui->fileTableWidget->item(i, 4)->text());
+      }
+    }
+  }
+}
+
+void Renamer::doDeleteText(const QString& text)
+{
+  for (int i = 0; i < ui->fileTableWidget->rowCount(); ++i) {
+    if (const auto item = ui->fileTableWidget->item(i, 1);
+      item->text().contains(text)) {
+      ui->fileTableWidget->item(i, 2)->setText(item->text().replace(text, ""));
+    }
+  }
+}
+
+void Renamer::doDelete()
+{
+  // 删除空格
+  if (ui->checkBox_6->isChecked()) { doDeleteText(" "); }
+  // 删除所有数字
+  if (ui->checkBox_7->isChecked()) { doDeleteText("\\d"); }
+}
+
 void Renamer::insertRows(QTableWidget* widget)
 {
+  QStringList addToHistory;
   for (auto& file : filesList) {
     // 新增一行
     const auto row = widget->rowCount();
@@ -392,6 +623,7 @@ void Renamer::insertRows(QTableWidget* widget)
       fileInfo.suffix().toLower() + ".png");
     widget->setItem(row, 0, new QTableWidgetItem(icon, QString::number(row + 1)));
     widget->setItem(row, 1, new QTableWidgetItem(fileInfo.fileName()));
+    addToHistory << fileInfo.fileName();
     widget->setItem(row, 2, new QTableWidgetItem(fileInfo.fileName()));
     //widget->setItem(row, 3, new QTableWidgetItem(fileInfo));
     widget->setItem(row, 4, new QTableWidgetItem("." + fileInfo.suffix()));
@@ -399,6 +631,7 @@ void Renamer::insertRows(QTableWidget* widget)
                     new QTableWidgetItem(sDataUnitCalc.setDataUnit(fileInfo.size())));
     widget->setItem(row, 6, new QTableWidgetItem(fileInfo.filePath()));
   }
+
 }
 
 // 简体转繁体
@@ -579,4 +812,8 @@ void Renamer::clearContentAndStruct(QTableWidget* widget)
   widget->setRowCount(0);
 }
 
-Renamer::~Renamer() { delete ui; }
+Renamer::~Renamer()
+{
+  sLog.log("文件批量去重工具已关闭.");
+  delete ui;
+}

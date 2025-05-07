@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>779</width>
-    <height>593</height>
+    <width>794</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -43,13 +43,13 @@
        <property name="minimumSize">
         <size>
          <width>0</width>
-         <height>170</height>
+         <height>180</height>
         </size>
        </property>
        <property name="maximumSize">
         <size>
          <width>16777215</width>
-         <height>16777215</height>
+         <height>180</height>
         </size>
        </property>
        <property name="currentIndex">
@@ -545,23 +545,11 @@
           <bool>true</bool>
          </property>
          <property name="currentText">
-          <string>&lt;#&gt;</string>
+          <string/>
          </property>
-         <item>
-          <property name="text">
-           <string>&lt;#&gt;</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>&lt;r&gt;</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>&lt;dir&gt;</string>
-          </property>
-         </item>
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
          <item>
           <property name="text">
            <string>&lt;date&gt;</string>
@@ -584,7 +572,7 @@
          </item>
          <item>
           <property name="text">
-           <string>&lt;mdata&gt;</string>
+           <string>&lt;mdate&gt;</string>
           </property>
          </item>
          <item>
@@ -699,23 +687,11 @@
              <bool>true</bool>
             </property>
             <property name="currentText">
-             <string>&lt;#&gt;</string>
+             <string/>
             </property>
-            <item>
-             <property name="text">
-              <string>&lt;#&gt;</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>&lt;r&gt;</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>&lt;dir&gt;</string>
-             </property>
-            </item>
+            <property name="currentIndex">
+             <number>-1</number>
+            </property>
             <item>
              <property name="text">
               <string>&lt;date&gt;</string>
@@ -785,23 +761,11 @@
              <bool>true</bool>
             </property>
             <property name="currentText">
-             <string>&lt;#&gt;</string>
+             <string/>
             </property>
-            <item>
-             <property name="text">
-              <string>&lt;#&gt;</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>&lt;r&gt;</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>&lt;dir&gt;</string>
-             </property>
-            </item>
+            <property name="currentIndex">
+             <number>-1</number>
+            </property>
             <item>
              <property name="text">
               <string>&lt;date&gt;</string>
@@ -871,23 +835,11 @@
              <bool>true</bool>
             </property>
             <property name="currentText">
-             <string>&lt;#&gt;</string>
+             <string/>
             </property>
-            <item>
-             <property name="text">
-              <string>&lt;#&gt;</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>&lt;r&gt;</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>&lt;dir&gt;</string>
-             </property>
-            </item>
+            <property name="currentIndex">
+             <number>-1</number>
+            </property>
             <item>
              <property name="text">
               <string>&lt;date&gt;</string>
@@ -949,6 +901,9 @@
            <height>22</height>
           </rect>
          </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
         </widget>
         <widget class="QLabel" name="label_11">
          <property name="geometry">
@@ -960,7 +915,7 @@
           </rect>
          </property>
          <property name="text">
-          <string>前缀:</string>
+          <string>文本：</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_12">
@@ -1008,6 +963,9 @@
            <height>22</height>
           </rect>
          </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
         </widget>
         <widget class="QComboBox" name="comboBox_14">
          <property name="geometry">
@@ -1038,60 +996,6 @@
            <string>往←到底</string>
           </property>
          </item>
-        </widget>
-        <widget class="QWidget" name="layoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>260</x>
-           <y>20</y>
-           <width>381</width>
-           <height>23</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout_9">
-          <item>
-           <widget class="QLabel" name="label_14">
-            <property name="text">
-             <string>删除</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_6">
-            <property name="text">
-             <string>空格</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_7">
-            <property name="text">
-             <string>数字</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_8">
-            <property name="text">
-             <string>小写字母</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_9">
-            <property name="text">
-             <string>大写字母</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_10">
-            <property name="text">
-             <string>特殊字符</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
         <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
@@ -1169,6 +1073,92 @@
              <string>包含关键词本身</string>
             </property>
            </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="widget" native="true">
+         <property name="geometry">
+          <rect>
+           <x>250</x>
+           <y>10</y>
+           <width>399</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+          <item row="0" column="0">
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
+            <item>
+             <widget class="QLabel" name="label_14">
+              <property name="text">
+               <string>删除</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_6">
+              <property name="text">
+               <string>空格</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_7">
+              <property name="text">
+               <string>数字</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_8">
+              <property name="text">
+               <string>小写字母</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_9">
+              <property name="text">
+               <string>大写字母</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_10">
+              <property name="text">
+               <string>特殊字符</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
          </layout>
         </widget>
@@ -1528,11 +1518,17 @@
          <pointsize>9</pointsize>
         </font>
        </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
+       </property>
        <property name="rowCount">
         <number>0</number>
        </property>
        <attribute name="horizontalHeaderVisible">
         <bool>true</bool>
+       </attribute>
+       <attribute name="horizontalHeaderDefaultSectionSize">
+        <number>90</number>
        </attribute>
        <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
         <bool>false</bool>
@@ -1559,35 +1555,56 @@
         <property name="text">
          <string>序号</string>
         </property>
+        <property name="textAlignment">
+         <set>AlignLeading|AlignVCenter</set>
+        </property>
        </column>
        <column>
         <property name="text">
          <string>文件名</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignLeading|AlignVCenter</set>
         </property>
        </column>
        <column>
         <property name="text">
          <string>新文件名</string>
         </property>
+        <property name="textAlignment">
+         <set>AlignLeading|AlignVCenter</set>
+        </property>
        </column>
        <column>
         <property name="text">
          <string>状态</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignLeading|AlignVCenter</set>
         </property>
        </column>
        <column>
         <property name="text">
          <string>拓展名</string>
         </property>
+        <property name="textAlignment">
+         <set>AlignLeading|AlignVCenter</set>
+        </property>
        </column>
        <column>
         <property name="text">
          <string>大小</string>
         </property>
+        <property name="textAlignment">
+         <set>AlignLeading|AlignVCenter</set>
+        </property>
        </column>
        <column>
         <property name="text">
          <string>路径</string>
+        </property>
+        <property name="textAlignment">
+         <set>AlignLeading|AlignVCenter</set>
         </property>
        </column>
       </widget>

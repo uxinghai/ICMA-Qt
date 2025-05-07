@@ -146,7 +146,6 @@ public:
       sLog.log("系统自动删除了数据库[TempFiles]中的所有内容，为了添加新内容。");
       return false;
     }
-    waitForCompletion();
     // 删除成功插入新数据
     const auto db = SqlManager::instance().getDatabase();
     if (!db) {
@@ -221,7 +220,7 @@ public:
       success = false;
     }
     qDebug() << "删除成功,新插入,FileTmpNum:" << getDBContextNumber("TempFiles");
-    waitForCompletion();
+
     markOperationComplete();
     return success;
   }

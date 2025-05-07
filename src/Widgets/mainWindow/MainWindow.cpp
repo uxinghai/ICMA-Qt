@@ -237,7 +237,6 @@ void MainWindow::setupConnections()
     progress->setVisible(false);
 
     sFileDB.waitForCompletion();
-    // sFileDB.waitForCompletion();
     QMetaObject::invokeMethod(this, "finishedPleaseUpdate");
     // 创建一个线程在后台更新 Files 表
     if (worker) {
@@ -344,7 +343,6 @@ void MainWindow::doSearchFile(QString term, const quint8& filterMode)
 
       if (RegexHelper::keywordCategory.contains(regexType.toUpper())) {
         ui->comBoxFilter->setCurrentIndex(RegexHelper::keywordCategory[regexType]);
-        qDebug() << "a" << RegexHelper::keywordCategory[regexType];
       }
       else { QMessageBox::critical(this, "无效", "无效正则表达式前缀!"); }
     }
