@@ -159,6 +159,7 @@ set(PROJECT_SOURCES
         src/Network/GetQuickStartGuide.h
         src/Widgets/mainWindow/QuickGuideWindow.cpp
         src/Widgets/mainWindow/QuickGuideWindow.h
+        "src/Network/UpdateChecker .h"
 )
 
 #                                            *********

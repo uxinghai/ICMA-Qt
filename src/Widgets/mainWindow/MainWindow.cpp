@@ -39,7 +39,7 @@ MainWindow::MainWindow(QWidget* parent)
     lbStatus(new QLabel(this)),
     icmaTrayIcon(std::make_unique<SystemTrayIcon>(
       QIcon(":/icons/res/icons/logo/logo64.ico"), this, "ICMA")),
-    progress(new QProgressBar(this))
+    progress(new QProgressBar(this)), updateChecker(new UpdateChecker(this))
 {
   ui->setupUi(this);
   ui->statusbar->addWidget(lbStatus);
@@ -65,6 +65,9 @@ MainWindow::MainWindow(QWidget* parent)
     permanentTimeLabel->setText(nowTime);
   });
   nowTimer->start(1000);
+
+  // 检查更新的信号槽
+  updateCheck();
 }
 
 void MainWindow::setupConnections()
@@ -730,6 +733,43 @@ void MainWindow::doSort() const
   if (col >= 0 && proxyModel != nullptr) {
     proxyModel->sort(col, isAsc ? Qt::AscendingOrder : Qt::DescendingOrder);
   }
+}
+
+void MainWindow::updateCheck()
+{
+  connect(ui->actionUpdateSys, &QAction::triggered, [this] {
+    // 检查更新 获取版本文件对比版本信息
+    updateChecker->setCurrentVersion("1.0.0"); ///< 低一个级别用于测试
+    updateChecker->setUpdateUrl(
+      "https://raw.githubusercontent.com/uxinghai/ICMA-Qt/main/version.json");
+    updateChecker->checkForUpdates();
+    sLog.log("检查更新");
+  });
+
+  // 连接信号和槽
+  connect(updateChecker, &UpdateChecker::updateAvailable,
+          [](const QString& newVersion, const QString& downloadUrl,
+             const QString& releaseNotes) {
+            QMessageBox msgBox;
+            msgBox.setWindowTitle("发现新版本");
+            msgBox.setText(QString("有新版本可用: v%1").arg(newVersion));
+            msgBox.setInformativeText(
+              QString("更新内容:\n%1\n\n是否立即下载更新?").arg(releaseNotes));
+            msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+            msgBox.setDefaultButton(QMessageBox::Yes);
+
+            if (msgBox.exec() == QMessageBox::Yes) {
+              QDesktopServices::openUrl(QUrl(downloadUrl));
+            }
+          });
+  connect(updateChecker, &UpdateChecker::noUpdateAvailable, [this] {
+    QMessageBox::information(this, "检查更新", "您使用的已经是最新版本。");
+  });
+  connect(updateChecker, &UpdateChecker::checkFailed,
+          [this](const QString& errorMessage) {
+            QMessageBox::warning(this, "更新检查失败",
+                                 QString("检查更新时发生错误: %1").arg(errorMessage));
+          });
 }
 
 void MainWindow::closeEvent(QCloseEvent* event)

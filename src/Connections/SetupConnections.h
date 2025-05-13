@@ -26,6 +26,7 @@
 #include "../DataBase/SqlQuery/FileActions.h"
 #include "../DataBase/SqlQuery/Files.h"
 #include "../Manager/JsonManager.h"
+#include "../Network/UpdateChecker .h"
 #include "../Utils/Tools/EncryptFile.h"
 #include "../Utils/Tools/LogOut.h"
 #include "../Utils/Tools/MyInformationBox.h"
@@ -48,20 +49,20 @@ public:
     // 显示正则表达式语法帮助
     connect(ui->actionRegExp, &QAction::triggered, [ui,widget] {
       // 创建一个对话框
-      QDialog* regexHelpDialog = new QDialog(widget);
+      const auto regexHelpDialog = new QDialog(widget);
       regexHelpDialog->setWindowTitle(tr("正则表达式语法"));
       regexHelpDialog->setMinimumSize(500, 600);
 
       // 创建布局
-      QVBoxLayout* layout = new QVBoxLayout(regexHelpDialog);
+     const auto layout = new QVBoxLayout(regexHelpDialog);
 
       // 创建一个标签，用于显示标题
-      QLabel* titleLabel = new QLabel(tr("<h2>正则表达式语法</h2>"), regexHelpDialog);
+      const auto titleLabel = new QLabel(tr("<h2>正则表达式语法</h2>"), regexHelpDialog);
       titleLabel->setAlignment(Qt::AlignCenter);
       layout->addWidget(titleLabel);
 
       // 创建一个文本编辑器，用于显示内容
-      QTextEdit* textEdit = new QTextEdit(regexHelpDialog);
+      const auto textEdit = new QTextEdit(regexHelpDialog);
       textEdit->setReadOnly(true);
 
       // 设置文本内容
@@ -160,11 +161,11 @@ public:
       layout->addWidget(textEdit);
 
       // 创建一个关闭按钮
-      QPushButton* closeButton = new QPushButton(tr("关闭"), regexHelpDialog);
+      const auto closeButton = new QPushButton(tr("关闭"), regexHelpDialog);
       connect(closeButton, &QPushButton::clicked, regexHelpDialog, &QDialog::accept);
 
       // 创建一个水平布局，用于放置按钮
-      QHBoxLayout* buttonLayout = new QHBoxLayout();
+     const auto  buttonLayout = new QHBoxLayout();
       buttonLayout->addStretch();
       buttonLayout->addWidget(closeButton);
       layout->addLayout(buttonLayout);

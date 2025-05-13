@@ -22,6 +22,7 @@
 
 #include "../../Manager/Config/iniManager.h"
 
+class UpdateChecker;
 class FilesDatabaseUpdater;
 class QProgressBar;
 QT_BEGIN_NAMESPACE
@@ -70,6 +71,7 @@ private slots:
   void doDaoRu();
   void showFileContextMenu() const;
   void doSort() const;
+  void updateCheck();
 
   qint32 doFilesFormDirectory(const QString& dirPath) const;
 
@@ -120,6 +122,7 @@ private:
 
   QTimer* nowTimer;
   QLabel* permanentTimeLabel;
+  UpdateChecker* updateChecker;
 
 signals:
   void finishedPleaseUpdate();
