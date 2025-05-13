@@ -17,6 +17,7 @@
 #include <QHeaderView>
 #include <QMenu>
 #include <QMouseEvent>
+#include <QSortFilterProxyModel>
 #include <QTableView>
 #include <QTimer>
 #include <QWidget>
@@ -37,16 +38,54 @@ public:
     this->setMouseTracking(true);
     this->setToolTipDuration(-1); ///< -1表示提示将一直显示直到鼠标移开
 
-    // 连接模型信号 没有发出!
-    connect(this->model(), &QAbstractItemModel::rowsInserted, [this] {
-      emit updateRowCount(this->model()->rowCount());
-    });
-    connect(this->model(), &QAbstractItemModel::rowsRemoved, [this] {
-      emit updateRowCount(this->model()->rowCount());
-    });
-    connect(this->model(), &QAbstractItemModel::modelReset, [this] {
-      emit updateRowCount(this->model()->rowCount());
-    });
+    // 创建并设置代理模型用于排序
+    proxyModel = new QSortFilterProxyModel(this);
+    proxyModel->setDynamicSortFilter(true);
+
+    // // TODO 连接模型信号 没有发出!
+    // connect(this->model(), &QAbstractItemModel::rowsInserted, [this] {
+    //   emit updateRowCount(this->model()->rowCount());
+    // });
+    // connect(this->model(), &QAbstractItemModel::rowsRemoved, [this] {
+    //   emit updateRowCount(this->model()->rowCount());
+    // });
+    // connect(this->model(), &QAbstractItemModel::modelReset, [this] {
+    //   emit updateRowCount(this->model()->rowCount());
+    // });
+  }
+
+  /**
+ * @brief 设置源数据模型并应用排序代理
+ * @param model 源数据模型指针
+ */
+  void setSourceModel(QAbstractItemModel* model)
+  {
+    if (model) {
+      proxyModel->setSourceModel(model);
+      QTableView::setModel(proxyModel);
+
+      // 设置默认排序
+      this->sortByColumn(0, Qt::AscendingOrder);
+
+      // 连接排序触发的信号
+      connect(proxyModel, &QSortFilterProxyModel::layoutChanged, [this] {
+        // 保持选中行的选择状态
+        if (const QModelIndexList selectedIndexes = this->selectionModel()->
+                                                          selectedIndexes();
+          !selectedIndexes.isEmpty()) {
+          if (const QModelIndex index = selectedIndexes.first();
+            index.isValid() && index.column() == 0) {
+            const QString file_absPath = index.sibling(index.row(), 1).data().toString()
+              + "/" + index.sibling(index.row(), 0).data().toString();
+            QString hashValue = sFileDB.getHashByAbsPath(file_absPath);
+            if (hashValue.isEmpty()) {
+              hashValue = calculateHash(file_absPath, QCryptographicHash::Md5);
+            }
+            emit lbStatusModify(file_absPath, hashValue);
+          }
+        }
+      });
+    }
   }
 
   /**
@@ -292,4 +331,5 @@ private:
   QModelIndex lastHoveredIndex; ///< 记录上次鼠标悬停位置
 
   QItemSelectionModel* selectModel = nullptr; ///< 选择模型
+  QSortFilterProxyModel* proxyModel = nullptr;
 };

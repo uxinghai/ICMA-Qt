@@ -27,7 +27,6 @@ set(QT_VERSION_MAJOR ${QT_VERSION_MAJOR})
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets
         Multimedia MultimediaWidgets Sql Concurrent Network Charts Core5Compat)
 
-
 # 配置 OpenCV
 set(OpenCV_DIR "D:/A-Develop/ToolLibrary/OpenCV/opencv-build/install")
 find_package(OpenCV REQUIRED)
@@ -39,8 +38,6 @@ set(LINK_DIR ${opensslDir}/lib)
 include_directories(${INC_DIR})# 使头文件可访问
 link_directories(${LINK_DIR}/MinGW/x86)# 指定动态库路径
 link_libraries(ssl crypto)# 添加需要链接的库
-
-
 
 # 设置 OpenCC 安装路径
 #list(APPEND CMAKE_PREFIX_PATH "D:/A-Develop/ToolLibrary/OpenCC/build")
@@ -158,6 +155,7 @@ set(PROJECT_SOURCES
         src/Utils/Tools/EncryptFile.h
         src/Widgets/Renamer/Renamer.cpp
         src/Widgets/Renamer/Renamer.h
+        src/Utils/BoostClass/ClosableLabel.h
 )
 
 #                                            *********

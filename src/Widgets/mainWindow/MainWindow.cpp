@@ -3,6 +3,7 @@
 #include <QActionGroup>
 #include <QFileDialog>
 #include <QProgressBar>
+#include <QRegExp>
 #include <QStandardItemModel>
 
 #include "../../../UI/ui_MainWindow.h"
@@ -36,7 +37,7 @@ MainWindow::MainWindow(QWidget* parent)
     lbStatus(new QLabel(this)),
     icmaTrayIcon(std::make_unique<SystemTrayIcon>(
       QIcon(":/icons/res/icons/logo/logo64.ico"), this, "ICMA")),
-    progress(new QProgressBar(this))
+    progress(new QProgressBar(this)), proxyModel(nullptr)
 {
   ui->setupUi(this);
   ui->statusbar->addWidget(lbStatus);
@@ -51,6 +52,17 @@ MainWindow::MainWindow(QWidget* parent)
   ui->lbTag3->setVisible(false);
 
   setupConnections();
+
+  // 北京时间显示
+  permanentTimeLabel = new QLabel(this);
+  ui->statusbar->addPermanentWidget(permanentTimeLabel);
+  nowTimer = new QTimer(this);
+  connect(nowTimer, &QTimer::timeout, [this] {
+    const QString nowTime = QDateTime::currentDateTime().toString(
+      "yyyy-MM-dd hh:mm:ss");
+    permanentTimeLabel->setText(nowTime);
+  });
+  nowTimer->start(1000);
 }
 
 void MainWindow::setupConnections()
@@ -66,8 +78,7 @@ void MainWindow::setupConnections()
 
   // 为主题切换创建统一的槽函数处理
   auto createLangChanged = [this](const QAction* action) {
-    connect(action, &QAction::triggered,
-            this, &MainWindow::doChangeTheme);
+    connect(action, &QAction::triggered, this, &MainWindow::doChangeTheme);
   };
   createLangChanged(ui->actionAMOLED);
   createLangChanged(ui->actionAqua);
@@ -157,18 +168,10 @@ void MainWindow::setupConnections()
             // 如果 pos 不位于名称列（第0列）
             if (ui->tableView->indexAt(pos).column() != 0) {
               const auto menu = std::make_unique<QMenu>();
-              auto* sortMenu = new QMenu(tr("排序(&S)"));
-              sortMenu->addActions({
-                ui->actionFileName, ui->actionFileDate, ui->actionFileSize,
-                ui->actionFilePath, ui->actionFileType, ui->actionFileSuffix,
-                ui->actionFileModifyDate, ui->actionFileCreateDate
-              });
-              sortMenu->addSeparator();
-              sortMenu->addActions({ui->actionAsc, ui->actionDesc});
-              //menu->addMenu(viewMenu);
-              menu->addMenu(sortMenu);
+              menu->addMenu(ui->menu_S);
               menu->addAction(ui->actionRefresh);
               menu->exec(QCursor::pos());
+              menu->deleteLater(); ///< 虽然是智能指针但是这样也解决了菜单不停跳出的问题。
             }
             else {
               showFileContextMenu(); ///< 显示名称列上下文菜单
@@ -251,19 +254,32 @@ void MainWindow::setupConnections()
 
   // TODO 没有解决TODO1!!!
   connect(this, &MainWindow::finishedPleaseUpdate, [this] {
-    // 同步问题：数据库没有完全更新好就进入了这个槽
     doSearchFile(ui->lineEdit->text(), ui->comBoxFilter->currentIndex());
   });
 
-  // 搜索框变化时搜索文件
-  connect(ui->lineEdit, &QLineEdit::textChanged, [this](const QString& text) {
-    doSearchFile(text, ui->comBoxFilter->currentIndex());
-  });
+  // 输入框变化时
+  connect(ui->lineEdit, &QLineEdit::textChanged, this, &MainWindow::doFilterData);
+
   // 搜索文件类型变化时搜索文件
   connect(ui->comBoxFilter, &QComboBox::currentIndexChanged,
           [this](const qint32 index) { doSearchFile(ui->lineEdit->text(), index); });
 
   SetupConnections::setupActionsConnection(ui, this);
+  setupSortMenuConnections();
+}
+
+void MainWindow::setupSortMenuConnections()
+{
+  // 排序
+  connect(ui->actionFileName, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionFilePath, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionFileSize, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionFileType, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionFileCreateDate, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionFileModifyDate, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionFileLastAccDate, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionDesc, &QAction::triggered, [this] { doSort(); });
+  connect(ui->actionAsc, &QAction::triggered, [this] { doSort(); });
 }
 
 // 初始化界面
@@ -288,7 +304,7 @@ void MainWindow::doInit()
     ui->actionListView, ui->actionDetailView, ui->actionIconView
   });
   createExclusiveGroup({
-    ui->actionFileName, ui->actionFileDate, ui->actionFileSize,
+    ui->actionFileName, ui->actionFileLastAccDate, ui->actionFileSize,
     ui->actionFilePath, ui->actionFileType, ui->actionFileSuffix,
     ui->actionFileModifyDate, ui->actionFileCreateDate
   });
@@ -329,28 +345,26 @@ void MainWindow::doSearchFile(QString term, const quint8& filterMode)
   sFileDB.waitForCompletion(); // 增加了数据库方法！
   qDebug() << "准备查询：" << sFileDB.getDBContextNumber("TempFiles");
   term = term.trimmed();
-  // 搜索词条为空时 显示所有文件
+
   if (const QString searchTerm = term; searchTerm.isEmpty()) {
     filesCountResult = sFileDB.searchFilesFromDB(ui->tableView,
                                                  filterMode, "TempFiles");
   }
-  else {
-    // 从首个匹配到第一个英文的冒号
-    QString regexType = term;
-    if (const qint32 index = regexType.indexOf(":");
-      index != -1) {
-      regexType = regexType.left(index + 1).toUpper();
 
-      if (RegexHelper::keywordCategory.contains(regexType.toUpper())) {
-        ui->comBoxFilter->setCurrentIndex(RegexHelper::keywordCategory[regexType]);
-      }
-      else { QMessageBox::critical(this, "无效", "无效正则表达式前缀!"); }
-    }
-    else {
-      // 普通搜索
-      filesCountResult = sFileDB.searchFilesFromDB(ui->tableView,
-                                                   filterMode, "TempFiles", term);
-    }
+  if (!ui || !ui->tableView) { return; }
+
+  if (proxyModel) {
+    delete proxyModel;
+    proxyModel = nullptr;
+  }
+
+  proxyModel = new QSortFilterProxyModel(this);
+  proxyModel->setFilterCaseSensitivity(Qt::CaseInsensitive);
+
+  if (const auto baseModel = ui->tableView->model()) {
+    proxyModel->setSourceModel(baseModel);
+    ui->tableView->setModel(proxyModel);
+    doSort();
   }
 
   ///////////////////////////////////
@@ -359,8 +373,9 @@ void MainWindow::doSearchFile(QString term, const quint8& filterMode)
   lbStatus->setText(tr("%1 个对象").arg(filesCountResult));
 
   ui->tableView->setColumnWidth(0, 500); ///< 让名称列显示的更宽一些
-  ui->tableView->setTheSelectionModel(
-    ui->tableView->selectionModel()); ///< 自定义存储到selectionModel用于监听
+  if (ui->tableView->selectionModel()) { ///< 自定义存储到selectionModel用于监听
+    ui->tableView->setTheSelectionModel(ui->tableView->selectionModel());
+  }
   ui->tableView->initHeaderCustomMenu(ui->actionAutoFit,
                                       ui->actionAutoFitColWidth,
                                       ui->actionShowNameCol,
@@ -379,7 +394,6 @@ void MainWindow::doRecFileByHash(const QString& hashValue) const
 {
   ui->tableWidget->setRowCount(0);
   ui->tableWidget->setColumnCount(2);
-  //ui->tableWidget->hideColumn(1);
 
   // 插入推荐文件
   auto listMap = sFileDB.RecFileByHash(hashValue);
@@ -389,6 +403,56 @@ void MainWindow::doRecFileByHash(const QString& hashValue) const
                              new QTableWidgetItem(it.key()));
     ui->tableWidget->setItem(ui->tableWidget->rowCount() - 1, 1,
                              new QTableWidgetItem(it.value().recommendReasons[0]));
+  }
+}
+
+void MainWindow::doFilterData(const QString& text) const
+{
+  if (text.isEmpty()) {
+    if (proxyModel) { proxyModel->setFilterRegularExpression(QRegularExpression()); }
+    return;
+  }
+
+  QString pattern = text;
+  bool isWildcard = false;
+
+  // 检查是否包含通配符但不是有效的正则表达式
+  // 这会处理用户输入简单通配符如 *.txt 的情况
+  if ((text.contains('*') || text.contains('?')) &&
+    !QRegularExpression(text).isValid()) {
+    isWildcard = true;
+    // 将通配符转换为正则表达式
+    pattern = QRegularExpression::escape(text);
+    // 将转义后的 \* 替换为 .* (匹配任意数量的任意字符)
+    pattern.replace("\\*", ".*");
+    // 将转义后的 \? 替换为 . (匹配任意单个字符)
+    pattern.replace("\\?", ".");
+  }
+
+  // 构建正则表达式
+  const auto regex = QRegularExpression(
+    pattern,
+    QRegularExpression::CaseInsensitiveOption |
+    // 添加 DotMatchesEverythingOption，使 '.' 也能匹配换行符
+    QRegularExpression::DotMatchesEverythingOption
+  );
+
+  // 检查正则表达式是否有效
+  if (!regex.isValid()) {
+    if (isWildcard) { // 如果是通配符转换失败，显示特殊错误
+      statusBar()->showMessage(tr("无效的通配符: %1").arg(text), 3000);
+    }
+    else { // 正则表达式无效
+      statusBar()->showMessage(tr("无效的正则表达式: %1").arg(regex.errorString()), 3000);
+    }
+    return;
+  }
+
+  if (proxyModel) {
+    proxyModel->setFilterRegularExpression(regex);
+
+    if (isWildcard) { statusBar()->showMessage(tr("使用通配符过滤: %1").arg(text), 1500); }
+    else { statusBar()->showMessage(tr("使用正则表达式过滤: %1").arg(text), 1500); }
   }
 }
 
@@ -636,6 +700,24 @@ void MainWindow::showFileContextMenu() const
   menu->exec(QCursor::pos());
 }
 
+void MainWindow::doSort() const
+{
+  int col = -1;
+  const bool isAsc = ui->actionAsc->isChecked();
+
+  if (ui->actionFileName->isChecked()) { col = 0; }
+  else if (ui->actionFilePath->isChecked()) { col = 1; }
+  else if (ui->actionFileSize->isChecked()) { col = 2; }
+  else if (ui->actionFileType->isChecked()) { col = 3; }
+  else if (ui->actionFileCreateDate->isChecked()) { col = 4; }
+  else if (ui->actionFileModifyDate->isChecked()) { col = 5; }
+  else if (ui->actionFileLastAccDate->isChecked()) { col = 6; }
+
+  if (col >= 0 && proxyModel != nullptr) {
+    proxyModel->sort(col, isAsc ? Qt::AscendingOrder : Qt::DescendingOrder);
+  }
+}
+
 void MainWindow::closeEvent(QCloseEvent* event)
 {
   // 如果设置了不再询问，直接关闭应用
@@ -731,7 +813,7 @@ void MainWindow::savaIniConfig(const QString& closeMethod,
   // 排序方法保存
   const std::vector<std::pair<QAction*, QString>> sortActions = {
     {ui->actionFileCreateDate, "FileCreateDate"},
-    {ui->actionFileDate, "FileDate"},
+    {ui->actionFileLastAccDate, "FileDate"},
     {ui->actionFileModifyDate, "FileModifyDate"},
     {ui->actionFileName, "FileName"},
     {ui->actionFilePath, "FilePath"},

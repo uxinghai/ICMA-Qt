@@ -22,6 +22,7 @@
     <file>res/Renamer/RE.png</file>
     <file>res/Renamer/undo.png</file>
     <file>res/Renamer/SomRename.png</file>
+    <file>res/confirm.png</file>
   </qresource>
   <qresource prefix="/ps">
     <file>res/ps/AITool.png</file>

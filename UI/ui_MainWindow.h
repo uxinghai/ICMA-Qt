@@ -29,6 +29,7 @@
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBar>
 #include <QtWidgets/QWidget>
+#include "../src/Utils/BoostClass/ClosableLabel.h"
 #include "../src/Utils/BoostClass/MyTableView.h"
 
 QT_BEGIN_NAMESPACE
@@ -63,7 +64,7 @@ public:
     QAction *actionSmallFont;
     QAction *actionGeneralFont;
     QAction *actionFileName;
-    QAction *actionFileDate;
+    QAction *actionFileLastAccDate;
     QAction *actionFileSize;
     QAction *actionFilePath;
     QAction *actionFileSuffix;
@@ -73,8 +74,6 @@ public:
     QAction *actionAsc;
     QAction *actionDesc;
     QAction *actionFilter;
-    QAction *actionShowHideFile;
-    QAction *actionRefresh;
     QAction *actionAdvancedSearch;
     QAction *actionFileSynchronization;
     QAction *actionBatchRename;
@@ -130,6 +129,9 @@ public:
     QAction *actionOpenLogFile;
     QAction *action;
     QAction *actionDiskAnalyzer;
+    QAction *actionRegExp;
+    QAction *actionShowHideFile;
+    QAction *actionRefresh;
     QWidget *centralwidget;
     QGridLayout *gridLayout;
     QHBoxLayout *horizontalLayout;
@@ -143,6 +145,9 @@ public:
     QScrollArea *scrollArea;
     QWidget *scrollAreaWidgetContents;
     QGridLayout *gridLayout_3;
+    QGroupBox *groupBox_2;
+    QGridLayout *gridLayout_5;
+    QTableWidget *tableWidget;
     QGroupBox *groupBox;
     QGridLayout *gridLayout_4;
     QLabel *label_4;
@@ -153,14 +158,11 @@ public:
     QLabel *label_6;
     QLabel *lbFileInfoFileHash;
     QLabel *lbFileInfoFileOpenCount;
-    QGroupBox *groupBox_2;
-    QGridLayout *gridLayout_5;
-    QTableWidget *tableWidget;
     QGroupBox *TagsGroup;
     QHBoxLayout *horizontalLayout_2;
-    QLabel *lbTag1;
-    QLabel *lbTag2;
-    QLabel *lbTag3;
+    ClosableLabel *lbTag1;
+    ClosableLabel *lbTag2;
+    ClosableLabel *lbTag3;
     QLabel *lbPreview;
     QStatusBar *statusbar;
     QMenuBar *menubar;
@@ -173,7 +175,6 @@ public:
     QMenu *menu_S;
     QMenu *menu_4;
     QMenu *menu_5;
-    QMenu *menu_A;
     QToolBar *toolBar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -289,11 +290,12 @@ public:
         actionFileName = new QAction(MainWindow);
         actionFileName->setObjectName("actionFileName");
         actionFileName->setCheckable(true);
+        actionFileName->setChecked(true);
         actionFileName->setFont(font2);
-        actionFileDate = new QAction(MainWindow);
-        actionFileDate->setObjectName("actionFileDate");
-        actionFileDate->setCheckable(true);
-        actionFileDate->setFont(font2);
+        actionFileLastAccDate = new QAction(MainWindow);
+        actionFileLastAccDate->setObjectName("actionFileLastAccDate");
+        actionFileLastAccDate->setCheckable(true);
+        actionFileLastAccDate->setFont(font2);
         actionFileSize = new QAction(MainWindow);
         actionFileSize->setObjectName("actionFileSize");
         actionFileSize->setCheckable(true);
@@ -301,7 +303,7 @@ public:
         actionFilePath = new QAction(MainWindow);
         actionFilePath->setObjectName("actionFilePath");
         actionFilePath->setCheckable(true);
-        actionFilePath->setChecked(true);
+        actionFilePath->setChecked(false);
         actionFilePath->setFont(font2);
         actionFileSuffix = new QAction(MainWindow);
         actionFileSuffix->setObjectName("actionFileSuffix");
@@ -332,11 +334,6 @@ public:
         actionFilter->setObjectName("actionFilter");
         actionFilter->setCheckable(true);
         actionFilter->setChecked(false);
-        actionShowHideFile = new QAction(MainWindow);
-        actionShowHideFile->setObjectName("actionShowHideFile");
-        actionShowHideFile->setCheckable(true);
-        actionRefresh = new QAction(MainWindow);
-        actionRefresh->setObjectName("actionRefresh");
         actionAdvancedSearch = new QAction(MainWindow);
         actionAdvancedSearch->setObjectName("actionAdvancedSearch");
         actionFileSynchronization = new QAction(MainWindow);
@@ -521,6 +518,15 @@ public:
         icon9.addFile(QString::fromUtf8(":/icons/res/disk.png"), QSize(), QIcon::Normal, QIcon::Off);
         actionDiskAnalyzer->setIcon(icon9);
         actionDiskAnalyzer->setMenuRole(QAction::NoRole);
+        actionRegExp = new QAction(MainWindow);
+        actionRegExp->setObjectName("actionRegExp");
+        actionRegExp->setMenuRole(QAction::NoRole);
+        actionShowHideFile = new QAction(MainWindow);
+        actionShowHideFile->setObjectName("actionShowHideFile");
+        actionShowHideFile->setMenuRole(QAction::NoRole);
+        actionRefresh = new QAction(MainWindow);
+        actionRefresh->setObjectName("actionRefresh");
+        actionRefresh->setMenuRole(QAction::NoRole);
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         centralwidget->setStyleSheet(QString::fromUtf8(""));
@@ -596,6 +602,34 @@ public:
         gridLayout_3->setHorizontalSpacing(0);
         gridLayout_3->setVerticalSpacing(3);
         gridLayout_3->setContentsMargins(0, 0, 0, 0);
+        groupBox_2 = new QGroupBox(scrollAreaWidgetContents);
+        groupBox_2->setObjectName("groupBox_2");
+        gridLayout_5 = new QGridLayout(groupBox_2);
+        gridLayout_5->setSpacing(0);
+        gridLayout_5->setObjectName("gridLayout_5");
+        gridLayout_5->setContentsMargins(0, 0, 0, 0);
+        tableWidget = new QTableWidget(groupBox_2);
+        if (tableWidget->columnCount() < 2)
+            tableWidget->setColumnCount(2);
+        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
+        __qtablewidgetitem->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
+        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
+        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
+        __qtablewidgetitem1->setTextAlignment(Qt::AlignLeading|Qt::AlignVCenter);
+        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
+        tableWidget->setObjectName("tableWidget");
+        tableWidget->setStyleSheet(QString::fromUtf8(""));
+        tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        tableWidget->setAlternatingRowColors(true);
+        tableWidget->horizontalHeader()->setVisible(true);
+        tableWidget->horizontalHeader()->setStretchLastSection(true);
+        tableWidget->verticalHeader()->setVisible(true);
+
+        gridLayout_5->addWidget(tableWidget, 0, 0, 1, 1);
+
+
+        gridLayout_3->addWidget(groupBox_2, 2, 0, 1, 1);
+
         groupBox = new QGroupBox(scrollAreaWidgetContents);
         groupBox->setObjectName("groupBox");
         gridLayout_4 = new QGridLayout(groupBox);
@@ -659,47 +693,22 @@ public:
 
         gridLayout_3->addWidget(groupBox, 1, 0, 1, 1);
 
-        groupBox_2 = new QGroupBox(scrollAreaWidgetContents);
-        groupBox_2->setObjectName("groupBox_2");
-        gridLayout_5 = new QGridLayout(groupBox_2);
-        gridLayout_5->setSpacing(0);
-        gridLayout_5->setObjectName("gridLayout_5");
-        gridLayout_5->setContentsMargins(0, 0, 0, 0);
-        tableWidget = new QTableWidget(groupBox_2);
-        if (tableWidget->columnCount() < 2)
-            tableWidget->setColumnCount(2);
-        QTableWidgetItem *__qtablewidgetitem = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(0, __qtablewidgetitem);
-        QTableWidgetItem *__qtablewidgetitem1 = new QTableWidgetItem();
-        tableWidget->setHorizontalHeaderItem(1, __qtablewidgetitem1);
-        tableWidget->setObjectName("tableWidget");
-        tableWidget->setStyleSheet(QString::fromUtf8(""));
-        tableWidget->setAlternatingRowColors(true);
-        tableWidget->horizontalHeader()->setVisible(true);
-        tableWidget->horizontalHeader()->setStretchLastSection(true);
-        tableWidget->verticalHeader()->setVisible(true);
-
-        gridLayout_5->addWidget(tableWidget, 0, 0, 1, 1);
-
-
-        gridLayout_3->addWidget(groupBox_2, 2, 0, 1, 1);
-
         TagsGroup = new QGroupBox(scrollAreaWidgetContents);
         TagsGroup->setObjectName("TagsGroup");
         TagsGroup->setMaximumSize(QSize(16777215, 16777215));
         horizontalLayout_2 = new QHBoxLayout(TagsGroup);
         horizontalLayout_2->setObjectName("horizontalLayout_2");
-        lbTag1 = new QLabel(TagsGroup);
+        lbTag1 = new ClosableLabel(TagsGroup);
         lbTag1->setObjectName("lbTag1");
 
         horizontalLayout_2->addWidget(lbTag1);
 
-        lbTag2 = new QLabel(TagsGroup);
+        lbTag2 = new ClosableLabel(TagsGroup);
         lbTag2->setObjectName("lbTag2");
 
         horizontalLayout_2->addWidget(lbTag2);
 
-        lbTag3 = new QLabel(TagsGroup);
+        lbTag3 = new ClosableLabel(TagsGroup);
         lbTag3->setObjectName("lbTag3");
 
         horizontalLayout_2->addWidget(lbTag3);
@@ -761,8 +770,6 @@ public:
         menu_5 = new QMenu(menubar);
         menu_5->setObjectName("menu_5");
         menu_5->setFont(font);
-        menu_A = new QMenu(menubar);
-        menu_A->setObjectName("menu_A");
         MainWindow->setMenuBar(menubar);
         toolBar = new QToolBar(MainWindow);
         toolBar->setObjectName("toolBar");
@@ -782,7 +789,6 @@ public:
         menubar->addAction(menu_3->menuAction());
         menubar->addAction(menu_4->menuAction());
         menubar->addAction(menu_5->menuAction());
-        menubar->addAction(menu_A->menuAction());
         menu->addAction(actionDaori);
         menu->addSeparator();
         menu->addAction(actionJiaMi);
@@ -791,9 +797,6 @@ public:
         menu->addAction(actionExit);
         menu_2->addAction(actionFileRename);
         menu_2->addAction(actionFileDelete);
-        menu_2->addSeparator();
-        menu_2->addAction(actionSelectAll);
-        menu_2->addAction(actionDeselect);
         menu_2->addSeparator();
         menu_2->addAction(actionAddTag);
         menu_2->addAction(actionRemoveTag);
@@ -823,8 +826,8 @@ public:
         menu_3->addAction(actionteStimonial);
         menu_3->addSeparator();
         menu_3->addAction(menu_7->menuAction());
-        menu_3->addSeparator();
         menu_3->addAction(menu_S->menuAction());
+        menu_3->addSeparator();
         menu_3->addAction(actionShowHideFile);
         menu_3->addAction(actionRefresh);
         menu_7->addAction(actionBigFont);
@@ -832,13 +835,12 @@ public:
         menu_7->addSeparator();
         menu_7->addAction(actionGeneralFont);
         menu_S->addAction(actionFileName);
-        menu_S->addAction(actionFileDate);
-        menu_S->addAction(actionFileSize);
         menu_S->addAction(actionFilePath);
-        menu_S->addAction(actionFileSuffix);
+        menu_S->addAction(actionFileSize);
         menu_S->addAction(actionFileType);
         menu_S->addAction(actionFileCreateDate);
         menu_S->addAction(actionFileModifyDate);
+        menu_S->addAction(actionFileLastAccDate);
         menu_S->addSeparator();
         menu_S->addAction(actionAsc);
         menu_S->addAction(actionDesc);
@@ -850,6 +852,7 @@ public:
         menu_4->addAction(actionDiskAnalyzer);
         menu_5->addAction(actionUserManual);
         menu_5->addAction(actionQuickStartGuide);
+        menu_5->addAction(actionRegExp);
         menu_5->addSeparator();
         menu_5->addAction(actionAutoRun);
         menu_5->addAction(actionEnableFileLog);
@@ -863,11 +866,6 @@ public:
         menu_5->addSeparator();
         menu_5->addAction(actionFeedback);
         menu_5->addSeparator();
-        menu_A->addAction(actionCategorization);
-        menu_A->addSeparator();
-        menu_A->addAction(actionStatisticalAnalysis);
-        menu_A->addSeparator();
-        menu_A->addAction(actionRelationships);
         toolBar->addAction(actionDaori);
         toolBar->addAction(actionTransmission);
         toolBar->addAction(actionPS);
@@ -1088,12 +1086,15 @@ public:
 #if QT_CONFIG(shortcut)
         actionFileName->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+1", nullptr));
 #endif // QT_CONFIG(shortcut)
-        actionFileDate->setText(QCoreApplication::translate("MainWindow", "\346\227\245\346\234\237", nullptr));
+        actionFileLastAccDate->setText(QCoreApplication::translate("MainWindow", "\346\234\200\350\277\221\344\277\256\346\224\271\346\227\245\346\234\237", nullptr));
+#if QT_CONFIG(tooltip)
+        actionFileLastAccDate->setToolTip(QCoreApplication::translate("MainWindow", "\346\234\200\350\277\221\344\277\256\346\224\271\346\227\245\346\234\237.", nullptr));
+#endif // QT_CONFIG(tooltip)
 #if QT_CONFIG(statustip)
-        actionFileDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
+        actionFileLastAccDate->setStatusTip(QCoreApplication::translate("MainWindow", "\344\273\245\346\227\245\346\234\237\344\270\272\345\255\227\346\256\265\346\216\222\345\272\217.", nullptr));
 #endif // QT_CONFIG(statustip)
 #if QT_CONFIG(shortcut)
-        actionFileDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+2", nullptr));
+        actionFileLastAccDate->setShortcut(QCoreApplication::translate("MainWindow", "Ctrl+2", nullptr));
 #endif // QT_CONFIG(shortcut)
         actionFileSize->setText(QCoreApplication::translate("MainWindow", "\345\244\247\345\260\217", nullptr));
 #if QT_CONFIG(statustip)
@@ -1155,17 +1156,6 @@ public:
 #if QT_CONFIG(statustip)
         actionFilter->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\210\226\351\232\220\350\227\217\350\277\207\346\273\244\346\240\217.", nullptr));
 #endif // QT_CONFIG(statustip)
-        actionShowHideFile->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\351\232\220\350\227\217\346\226\207\344\273\266", nullptr));
-#if QT_CONFIG(statustip)
-        actionShowHideFile->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\210\226\351\232\220\350\227\217\351\232\220\350\227\217\346\226\207\344\273\266.", nullptr));
-#endif // QT_CONFIG(statustip)
-        actionRefresh->setText(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260(&R)", nullptr));
-#if QT_CONFIG(tooltip)
-        actionRefresh->setToolTip(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260", nullptr));
-#endif // QT_CONFIG(tooltip)
-#if QT_CONFIG(shortcut)
-        actionRefresh->setShortcut(QCoreApplication::translate("MainWindow", "F5", nullptr));
-#endif // QT_CONFIG(shortcut)
         actionAdvancedSearch->setText(QCoreApplication::translate("MainWindow", "\351\253\230\347\272\247\346\220\234\347\264\242", nullptr));
 #if QT_CONFIG(tooltip)
         actionAdvancedSearch->setToolTip(QCoreApplication::translate("MainWindow", "\351\253\230\347\272\247\346\220\234\347\264\242", nullptr));
@@ -1416,6 +1406,12 @@ public:
 #if QT_CONFIG(tooltip)
         actionDiskAnalyzer->setToolTip(QCoreApplication::translate("MainWindow", "\346\211\223\345\274\200\347\243\201\347\233\230\345\210\206\346\236\220\345\267\245\345\205\267.", nullptr));
 #endif // QT_CONFIG(tooltip)
+        actionRegExp->setText(QCoreApplication::translate("MainWindow", "\346\255\243\345\210\231\350\241\250\350\276\276\345\274\217\350\257\255\346\263\225", nullptr));
+#if QT_CONFIG(statustip)
+        actionRegExp->setStatusTip(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\346\255\243\345\210\231\350\241\250\350\276\276\345\274\217\350\257\255\346\263\225\345\270\256\345\212\251.", nullptr));
+#endif // QT_CONFIG(statustip)
+        actionShowHideFile->setText(QCoreApplication::translate("MainWindow", "\346\230\276\347\244\272\351\232\220\350\227\217\346\226\207\344\273\266", nullptr));
+        actionRefresh->setText(QCoreApplication::translate("MainWindow", "\345\210\267\346\226\260", nullptr));
         lineEdit->setPlaceholderText(QCoreApplication::translate("MainWindow", "\346\220\234\347\202\271\344\273\200\344\271\210...", nullptr));
         comBoxFilter->setItemText(0, QCoreApplication::translate("MainWindow", "\346\211\200\346\234\211", nullptr));
         comBoxFilter->setItemText(1, QCoreApplication::translate("MainWindow", "\351\237\263\351\242\221", nullptr));
@@ -1426,6 +1422,11 @@ public:
         comBoxFilter->setItemText(6, QCoreApplication::translate("MainWindow", "\345\233\276\347\211\207", nullptr));
         comBoxFilter->setItemText(7, QCoreApplication::translate("MainWindow", "\350\247\206\351\242\221", nullptr));
 
+        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220", nullptr));
+        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
+        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\346\226\207\344\273\266", nullptr));
+        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
+        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\345\216\237\345\233\240", nullptr));
         groupBox->setTitle(QCoreApplication::translate("MainWindow", "\346\226\207\344\273\266\344\277\241\346\201\257", nullptr));
         label_4->setText(QCoreApplication::translate("MainWindow", "\360\237\225\222\345\210\233\345\273\272\346\227\266\351\227\264: ", nullptr));
         lbFileInfoFileModTime->setText(QString());
@@ -1435,11 +1436,6 @@ public:
         label_6->setText(QCoreApplication::translate("MainWindow", "\360\237\233\241\357\270\217\345\223\210\345\270\214\345\200\274:", nullptr));
         lbFileInfoFileHash->setText(QString());
         lbFileInfoFileOpenCount->setText(QString());
-        groupBox_2->setTitle(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220", nullptr));
-        QTableWidgetItem *___qtablewidgetitem = tableWidget->horizontalHeaderItem(0);
-        ___qtablewidgetitem->setText(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\346\226\207\344\273\266", nullptr));
-        QTableWidgetItem *___qtablewidgetitem1 = tableWidget->horizontalHeaderItem(1);
-        ___qtablewidgetitem1->setText(QCoreApplication::translate("MainWindow", "\346\216\250\350\215\220\345\216\237\345\233\240", nullptr));
         TagsGroup->setTitle(QCoreApplication::translate("MainWindow", "\346\240\207\347\255\276", nullptr));
         lbTag1->setText(QCoreApplication::translate("MainWindow", "tag1", nullptr));
         lbTag2->setText(QCoreApplication::translate("MainWindow", "tag2", nullptr));
@@ -1454,7 +1450,6 @@ public:
         menu_S->setTitle(QCoreApplication::translate("MainWindow", "\346\216\222\345\272\217(&S)", nullptr));
         menu_4->setTitle(QCoreApplication::translate("MainWindow", "\345\267\245\345\205\267(&T)", nullptr));
         menu_5->setTitle(QCoreApplication::translate("MainWindow", "\345\270\256\345\212\251(&H)", nullptr));
-        menu_A->setTitle(QCoreApplication::translate("MainWindow", "\346\231\272\350\203\275\345\212\237\350\203\275(&A)", nullptr));
         toolBar->setWindowTitle(QCoreApplication::translate("MainWindow", "toolBar", nullptr));
     } // retranslateUi
 

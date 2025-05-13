@@ -18,6 +18,7 @@
 #include <QLabel>
 #include <QMainWindow>
 #include <QMenu>
+#include <QSortFilterProxyModel>
 
 #include "../../Manager/Config/iniManager.h"
 
@@ -39,6 +40,7 @@ class MainWindow final : public QMainWindow {
 public:
   explicit MainWindow(QWidget* parent = nullptr);
   ~MainWindow() override;
+  QSortFilterProxyModel *proxyModel;///< 创建排序和过滤代理
 
 public slots:
   /**
@@ -66,6 +68,7 @@ private slots:
   static void doEnableLogOut(const bool& checked);
   void doDaoRu();
   void showFileContextMenu() const;
+  void doSort() const;
 
   qint32 doFilesFormDirectory(const QString& dirPath) const;
 
@@ -90,6 +93,8 @@ private slots:
   // void doSearchFileByType(QString term, const quint8& filterMode);
   void doRecFileByHash(const QString& hashValue) const;
 
+  void doFilterData(const QString& text) const;
+
 private:
   // 配置文件操作
   void readIniConfig(); ///< 程序启动时读取文件配置界面
@@ -97,6 +102,7 @@ private:
   void savaIniConfig(const QString& closeMethod, bool noRequire) const;
 
   void setupConnections();
+  void setupSortMenuConnections();
 
   Ui::MainWindow* ui;
   QLabel* lbStatus;                             ///< 状态栏显示的标签
@@ -110,6 +116,10 @@ private:
   QProgressBar* progress;
 
   FilesDatabaseUpdater* worker; ///< 任务类
+
+  QTimer* nowTimer;
+  QLabel* permanentTimeLabel;
+
 signals:
   void finishedPleaseUpdate();
 };
