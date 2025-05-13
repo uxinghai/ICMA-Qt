@@ -65,6 +65,7 @@ private slots:
   void doChangeTheme() const;
   void doSetActionVisible(const bool& checked) const;
   void doShowICMABrief();
+  static void doQuickGuide();
   static void doEnableLogOut(const bool& checked);
   void doDaoRu();
   void showFileContextMenu() const;

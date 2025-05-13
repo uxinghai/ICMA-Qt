@@ -13,6 +13,7 @@
 #include "../../Manager/Config/iniManager.h"
 #include "../../Manager/JsonManager.h"
 #include "../../Network/GetICMABrief.h"
+#include "../../Network/GetQuickStartGuide.h"
 #include "../../Utils/ThreadWorkers/File/FilesDBWorker.h"
 #include "../../Utils/ThreadWorkers/FilesDatabaseUpdater.h"
 #include "../../Utils/Tools/CloseWindowMsgBox.h"
@@ -23,7 +24,7 @@
 #include "../photoShop/PS.h"
 #include "../Renamer/Renamer.h"
 #include "FileTypeHelper.h"
-#include "RegexHelper.h"
+#include "QuickGuideWindow.h"
 
 //TODO 导入文件可能没有把上次的临时数据库删除，第二次导入还是之前的内容
 //TODO 推荐现在只推荐相似文件，常用最近修改都还没有！
@@ -33,11 +34,12 @@ extern QTranslator tran;
 extern QtMessageHandler IcmaMessageHandler;
 
 MainWindow::MainWindow(QWidget* parent)
-  : QMainWindow(parent), ui(new Ui::MainWindow),
+  : QMainWindow(parent), proxyModel(nullptr),
+    ui(new Ui::MainWindow),
     lbStatus(new QLabel(this)),
     icmaTrayIcon(std::make_unique<SystemTrayIcon>(
       QIcon(":/icons/res/icons/logo/logo64.ico"), this, "ICMA")),
-    progress(new QProgressBar(this)), proxyModel(nullptr)
+    progress(new QProgressBar(this))
 {
   ui->setupUi(this);
   ui->statusbar->addWidget(lbStatus);
@@ -100,8 +102,11 @@ void MainWindow::setupConnections()
           [this] { QMessageBox::aboutQt(this, tr("关于QT")); });
 
   // ICMA简介
-  connect(ui->actionAbout, &QAction::triggered, this,
-          &MainWindow::doShowICMABrief);
+  connect(ui->actionAbout, &QAction::triggered, this, &MainWindow::doShowICMABrief);
+
+  // 快速入门指导
+  connect(ui->actionQuickStartGuide, &QAction::triggered, this,
+          &MainWindow::doQuickGuide);
 
   // 退出程序
   connect(ui->actionExit, &QAction::triggered, this, &MainWindow::close);
@@ -346,12 +351,12 @@ void MainWindow::doSearchFile(QString term, const quint8& filterMode)
   qDebug() << "准备查询：" << sFileDB.getDBContextNumber("TempFiles");
   term = term.trimmed();
 
+  if (!ui || !ui->tableView) { return; }
+
   if (const QString searchTerm = term; searchTerm.isEmpty()) {
     filesCountResult = sFileDB.searchFilesFromDB(ui->tableView,
                                                  filterMode, "TempFiles");
   }
-
-  if (!ui || !ui->tableView) { return; }
 
   if (proxyModel) {
     delete proxyModel;
@@ -520,7 +525,9 @@ void MainWindow::readIniConfig()
 
   // 修改系统字体
   auto font = Settings.value(settingsPrefix + "font").toList();
-  this->setFont(QFont(font[0].toString(), font[1].toInt()));
+  const QString styleSheet = QString("* { font-size: %1pt; }").arg(font[1].toString());
+  qApp->setStyleSheet(qApp->styleSheet() + styleSheet);
+  // this->setFont(QFont(font[0].toString(), font[1].toInt()));
 
   // 详细的列表视图中显示的列
   ui->actionShowNameCol->setChecked(Settings.value
@@ -572,7 +579,7 @@ void MainWindow::doShowICMABrief()
   // 文本和按钮为垂直布局
   auto* subLayout = new QVBoxLayout();
 
-  // 文本部分(后续添加更多语言支持)
+  // 文本部分
   auto* textLabel = new QLabel();
   QString context;
   if (ui->actionCN->isChecked()) { context = GetIcmaBrief::getIcmaBrief("CN"); }
@@ -597,6 +604,13 @@ void MainWindow::doShowICMABrief()
   // 设置对话框的主布局
   aboutBox.setLayout(mainLayout);
   aboutBox.exec();
+}
+
+void MainWindow::doQuickGuide()
+{
+  auto* guideWindow = new QuickGuideWindow();
+  guideWindow->setHtmlContent(GetQuickStartGuide::getDocBrief());
+  guideWindow->show();
 }
 
 void MainWindow::doEnableLogOut(const bool& checked)

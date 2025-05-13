@@ -24,7 +24,7 @@ find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Core Gui Widgets
 # 提取实际找到的 Qt 版本
 set(QT_VERSION_MAJOR ${QT_VERSION_MAJOR})
 # 根据找到的 Qt 版本配置组件
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Core Gui Widgets PrintSupport
         Multimedia MultimediaWidgets Sql Concurrent Network Charts Core5Compat)
 
 # 配置 OpenCV
@@ -156,6 +156,9 @@ set(PROJECT_SOURCES
         src/Widgets/Renamer/Renamer.cpp
         src/Widgets/Renamer/Renamer.h
         src/Utils/BoostClass/ClosableLabel.h
+        src/Network/GetQuickStartGuide.h
+        src/Widgets/mainWindow/QuickGuideWindow.cpp
+        src/Widgets/mainWindow/QuickGuideWindow.h
 )
 
 #                                            *********
@@ -201,6 +204,8 @@ target_link_libraries(ICMA PRIVATE ${OpenCV_LIBS} # 添加openCv lib库
         ssl
         Qt${QT_VERSION_MAJOR}::Charts
         Qt${QT_VERSION_MAJOR}::Core5Compat
+        Qt${QT_VERSION_MAJOR}::Gui
+        Qt${QT_VERSION_MAJOR}::PrintSupport
 )
 
 

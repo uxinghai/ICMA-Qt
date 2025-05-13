@@ -713,7 +713,6 @@
     <addaction name="actionPreview"/>
     <addaction name="actionStatusBar"/>
     <addaction name="actionToolBar"/>
-    <addaction name="actionteStimonial"/>
     <addaction name="separator"/>
     <addaction name="menu_7"/>
     <addaction name="menu_S"/>
@@ -752,7 +751,6 @@
     <property name="title">
      <string>帮助(&amp;H)</string>
     </property>
-    <addaction name="actionUserManual"/>
     <addaction name="actionQuickStartGuide"/>
     <addaction name="actionRegExp"/>
     <addaction name="separator"/>

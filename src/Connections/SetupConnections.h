@@ -396,6 +396,25 @@ public:
       }
     });
 
+    connect(ui->actionBigFont, &QAction::triggered, [] {
+      const int newSize = QApplication::font().pointSize() + 1;
+      const QString styleSheet = QString("* { font-size: %1pt; }").arg(newSize);
+      qApp->setStyleSheet(qApp->styleSheet() + styleSheet);
+      sLog.logf("设置字体大小为: %d", newSize);
+    });
+
+    connect(ui->actionSmallFont, &QAction::triggered, [] {
+      const int newSize = QApplication::font().pointSize() - 1;
+      const QString styleSheet = QString("* { font-size: %1pt; }").arg(newSize);
+      qApp->setStyleSheet(qApp->styleSheet() + styleSheet);
+      sLog.logf("设置字体大小为: %d", newSize);
+    });
+
+    connect(ui->actionGeneralFont, &QAction::triggered, [] {
+      const QString styleSheet = "* { font-size: 10pt; }";
+      qApp->setStyleSheet(qApp->styleSheet() + styleSheet);
+      sLog.log("恢复字体到默认(10号)");
+    });
     return true;
   }
 };

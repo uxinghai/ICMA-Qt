@@ -823,7 +823,6 @@ public:
         menu_3->addAction(actionPreview);
         menu_3->addAction(actionStatusBar);
         menu_3->addAction(actionToolBar);
-        menu_3->addAction(actionteStimonial);
         menu_3->addSeparator();
         menu_3->addAction(menu_7->menuAction());
         menu_3->addAction(menu_S->menuAction());
@@ -850,7 +849,6 @@ public:
         menu_4->addAction(actionTransmission);
         menu_4->addAction(actionPS);
         menu_4->addAction(actionDiskAnalyzer);
-        menu_5->addAction(actionUserManual);
         menu_5->addAction(actionQuickStartGuide);
         menu_5->addAction(actionRegExp);
         menu_5->addSeparator();
